@@ -11,18 +11,18 @@ import androidx.annotation.Nullable;
 import androidx.navigation.NavDirections;
 
 import com.nrlm.lakhpatikisaan.databinding.FragmentAuthLoginBinding;
+import com.nrlm.lakhpatikisaan.databinding.FragmentOtpSendBinding;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 
-public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginBinding> {
-
+public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendBinding>  {
     @Override
     public Class<AuthViewModel> getViewModel() {
         return AuthViewModel.class;
     }
 
     @Override
-    public FragmentAuthLoginBinding getFragmentBinding(LayoutInflater inflater, @Nullable ViewGroup container) {
-        return FragmentAuthLoginBinding.inflate(inflater, container, false);
+    public FragmentOtpSendBinding getFragmentBinding(LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentOtpSendBinding.inflate(inflater, container, false);
     }
 
     @Override
@@ -38,8 +38,9 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.tvForgetPassword.setOnClickListener(v -> {
-            NavDirections action = AuthFragmentDirections.actionAuthFragmentToSendOtpFragment();
+
+        binding.btnSendOtp.setOnClickListener(v -> {
+            NavDirections action = SendOtpFragmentDirections.actionSendOtpFragmentToForgetPasswordFragment();
             navController.navigate(action);
         });
     }
