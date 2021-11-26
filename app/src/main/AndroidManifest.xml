@@ -33,11 +33,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LakhpatiKisaan">
+
         <activity android:name=".view.auth.AuthActivity"
-            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar"></activity>
-        <activity android:name=".view.mpin.MpinActivity" />
-        <activity android:name=".view.home.HomeActivity" />
-        <activity android:name=".MainActivity" />
+            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar"/>
+
+        <activity android:name=".view.mpin.MpinActivity"
+            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar"/>
+
+        <activity android:name=".view.home.HomeActivity"
+            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar"/>
+
+        <activity android:name=".MainActivity"
+            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar"/>
+
         <activity android:name=".view.SplashScreenActivity"
             android:theme="@style/Theme.LakhpatiKisaan.NoActionBar">
             <intent-filter>

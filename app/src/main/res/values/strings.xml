@@ -25,4 +25,11 @@
 
     <!--all textview strings starting with tv initials-->
     <string name="tv_forget_pw">Forgot Password?</string>
+    <string name="tv_logout">Logout</string>
+
+
+    <string name="menu_setting">Settings</string>
+    <string name="menu_notification">Notification</string>
+    <string name="menu_language">Language</string>
+    <string name="menu_info">info</string>
 </resources>

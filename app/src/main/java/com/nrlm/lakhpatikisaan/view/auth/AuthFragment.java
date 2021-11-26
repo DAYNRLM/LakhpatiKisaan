@@ -1,6 +1,7 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.navigation.NavDirections;
 
 import com.nrlm.lakhpatikisaan.databinding.FragmentAuthLoginBinding;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
+import com.nrlm.lakhpatikisaan.view.home.HomeActivity;
 
 public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginBinding> {
 
@@ -41,6 +43,12 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         binding.tvForgetPassword.setOnClickListener(v -> {
             NavDirections action = AuthFragmentDirections.actionAuthFragmentToSendOtpFragment();
             navController.navigate(action);
+        });
+
+        binding.btnLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
     }
 }
