@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Lakhpati Kisaan</string>
+
+    <string name="mord"><b>MINISTRY OF RURAL DEVELOPMENT</b></string>
+    <string name="govtindia">GOVERNMENT OF INDIA</string>
+    <string name="mord_hindi"><b>ग्रामीण विकास मंत्रालय</b></string>
+    <string name="govtindia_hindi">भारत सरकार</string>
+
+    <string name="et_enter_userId">Enter user id</string>
+    <string name="et_enter_password">Password</string>
+
+
+
+    <!--all button text-->
+    <string name="btn_login">Login</string>
+
+
+
+
+    <!--all textview strings starting with tv initials-->
+    <string name="tv_forget_pw">Forgot Password?</string>
 </resources>

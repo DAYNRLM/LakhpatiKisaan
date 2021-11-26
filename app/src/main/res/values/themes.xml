@@ -13,4 +13,18 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.LakhpatiKisaan.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="IconTextContainedButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAppearance">?attr/textAppearanceButton</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">@color/white</item>
+        <item name="android:backgroundTint">@color/green_500</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>
