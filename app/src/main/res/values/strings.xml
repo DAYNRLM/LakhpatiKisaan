@@ -3,4 +3,36 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="mord"><b>MINISTRY OF RURAL DEVELOPMENT</b></string>
+    <string name="govtindia">GOVERNMENT OF INDIA</string>
+    <string name="mord_hindi"><b>ग्रामीण विकास मंत्रालय</b></string>
+    <string name="govtindia_hindi">भारत सरकार</string>
+
+    <string name="et_enter_userId">Enter user id</string>
+    <string name="et_enter_password">Password</string>
+    <string name="et_enter_mobile_number">Mobile Number</string>
+    <string name="et_enter_new_password">New Password</string>
+    <string name="et_enter_Confirm_password">Confirm New Password</string>
+    <string name="et_enter_OTP">Enter OTP</string>
+
+
+
+    <!--all button text-->
+    <string name="btn_login">Login</string>
+    <string name="btn_send_otp">Send OTP</string>
+    <string name="btn_update_password">Update Password</string>
+
+
+
+
+    <!--all textview strings starting with tv initials-->
+    <string name="tv_forget_pw">Forgot Password?</string>
+    <string name="tv_logout">Logout</string>
+
+
+    <string name="menu_setting">Settings</string>
+    <string name="menu_notification">Notification</string>
+    <string name="menu_language">Language</string>
+    <string name="menu_info">info</string>
 </resources>

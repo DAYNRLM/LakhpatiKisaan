@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav_graph"
+    app:startDestination="@id/authFragment">
+
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.nrlm.lakhpatikisaan.view.auth.AuthFragment"
+        android:label="fragment_auth_login"
+        tools:layout="@layout/fragment_auth_login" >
+        <action
+            android:id="@+id/action_authFragment_to_sendOtpFragment"
+            app:destination="@id/sendOtpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPasswordFragment"
+        android:name="com.nrlm.lakhpatikisaan.view.auth.ForgetPasswordFragment"
+        android:label="fragment_forgetpassword"
+        tools:layout="@layout/fragment_forgetpassword" />
+    <fragment
+        android:id="@+id/sendOtpFragment"
+        android:name="com.nrlm.lakhpatikisaan.view.auth.SendOtpFragment"
+        android:label="fragment_otp_send"
+        tools:layout="@layout/fragment_otp_send" >
+        <action
+            android:id="@+id/action_sendOtpFragment_to_forgetPasswordFragment"
+            app:destination="@id/forgetPasswordFragment" />
+    </fragment>
+</navigation>
