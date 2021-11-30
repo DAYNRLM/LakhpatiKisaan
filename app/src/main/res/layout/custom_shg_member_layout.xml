@@ -38,7 +38,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/space_2dp"
-                        android:text="Simran mahila Self Help Group kumar parsad selef help group from rohtak"
+                        android:text="Simran mahila Self Help Group(1345732) "
                         android:textSize="@dimen/text_16sp"
                         android:fontFamily="@font/manrope_extra_bold"
                         android:textColor="@color/black" />
@@ -66,8 +66,99 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="@dimen/space_2dp"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/space_2dp">
+
+                    <LinearLayout
+                        android:padding="@dimen/space_1dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/space_2dp"
+                            android:text="Entry before join NRLM"
+                            android:textSize="@dimen/text_16sp"
+                            android:fontFamily="@font/manrope_extra_bold"
+                            android:textColor="@color/black" />
+
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:id="@+id/before_nrlm_entry"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:text="Not filled/ Date"
+                            android:textStyle="bold"
+                            android:textColor="@color/red_500"
+                            android:textSize="@dimen/text_16sp"
+                            android:textAppearance="?android:textAppearanceLarge" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:id="@+id/edit_befor_nrlm_entry"
+                            android:src="@drawable/ic_baseline_edit_24"
+                            android:layout_weight=".3"/>
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_marginTop="@dimen/space_1dp"
+                        android:layout_marginBottom="@dimen/space_1dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:background="@color/blue_gray_50" />
+
+                    <LinearLayout
+                        android:padding="@dimen/space_1dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/space_2dp"
+                            android:text="Entry after join NRLM"
+                            android:textSize="@dimen/text_16sp"
+                            android:fontFamily="@font/manrope_extra_bold"
+                            android:textColor="@color/black" />
+
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:id="@+id/after_nrlm_entry"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:text="Not filled/ Date"
+                            android:textStyle="bold"
+                            android:textColor="@color/red_500"
+                            android:textSize="@dimen/text_16sp"
+                            android:textAppearance="?android:textAppearanceLarge" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:id="@+id/edit_after_nrlm_entry"
+                            android:src="@drawable/ic_baseline_edit_24"
+                            android:layout_weight=".3"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
 
                 <TextView

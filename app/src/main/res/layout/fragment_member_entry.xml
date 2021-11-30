@@ -20,26 +20,6 @@
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/top_card_view"
-                style="@style/carViewTheme">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_click"
-                        style="@style/TitleTextViewTheme"
-                        android:text="Income (Before coming into NRLM Fold)" />
-
-                </LinearLayout>
-
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/space_5dp"
@@ -63,7 +43,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="SHG Member Name"
+                        android:text="Shambhu Ghanshyam  ( 3456762 )"
                         android:textColor="@color/black"
                         android:fontFamily="@font/manrope_semi_bold"/>
 
@@ -89,6 +69,139 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+               <com.google.android.material.card.MaterialCardView
+                   android:id="@+id/before_card_view"
+                   style="@style/carViewTheme">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical">
+
+                       <TextView
+                           android:id="@+id/tv_click"
+                           style="@style/TitleTextViewTheme"
+                           android:text="Income (Before coming into NRLM Fold)" />
+
+                   </LinearLayout>
+
+
+               </com.google.android.material.card.MaterialCardView>
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="@dimen/space_10dp"
+                   android:weightSum="2"
+                   android:orientation="horizontal">
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:textColor="@color/green_500"
+                       android:layout_weight="1"
+                       android:id="@+id/select_entry_date"
+                       android:gravity="center|center_vertical"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/manrope_semi_bold"
+                       android:text="Select entry date"
+                       android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                       app:cornerRadius="@dimen/text_20sp"
+                       android:layout_marginRight="@dimen/space_10dp"
+                       android:textSize="16sp" />
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:textColor="@color/green_500"
+                       android:layout_weight="1"
+                       android:id="@+id/fill_entry"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/manrope_semi_bold"
+                       android:text="Fill entry "
+                       android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                       android:gravity="center|center_vertical"
+                       android:layout_marginRight="@dimen/space_10dp"
+                       android:textSize="16sp" />
+
+               </LinearLayout>
+               <androidx.recyclerview.widget.RecyclerView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/before_nrlm_entryRV"
+                   android:layout_margin="@dimen/space_10dp"/>
+           </LinearLayout>
+            <View
+                android:layout_marginTop="@dimen/space_1dp"
+                android:layout_marginBottom="@dimen/space_1dp"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:background="@color/blue_gray_50" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/after_card_view"
+                    style="@style/carViewTheme">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/after_nrlm_entry_title"
+                            style="@style/TitleTextViewTheme"
+                            android:text="Income (After join NRLM Fold)" />
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_10dp"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:textColor="@color/green_500"
+                        android:layout_weight="1"
+                        android:id="@+id/select_after_entry_date"
+                        android:gravity="center|center_vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_semi_bold"
+                        android:text="Select entry date"
+                        android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                        app:cornerRadius="@dimen/text_20sp"
+                        android:layout_marginRight="@dimen/space_10dp"
+                        android:textSize="16sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:textColor="@color/green_500"
+                        android:layout_weight="1"
+                        android:id="@+id/fill_entry_after_nrlm"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_semi_bold"
+                        android:text="Fill entry "
+                        android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                        android:gravity="center|center_vertical"
+                        android:layout_marginRight="@dimen/space_10dp"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/after_nrlm_entryRV"
+                    android:layout_margin="@dimen/space_10dp"/>
+            </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -243,12 +356,7 @@
 
 
             </com.google.android.material.card.MaterialCardView>
-
-
-
-
         </LinearLayout>
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_saveEntry"

@@ -11,11 +11,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    public static final String HTTP_TYPE = "https";
+ /*   public static final String HTTP_TYPE = "https";
     public static final String IP_ADDRESS = "nrlm.gov.in";
-    public static final String NRLM_STATUS = "nrlmwebservicedemo";
+    public static final String NRLM_STATUS = "nrlmwebservicedemo";*/
 
-    public static String BASE_URL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/services/";
+    public static final String HTTP_TYPE = "http";
+    public static final String IP_ADDRESS = "10.197.183.251";
+    public static final String NRLM_STATUS = ":8080";
+
+    public static String BASE_URL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
 
     private static final int CONNECTION_TIMEOUT = 1000;
     private static final int READ_TIMEOUT = 1000;
