@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.NavDirections;
 
 import com.nrlm.lakhpatikisaan.databinding.FragmentAuthLoginBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentDashboardBinding;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
+import com.nrlm.lakhpatikisaan.view.auth.AuthFragmentDirections;
 import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 
 public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashboardBinding> {
@@ -38,5 +40,12 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        binding.test.animate().alpha(1f).setDuration(7000).start();
+
+        binding.btnGoToMember.setOnClickListener(view1 -> {
+            NavDirections navDirections = DashBoardFragmentDirections.actionDashBoardFragmentToShgMemberFragment();
+            navController.navigate(navDirections);
+        });
     }
 }

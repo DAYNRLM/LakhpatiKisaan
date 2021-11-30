@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_5dp"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="8dp"
+            app:strokeColor="@color/light_green_50"
+            android:outlineAmbientShadowColor="@color/green_500"
+            android:outlineSpotShadowColor="@color/green_500"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:padding="@dimen/space_1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_weight="0.1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space_2dp"
+                        android:text="Simran mahila Self Help Group kumar parsad selef help group from rohtak"
+                        android:textSize="@dimen/text_16sp"
+                        android:fontFamily="@font/manrope_extra_bold"
+                        android:textColor="@color/black" />
+
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_weight="1.9"
+                        android:id="@+id/textViewOptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:text="&#8942;"
+                        android:textAppearance="?android:textAppearanceLarge" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_marginTop="@dimen/space_1dp"
+                    android:layout_marginBottom="@dimen/space_1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:background="@color/blue_gray_50" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="@dimen/space_2dp"/>
+
+
+                <TextView
+                    android:id="@+id/tv_goToEntry"
+                    android:paddingLeft="@dimen/space_5dp"
+                    android:paddingRight="@dimen/space_5dp"
+                    android:padding="@dimen/space_3dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blue_gray_50"
+                    android:gravity="center_vertical"
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_double_arrow_right_24"
+                    android:textSize="13sp"
+                    android:text="Go To Member Entry"/>
+
+
+            </LinearLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </LinearLayout>
+</layout>
