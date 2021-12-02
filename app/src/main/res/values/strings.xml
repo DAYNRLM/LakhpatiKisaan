@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Lakhpati Kisaan</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="mord"><b>MINISTRY OF RURAL DEVELOPMENT</b></string>
     <string name="govtindia">GOVERNMENT OF INDIA</string>

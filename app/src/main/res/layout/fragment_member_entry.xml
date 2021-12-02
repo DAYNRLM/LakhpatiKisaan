@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.home.MemberEntryFragment">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:layout_above="@+id/btn_saveEntry">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/btn_saveEntry"
+                android:layout_marginBottom="@dimen/space_3dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_5dp"
+                    android:layout_marginTop="@dimen/space_5dp"
+                    android:layout_marginRight="@dimen/space_5dp"
+                    android:outlineAmbientShadowColor="@color/green_500"
+                    android:outlineSpotShadowColor="@color/green_500"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="8dp"
+                    app:strokeColor="@color/light_green_50"
+                    app:strokeWidth="1dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/space_3dp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/space_3dp">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_semi_bold"
+                            android:text="Shambhu Ghanshyam  ( 3456762 )"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_20sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_regular"
+                            android:text="Date Of Joining: 11-March-206"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_regular"
+                            android:text="Select Entry Date"
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/before_card_view"
+                        style="@style/carViewTheme">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_click"
+                                style="@style/TitleTextViewTheme"
+                                android:text="Income (Before coming into NRLM Fold)" />
+
+                        </LinearLayout>
+
+
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_selectMonthYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_5dp"
+                    android:outlineAmbientShadowColor="@color/green_500"
+                    android:outlineSpotShadowColor="@color/green_500"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="8dp"
+                    app:strokeColor="@color/light_green_50"
+                    app:strokeWidth="1dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/space_3dp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/space_3dp">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/space_5dp"
+                            android:layout_marginRight="@dimen/space_5dp"
+                            android:fontFamily="@font/manrope_semi_bold"
+                            android:gravity="center_horizontal"
+                            android:padding="@dimen/space_3dp"
+                            android:text="Select Month and Year before your date of joining in NRLM."
+                            android:textColor="@color/black" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_10dp"
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_monthYear"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/text_20sp"
+                                android:text="Select Month/Year"
+                                android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                                android:textColor="@color/orange_500"
+                                app:strokeColor="@color/green_500" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/cv_changeMonthYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_5dp"
+                    android:outlineAmbientShadowColor="@color/green_500"
+                    android:outlineSpotShadowColor="@color/green_500"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="8dp"
+                    app:strokeColor="@color/light_green_50"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/space_5dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/space_5dp"
+                            android:layout_weight="1.4"
+                            android:backgroundTint="@color/blue_gray_50"
+                            android:outlineAmbientShadowColor="@color/orange_500"
+                            android:outlineSpotShadowColor="@color/orange_500"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="8dp"
+                            app:strokeColor="@color/light_green_50"
+                            app:strokeWidth="1dp">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_month"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/manrope_extra_bold"
+                                    android:gravity="center_horizontal"
+                                    android:text="January"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_20sp" />
+
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_year"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/manrope_extra_bold"
+                                    android:gravity="center_horizontal"
+                                    android:text="1991"
+                                    android:textSize="@dimen/text_20sp" />
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/space_5dp"
+                            android:layout_weight="0.6"
+                            android:outlineAmbientShadowColor="@color/green_500"
+                            android:outlineSpotShadowColor="@color/green_500"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="8dp"
+                            app:strokeColor="@color/light_green_50"
+                            app:strokeWidth="1dp">
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginRight="@dimen/space_10dp"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical"
+                                    android:padding="@dimen/space_3dp">
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btn_addActivity"
+                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Add Acivity"
+                                        android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                                        android:textColor="@color/orange_500"
+                                        app:icon="@drawable/ic_baseline_add_circle_outline_24"
+                                        app:iconGravity="end"
+                                        app:iconTint="@color/orange_500"
+                                        app:strokeColor="@color/green_500" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btn_changeMonthYear"
+                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Change Month"
+                                        android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                                        android:textColor="@color/orange_500"
+                                        app:icon="@drawable/ic_baseline_published_with_changes_24"
+                                        app:iconGravity="end"
+                                        app:iconTint="@color/orange_500"
+                                        app:strokeColor="@color/green_500" />
+
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/cv_selectActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_5dp"
+                    android:outlineAmbientShadowColor="@color/green_500"
+                    android:outlineSpotShadowColor="@color/green_500"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="8dp"
+                    app:strokeColor="@color/light_green_50"
+                    app:strokeWidth="1dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/space_3dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ttl_assignVehicle"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Select Sector"
+                            android:padding="3dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/out_line_strok">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/spinner_assignVehicle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:inputType="none"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Select Activity"
+                            android:padding="3dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/out_line_strok">
+
+                            <AutoCompleteTextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:inputType="none"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Income Frequency"
+                            android:padding="3dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/out_line_strok">
+
+                            <AutoCompleteTextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:inputType="none"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Income Range"
+                            android:padding="3dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/out_line_strok">
+
+                            <AutoCompleteTextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:inputType="none"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/space_10dp"
+                            android:gravity="right"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/space_3dp">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_addActivityDetail"
+                                style="@style/IconTextContainedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/space_10dp"
+                                android:fontFamily="@font/manrope_semi_bold"
+                                android:text="Add"
+                                android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                                android:textSize="16sp"
+                                app:cornerRadius="@dimen/text_20sp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_reset"
+                                style="@style/IconTextContainedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_semi_bold"
+                                android:text="Reset"
+                                android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                                android:textSize="16sp"
+                                app:cornerRadius="@dimen/text_20sp" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/cv_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_5dp"
+                    android:outlineAmbientShadowColor="@color/green_500"
+                    android:outlineSpotShadowColor="@color/green_500"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="8dp"
+                    app:strokeColor="@color/light_green_50"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            style="@style/TitleTextViewTheme"
+                            android:text="Selected Activity" />
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/space_3dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_entryRecyclerview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_saveEntry"
+            style="@style/IconTextContainedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/manrope_semi_bold"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="Submit Detail's"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+</layout>
+
+
+
+    <!--  <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/after_card_view"
+                            style="@style/carViewTheme">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/after_nrlm_entry_title"
+                                    style="@style/TitleTextViewTheme"
+                                    android:text="Income (After join NRLM Fold)" />
+
+                            </LinearLayout>
+
+
+                        </com.google.android.material.card.MaterialCardView>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/space_10dp"
+                            android:weightSum="2"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:textColor="@color/green_500"
+                                android:layout_weight="1"
+                                android:id="@+id/select_after_entry_date"
+                                android:gravity="center|center_vertical"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_semi_bold"
+                                android:text="Select entry date"
+                                android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                                app:cornerRadius="@dimen/text_20sp"
+                                android:layout_marginRight="@dimen/space_10dp"
+                                android:textSize="16sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:textColor="@color/green_500"
+                                android:layout_weight="1"
+                                android:id="@+id/fill_entry_after_nrlm"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_semi_bold"
+                                android:text="Fill entry "
+                                android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                                android:gravity="center|center_vertical"
+                                android:layout_marginRight="@dimen/space_10dp"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/after_nrlm_entryRV"
+                            android:layout_margin="@dimen/space_10dp"/>
+                    </LinearLayout>-->

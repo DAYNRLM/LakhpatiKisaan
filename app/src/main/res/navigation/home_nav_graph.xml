@@ -9,5 +9,31 @@
         android:id="@+id/dashBoardFragment"
         android:name="com.nrlm.lakhpatikisaan.view.home.DashBoardFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashBoardFragment_to_shgMemberFragment"
+            app:destination="@id/shgMemberFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shgMemberFragment"
+        android:name="com.nrlm.lakhpatikisaan.view.home.ShgMemberFragment"
+        android:label="fragment_shg_member"
+        tools:layout="@layout/fragment_shg_member" >
+        <action
+            android:id="@+id/action_shgMemberFragment_to_memberEntryFragment"
+            app:destination="@id/memberEntryFragment" />
+        <action
+            android:id="@+id/action_shgMemberFragment_to_incomeEntryAfterNrlmFragment"
+            app:destination="@id/incomeEntryAfterNrlmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/memberEntryFragment"
+        android:name="com.nrlm.lakhpatikisaan.view.home.MemberEntryFragment"
+        android:label="Income Entry"
+        tools:layout="@layout/fragment_member_entry" />
+    <fragment
+        android:id="@+id/incomeEntryAfterNrlmFragment"
+        android:name="com.nrlm.lakhpatikisaan.view.home.IncomeEntryAfterNrlmFragment"
+        android:label="fragment_member_entry_after_nrlm"
+        tools:layout="@layout/fragment_member_entry_after_nrlm" />
 </navigation>
