@@ -8,12 +8,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 
-import com.nrlm.lakhpatikisaan.databinding.FragmentAuthLoginBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentDashboardBinding;
+import com.nrlm.lakhpatikisaan.network.client.Result;
+import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
+import com.nrlm.lakhpatikisaan.repository.MasterDataRepo;
+import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
+import com.nrlm.lakhpatikisaan.utils.AppExecutor;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
-import com.nrlm.lakhpatikisaan.view.auth.AuthFragmentDirections;
 import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 
 public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashboardBinding> {
@@ -42,6 +48,8 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         super.onViewCreated(view, savedInstanceState);
 
         binding.test.animate().alpha(1f).setDuration(7000).start();
+        HomeViewModel authViewModel=   new ViewModelProvider(this).get(HomeViewModel.class);
+        authViewModel.getMasterData();
 
         binding.btnGoToMember.setOnClickListener(view1 -> {
             NavDirections navDirections = DashBoardFragmentDirections.actionDashBoardFragmentToShgMemberFragment();

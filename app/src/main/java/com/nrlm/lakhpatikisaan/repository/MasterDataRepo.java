@@ -36,7 +36,7 @@ public class MasterDataRepo {
 
 
     public void makeMasterDataRequest(final LogRequestBean logRequestObject,
-                                 final RepositoryCallback<MasterDataResponseBean> callback){
+                                 final RepositoryCallback<MasterDataResponseBean> repositoryCallback){
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -44,18 +44,18 @@ public class MasterDataRepo {
                     loginRequest(logRequestObject, new ServiceCallback<MasterDataResponseBean>() {
                         @Override
                         public void success(Result<MasterDataResponseBean> successResponse) {
-                            callback.onComplete(successResponse);
+                            repositoryCallback.onComplete(successResponse);
                         }
 
                         @Override
                         public void error(Result<MasterDataResponseBean> errorResponse) {
-                            callback.onComplete(errorResponse);
+                            repositoryCallback.onComplete(errorResponse);
                         }
                     });
 
                 }catch (Exception e){
                     Result<MasterDataResponseBean> errorResult = new Result.Error<>(e);
-                    callback.onComplete(errorResult);
+                    repositoryCallback.onComplete(errorResult);
                 }
             }
         });
@@ -63,7 +63,7 @@ public class MasterDataRepo {
     }
 
 
-    private void loginRequest(final LogRequestBean logRequestObject, final ServiceCallback<MasterDataResponseBean> serviceCallback) {
+    public void loginRequest(final LogRequestBean logRequestObject, final ServiceCallback<MasterDataResponseBean> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
         Call<JsonObject> call = (Call<JsonObject>) apiServices.masterDataRequest(logRequestObject);

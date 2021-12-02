@@ -11,6 +11,14 @@ public class LogRequestBean implements Serializable {
     private String device_name;
     private String location_coordinate;
 
+    public LogRequestBean(String user_id, String state_short_name, String imei_no, String device_name, String location_coordinate) {
+        this.user_id = user_id;
+        this.state_short_name = state_short_name;
+        this.imei_no = imei_no;
+        this.device_name = device_name;
+        this.location_coordinate = location_coordinate;
+    }
+
     public String getUser_id() {
         return user_id;
     }

@@ -14,7 +14,7 @@ public class AuthViewModel extends ViewModel {
 
     private LoginRepo loginRepo;
     public AuthViewModel (){
-        loginRepo=LoginRepo.getInstance(AppExecutor.getInstance().networkIO());
+        loginRepo=LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor());
 
     }
 

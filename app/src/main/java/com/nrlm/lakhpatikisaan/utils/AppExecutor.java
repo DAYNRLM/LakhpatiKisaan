@@ -17,7 +17,7 @@ public class AppExecutor {
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
 
-    public ExecutorService networkIO(){
+    public ExecutorService threadExecutor(){
         return executorService;
     }
 }
