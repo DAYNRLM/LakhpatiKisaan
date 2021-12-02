@@ -7,8 +7,11 @@ import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
-import com.nrlm.lakhpatikisaan.network.model.request.ContactsRequestBean;
-import com.nrlm.lakhpatikisaan.network.model.response.ContactsResponseBean;
+import com.nrlm.lakhpatikisaan.network.client.ServiceCallback;
+import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
+
+import java.util.concurrent.ExecutorService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,35 +19,71 @@ import retrofit2.Response;
 
 public class MasterDataRepo {
 
+    private final ExecutorService executor;
+    private static MasterDataRepo instance=null;
+
+    private MasterDataRepo(ExecutorService executor) {
+        this.executor = executor;
+    }
+
+    public static MasterDataRepo getInstance(ExecutorService executor){
+        if (instance==null){
+            instance=new MasterDataRepo(executor);
+        }
+        return instance;
+    }
 
 
-    private void getMasters(ContactsRequestBean contactsRequestBean) {
 
+    public void makeMasterDataRequest(final LogRequestBean logRequestObject,
+                                 final RepositoryCallback<MasterDataResponseBean> callback){
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    loginRequest(logRequestObject, new ServiceCallback<MasterDataResponseBean>() {
+                        @Override
+                        public void success(Result<MasterDataResponseBean> successResponse) {
+                            callback.onComplete(successResponse);
+                        }
+
+                        @Override
+                        public void error(Result<MasterDataResponseBean> errorResponse) {
+                            callback.onComplete(errorResponse);
+                        }
+                    });
+
+                }catch (Exception e){
+                    Result<MasterDataResponseBean> errorResult = new Result.Error<>(e);
+                    callback.onComplete(errorResult);
+                }
+            }
+        });
+
+    }
+
+
+    private void loginRequest(final LogRequestBean logRequestObject, final ServiceCallback<MasterDataResponseBean> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.getConTacts(contactsRequestBean);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.masterDataRequest(logRequestObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
-                    String string = response.body().toString();
-                    if (string.contains("data")) {
-                        ContactsResponseBean contactsResponseBean = new Gson().fromJson(response.body(), ContactsResponseBean.class);
-                        Log.d("DataResponse", contactsResponseBean.toString());
-                       // new Result.Success<ContactsResponseBean>(contactsResponseBean);
-
-                    } else {
-                        Log.d("ErrorResponse", response.toString());
-                       // new Result.Error<>(new Exception("no data in response"));
-                        }
+                    MasterDataResponseBean masterDataResponseBean = new Gson().fromJson(response.body(), MasterDataResponseBean.class);
+                    Log.d("DataResponse", masterDataResponseBean.toString());
+                    serviceCallback.success( new Result.Success<MasterDataResponseBean>(masterDataResponseBean));
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("Failure", t.toString());
-               // new Result.Error<Throwable>(t);
+                serviceCallback.error(new Result.Error<>(t));
             }
         });
     }
+
+
 }

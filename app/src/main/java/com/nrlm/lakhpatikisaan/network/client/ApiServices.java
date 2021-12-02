@@ -2,6 +2,7 @@ package com.nrlm.lakhpatikisaan.network.client;
 
 import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.network.model.request.ContactsRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
 
 import retrofit2.Call;
@@ -15,4 +16,7 @@ public interface ApiServices {
 
     @POST("login")
     Call<JsonObject> loginRequest(@Body LoginRequestBean loginRequestBean);
+
+    @POST("masterdata")
+    Call<JsonObject> masterDataRequest(@Body LogRequestBean logRequestBean);
 }
