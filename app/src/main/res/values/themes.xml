@@ -29,6 +29,7 @@
     </style>
 
 
+
     <style name="carViewTheme" parent="Widget.MaterialComponents.CardView">
 
         <item name="strokeWidth">@dimen/space_1dp</item>
