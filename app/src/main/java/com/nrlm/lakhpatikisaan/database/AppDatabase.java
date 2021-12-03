@@ -3,22 +3,33 @@ package com.nrlm.lakhpatikisaan.database;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.room.Database;
 import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
+import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
+import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
+import com.nrlm.lakhpatikisaan.database.entity.TempEntryBeforeNrlmEntity;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
+@Database(entities = {MemberEntryEntity.class,
+        TempEntryBeforeNrlmEntity.class}
+        , version = 1, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
-    public static final String DATABASE_NAME = "lakhpatiKissan.db";
+    public static final String DATABASE_NAME = "lakhpatiShg.db";
     public static volatile AppDatabase instance;
     private static final int NUMBER_OF_THREADS = 5;
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+    public abstract MemberEntryDao memberEntryDao();
 
     public static AppDatabase getDatabase(final Context context) {
         if (instance == null) {

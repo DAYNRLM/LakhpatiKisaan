@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,12 +10,184 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="test layout"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_16sp"/>
+            android:layout_margin="@dimen/space_5dp"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="8dp"
+            app:strokeColor="@color/light_green_50"
+            android:outlineAmbientShadowColor="@color/green_500"
+            android:outlineSpotShadowColor="@color/green_500"
+            app:strokeWidth="1dp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:id="@+id/ll_detailView"
+                    android:padding="@dimen/space_3dp"
+                    android:layout_margin="@dimen/space_3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sector"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/manrope_semi_bold"
+                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Activity"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/manrope_semi_bold"
+                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Frequency Rang"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/manrope_semi_bold"
+                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10000 and 2000 Rs. Rang "
+                        android:textSize="16sp"
+                        android:fontFamily="@font/manrope_extra_bold"
+                        android:textColor="@color/green_700" />
+
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_dateView"
+                    android:gravity="center_horizontal"
+                    android:layout_toRightOf="@+id/ll_detailView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/space_5dp"
+                        android:layout_weight="1.4"
+                        android:backgroundTint="@color/blue_gray_50"
+                        android:outlineAmbientShadowColor="@color/orange_500"
+                        android:outlineSpotShadowColor="@color/orange_500"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:strokeColor="@color/light_green_50"
+                        app:strokeWidth="1dp">
+
+
+                        <LinearLayout
+                            android:padding="@dimen/space_5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_month"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_extra_bold"
+                                android:gravity="center_horizontal"
+                                android:text="January"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_20sp" />
+
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_year"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/manrope_extra_bold"
+                                android:gravity="center_horizontal"
+                                android:text="1991"
+                                android:textSize="@dimen/text_20sp" />
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:gravity="right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_monthYear"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delete"
+                            app:icon="@drawable/ic_baseline_delete_outline_24"
+                            app:iconGravity="end"
+                            android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                            android:textColor="@color/orange_500"
+                            app:strokeColor="@color/green_500" />
+
+                       <!-- <com.google.android.material.card.MaterialCardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/space_5dp"
+                            android:layout_weight="1.4"
+                            android:outlineAmbientShadowColor="@color/orange_500"
+                            android:outlineSpotShadowColor="@color/orange_500"
+                            app:cardCornerRadius="100dp"
+                            app:cardElevation="8dp"
+                            app:strokeColor="@color/green_500"
+                            app:strokeWidth="0.5dp">
+
+
+                            <ImageView
+                                android:layout_margin="@dimen/space_3dp"
+                                android:padding="@dimen/space_3dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_baseline_delete_outline_24"/>
+                        </com.google.android.material.card.MaterialCardView>-->
+
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+
+
+
+
+
+
+
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </layout>

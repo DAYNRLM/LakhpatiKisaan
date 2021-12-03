@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.nrlm.lakhpatikisaan.adaptor.EntryBeforeNrlmFoldAdapter;
 import com.nrlm.lakhpatikisaan.adaptor.ShgMemberAdapter;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
+import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
@@ -26,6 +28,7 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
     EntryBeforeNrlmFoldAdapter entryBeforeNrlmFoldAdapter;
     List<String> getList;
+    int count = 0;
     @Override
     public Class<HomeViewModel> getViewModel() {
         return HomeViewModel.class;
@@ -56,20 +59,19 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
             getList.add("");
+            count++;
             entryBeforeNrlmFoldAdapter  =  new EntryBeforeNrlmFoldAdapter(getList,getCurrentContext());
             binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
             binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
             entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
-
-
-
             binding.cvRecyclerview.setVisibility(View.VISIBLE);
             binding.cvSelectActivity.setVisibility(View.GONE);
-
+            binding.btnAddActivity.setText("Add Another Activity");
+            binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
+            binding.tvTotalActivityCount.setText("Total Activities is :" +count);
         });
 
         binding.btnMonthYear.setOnClickListener(view1 -> {
-
             MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(int selectedMonth, int selectedYear) {
@@ -77,8 +79,6 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
                     SimpleDateFormat month_date = new SimpleDateFormat("MMM");
                     today.set(Calendar.MONTH,selectedMonth);
                     String month_name = month_date.format(today.getTime());
-
-
 
                     binding.tvMonth.setText(month_name);
                     binding.tvYear.setText(""+selectedYear);
@@ -99,9 +99,57 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
                     .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
         });
 
+
+
+
+
         binding.btnAddActivity.setOnClickListener(view1 -> {
-            binding.cvSelectActivity.setVisibility(View.VISIBLE);
-            binding.btnChangeMonthYear.setVisibility(View.GONE);
+            if(count==0){
+                Observer<String> actionObserver = new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+
+                        if(s.equalsIgnoreCase("ok")){
+                            binding.btnChangeMonthYear.setVisibility(View.GONE);
+                            binding.cvSelectActivity.setVisibility(View.VISIBLE);
+                        }else {
+                            ViewUtilsKt.toast(getCurrentContext(),"Chenage Date First");
+
+                        }
+
+                    }
+                };
+
+                viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
+
+            }else {
+                binding.cvSelectActivity.setVisibility(View.VISIBLE);
+            }
+
         });
+
+
+
+        binding.btnReset.setOnClickListener(view1 -> {
+
+        });
+    }
+
+
+    public void resetFunction(int id){
+
+        switch (id){
+            case 1:
+                // reset all info on this screen
+
+                break;
+
+            case 2:
+                //reset current activity data
+                break;
+
+        }
+
+
     }
 }
