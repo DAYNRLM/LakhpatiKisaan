@@ -1,7 +1,5 @@
 package com.nrlm.lakhpatikisaan.repository;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
@@ -10,6 +8,8 @@ import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.network.client.ServiceCallback;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
+import com.nrlm.lakhpatikisaan.network.model.response.SupportiveMastersResponseBean;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
 import java.util.concurrent.ExecutorService;
 
@@ -36,25 +36,54 @@ public class MasterDataRepo {
 
 
     public void makeMasterDataRequest(final LogRequestBean logRequestObject,
-                                 final RepositoryCallback<MasterDataResponseBean> repositoryCallback){
+                                 final RepositoryCallback repositoryCallback){
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    loginRequest(logRequestObject, new ServiceCallback<MasterDataResponseBean>() {
+                    callMasterDataApi(logRequestObject, new ServiceCallback<Result>() {
                         @Override
-                        public void success(Result<MasterDataResponseBean> successResponse) {
+
+                        public void success(Result<Result> successResponse) {
+                            /*fill data into db*/
                             repositoryCallback.onComplete(successResponse);
                         }
 
                         @Override
-                        public void error(Result<MasterDataResponseBean> errorResponse) {
+                        public void error(Result<Result> errorResponse) {
                             repositoryCallback.onComplete(errorResponse);
                         }
                     });
 
                 }catch (Exception e){
-                    Result<MasterDataResponseBean> errorResult = new Result.Error<>(e);
+                    Result<Result> errorResult = new Result.Error(e);
+                    repositoryCallback.onComplete(errorResult);
+                }
+            }
+        });
+
+    }
+
+    public void makeSupportiveMasterDataRequest(final LogRequestBean logRequestObject,
+                                                final RepositoryCallback repositoryCallback){
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    callSupportiveMasterDataApi(logRequestObject, new ServiceCallback<Result>() {
+                        @Override
+                        public void success(Result<Result> successResponse) {
+                            /*fill data into db*/
+                            repositoryCallback.onComplete(successResponse);
+                        }
+
+                        @Override
+                        public void error(Result<Result> errorResponse) {
+                            repositoryCallback.onComplete(errorResponse);
+                        }
+                    });
+                }catch (Exception e){
+                    Result<Result> errorResult = new Result.Error(e);
                     repositoryCallback.onComplete(errorResult);
                 }
             }
@@ -63,27 +92,71 @@ public class MasterDataRepo {
     }
 
 
-    public void loginRequest(final LogRequestBean logRequestObject, final ServiceCallback<MasterDataResponseBean> serviceCallback) {
+    private void callMasterDataApi(final LogRequestBean logRequestObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.masterDataRequest(logRequestObject);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.masterDataApi(logRequestObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                AppUtils.getInstance().showLog("MasterDataResponse"+response.toString(), MasterDataRepo.class);
                 if (response.isSuccessful()) {
-                    MasterDataResponseBean masterDataResponseBean = new Gson().fromJson(response.body(), MasterDataResponseBean.class);
-                    Log.d("DataResponse", masterDataResponseBean.toString());
-                    serviceCallback.success( new Result.Success<MasterDataResponseBean>(masterDataResponseBean));
+
+                    if(response.body() == null || response.code() == 204){ // 204 is empty response
+                        serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
+                    }else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")){
+                       MasterDataResponseBean.Error error=  new Gson().fromJson(response.body().getAsJsonObject("error"), MasterDataResponseBean.Error.class);
+                        serviceCallback.error(new Result.Error(error));
+                    }
+                    else{
+                        MasterDataResponseBean masterDataResponseBean = new Gson().fromJson(response.body(), MasterDataResponseBean.class);
+                        serviceCallback.success( new Result.Success(masterDataResponseBean));
+                    }
+
+                }else {
+                    serviceCallback.error(new Result.Error(new Throwable(response.code()+" "+response.message())));
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("Failure", t.toString());
-                serviceCallback.error(new Result.Error<>(t));
+                AppUtils.getInstance().showLog("FailureFromServer"+t.toString(),MasterDataRepo.class);
+                serviceCallback.error(new Result.Error(t));
             }
         });
     }
 
+    private void callSupportiveMasterDataApi(final LogRequestBean logRequestObject, final ServiceCallback<Result> serviceCallback) {
 
+        ApiServices apiServices = RetrofitClient.getApiServices();
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.supportiveMasterDataApi(logRequestObject);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                AppUtils.getInstance().showLog("SupportiveMasterDataResponse"+response.toString(), MasterDataRepo.class);
+                if (response.isSuccessful()) {
+
+                    if(response.body() == null || response.code() == 204){ // 204 is empty response
+                        serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
+                    }else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")){
+                        SupportiveMastersResponseBean.Error error=  new Gson().fromJson(response.body().getAsJsonObject("error"), SupportiveMastersResponseBean.Error.class);
+                        serviceCallback.error(new Result.Error(error));
+                    }
+                    else{
+                        SupportiveMastersResponseBean supportiveMastersResponseBean = new Gson().fromJson(response.body(), SupportiveMastersResponseBean.class);
+                        serviceCallback.success( new Result.Success(supportiveMastersResponseBean));
+                    }
+
+                }else {
+                    serviceCallback.error(new Result.Error(new Throwable(response.code()+" "+response.message())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                AppUtils.getInstance().showLog("FailureFromServer"+t.toString(),MasterDataRepo.class);
+                serviceCallback.error(new Result.Error(t));
+            }
+        });
+    }
 }

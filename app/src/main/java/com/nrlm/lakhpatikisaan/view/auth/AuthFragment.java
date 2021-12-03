@@ -50,6 +50,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         super.onViewCreated(view, savedInstanceState);
 
         AuthViewModel authViewModel=   new ViewModelProvider(this).get(AuthViewModel.class);
+        authViewModel.makeLoginRequestData();
 
 
 

@@ -31,7 +31,7 @@ public class MasterDataResponseBean {
         this.location_master = location_master;
     }
 
-    public static class Error{
+    public static class Error extends Throwable {
         private String code;
         private String message;
 

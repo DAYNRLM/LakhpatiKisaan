@@ -1,7 +1,5 @@
 package com.nrlm.lakhpatikisaan.repository;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
@@ -9,10 +7,8 @@ import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.network.client.ServiceCallback;
 import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
-import com.nrlm.lakhpatikisaan.network.model.response.ContactsResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
-
-import org.json.JSONObject;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
 import java.util.concurrent.ExecutorService;
 
@@ -37,28 +33,30 @@ public class LoginRepo {
     }
 
 
-
     public void makeLoginRequest(final LoginRequestBean loginRequestObject,
-                                 final RepositoryCallback<LoginResponseBean> callback){
+                                 final RepositoryCallback repositoryCallback){
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    loginRequest(loginRequestObject, new ServiceCallback<LoginResponseBean>() {
-                        @Override
-                        public void success(Result<LoginResponseBean> successResponse) {
-                            callback.onComplete(successResponse);
-                        }
+                  loginRequest(loginRequestObject, new ServiceCallback<Result>() {
+                      @Override
+                      public void success(Result<Result> successResponse) {
+                          /*fill data into db*/
 
-                        @Override
-                        public void error(Result<LoginResponseBean> errorResponse) {
-                            callback.onComplete(errorResponse);
-                        }
-                    });
+
+                          repositoryCallback.onComplete(successResponse);
+                      }
+
+                      @Override
+                      public void error(Result<Result> errorResponse) {
+                          repositoryCallback.onComplete(errorResponse);
+                      }
+                  });
 
                 }catch (Exception e){
-                    Result<LoginResponseBean> errorResult = new Result.Error<>(e);
-                    callback.onComplete(errorResult);
+                    Result<LoginResponseBean> errorResult = new Result.Error(e);
+                    repositoryCallback.onComplete(errorResult);
                 }
             }
         });
@@ -66,28 +64,39 @@ public class LoginRepo {
     }
 
 
-    private void loginRequest(final LoginRequestBean loginRequestObject, final ServiceCallback<LoginResponseBean> serviceCallback) {
+    private void loginRequest(final LoginRequestBean loginRequestObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.loginRequest(loginRequestObject);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.loginApi(loginRequestObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                AppUtils.getInstance().showLog("LoginDataResponse"+response.toString(), MasterDataRepo.class);
                 if (response.isSuccessful()) {
-                    LoginResponseBean loginResponseBean = new Gson().fromJson(response.body(), LoginResponseBean.class);
-                    Log.d("DataResponse", loginResponseBean.toString());
-                    serviceCallback.success( new Result.Success<LoginResponseBean>(loginResponseBean));
+
+                    if(response.body() == null || response.code() == 204){ // 204 is empty response
+                        serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
+                    }else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")){
+                        LoginResponseBean.Error error=  new Gson().fromJson(response.body().getAsJsonObject("error"), LoginResponseBean.Error.class);
+                        serviceCallback.error(new Result.Error(error));
                     }
+                    else{
+                        LoginResponseBean loginResponseBean = new Gson().fromJson(response.body(), LoginResponseBean.class);
+                        serviceCallback.success( new Result.Success(loginResponseBean));
+                    }
+
+                }else {
+                    serviceCallback.error(new Result.Error(new Throwable(response.code()+" "+response.message())));
+                }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("Failure", t.toString());
-                serviceCallback.error(new Result.Error<>(t));
+                AppUtils.getInstance().showLog("ServerFailureInLoginApi"+t.toString(),MasterDataRepo.class);
+                serviceCallback.error(new Result.Error(t));
              }
         });
     }
-
-
 
 }

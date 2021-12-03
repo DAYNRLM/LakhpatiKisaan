@@ -12,10 +12,11 @@ public abstract class Result<T> {
     }
 
     public static final class Error<T> extends Result<T> {
-        public Throwable exception;
+        public T exception;
 
-        public Error(Throwable exception) {
+        public Error(T exception) {
             this.exception = exception;
         }
-    }
+
+        }
 }

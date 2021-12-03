@@ -17,9 +17,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static final String server="local";
-   // private static final String server="demo";
-   // private static final String server="live";
+    private static final String server = "local";
+    // private static final String server="demo";
+    // private static final String server="live";
 
     private static final int CONNECTION_TIMEOUT = 1000;
     private static final int READ_TIMEOUT = 1000;
@@ -30,9 +30,9 @@ public class RetrofitClient {
         switch (server) {
             case "local":
                 HTTP_TYPE = "http";
-                IP_ADDRESS = "10.197.183.251";
-                NRLM_STATUS = ":8080";
-                baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
+                IP_ADDRESS = "10.197.183.105";
+                NRLM_STATUS = ":8989";
+                baseURL = HTTP_TYPE + "://" + IP_ADDRESS + NRLM_STATUS + "/lakhpatishg/";
                 break;
 
             case "demo":

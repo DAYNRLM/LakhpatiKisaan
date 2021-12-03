@@ -5,12 +5,18 @@ import androidx.lifecycle.ViewModel;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
+import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
 import com.nrlm.lakhpatikisaan.repository.LoginRepo;
 import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.view.home.DashBoardFragment;
+import com.nrlm.lakhpatikisaan.view.home.HomeViewModel;
 
 public class AuthViewModel extends ViewModel {
+  ;
+
+
 
     private LoginRepo loginRepo;
     public AuthViewModel (){
@@ -18,17 +24,53 @@ public class AuthViewModel extends ViewModel {
 
     }
 
-    public void makeLogin(LoginRequestBean loginRequestBean){
-        loginRepo.makeLoginRequest(loginRequestBean, new RepositoryCallback<LoginResponseBean>() {
-            @Override
-            public void onComplete(Result<LoginResponseBean> result) {
-                if (result instanceof Result.Success){
+   public void  makeLoginRequestData(){
+      final LoginRequestBean  loginRequestBean=new LoginRequestBean();
+       loginRequestBean.setAndroid_api_version("1.0.0");
+       loginRequestBean.setAndroid_version("1.0.0");
+       loginRequestBean.setApp_login_time("2021-04-13 16:33:23");
+       loginRequestBean.setApp_versions("1.0.0");
+       loginRequestBean.setDate("03-12-2021");
+       loginRequestBean.setDevice_name("OPPO-OP4B79L1-CPH1933");
+       loginRequestBean.setImei_no("5d7eaa5ef9d3ebed");
+       loginRequestBean.setLocation_coordinate("28.6771787,77.4923927");
+       loginRequestBean.setLogout_time("2021-04-13 16:33:23");
+       loginRequestBean.setLogin_id("HRKSVISHAKHA");
+       loginRequestBean.setPassword("c6024fd19953c32dc6e2b8fe91684a16a889cc8482157f1ec652616517537239");
+       makeLogin(loginRequestBean);
 
-                    AppUtils.getInstance().showLog(result.toString(), AuthViewModel.class);
-                }else {
-                    AppUtils.getInstance().showLog(result.toString(),AuthViewModel.class);
-                }
-            }
-        });
+   }
+
+    public void makeLogin(LoginRequestBean loginRequestBean){
+       loginRepo.makeLoginRequest(loginRequestBean, new RepositoryCallback() {
+           @Override
+           public void onComplete(Result result) {
+               AppUtils.getInstance().showLog("loginDataResult"+result.toString(), AuthViewModel.class);
+               if (result instanceof Result.Success){
+                   //fill db
+                   LoginResponseBean loginResponseBean= (LoginResponseBean) ((Result.Success) result).data;
+                   AppUtils.getInstance().showLog("loginDataResponseBean"+loginResponseBean.toString(), AuthViewModel.class);
+                   /*loginApiResult()*/
+
+
+               }else {
+                   Object errorObject=((Result.Error) result).exception ;
+                   if (errorObject != null){
+                       if (errorObject instanceof MasterDataResponseBean.Error){
+                           LoginResponseBean.Error responseError= (LoginResponseBean.Error) errorObject;
+                           AppUtils.getInstance().showLog(responseError.getCode()+" loginApiErrorObj"+responseError.getMessage(),AuthViewModel.class);
+                       } else  if (errorObject instanceof Throwable){
+                           Throwable exception= (Throwable)errorObject;
+                           AppUtils.getInstance().showLog("RetrofitErrorsLogin:-------"+exception.getMessage(),AuthViewModel.class);
+                       }
+                   }
+
+               }
+           }
+       });
+    }
+
+    public String loginApiResult(String result){
+        return result;
     }
 }
