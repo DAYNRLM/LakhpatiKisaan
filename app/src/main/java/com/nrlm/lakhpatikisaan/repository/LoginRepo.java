@@ -1,7 +1,13 @@
 package com.nrlm.lakhpatikisaan.repository;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.nrlm.lakhpatikisaan.R;
+import com.nrlm.lakhpatikisaan.database.AppDatabase;
+import com.nrlm.lakhpatikisaan.database.dao.LoginInfoDao;
+import com.nrlm.lakhpatikisaan.database.entity.LoginInfoEntity;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
@@ -20,14 +26,18 @@ public class LoginRepo {
 
     private final ExecutorService executor;
     private static LoginRepo instance=null;
+    private Context context;
+    private  LoginInfoDao loginInfoDao;
 
-    private LoginRepo(ExecutorService executor) {
+    private LoginRepo(ExecutorService executor, Context context) {
         this.executor = executor;
+        this.context=context;
+        loginInfoDao=AppDatabase.getDatabase(context).getLoginInfoDao();
     }
 
-    public static LoginRepo getInstance(ExecutorService executor){
+    public static LoginRepo getInstance(ExecutorService executor,Context context){
         if (instance==null){
-            instance=new LoginRepo(executor);
+            instance=new LoginRepo(executor,context);
         }
         return instance;
     }
@@ -43,8 +53,17 @@ public class LoginRepo {
                       @Override
                       public void success(Result<Result> successResponse) {
                           /*fill data into db*/
+                          if (successResponse instanceof Result.Success){
+                              LoginResponseBean loginResponseBean= (LoginResponseBean) ((Result.Success) successResponse).data;
+                              LoginInfoEntity loginInfoEntity=new LoginInfoEntity(loginResponseBean.getLogin_id(),loginResponseBean.getPassword(),
+                                      loginResponseBean.getMobile_number(),loginResponseBean.getState_code(),loginResponseBean.getState_short_name(),
+                                      loginResponseBean.getServer_date_time(),loginResponseBean.getLanguage_id(),loginResponseBean.getLogin_attempt(),
+                                      loginResponseBean.getLogout_days());
+
+                              insertLoginInfo(loginInfoEntity);
 
 
+                          }
                           repositoryCallback.onComplete(successResponse);
                       }
 
@@ -96,6 +115,15 @@ public class LoginRepo {
                 AppUtils.getInstance().showLog("ServerFailureInLoginApi"+t.toString(),MasterDataRepo.class);
                 serviceCallback.error(new Result.Error(t));
              }
+        });
+    }
+
+    private void insertLoginInfo(LoginInfoEntity loginInfoEntity){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                loginInfoDao.insert(loginInfoEntity);
+            }
         });
     }
 

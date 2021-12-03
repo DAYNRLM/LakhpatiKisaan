@@ -1,5 +1,7 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
+import android.content.Context;
+
 import androidx.lifecycle.ViewModel;
 
 import com.nrlm.lakhpatikisaan.network.client.Result;
@@ -20,11 +22,12 @@ public class AuthViewModel extends ViewModel {
 
     private LoginRepo loginRepo;
     public AuthViewModel (){
-        loginRepo=LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor());
+
 
     }
 
-   public void  makeLoginRequestData(){
+   public void  makeLoginRequestData(Context context){
+       loginRepo=LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(),context);
       final LoginRequestBean  loginRequestBean=new LoginRequestBean();
        loginRequestBean.setAndroid_api_version("1.0.0");
        loginRequestBean.setAndroid_version("1.0.0");

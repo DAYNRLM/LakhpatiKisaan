@@ -10,7 +10,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
+import com.nrlm.lakhpatikisaan.database.dao.LoginInfoDao;
+import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
+import com.nrlm.lakhpatikisaan.database.entity.LoginInfoEntity;
+import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.database.entity.TempEntryBeforeNrlmEntity;
 
@@ -19,9 +23,11 @@ import java.util.concurrent.Executors;
 
 
 @Database(entities = {MemberEntryEntity.class,
-        TempEntryBeforeNrlmEntity.class}
+        TempEntryBeforeNrlmEntity.class, LoginInfoEntity.class, MasterDataEntity.class}
         , version = 1, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
+
+
 
     public static final String DATABASE_NAME = "lakhpatiShg.db";
     public static volatile AppDatabase instance;
@@ -30,6 +36,8 @@ public abstract class AppDatabase extends RoomDatabase {
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public abstract MemberEntryDao memberEntryDao();
+    public abstract LoginInfoDao getLoginInfoDao();
+    public abstract MasterDataDao getMasterDataDao();
 
     public static AppDatabase getDatabase(final Context context) {
         if (instance == null) {

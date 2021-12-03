@@ -1,16 +1,24 @@
 package com.nrlm.lakhpatikisaan.repository;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.nrlm.lakhpatikisaan.database.AppDatabase;
+import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
+import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.network.client.ServiceCallback;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SupportiveMastersResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import retrofit2.Call;
@@ -21,14 +29,18 @@ public class MasterDataRepo {
 
     private final ExecutorService executor;
     private static MasterDataRepo instance=null;
+    private Context context;
+    private MasterDataDao masterDataDao;
 
-    private MasterDataRepo(ExecutorService executor) {
+    private MasterDataRepo(ExecutorService executor,Context context) {
         this.executor = executor;
+        this.context=context;
+        masterDataDao=AppDatabase.getDatabase(context).getMasterDataDao();
     }
 
-    public static MasterDataRepo getInstance(ExecutorService executor){
+    public static MasterDataRepo getInstance(ExecutorService executor,Context context){
         if (instance==null){
-            instance=new MasterDataRepo(executor);
+            instance=new MasterDataRepo(executor,context);
         }
         return instance;
     }
@@ -46,6 +58,18 @@ public class MasterDataRepo {
 
                         public void success(Result<Result> successResponse) {
                             /*fill data into db*/
+                            if (successResponse instanceof Result.Success){
+                                MasterDataResponseBean masterDataResponseBean= (MasterDataResponseBean) ((Result.Success) successResponse).data;
+                                List<MasterDataEntity> masterDataEntityList=new ArrayList<>();
+                                for (MasterDataResponseBean.MasterData masterData: masterDataResponseBean.getLocation_master()){
+                                    MasterDataEntity masterDataEntity=new MasterDataEntity(masterData.getBlock_name(),masterData.getGp_name(),masterData.getVillage_code(),
+                                            masterData.getVillage_name(),masterData.getShg_name(),masterData.getShg_code(),masterData.getMember_code(),masterData.getMember_name(),masterData.getClf_code(),
+                                            masterData.getClf_name(),masterData.getVo_code(),masterData.getVo_name(),masterData.getMember_joining_date(),
+                                            masterData.getLast_entry_after_nrlm(),masterData.getLast_entry_before_nrlm());
+                                    masterDataEntityList.add(masterDataEntity);
+                                }
+                                insertAllMasterData(masterDataEntityList);
+                            }
                             repositoryCallback.onComplete(successResponse);
                         }
 
@@ -63,6 +87,8 @@ public class MasterDataRepo {
         });
 
     }
+
+
 
     public void makeSupportiveMasterDataRequest(final LogRequestBean logRequestObject,
                                                 final RepositoryCallback repositoryCallback){
@@ -156,6 +182,16 @@ public class MasterDataRepo {
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 AppUtils.getInstance().showLog("FailureFromServer"+t.toString(),MasterDataRepo.class);
                 serviceCallback.error(new Result.Error(t));
+            }
+        });
+    }
+
+    private void insertAllMasterData(List<MasterDataEntity> masterDataEntityList) {
+
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                masterDataDao.insertAll(masterDataEntityList);
             }
         });
     }

@@ -22,12 +22,12 @@ import com.nrlm.lakhpatikisaan.utils.AppUtils;
 public class HomeViewModel extends ViewModel {
     private MasterDataRepo masterDataRepo;
     public HomeViewModel(){
-        masterDataRepo=MasterDataRepo.getInstance(AppExecutor.getInstance().threadExecutor());
 
         }
 
-    public void getMasterData() {
+    public void getMasterData(Context context) {
         try {
+            masterDataRepo=MasterDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(),context);
             LogRequestBean logRequestBean=new LogRequestBean("UPAGASSDAD","UP"
                     ,"111","111","111");
 
