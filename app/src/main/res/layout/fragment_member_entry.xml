@@ -251,6 +251,17 @@
                                     android:orientation="vertical"
                                     android:padding="@dimen/space_3dp">
 
+
+                                    <TextView
+                                        android:visibility="gone"
+                                        android:id="@+id/tv_totalActivityCount"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Total Activity Added : 10"
+                                        android:gravity="center_horizontal"
+                                        android:layout_marginBottom="@dimen/space_10dp"
+                                        android:fontFamily="@font/manrope_regular" />
+
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btn_addActivity"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -265,6 +276,7 @@
                                         app:strokeColor="@color/green_500" />
 
                                     <com.google.android.material.button.MaterialButton
+                                        android:visibility="visible"
                                         android:id="@+id/btn_changeMonthYear"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                         android:layout_width="wrap_content"
