@@ -18,10 +18,10 @@ public interface ApiServices {
     @POST("masterdata")
     Call<JsonObject> masterDataApi(@Body LogRequestBean logRequestBean);
 
-    @POST("supportivemasterdata")
+    @POST("masteractivity")
     Call<JsonObject> supportiveMasterDataApi(@Body LogRequestBean logRequestBean);
 
-    @POST("checkduplicacy")
+    @POST("checkDuplicay")
     Call<JsonObject> checkDuplicateDataApi(@Body CheckDuplicateRequestBean checkDuplicateRequestBean);
 
     @POST("addmemberdata")

@@ -49,7 +49,6 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
 
         binding.test.animate().alpha(1f).setDuration(7000).start();
         HomeViewModel authViewModel=   new ViewModelProvider(this).get(HomeViewModel.class);
-        authViewModel.getMasterData(getCurrentContext());
 
         binding.btnGoToMember.setOnClickListener(view1 -> {
             NavDirections navDirections = DashBoardFragmentDirections.actionDashBoardFragmentToShgMemberFragment();
