@@ -9,8 +9,8 @@ import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 import java.util.List;
 
 @Dao
-public abstract class MasterDataDao {
+public interface MasterDataDao {
 
     @Insert()
-    public abstract void insertAll(List<MasterDataEntity> masterDataEntities);
+    void insertAll(List<MasterDataEntity> masterDataEntities);
 }

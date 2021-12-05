@@ -72,15 +72,15 @@ public class SupportiveMastersResponseBean {
           }
       }
     public static class IncomeRange{
-        private String range_id;
+        private int range_id;
         private String range_name;
 
 
-        public String getRange_id() {
+        public int getRange_id() {
             return range_id;
         }
 
-        public void setRange_id(String range_id) {
+        public void setRange_id(int range_id) {
             this.range_id = range_id;
         }
 
@@ -95,7 +95,7 @@ public class SupportiveMastersResponseBean {
 
     public static class Sector{
         private String sector_name;
-        private String sector_code;
+        private int sector_code;
         private List<Activity> activities;
 
         public String getSector_name() {
@@ -106,11 +106,11 @@ public class SupportiveMastersResponseBean {
             this.sector_name = sector_name;
         }
 
-        public String getSector_code() {
+        public int getSector_code() {
             return sector_code;
         }
 
-        public void setSector_code(String sector_code) {
+        public void setSector_code(int sector_code) {
             this.sector_code = sector_code;
         }
 
@@ -124,14 +124,14 @@ public class SupportiveMastersResponseBean {
     }
 
     public static class Activity{
-        private String activity_code;
+        private int activity_code;
         private String activity_name;
 
-        public String getActivity_code() {
+        public int getActivity_code() {
             return activity_code;
         }
 
-        public void setActivity_code(String activity_code) {
+        public void setActivity_code(int activity_code) {
             this.activity_code = activity_code;
         }
 

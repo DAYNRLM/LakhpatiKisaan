@@ -10,12 +10,20 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
+import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
+import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
+import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.LoginInfoDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
+import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
+import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
+import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
+import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
 import com.nrlm.lakhpatikisaan.database.entity.LoginInfoEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
+import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.database.entity.TempEntryBeforeNrlmEntity;
 
 import java.util.concurrent.ExecutorService;
@@ -23,7 +31,8 @@ import java.util.concurrent.Executors;
 
 
 @Database(entities = {MemberEntryEntity.class,
-        TempEntryBeforeNrlmEntity.class, LoginInfoEntity.class, MasterDataEntity.class}
+        TempEntryBeforeNrlmEntity.class, LoginInfoEntity.class, MasterDataEntity.class, SectorEntity.class,
+        ActivityEntity.class, FrequencyEntity.class, IncomeRangeEntity.class}
         , version = 1, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -38,6 +47,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract MemberEntryDao memberEntryDao();
     public abstract LoginInfoDao getLoginInfoDao();
     public abstract MasterDataDao getMasterDataDao();
+    public abstract SectorDao getSectorDao();
+    public abstract ActivityDao getActivityDao();
+    public abstract FrequencyDao getFrequencyDao();
+    public abstract IncomeRangeDao getIncomeRangeDao();
 
     public static AppDatabase getDatabase(final Context context) {
         if (instance == null) {

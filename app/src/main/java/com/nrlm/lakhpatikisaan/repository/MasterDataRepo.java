@@ -5,8 +5,16 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
+import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
+import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
+import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
+import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
+import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
+import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
+import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
+import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
@@ -31,11 +39,20 @@ public class MasterDataRepo {
     private static MasterDataRepo instance=null;
     private Context context;
     private MasterDataDao masterDataDao;
+    private SectorDao sectorDao;
+    private ActivityDao activityDao;
+    private FrequencyDao frequencyDao;
+    private IncomeRangeDao incomeRangeDao;
 
     private MasterDataRepo(ExecutorService executor,Context context) {
         this.executor = executor;
         this.context=context;
-        masterDataDao=AppDatabase.getDatabase(context).getMasterDataDao();
+        AppDatabase appDatabase=AppDatabase.getDatabase(context);
+        masterDataDao=appDatabase.getMasterDataDao();
+        sectorDao=appDatabase.getSectorDao();
+        activityDao=appDatabase.getActivityDao();
+        frequencyDao=appDatabase.getFrequencyDao();
+        incomeRangeDao=appDatabase.getIncomeRangeDao();
     }
 
     public static MasterDataRepo getInstance(ExecutorService executor,Context context){
@@ -100,6 +117,31 @@ public class MasterDataRepo {
                         @Override
                         public void success(Result<Result> successResponse) {
                             /*fill data into db*/
+                            if (successResponse instanceof Result.Success){
+                                SupportiveMastersResponseBean supportiveMastersResponseBean= (SupportiveMastersResponseBean) ((Result.Success) successResponse).data;
+
+                                for (SupportiveMastersResponseBean.Sector sector:supportiveMastersResponseBean.getSectors()){
+                                    SectorEntity sectorEntity=new SectorEntity(sector.getSector_name(),sector.getSector_code());
+                                    insertSector(sectorEntity);
+                                    for (SupportiveMastersResponseBean.Activity activity:sector.getActivities()){
+                                          ActivityEntity activityEntity=new ActivityEntity(activity.getActivity_name(),sector.getSector_code()
+                                                  ,activity.getActivity_code());
+                                          insertActivity(activityEntity);
+                                    }
+                                }
+
+                                for (SupportiveMastersResponseBean.IncomeFrequency incomeFrequency:supportiveMastersResponseBean.getIncome_frequencies()){
+                                       FrequencyEntity frequencyEntity=new FrequencyEntity(incomeFrequency.getFrequency_id(),incomeFrequency.getFrequency_name());
+                                       insertFrequency(frequencyEntity);
+                                       for (SupportiveMastersResponseBean.IncomeRange incomeRange:incomeFrequency.getIncome_range()){
+                                               IncomeRangeEntity incomeRangeEntity=new IncomeRangeEntity(incomeFrequency.getFrequency_id(),
+                                                       incomeRange.getRange_id(),incomeRange.getRange_name());
+                                               insertIncomeRange(incomeRangeEntity);
+                                       }
+                                }
+
+                            }
+
                             repositoryCallback.onComplete(successResponse);
                         }
 
@@ -195,4 +237,44 @@ public class MasterDataRepo {
             }
         });
     }
+
+    private void insertSector(SectorEntity sectorEntity){
+     AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+         @Override
+         public void run() {
+             sectorDao.insert(sectorEntity);
+         }
+     });
+    }
+
+    private void insertActivity(ActivityEntity activityEntity){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                activityDao.insert(activityEntity);
+            }
+        });
+    }
+
+    private void insertFrequency(FrequencyEntity frequencyEntity){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                frequencyDao.insert(frequencyEntity);
+            }
+        });
+    }
+
+    private void insertIncomeRange(IncomeRangeEntity incomeRangeEntity){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                incomeRangeDao.insert(incomeRangeEntity);
+            }
+        });
+    }
 }
+
+/*{
+
+                                }*/
