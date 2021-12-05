@@ -2,7 +2,21 @@ package com.nrlm.lakhpatikisaan.network.model.response;
 
 public class CheckDuplicateResponseBean {
 
-    private Error error;
+    private String member_code;
+
+    public CheckDuplicateResponseBean(String member_code) {
+        this.member_code = member_code;
+    }
+
+    public String getMember_code() {
+        return member_code;
+    }
+
+    public void setMember_code(String member_code) {
+        this.member_code = member_code;
+    }
+
+    /*  private Error error;
 
     public Error getError() {
         return error;
@@ -31,5 +45,5 @@ public class CheckDuplicateResponseBean {
         public void setMessage(String message) {
             this.message = message;
         }
-    }
+    }*/
 }

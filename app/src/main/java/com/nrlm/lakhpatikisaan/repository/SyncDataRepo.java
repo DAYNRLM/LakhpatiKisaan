@@ -1,7 +1,14 @@
 package com.nrlm.lakhpatikisaan.repository;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.nrlm.lakhpatikisaan.database.AppDatabase;
+import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
+import com.nrlm.lakhpatikisaan.database.dbbean.ActivityDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.MemberDataToCheckDup;
+import com.nrlm.lakhpatikisaan.database.dbbean.ShgAndMemberDataBean;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
@@ -12,6 +19,8 @@ import com.nrlm.lakhpatikisaan.network.model.response.CheckDuplicateResponseBean
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import retrofit2.Call;
@@ -21,29 +30,33 @@ import retrofit2.Response;
 public class SyncDataRepo {
 
     private final ExecutorService executor;
-    private static SyncDataRepo instance=null;
+    private static SyncDataRepo instance = null;
+    private MemberEntryDao memberEntryDao;
 
-    private SyncDataRepo(ExecutorService executor) {
+    private SyncDataRepo(ExecutorService executor, Context context) {
         this.executor = executor;
+        AppDatabase appDatabase = AppDatabase.getDatabase(context);
+        memberEntryDao = appDatabase.memberEntryDao();
+
     }
 
-    public static SyncDataRepo getInstance(ExecutorService executor){
-        if (instance==null){
-            instance=new SyncDataRepo(executor);
+    public static SyncDataRepo getInstance(ExecutorService executor, Context context) {
+        if (instance == null) {
+            instance = new SyncDataRepo(executor, context);
         }
         return instance;
     }
 
     public void makeCheckDuplicateRequest(final CheckDuplicateRequestBean checkDuplicateRequestBean,
-                                          final RepositoryCallback repositoryCallback){
+                                          final RepositoryCallback repositoryCallback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 callCheckDuplicateDataApi(checkDuplicateRequestBean, new ServiceCallback<Result>() {
                     @Override
                     public void success(Result<Result> successResponse) {
-                        /*call sync data api*/
-                        repositoryCallback.onComplete(successResponse);
+
+                       repositoryCallback.onComplete(successResponse);
                     }
 
                     @Override
@@ -57,7 +70,7 @@ public class SyncDataRepo {
 
 
     public void makeSyncEntriesRequest(final SyncEntriesRequestBean syncEntriesRequestBean,
-                                       final RepositoryCallback repositoryCallback){
+                                       final RepositoryCallback repositoryCallback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -85,27 +98,27 @@ public class SyncDataRepo {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                AppUtils.getInstance().showLog("checkDuplicateDataResponse"+response.toString(), MasterDataRepo.class);
+                AppUtils.getInstance().showLog("checkDuplicateDataResponse" + response.toString(), MasterDataRepo.class);
                 if (response.isSuccessful()) {
 
-                    if(response.body() == null || response.code() == 204){ // 204 is empty response
+                    if (response.body() == null || response.code() == 204) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    }else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")){
+                    }/*else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")){
                         CheckDuplicateResponseBean.Error error=  new Gson().fromJson(response.body().getAsJsonObject("error"), CheckDuplicateResponseBean.Error.class);
                         serviceCallback.error(new Result.Error(error));
-                    }
-                    else{
+                    }*/ else {
                         CheckDuplicateResponseBean checkDuplicateResponseBean = new Gson().fromJson(response.body(), CheckDuplicateResponseBean.class);
-                        serviceCallback.success( new Result.Success(checkDuplicateResponseBean));
+                        serviceCallback.success(new Result.Success(checkDuplicateResponseBean));
                     }
 
-                }else {
-                    serviceCallback.error(new Result.Error(new Throwable(response.code()+" "+response.message())));
+                } else {
+                    serviceCallback.error(new Result.Error(new Throwable(response.code() + " " + response.message())));
                 }
             }
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                AppUtils.getInstance().showLog("FailureFromServer"+t.toString(),MasterDataRepo.class);
+                AppUtils.getInstance().showLog("FailureFromServer" + t.toString(), MasterDataRepo.class);
                 serviceCallback.error(new Result.Error(t));
             }
         });
@@ -118,31 +131,83 @@ public class SyncDataRepo {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                AppUtils.getInstance().showLog("SyncEntriesDataResponse"+response.toString(), MasterDataRepo.class);
+                AppUtils.getInstance().showLog("SyncEntriesDataResponse" + response.toString(), MasterDataRepo.class);
                 if (response.isSuccessful()) {
 
-                    if(response.body() == null || response.code() == 204){ // 204 is empty response
+                    if (response.body() == null || response.code() == 204) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    }else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")){
-                        SimpleResponseBean.Error error=  new Gson().fromJson(response.body().getAsJsonObject("error"), SimpleResponseBean.Error.class);
+                    } else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
+                        SimpleResponseBean.Error error = new Gson().fromJson(response.body().getAsJsonObject("error"), SimpleResponseBean.Error.class);
                         serviceCallback.error(new Result.Error(error));
-                    }
-                    else{
+                    } else {
                         SimpleResponseBean simpleResponseBean = new Gson().fromJson(response.body(), SimpleResponseBean.class);
-                        serviceCallback.success( new Result.Success(simpleResponseBean));
+                        serviceCallback.success(new Result.Success(simpleResponseBean));
                     }
 
-                }else {
-                    serviceCallback.error(new Result.Error(new Throwable(response.code()+" "+response.message())));
+                } else {
+                    serviceCallback.error(new Result.Error(new Throwable(response.code() + " " + response.message())));
                 }
             }
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                AppUtils.getInstance().showLog("FailureFromServer"+t.toString(),MasterDataRepo.class);
+                AppUtils.getInstance().showLog("FailureFromServer" + t.toString(), MasterDataRepo.class);
                 serviceCallback.error(new Result.Error(t));
             }
         });
     }
 
+    public CheckDuplicateRequestBean getCheckDuplicateRequest(String loginId, String stateShortName, String imeiNo
+            , String deviceName, String locationCoordinates, String entryFlag) {
 
+        String memberData = "";
+
+        List<MemberDataToCheckDup> memberDataToCheckDupList = memberEntryDao.getDataToCheckDuplicate(entryFlag, "0");
+        for (MemberDataToCheckDup memberDataToCheckDup : memberDataToCheckDupList) {
+            memberData += memberDataToCheckDup.getShgCode() + "|" + memberDataToCheckDup.getMemberCode() +
+                    "|" + memberDataToCheckDup.getSectorCode() + "|" + memberDataToCheckDup.getActivityCode() + ",";
+        }
+
+        return new CheckDuplicateRequestBean(stateShortName, loginId, imeiNo, deviceName
+                , locationCoordinates, memberData, entryFlag);
+    }
+
+    public SyncEntriesRequestBean getSyncEntriesRequest(String loginId, String stateShortName, String imeiNo
+            , String deviceName, String locationCoordinates, String entryFlag) {
+
+        SyncEntriesRequestBean syncEntriesRequestBean=new SyncEntriesRequestBean();
+        List<SyncEntriesRequestBean.SyncEntry> syncEntryList=new ArrayList<>();
+
+        syncEntriesRequestBean.setLogin_id(loginId);
+        syncEntriesRequestBean.setDevice_name(deviceName);
+        syncEntriesRequestBean.setImei_no(imeiNo);
+        syncEntriesRequestBean.setLocation_coordinate(locationCoordinates);
+        syncEntriesRequestBean.setState_short_name(stateShortName);
+
+        for (ShgAndMemberDataBean shgAndMemberDataBean:memberEntryDao.getDistinctShgAndMemberToSync(entryFlag, "0")){
+            SyncEntriesRequestBean.SyncEntry syncEntry=new SyncEntriesRequestBean.SyncEntry();
+            syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
+            syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
+            List<ActivityDataBean> activityDataBeanList=memberEntryDao.getActivityData(shgAndMemberDataBean.getShgCode()
+                    ,shgAndMemberDataBean.getMemberCode(),entryFlag, "0");
+            List<SyncEntriesRequestBean.ActivityData> activityDataList=new ArrayList<>();
+            for (ActivityDataBean activityDataBean:activityDataBeanList){
+                SyncEntriesRequestBean.ActivityData activityData=new SyncEntriesRequestBean.ActivityData();
+                activityData.setActivity_code(activityDataBean.getActivity_code());
+                activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
+                activityData.setEntry_month(activityDataBean.getEntry_month());
+                activityData.setEntry_year(activityDataBean.getEntry_year());
+                activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
+                activityData.setFrequency_code(activityDataBean.getFrequency_code());
+                activityData.setRange_code(activityDataBean.getRange_code());
+                activityData.setSector_code(activityDataBean.getSector_code());
+                activityDataList.add(activityData);
+            }
+            syncEntry.setActivities_data_sync(activityDataList);
+
+            syncEntryList.add(syncEntry);
+        }
+         return syncEntriesRequestBean;
+    }
 }
+/*{ }*/
