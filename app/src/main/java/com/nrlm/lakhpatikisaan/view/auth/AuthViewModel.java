@@ -33,7 +33,7 @@ public class AuthViewModel extends ViewModel {
        loginRequestBean.setAndroid_version("1.0.0");
        loginRequestBean.setApp_login_time("2021-04-13 16:33:23");
        loginRequestBean.setApp_versions("1.0.0");
-       loginRequestBean.setDate("03-12-2021");
+       loginRequestBean.setDate("05-12-2021");
        loginRequestBean.setDevice_name("OPPO-OP4B79L1-CPH1933");
        loginRequestBean.setImei_no("5d7eaa5ef9d3ebed");
        loginRequestBean.setLocation_coordinate("28.6771787,77.4923927");
@@ -55,7 +55,7 @@ public class AuthViewModel extends ViewModel {
                    AppUtils.getInstance().showLog("loginDataResponseBean"+loginResponseBean.getError().getCode()+"---"+loginResponseBean.getError().getMessage(), AuthViewModel.class);
 
                    if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200")){
-                          LogRequestBean logRequestBean=new LogRequestBean("UPAGASSDAD","UP"
+                          LogRequestBean logRequestBean=new LogRequestBean("UPAGASSDAD","up"
                                    ,"111","111","111");
 
                            masterDataRepo.makeMasterDataRequest(logRequestBean, new RepositoryCallback() {

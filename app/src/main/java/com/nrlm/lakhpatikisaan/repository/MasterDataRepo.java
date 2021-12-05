@@ -180,7 +180,7 @@ public class MasterDataRepo {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                AppUtils.getInstance().showLog("FailureFromServer"+t.toString(),MasterDataRepo.class);
+                AppUtils.getInstance().showLog("SupportiveFailureFromServer"+t.toString(),MasterDataRepo.class);
                 serviceCallback.error(new Result.Error(t));
             }
         });

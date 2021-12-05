@@ -5,26 +5,26 @@ import java.io.Serializable;
 public class LogRequestBean implements Serializable {
 
 
-    private String user_id;
+    private String login_id;
     private String state_short_name;
     private String imei_no;
     private String device_name;
     private String location_coordinate;
 
-    public LogRequestBean(String user_id, String state_short_name, String imei_no, String device_name, String location_coordinate) {
-        this.user_id = user_id;
+    public LogRequestBean(String login_id, String state_short_name, String imei_no, String device_name, String location_coordinate) {
+        this.login_id = login_id;
         this.state_short_name = state_short_name;
         this.imei_no = imei_no;
         this.device_name = device_name;
         this.location_coordinate = location_coordinate;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getLogin_id() {
+        return login_id;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setLogin_id(String login_id) {
+        this.login_id = login_id;
     }
 
     public String getState_short_name() {
