@@ -8,7 +8,7 @@ public class SupportiveMastersResponseBean {
     private Error error;
     private List<Sector> sectors;
     private List<IncomeFrequency> income_frequencies;
-    private ValidationConditions vald_cond;
+
 
     public int getStatus() {
         return status;
@@ -42,56 +42,35 @@ public class SupportiveMastersResponseBean {
         this.income_frequencies = income_frequencies;
     }
 
-    public ValidationConditions getVald_cond() {
-        return vald_cond;
-    }
-
-    public void setVald_cond(ValidationConditions vald_cond) {
-        this.vald_cond = vald_cond;
-    }
-
-    public static class ValidationConditions{
-        private String entries_editable ;
-
-        public String getEntries_editable() {
-            return entries_editable;
-        }
-
-        public void setEntries_editable(String entries_editable) {
-            this.entries_editable = entries_editable;
-        }
-    }
-
-
-    public static class IncomeFrequency{
-        private String frequency_id;
+      public static class IncomeFrequency{
+        private int frequency_id;
         private String frequency_name;
         private List<IncomeRange>income_range;
 
-        public String getFrequency_id() {
-            return frequency_id;
-        }
+          public int getFrequency_id() {
+              return frequency_id;
+          }
 
-        public void setFrequency_id(String frequency_id) {
-            this.frequency_id = frequency_id;
-        }
+          public void setFrequency_id(int frequency_id) {
+              this.frequency_id = frequency_id;
+          }
 
-        public String getFrequency_name() {
-            return frequency_name;
-        }
+          public String getFrequency_name() {
+              return frequency_name;
+          }
 
-        public void setFrequency_name(String frequency_name) {
-            this.frequency_name = frequency_name;
-        }
+          public void setFrequency_name(String frequency_name) {
+              this.frequency_name = frequency_name;
+          }
 
-        public List<IncomeRange> getIncome_range() {
-            return income_range;
-        }
+          public List<IncomeRange> getIncome_range() {
+              return income_range;
+          }
 
-        public void setIncome_range(List<IncomeRange> income_range) {
-            this.income_range = income_range;
-        }
-    }
+          public void setIncome_range(List<IncomeRange> income_range) {
+              this.income_range = income_range;
+          }
+      }
     public static class IncomeRange{
         private String range_id;
         private String range_name;
@@ -116,7 +95,7 @@ public class SupportiveMastersResponseBean {
 
     public static class Sector{
         private String sector_name;
-        private String sector_id;
+        private String sector_code;
         private List<Activity> activities;
 
         public String getSector_name() {
@@ -127,12 +106,12 @@ public class SupportiveMastersResponseBean {
             this.sector_name = sector_name;
         }
 
-        public String getSector_id() {
-            return sector_id;
+        public String getSector_code() {
+            return sector_code;
         }
 
-        public void setSector_id(String sector_id) {
-            this.sector_id = sector_id;
+        public void setSector_code(String sector_code) {
+            this.sector_code = sector_code;
         }
 
         public List<Activity> getActivities() {
@@ -145,10 +124,24 @@ public class SupportiveMastersResponseBean {
     }
 
     public static class Activity{
-        private String activity_id;
+        private String activity_code;
         private String activity_name;
 
+        public String getActivity_code() {
+            return activity_code;
+        }
 
+        public void setActivity_code(String activity_code) {
+            this.activity_code = activity_code;
+        }
+
+        public String getActivity_name() {
+            return activity_name;
+        }
+
+        public void setActivity_name(String activity_name) {
+            this.activity_name = activity_name;
+        }
     }
     public static class Error{
         private String code;

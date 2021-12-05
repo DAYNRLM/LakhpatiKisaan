@@ -112,9 +112,7 @@ public class AuthViewModel extends ViewModel {
 
                                }
                            });
-
                    }
-
 
                }else {
                    Object errorObject=((Result.Error) result).exception ;
