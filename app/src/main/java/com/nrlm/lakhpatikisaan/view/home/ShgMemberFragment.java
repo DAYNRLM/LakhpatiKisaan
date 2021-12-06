@@ -47,11 +47,6 @@ public class ShgMemberFragment  extends BaseFragment<HomeViewModel, FragmentShgM
 
         List<String> str =  new ArrayList<>();
 
-        /*NavDirections navDirections = S.actionDashBoardFragmentToShgMemberFragment();
-        navController.navigate(navDirections);*/
-
-
-
 
         shgMemberAdapter  =  new ShgMemberAdapter(str,getCurrentContext(),navController);
         binding.rvShgMembers.setLayoutManager(new LinearLayoutManager(getCurrentContext()));

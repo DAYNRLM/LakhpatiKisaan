@@ -53,7 +53,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        viewModel. getHomeViewModelRepos(getCurrentContext());
         binding.test.animate().alpha(1f).setDuration(7000).start();
       //  HomeViewModel authViewModel=   new ViewModelProvider(this).get(HomeViewModel.class);
 

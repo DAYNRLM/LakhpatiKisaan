@@ -26,6 +26,8 @@ import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
+import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
+import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.nrlm.lakhpatikisaan.view.home.HomeActivity;
 
@@ -83,10 +85,11 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        progressDialog.dismiss();
-                        String loginApiStatus=authViewModel.loginApiResult();
-                        if (!loginApiStatus.equalsIgnoreCase("")){
 
+                        String loginApiStatus=authViewModel.loginApiResult();
+                        progressDialog.dismiss();
+                        if (!loginApiStatus.equalsIgnoreCase("")){
+                            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginSessionKey(),"logedin",getContext());
                             Intent intent = new Intent(getContext(), HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);

@@ -9,7 +9,10 @@ import android.view.WindowManager;
 
 import com.nrlm.lakhpatikisaan.R;
 
+import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
+import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.auth.AuthActivity;
+import com.nrlm.lakhpatikisaan.view.home.HomeActivity;
 import com.nrlm.lakhpatikisaan.view.mpin.MpinActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -43,8 +46,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void goToNextScreen() {
         String loginStatus ="";
-       // loginStatus = appSharedPreferences.getLoginStatus();
-        loginStatus = "";
+        loginStatus = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginSessionKey(),this);
 
         if(loginStatus.isEmpty()){
             Intent i = new Intent(SplashScreenActivity.this, AuthActivity.class);
@@ -52,7 +54,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }else {
-            Intent i = new Intent(SplashScreenActivity.this, MpinActivity.class);
+            Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
             startActivity(i);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();

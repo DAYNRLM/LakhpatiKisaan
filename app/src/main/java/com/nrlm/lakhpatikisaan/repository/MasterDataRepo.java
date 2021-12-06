@@ -399,6 +399,7 @@ public class MasterDataRepo {
             Callable<List<BlockBean>> listCallable = new Callable<List<BlockBean>>() {
                 @Override
                 public List<BlockBean> call() throws Exception {
+                    AppUtils.getInstance().showLog("masterDataDao.getAllBlock()"+masterDataDao.getAllBlock().size(),MasterDataRepo.class);
                     return masterDataDao.getAllBlock();
                 }
             };
@@ -406,7 +407,7 @@ public class MasterDataRepo {
             masterBlockData = future.get();
 
         }catch (Exception e){
-
+            AppUtils.getInstance().showLog("getAllBlockExp"+e.toString(),MasterDataRepo.class);
         }
         return masterBlockData;
     }
@@ -416,6 +417,7 @@ public class MasterDataRepo {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             incomeName = getAllBlock().stream().map(BlockBean::getBlockName).collect(Collectors.toList());
         }
+        AppUtils.getInstance().showLog("incomeName"+incomeName.size(),MasterDataDao.class);
         return incomeName;
     }
 

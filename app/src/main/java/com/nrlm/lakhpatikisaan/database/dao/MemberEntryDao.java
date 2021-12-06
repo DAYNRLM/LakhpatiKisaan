@@ -22,7 +22,7 @@ public interface MemberEntryDao {
     @Query("select * from MemberEntryEntity")
     List<MemberEntryEntity> getAllData();
 
-    @Query("select * from MemberEntryEntity where MemberEntryEntity.flagBeforeAfterNrlm =:flag")
+    @Query("select * from MemberEntryEntity where MemberEntryEntity.flagBeforeAfterNrlm = :flag")
     List<MemberEntryEntity> getAllDataWithFlag(String flag);
 
     @Query("DELETE FROM MemberEntryEntity")

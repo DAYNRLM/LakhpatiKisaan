@@ -3,6 +3,7 @@ package com.nrlm.lakhpatikisaan.database.dbbean;
 import androidx.room.ColumnInfo;
 
 public class BlockBean {
+
     @ColumnInfo(name = "block_code")
     private String blockCode;
     @ColumnInfo(name = "block_name")
