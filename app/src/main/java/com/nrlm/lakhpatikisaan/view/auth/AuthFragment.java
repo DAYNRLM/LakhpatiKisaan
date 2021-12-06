@@ -1,6 +1,8 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.databinding.FragmentAuthLoginBinding;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
@@ -20,10 +24,16 @@ import com.nrlm.lakhpatikisaan.repository.MasterDataRepo;
 import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.nrlm.lakhpatikisaan.view.home.HomeActivity;
 
+import org.json.JSONException;
+
 public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginBinding> {
+
+    private ProgressDialog progressDialog;
+    private AuthViewModel authViewModel;
 
     @Override
     public Class<AuthViewModel> getViewModel() {
@@ -49,11 +59,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AuthViewModel authViewModel=   new ViewModelProvider(this).get(AuthViewModel.class);
-        authViewModel.makeLoginRequestData(getContext());
-
-
-
+         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         binding.tvForgetPassword.setOnClickListener(v -> {
             NavDirections action = AuthFragmentDirections.actionAuthFragmentToSendOtpFragment();
@@ -61,13 +67,76 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         });
 
         binding.btnLogin.setOnClickListener(v -> {
+            String password = binding.etPassword.getText().toString();
+            String userId = binding.etUserId.getText().toString();
+            if (userId.equalsIgnoreCase("")){
+                binding.etUserId.setError("Invalid user id");
+            }else if(password.equalsIgnoreCase("")) {
+                binding.etPassword.setError("Invalid password");
+            }else {
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage(getString(R.string.loading_heavy));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                authViewModel.makeLoginRequestData(getContext());
+                String loginApiStatus=checkApiStatus();
+                if (!loginApiStatus.equalsIgnoreCase("")){
+                    progressDialog.dismiss();
+                    Intent intent = new Intent(getContext(), HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }else {
+                    try {
+                        progressDialog.dismiss();
+                        showServerError(loginApiStatus);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
-            Intent intent = new Intent(getContext(), HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
         });
     }
+    public  void showServerError(String error_code) throws JSONException {
+        switch (error_code) {
 
+            case "E202":
+                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.invalid_fields)
+                        , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
+                );
 
+                break;
 
+            case "E201":
+                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.error_security_validation)
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, false
+                );
+                break;
+
+            case "E1004":
+                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.error_validation)
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, false
+                );
+                break;
+
+            case "E206":
+                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.error_session_exist)
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, false
+                );
+                break;
+
+            default:
+                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.SERVER_ERROR_TITLE)
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, false
+                );
+        }
+    }
+  public String checkApiStatus(){
+        String loginApiStatus=authViewModel.loginApiResult();
+        if (loginApiStatus.equalsIgnoreCase(""))
+            checkApiStatus();
+        else return loginApiStatus;
+
+     return loginApiStatus ;
+  }
 }

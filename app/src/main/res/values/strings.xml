@@ -35,4 +35,23 @@
     <string name="menu_notification">Notification</string>
     <string name="menu_language">Language</string>
     <string name="menu_info">info</string>
+
+
+    <string name="info">Info</string>
+    <string name="error_code_not_found">Error code not found.</string>
+    <string name="not_getting_data_from_server">Error, while getting data from server.</string>
+    <string name="invalid_fields">Required Files are invalid.</string>
+    <string name="error_security_validation">Security validation failed.</string>
+    <string name="error_validation">Validations are failed.</string>
+    <string name="error_session_exist">Session already exists.</string>
+
+
+    <string name="NO_INTERNET_TITLE">No Internet!</string>
+    <string name="SERVER_ERROR_TITLE">Server Error!</string>
+    <string name="INTERNET_MESSAGE">Please, open your internet connection.</string>
+
+    <string name="server_error_dialog">Server Error!</string>
+    <string name="no_internet_dialog">No Internet!</string>
+
+    <string name="loading_heavy">Loading...</string>
 </resources>

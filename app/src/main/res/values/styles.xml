@@ -8,4 +8,15 @@
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/green_500</item>
+        <item name="colorPrimaryDark">@color/orange_500</item>
+        <item name="colorAccent">@color/blue_gray_50</item>
+    </style>
+
+    <style name="DialogAnimationTheme">
+        <item name="android:windowEnterAnimation">@anim/dialog_style_up</item>
+        <item name="android:windowExitAnimation">@anim/dialog_style_bottem</item>
+    </style>
 </resources>
