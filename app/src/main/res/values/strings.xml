@@ -52,4 +52,6 @@
 
     <string name="server_error_dialog">Server Error!</string>
     <string name="no_internet_dialog">No Internet!</string>
+
+    <string name="loading_heavy">Loading...</string>
 </resources>

@@ -27,7 +27,7 @@ public class AuthViewModel extends ViewModel {
 
     }
 
-    public String makeLoginRequestData(Context context) {
+    public void makeLoginRequestData(Context context) {
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         masterDataRepo = MasterDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         final LoginRequestBean loginRequestBean = new LoginRequestBean();
@@ -43,7 +43,7 @@ public class AuthViewModel extends ViewModel {
         loginRequestBean.setLogin_id("HRKSVISHAKHA");
         loginRequestBean.setPassword("c6024fd19953c32dc6e2b8fe91684a16a889cc8482157f1ec652616517537239");
         makeLogin(loginRequestBean);
-        return loginApiStatus;
+
     }
 
     public void makeLogin(LoginRequestBean loginRequestBean) {
@@ -139,7 +139,7 @@ public class AuthViewModel extends ViewModel {
         });
     }
 
-    public String loginApiResult(String result) {
-        return result;
+    public String loginApiResult() {
+        return loginApiStatus;
     }
 }

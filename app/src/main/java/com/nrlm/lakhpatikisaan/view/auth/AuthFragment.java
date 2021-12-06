@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +32,9 @@ import org.json.JSONException;
 
 public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginBinding> {
 
+    private ProgressDialog progressDialog;
+    private AuthViewModel authViewModel;
+
     @Override
     public Class<AuthViewModel> getViewModel() {
         return AuthViewModel.class;
@@ -55,7 +59,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AuthViewModel authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         binding.tvForgetPassword.setOnClickListener(v -> {
             NavDirections action = AuthFragmentDirections.actionAuthFragmentToSendOtpFragment();
@@ -70,13 +74,20 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             }else if(password.equalsIgnoreCase("")) {
                 binding.etPassword.setError("Invalid password");
             }else {
-                String loginApiStatus=authViewModel.makeLoginRequestData(getContext());
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage(getString(R.string.loading_heavy));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                authViewModel.makeLoginRequestData(getContext());
+                String loginApiStatus=checkApiStatus();
                 if (!loginApiStatus.equalsIgnoreCase("")){
+                    progressDialog.dismiss();
                     Intent intent = new Intent(getContext(), HomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }else {
                     try {
+                        progressDialog.dismiss();
                         showServerError(loginApiStatus);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -120,5 +131,12 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 );
         }
     }
+  public String checkApiStatus(){
+        String loginApiStatus=authViewModel.loginApiResult();
+        if (loginApiStatus.equalsIgnoreCase(""))
+            checkApiStatus();
+        else return loginApiStatus;
 
+     return loginApiStatus ;
+  }
 }
