@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/no_internet_dialoge"
+    android:layout_marginTop="@dimen/space_10dp"
+    android:layout_marginLeft="@dimen/space_10dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_internet_dialog"
+        android:layout_marginLeft="@dimen/space_15dp"
+        android:layout_marginTop="@dimen/space_15dp"
+        android:padding="@dimen/space_5dp"
+        android:textSize="@dimen/space_25dp"
+        android:textColor="@color/cardview_dark_background" />
+
+</LinearLayout>
