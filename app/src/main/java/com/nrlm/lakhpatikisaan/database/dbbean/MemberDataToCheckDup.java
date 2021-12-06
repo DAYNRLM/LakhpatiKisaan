@@ -1,8 +1,16 @@
 package com.nrlm.lakhpatikisaan.database.dbbean;
 
-public class MemberDataToCheckDup {
+import androidx.room.ColumnInfo;
 
-    private String shgCode,memberCode,sectorCode,activityCode;
+public class MemberDataToCheckDup {
+    @ColumnInfo(name = "shgCode")
+    private String shgCode;
+    @ColumnInfo(name = "shgMemberCode")
+    private String memberCode;
+    @ColumnInfo(name = "sectorDate")
+    private String sectorCode;
+    @ColumnInfo(name = "activityCode")
+    private String activityCode;
 
     public MemberDataToCheckDup(String shgCode, String memberCode, String sectorCode, String activityCode) {
         this.shgCode = shgCode;

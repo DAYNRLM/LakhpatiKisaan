@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {MemberEntryEntity.class,
         TempEntryBeforeNrlmEntity.class, LoginInfoEntity.class, MasterDataEntity.class, SectorEntity.class,
         ActivityEntity.class, FrequencyEntity.class, IncomeRangeEntity.class}
-        , version = 1, exportSchema = true)
+        , version = 2, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
 

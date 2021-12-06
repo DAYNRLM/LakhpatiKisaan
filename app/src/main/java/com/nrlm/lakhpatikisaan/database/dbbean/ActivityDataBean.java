@@ -1,8 +1,25 @@
 package com.nrlm.lakhpatikisaan.database.dbbean;
 
+import androidx.room.ColumnInfo;
+
 public class ActivityDataBean {
 
-    private String entry_year,entry_month,created_on_android,activity_code,frequency_code,range_code,sector_code,flag_before_after_nrlm;
+    @ColumnInfo(name = "entryYearCode")
+    private String entry_year;
+    @ColumnInfo(name = "entryMonthCode")
+    private String  entry_month;
+    @ColumnInfo(name = "entryCreatedDate")
+    private String created_on_android;
+    @ColumnInfo(name = "activityCode")
+    private String activity_code;
+    @ColumnInfo(name = "incomeFrequencyCode")
+    private String frequency_code;
+    @ColumnInfo(name = "incomeRangCode")
+    private String range_code;
+    @ColumnInfo(name = "sectorDate")
+    private String sector_code;
+    @ColumnInfo(name = "flagBeforeAfterNrlm")
+    private String flag_before_after_nrlm;
 
     public ActivityDataBean(String entry_year, String entry_month, String created_on_android, String activity_code, String frequency_code, String range_code, String sector_code, String flag_before_after_nrlm) {
         this.entry_year = entry_year;

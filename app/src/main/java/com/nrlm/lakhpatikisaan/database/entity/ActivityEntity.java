@@ -17,6 +17,13 @@ public class ActivityEntity {
         this.activity_code = activity_code;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getActivity_name() {
         return activity_name;

@@ -11,6 +11,14 @@ public class FrequencyEntity {
     private int frequency_id ;
     private String frequency_name;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public FrequencyEntity(int frequency_id, String frequency_name) {
         this.frequency_id = frequency_id;
         this.frequency_name = frequency_name;

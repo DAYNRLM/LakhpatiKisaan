@@ -133,6 +133,13 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
         binding.btnReset.setOnClickListener(view1 -> {
 
         });
+
+    binding.btnSaveEntry.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    });
     }
 
 

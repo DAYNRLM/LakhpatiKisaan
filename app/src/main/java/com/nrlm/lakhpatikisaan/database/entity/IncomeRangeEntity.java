@@ -18,6 +18,14 @@ public class IncomeRangeEntity {
         this.range_name = range_name;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getFrequency_id() {
         return frequency_id;
     }

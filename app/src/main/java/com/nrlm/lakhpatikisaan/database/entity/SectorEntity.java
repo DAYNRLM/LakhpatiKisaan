@@ -17,6 +17,14 @@ public class SectorEntity {
         this.sector_code = sector_code;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getSector_name() {
         return sector_name;
     }

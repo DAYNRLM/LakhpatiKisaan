@@ -1,8 +1,13 @@
 package com.nrlm.lakhpatikisaan.database.dbbean;
 
+import androidx.room.ColumnInfo;
+
 public class ShgAndMemberDataBean {
 
-    private String shgCode,memberCode;
+    @ColumnInfo(name = "shgCode")
+    private String shgCode;
+    @ColumnInfo(name = "shgMemberCode")
+    private String memberCode;
 
     public ShgAndMemberDataBean(String shgCode, String memberCode) {
         this.shgCode = shgCode;

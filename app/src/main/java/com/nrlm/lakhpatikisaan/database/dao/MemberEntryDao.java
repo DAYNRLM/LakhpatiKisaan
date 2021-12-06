@@ -45,14 +45,3 @@ public interface MemberEntryDao {
             " and MemberEntryEntity.flagBeforeAfterNrlm =:entryFlag )) ")
     List<ActivityDataBean> getActivityData(String shgCode, String memberCode,String entryFlag, String syncFlag);
 }
-/*{
-                        "entry_year": "2021",
-                        "entry_month": "12",
-                        "created_on_android": "20/12/2021 00:12:32.786765",
-                        "activity_code": "1",
-                        "frequency_code": "1",
-                        "range_code": "1",
-                        "sector_code": "1",
-                        "flag_before_after_nrlm": "B"
-
-}*/
