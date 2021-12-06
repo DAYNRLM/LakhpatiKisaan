@@ -48,7 +48,7 @@
                         app:boxStrokeColor="@color/out_line_strok">
 
                         <AutoCompleteTextView
-                            android:id="@+id/spinner_assignVehicle"
+                            android:id="@+id/spinner_selectLocationFrom"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusable="false"
@@ -61,6 +61,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/layout_cboLocation"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -143,6 +144,30 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:visibility="gone">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/space_3dp"
+                            android:layout_marginRight="@dimen/space_3dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Select Block"
+                            android:padding="3dp"
+                            app:boxStrokeColor="@color/out_line_strok">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/spinner_selectBlock"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:inputType="none"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"

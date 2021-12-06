@@ -392,6 +392,33 @@ public class MasterDataRepo {
     }
 
 
+    public List<MasterDataEntity> getAllBlock(){
+        List<MasterDataEntity> masterBlockData=null;
+        try {
+            Callable<List<MasterDataEntity>> listCallable = new Callable<List<MasterDataEntity>>() {
+                @Override
+                public List<MasterDataEntity> call() throws Exception {
+                    return masterDataDao.getAllBlock();
+                }
+            };
+            Future<List<MasterDataEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            masterBlockData = future.get();
+
+        }catch (Exception e){
+
+        }
+        return masterBlockData;
+    }
+
+    public List<String> getBlockName(){
+        List<String> incomeName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            incomeName = getAllBlock().stream().map(MasterDataEntity::getBlock_name).collect(Collectors.toList());
+        }
+        return incomeName;
+    }
+
+
 
 
 }

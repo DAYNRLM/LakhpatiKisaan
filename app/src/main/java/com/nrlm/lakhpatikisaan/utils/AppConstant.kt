@@ -6,6 +6,8 @@ class AppConstant {
         const val dummyImei: String = "dummy_123456789"
         const val beforeNrlmStatus: String = "B"
         const val afterNrlmStatus: String = "A"
+        const val geoSelection: String = "gp_village"
+        const val vo_clfSelection: String = "vo_clf"
     }
 }
 

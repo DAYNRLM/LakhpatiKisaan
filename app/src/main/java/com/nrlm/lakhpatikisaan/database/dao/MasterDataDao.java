@@ -5,6 +5,7 @@ import androidx.room.Index;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
@@ -18,4 +19,7 @@ public interface MasterDataDao {
     void insertAll(List<MasterDataEntity> masterDataEntities);
 
 
+    @Query("select DISTINCT MasterDataEntity.block_code ,MasterDataEntity.block_name  from MasterDataEntity ")
+    List<MasterDataEntity> getAllBlock();
 }
+

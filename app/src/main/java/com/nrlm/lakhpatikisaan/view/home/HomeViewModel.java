@@ -17,6 +17,7 @@ import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
+import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
@@ -31,6 +32,7 @@ import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeViewModel extends ViewModel {
@@ -178,6 +180,21 @@ public class HomeViewModel extends ViewModel {
 
     public List<IncomeRangeEntity> getAllIncomeData(int freqId){
         return masterDataRepo.getAllIncome(freqId);
+    }
+
+    public List<String> getLocationFrom(){
+        List<String> location = new ArrayList<>();
+        location.add("Geography");
+        location.add("CBO");
+        return location;
+    }
+
+    public List<String> loadBlockName(){
+        return masterDataRepo.getBlockName();
+    }
+
+    public List<MasterDataEntity> getAllBlockData(){
+        return masterDataRepo.getAllBlock();
     }
 
 }
