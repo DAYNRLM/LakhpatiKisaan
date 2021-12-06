@@ -14,6 +14,6 @@ public interface ActivityDao {
     @Insert
     void insert(ActivityEntity activityEntity);
 
-    @Query("select * from ActivityEntity where ActivityEntity.sector_code =:sectorCode ")
-    List<ActivityEntity> getAllActivity(String sectorCode);
+    @Query("select * from ActivityEntity where ActivityEntity.sector_code =:sectorId ")
+    List<ActivityEntity> getAllActivity(int sectorId);
 }

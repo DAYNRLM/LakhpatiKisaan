@@ -303,17 +303,97 @@ public class MasterDataRepo {
         return sectorData;
     }
 
-
-
     public List<String> getSectorName(){
-
         List<String> sectorName= null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             sectorName = getAllSector().stream().map(SectorEntity::getSector_name).collect(Collectors.toList());
         }
-
         return sectorName;
     }
+
+    public List<ActivityEntity> getAllActivity(int id){
+        List<ActivityEntity> activityData=null;
+        try {
+            Callable<List<ActivityEntity>> listCallable = new Callable<List<ActivityEntity>>() {
+                @Override
+                public List<ActivityEntity> call() throws Exception {
+                    return activityDao.getAllActivity(id);
+                }
+            };
+            Future<List<ActivityEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            activityData = future.get();
+
+        }catch (Exception e){
+
+        }
+        return activityData;
+    }
+
+    public List<String> getActivityName(int id){
+        List<String> activityName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            activityName = getAllActivity(id).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
+        }
+        return activityName;
+    }
+
+
+    public List<FrequencyEntity> getAllFrequency(){
+        List<FrequencyEntity> frequencyData=null;
+        try {
+            Callable<List<FrequencyEntity>> listCallable = new Callable<List<FrequencyEntity>>() {
+                @Override
+                public List<FrequencyEntity> call() throws Exception {
+                    return frequencyDao.getAllFrequency();
+                }
+            };
+            Future<List<FrequencyEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            frequencyData = future.get();
+
+        }catch (Exception e){
+
+        }
+        return frequencyData;
+    }
+
+    public List<String> getFrequencyName(){
+        List<String> frequencyName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            frequencyName = getAllFrequency().stream().map(FrequencyEntity::getFrequency_name).collect(Collectors.toList());
+        }
+        return frequencyName;
+    }
+
+
+    public List<IncomeRangeEntity> getAllIncome(int freqId){
+        List<IncomeRangeEntity> incomeData=null;
+        try {
+            Callable<List<IncomeRangeEntity>> listCallable = new Callable<List<IncomeRangeEntity>>() {
+                @Override
+                public List<IncomeRangeEntity> call() throws Exception {
+                    return incomeRangeDao.getAllIncomeRange(freqId);
+                }
+            };
+            Future<List<IncomeRangeEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            incomeData = future.get();
+
+        }catch (Exception e){
+
+        }
+        return incomeData;
+    }
+
+    public List<String> getIncomeName(int freqId){
+        List<String> incomeName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            incomeName = getAllIncome(freqId).stream().map(IncomeRangeEntity::getRange_name).collect(Collectors.toList());
+        }
+        return incomeName;
+    }
+
+
+
+
 }
 
 /*{
