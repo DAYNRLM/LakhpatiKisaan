@@ -337,6 +337,63 @@ public class MasterDataRepo {
         return activityName;
     }
 
+
+    public List<FrequencyEntity> getAllFrequency(){
+        List<FrequencyEntity> frequencyData=null;
+        try {
+            Callable<List<FrequencyEntity>> listCallable = new Callable<List<FrequencyEntity>>() {
+                @Override
+                public List<FrequencyEntity> call() throws Exception {
+                    return frequencyDao.getAllFrequency();
+                }
+            };
+            Future<List<FrequencyEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            frequencyData = future.get();
+
+        }catch (Exception e){
+
+        }
+        return frequencyData;
+    }
+
+    public List<String> getFrequencyName(){
+        List<String> frequencyName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            frequencyName = getAllFrequency().stream().map(FrequencyEntity::getFrequency_name).collect(Collectors.toList());
+        }
+        return frequencyName;
+    }
+
+
+    public List<IncomeRangeEntity> getAllIncome(int freqId){
+        List<IncomeRangeEntity> incomeData=null;
+        try {
+            Callable<List<IncomeRangeEntity>> listCallable = new Callable<List<IncomeRangeEntity>>() {
+                @Override
+                public List<IncomeRangeEntity> call() throws Exception {
+                    return incomeRangeDao.getAllIncomeRange(freqId);
+                }
+            };
+            Future<List<IncomeRangeEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            incomeData = future.get();
+
+        }catch (Exception e){
+
+        }
+        return incomeData;
+    }
+
+    public List<String> getIncomeName(int freqId){
+        List<String> incomeName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            incomeName = getAllIncome(freqId).stream().map(IncomeRangeEntity::getRange_name).collect(Collectors.toList());
+        }
+        return incomeName;
+    }
+
+
+
+
 }
 
 /*{

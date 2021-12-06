@@ -15,6 +15,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
+import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
+import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
@@ -160,6 +162,22 @@ public class HomeViewModel extends ViewModel {
 
     public List<ActivityEntity> getAllActivityData(int id){
         return masterDataRepo.getAllActivity(id);
+    }
+
+    public List<String> loadFrequencyData(){
+        return masterDataRepo.getFrequencyName();
+    }
+
+    public List<FrequencyEntity> getAllFrequencyData(){
+        return masterDataRepo.getAllFrequency();
+    }
+
+    public List<String> loadIncomeData(int freqId){
+        return masterDataRepo.getIncomeName(freqId);
+    }
+
+    public List<IncomeRangeEntity> getAllIncomeData(int freqId){
+        return masterDataRepo.getAllIncome(freqId);
     }
 
 }

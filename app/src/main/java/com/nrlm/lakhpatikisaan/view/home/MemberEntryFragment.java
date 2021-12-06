@@ -35,6 +35,8 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
     ArrayAdapter<String> sectorAdapter;
     ArrayAdapter<String> activityAdapter;
+    ArrayAdapter<String> frequencyAdapter;
+    ArrayAdapter<String> incomeAdapter;
     int count = 0;
     private HomeViewModel  homeViewModel;
 
@@ -184,6 +186,26 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     }
 
     private void loadFreaquency() {
+
+        frequencyAdapter =new ArrayAdapter<String>(getContext(), R.layout.spinner_text,viewModel.loadFrequencyData());
+        binding.spinnerSelectFrequency.setAdapter(frequencyAdapter);
+        frequencyAdapter.notifyDataSetChanged();
+
+        binding.spinnerSelectFrequency.setOnItemClickListener((adapterView, view, i, l) -> {
+
+            loadIncomeData(viewModel.getAllFrequencyData().get(i).getFrequency_id());
+        });
+    }
+
+    private void loadIncomeData(int frequency_id) {
+        incomeAdapter =new ArrayAdapter<String>(getContext(), R.layout.spinner_text,viewModel.loadIncomeData(frequency_id));
+        binding.spinnerSelectIncome.setAdapter(incomeAdapter);
+        incomeAdapter.notifyDataSetChanged();
+
+        binding.spinnerSelectIncome.setOnItemClickListener((adapterView, view, i, l) -> {
+            int rangId = viewModel.getAllIncomeData(frequency_id).get(i).getFrequency_id();
+        });
+
     }
 
 
