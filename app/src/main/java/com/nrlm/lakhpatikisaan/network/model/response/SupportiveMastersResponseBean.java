@@ -165,34 +165,3 @@ public class SupportiveMastersResponseBean {
     }
 }
 
-
-    /*{
-        "status": 1,
-        "error": {
-                "code": "E200",
-                "message": "Success"
-        },
-
-        "sectors": [{
-                "sector_name": "",
-                "sector_id": "",
-                "activities": [{
-                        "activity_id": "",
-                        "activity_name": ""
-                }]
-        }],
-
-        "income_frequencies": [{
-                "frequency_name": "",
-                "frequency_id": "",
-                "income_range": [{
-                        "range_id": "",
-                        "range_name": ""
-                }]
-        }],
-        "vald_cond": {
-
- "before_nrlm_entry_editable": "0/1",
-"after_nrlm_entry_editable": "0/1"
-        }
-}*/

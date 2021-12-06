@@ -16,6 +16,7 @@ import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.CheckDuplicateResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
@@ -103,35 +104,38 @@ public class HomeViewModel extends ViewModel {
 
     private void makeSyncMemberEntry(String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryFlag) {
-        syncDataRepo.makeSyncEntriesRequest(syncDataRepo.getSyncEntriesRequest(loginId, stateShortName
-                , imeiNo, deviceName, locationCoordinates, entryFlag), new RepositoryCallback() {
-            @Override
-            public void onComplete(Result result) {
-                try {
-                    if (result instanceof Result.Success) {
-                        SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
-                        AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "---" +
-                                simpleResponseBean.getError().getMessage(), HomeViewModel.class);
-                    } else {
-                        Object errorObject = ((Result.Error) result).exception;
-                        if (errorObject != null) {
-                            if (errorObject instanceof SimpleResponseBean.Error) {
-                                SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
-                                AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
-                                        + responseError.getMessage(), AuthViewModel.class);
-                            } else if (errorObject instanceof Throwable) {
-                                Throwable exception = (Throwable) errorObject;
-                                AppUtils.getInstance().showLog("SyncEntriesRetrofitErrors:-------" + exception.getMessage()
-                                        , AuthViewModel.class);
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    AppUtils.getInstance().showLog("SyncEntriesResultExp" + e.toString(), AuthViewModel.class);
+       SyncEntriesRequestBean syncEntriesRequestBean= syncDataRepo.getSyncEntriesRequest(loginId, stateShortName , imeiNo, deviceName, locationCoordinates, entryFlag);
+       if (syncEntriesRequestBean.getNrlm_entry_sync()!=null && syncEntriesRequestBean.getNrlm_entry_sync().size()!=0 ){
+           syncDataRepo.makeSyncEntriesRequest(syncEntriesRequestBean, new RepositoryCallback() {
+               @Override
+               public void onComplete(Result result) {
+                   try {
+                       if (result instanceof Result.Success) {
+                           SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
+                           AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "---" +
+                                   simpleResponseBean.getError().getMessage(), HomeViewModel.class);
+                       } else {
+                           Object errorObject = ((Result.Error) result).exception;
+                           if (errorObject != null) {
+                               if (errorObject instanceof SimpleResponseBean.Error) {
+                                   SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
+                                   AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
+                                           + responseError.getMessage(), AuthViewModel.class);
+                               } else if (errorObject instanceof Throwable) {
+                                   Throwable exception = (Throwable) errorObject;
+                                   AppUtils.getInstance().showLog("SyncEntriesRetrofitErrors:-------" + exception.getMessage()
+                                           , AuthViewModel.class);
+                               }
+                           }
+                       }
+                   } catch (Exception e) {
+                       AppUtils.getInstance().showLog("SyncEntriesResultExp" + e.toString(), AuthViewModel.class);
 
-                }
-            }
-        });
+                   }
+               }
+           });
+       }
+
     }
 
 
