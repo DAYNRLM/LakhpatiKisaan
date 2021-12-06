@@ -8,3 +8,5 @@ class AppConstant {
         const val afterNrlmStatus: String = "A"
     }
 }
+
+//using minimum buil version N because for data base operation using Stream API......

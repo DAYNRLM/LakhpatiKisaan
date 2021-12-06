@@ -1,6 +1,9 @@
 package com.nrlm.lakhpatikisaan.repository;
 
 import android.content.Context;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -27,7 +30,11 @@ import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -272,6 +279,40 @@ public class MasterDataRepo {
                 incomeRangeDao.insert(incomeRangeEntity);
             }
         });
+    }
+
+
+
+    /*********added by lincon***********/
+
+    public List<SectorEntity> getAllSector(){
+        List<SectorEntity> sectorData=null;
+        try {
+            Callable<List<SectorEntity>> listCallable = new Callable<List<SectorEntity>>() {
+                @Override
+                public List<SectorEntity> call() throws Exception {
+                    return sectorDao.getAllSector();
+                }
+            };
+            Future<List<SectorEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            sectorData = future.get();
+
+        }catch (Exception e){
+
+        }
+        return sectorData;
+    }
+
+
+
+    public List<String> getSectorName(){
+
+        List<String> sectorName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            sectorName = getAllSector().stream().map(SectorEntity::getSector_name).collect(Collectors.toList());
+        }
+
+        return sectorName;
     }
 }
 

@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.adaptor.EntryBeforeNrlmFoldAdapter;
 import com.nrlm.lakhpatikisaan.adaptor.ShgMemberAdapter;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
@@ -28,6 +30,8 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
     EntryBeforeNrlmFoldAdapter entryBeforeNrlmFoldAdapter;
     List<String> getList;
+
+    ArrayAdapter<String> sectorAdapter;
     int count = 0;
     @Override
     public Class<HomeViewModel> getViewModel() {
@@ -55,6 +59,8 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
         Calendar today = Calendar.getInstance();
 
         getList = new ArrayList<>();
+        viewModel.getHomeViewModelRepos(getCurrentContext());
+
 
 
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
@@ -102,7 +108,8 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
 
 
-
+        /****** Start add activity btn
+         * user can add multiple activity*****/
         binding.btnAddActivity.setOnClickListener(view1 -> {
             if(count==0){
                 Observer<String> actionObserver = new Observer<String>() {
@@ -112,6 +119,7 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
                         if(s.equalsIgnoreCase("ok")){
                             binding.btnChangeMonthYear.setVisibility(View.GONE);
                             binding.cvSelectActivity.setVisibility(View.VISIBLE);
+                            loadSector();
                         }else {
                             ViewUtilsKt.toast(getCurrentContext(),"Chenage Date First");
 
@@ -129,7 +137,7 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
         });
 
 
-
+        /****** for reset current and all data on this screen*******/
         binding.btnReset.setOnClickListener(view1 -> {
 
         });
@@ -140,6 +148,17 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
         }
     });
+
+    binding.spinnerSelectSector.setOnClickListener(view1 -> {
+
+    });
+
+    }
+
+    private void loadSector() {
+        sectorAdapter =new ArrayAdapter<String>(getContext(), R.layout.spinner_text,viewModel.loadSectorData());
+        binding.spinnerSelectSector.setAdapter(sectorAdapter);
+        sectorAdapter.notifyDataSetChanged();
     }
 
 

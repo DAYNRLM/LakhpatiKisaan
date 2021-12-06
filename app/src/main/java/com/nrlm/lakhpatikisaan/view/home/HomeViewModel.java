@@ -1,9 +1,11 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -24,11 +26,19 @@ import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 
+import java.util.List;
+
 public class HomeViewModel extends ViewModel {
     private MasterDataRepo masterDataRepo;
     private SyncDataRepo syncDataRepo;
 
     public HomeViewModel() {
+    }
+
+
+    public void getHomeViewModelRepos(Context context){
+        masterDataRepo=MasterDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(),context);
+
     }
     // common alert dialog
     public MutableLiveData<String> commonAleartDialog(Context context) {
@@ -124,5 +134,14 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
+
+
+
+    /********* add method by lincon**********/
+
+
+    public List<String> loadSectorData(){
+        return masterDataRepo.getSectorName();
+    }
 
 }
