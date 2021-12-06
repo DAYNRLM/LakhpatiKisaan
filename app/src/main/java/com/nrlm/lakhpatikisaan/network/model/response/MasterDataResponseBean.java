@@ -53,6 +53,8 @@ public class MasterDataResponseBean {
     }
 
     public static class MasterData{
+        private String block_code;
+        private String gp_code;
         private String block_name;
         private String gp_name ;
         private String village_code ;
@@ -69,6 +71,21 @@ public class MasterDataResponseBean {
         private String last_entry_after_nrlm  ;
         private String last_entry_before_nrlm  ;
 
+        public String getBlock_code() {
+            return block_code;
+        }
+
+        public void setBlock_code(String block_code) {
+            this.block_code = block_code;
+        }
+
+        public String getGp_code() {
+            return gp_code;
+        }
+
+        public void setGp_code(String gp_code) {
+            this.gp_code = gp_code;
+        }
 
         public String getBlock_name() {
             return block_name;

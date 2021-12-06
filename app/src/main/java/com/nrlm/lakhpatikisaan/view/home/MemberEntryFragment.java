@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.nrlm.lakhpatikisaan.adaptor.EntryBeforeNrlmFoldAdapter;
@@ -17,6 +18,7 @@ import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
+import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.text.SimpleDateFormat;
@@ -29,6 +31,9 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     EntryBeforeNrlmFoldAdapter entryBeforeNrlmFoldAdapter;
     List<String> getList;
     int count = 0;
+    private HomeViewModel  homeViewModel;
+
+
     @Override
     public Class<HomeViewModel> getViewModel() {
         return HomeViewModel.class;
@@ -52,6 +57,7 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+          homeViewModel=new ViewModelProvider(this).get(HomeViewModel.class);
         Calendar today = Calendar.getInstance();
 
         getList = new ArrayList<>();
@@ -137,7 +143,7 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     binding.btnSaveEntry.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            homeViewModel.checkDuplicateAtServer(getContext(),"UPAGASSDAD","up","111","111","111","B");
         }
     });
     }

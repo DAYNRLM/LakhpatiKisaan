@@ -64,7 +64,7 @@ public class MasterDataRepo {
 
 
 
-    public void makeMasterDataRequest(final LogRequestBean logRequestObject,
+    public synchronized void makeMasterDataRequest(final LogRequestBean logRequestObject,
                                  final RepositoryCallback repositoryCallback){
         executor.execute(new Runnable() {
             @Override
@@ -79,7 +79,7 @@ public class MasterDataRepo {
                                 MasterDataResponseBean masterDataResponseBean= (MasterDataResponseBean) ((Result.Success) successResponse).data;
                                 List<MasterDataEntity> masterDataEntityList=new ArrayList<>();
                                 for (MasterDataResponseBean.MasterData masterData: masterDataResponseBean.getLocation_master()){
-                                    MasterDataEntity masterDataEntity=new MasterDataEntity(masterData.getBlock_name(),masterData.getGp_name(),masterData.getVillage_code(),
+                                    MasterDataEntity masterDataEntity=new MasterDataEntity(masterData.getBlock_name(),masterData.getBlock_code(),masterData.getGp_code(),masterData.getGp_name(),masterData.getVillage_code(),
                                             masterData.getVillage_name(),masterData.getShg_name(),masterData.getShg_code(),masterData.getMember_code(),masterData.getMember_name(),masterData.getClf_code(),
                                             masterData.getClf_name(),masterData.getVo_code(),masterData.getVo_name(),masterData.getMember_joining_date(),
                                             masterData.getLast_entry_after_nrlm(),masterData.getLast_entry_before_nrlm());
@@ -107,7 +107,7 @@ public class MasterDataRepo {
 
 
 
-    public void makeSupportiveMasterDataRequest(final LogRequestBean logRequestObject,
+    public synchronized void makeSupportiveMasterDataRequest(final LogRequestBean logRequestObject,
                                                 final RepositoryCallback repositoryCallback){
         executor.execute(new Runnable() {
             @Override

@@ -2,6 +2,8 @@ package com.nrlm.lakhpatikisaan.repository;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
@@ -21,7 +23,11 @@ import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,7 +62,7 @@ public class SyncDataRepo {
                     @Override
                     public void success(Result<Result> successResponse) {
 
-                       repositoryCallback.onComplete(successResponse);
+                        repositoryCallback.onComplete(successResponse);
                     }
 
                     @Override
@@ -157,26 +163,67 @@ public class SyncDataRepo {
         });
     }
 
+    public List<MemberDataToCheckDup> getDataToCheckDuplicate(String entryFlag) throws ExecutionException, InterruptedException {
+
+        Callable<List<MemberDataToCheckDup>> callable = new Callable<List<MemberDataToCheckDup>>() {
+            @Override
+            public List<MemberDataToCheckDup> call() throws Exception {
+                return memberEntryDao.getDataToCheckDuplicate(entryFlag, "0");
+            }
+        };
+        Future<List<MemberDataToCheckDup>> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+
+    }
+
+
+    public List<ShgAndMemberDataBean> getDistinctShgAndMemberToSync(String entryFlag) throws ExecutionException, InterruptedException {
+
+        Callable<List<ShgAndMemberDataBean>> callable = new Callable<List<ShgAndMemberDataBean>>() {
+            @Override
+            public List<ShgAndMemberDataBean> call() throws Exception {
+                return memberEntryDao.getDistinctShgAndMemberToSync(entryFlag, "0");
+            }
+        };
+        Future<List<ShgAndMemberDataBean>> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+
+    }
+
+    public List<ActivityDataBean> getActivityData (String shgCode, String memberCode, String entryFlag) throws ExecutionException, InterruptedException {
+
+        Callable<List<ActivityDataBean>> callable = new Callable<List<ActivityDataBean>>() {
+            @Override
+            public List<ActivityDataBean> call() throws Exception {
+                return memberEntryDao.getActivityData(shgCode,memberCode, entryFlag, "0");
+            }
+        };
+        Future<List<ActivityDataBean>> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+
+    }
+
     public CheckDuplicateRequestBean getCheckDuplicateRequest(String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryFlag) {
-
         String memberData = "";
-
-        List<MemberDataToCheckDup> memberDataToCheckDupList = memberEntryDao.getDataToCheckDuplicate(entryFlag, "0");
-        for (MemberDataToCheckDup memberDataToCheckDup : memberDataToCheckDupList) {
-            memberData += memberDataToCheckDup.getShgCode() + "|" + memberDataToCheckDup.getMemberCode() +
-                    "|" + memberDataToCheckDup.getSectorCode() + "|" + memberDataToCheckDup.getActivityCode() + ",";
+        try {
+            List<MemberDataToCheckDup> memberDataToCheckDupList = getDataToCheckDuplicate(entryFlag);
+            for (MemberDataToCheckDup memberDataToCheckDup : memberDataToCheckDupList) {
+                memberData += memberDataToCheckDup.getShgCode() + "|" + memberDataToCheckDup.getMemberCode() +
+                        "|" + memberDataToCheckDup.getSectorCode() + "|" + memberDataToCheckDup.getActivityCode() + ",";
+            }
+        } catch (Exception e) {
+                AppUtils.getInstance().showLog("Exception while getting duplicate data from db ::"+e,SyncDataRepo.class);
         }
-
         return new CheckDuplicateRequestBean(stateShortName, loginId, imeiNo, deviceName
                 , locationCoordinates, memberData, entryFlag);
     }
 
     public SyncEntriesRequestBean getSyncEntriesRequest(String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryFlag) {
-
-        SyncEntriesRequestBean syncEntriesRequestBean=new SyncEntriesRequestBean();
-        List<SyncEntriesRequestBean.SyncEntry> syncEntryList=new ArrayList<>();
+        SyncEntriesRequestBean syncEntriesRequestBean = new SyncEntriesRequestBean();
+        try {
+        List<SyncEntriesRequestBean.SyncEntry> syncEntryList = new ArrayList<>();
 
         syncEntriesRequestBean.setLogin_id(loginId);
         syncEntriesRequestBean.setDevice_name(deviceName);
@@ -184,15 +231,14 @@ public class SyncDataRepo {
         syncEntriesRequestBean.setLocation_coordinate(locationCoordinates);
         syncEntriesRequestBean.setState_short_name(stateShortName);
 
-        for (ShgAndMemberDataBean shgAndMemberDataBean:memberEntryDao.getDistinctShgAndMemberToSync(entryFlag, "0")){
-            SyncEntriesRequestBean.SyncEntry syncEntry=new SyncEntriesRequestBean.SyncEntry();
+        for (ShgAndMemberDataBean shgAndMemberDataBean : getDistinctShgAndMemberToSync(entryFlag)) {
+            SyncEntriesRequestBean.SyncEntry syncEntry = new SyncEntriesRequestBean.SyncEntry();
             syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
             syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
-            List<ActivityDataBean> activityDataBeanList=memberEntryDao.getActivityData(shgAndMemberDataBean.getShgCode()
-                    ,shgAndMemberDataBean.getMemberCode(),entryFlag, "0");
-            List<SyncEntriesRequestBean.ActivityData> activityDataList=new ArrayList<>();
-            for (ActivityDataBean activityDataBean:activityDataBeanList){
-                SyncEntriesRequestBean.ActivityData activityData=new SyncEntriesRequestBean.ActivityData();
+            List<ActivityDataBean> activityDataBeanList = getActivityData(shgAndMemberDataBean.getShgCode(),shgAndMemberDataBean.getMemberCode(),entryFlag);
+            List<SyncEntriesRequestBean.ActivityData> activityDataList = new ArrayList<>();
+            for (ActivityDataBean activityDataBean : activityDataBeanList) {
+                SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
                 activityData.setActivity_code(activityDataBean.getActivity_code());
                 activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
                 activityData.setEntry_month(activityDataBean.getEntry_month());
@@ -207,7 +253,12 @@ public class SyncDataRepo {
 
             syncEntryList.add(syncEntry);
         }
-         return syncEntriesRequestBean;
+        }catch (Exception e){
+            AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync"+e,SyncDataRepo.class);
+        }
+        return syncEntriesRequestBean;
     }
+
+
 }
 /*{ }*/

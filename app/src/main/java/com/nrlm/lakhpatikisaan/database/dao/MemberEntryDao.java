@@ -1,6 +1,7 @@
 package com.nrlm.lakhpatikisaan.database.dao;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -32,7 +33,7 @@ public interface MemberEntryDao {
 
     @Query("select shgCode,shgMemberCode,sectorDate,activityCode  from MemberEntryEntity " +
             "where MemberEntryEntity.flagBeforeAfterNrlm =:entryFlag and MemberEntryEntity.flagSyncStatus=:syncFlag")
-    List<MemberDataToCheckDup> getDataToCheckDuplicate(String entryFlag, String syncFlag);
+   List<MemberDataToCheckDup> getDataToCheckDuplicate(String entryFlag, String syncFlag);
 
     @Query("select distinct shgCode,shgMemberCode from MemberEntryEntity " +
             "where MemberEntryEntity.flagBeforeAfterNrlm =:entryFlag and MemberEntryEntity.flagSyncStatus=:syncFlag ")
