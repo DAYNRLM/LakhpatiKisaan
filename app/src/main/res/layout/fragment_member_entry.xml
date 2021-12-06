@@ -301,7 +301,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/cv_selectActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -155,7 +155,7 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
         }
     });
 
-    binding.spinnerSelectSector.setOnClickListener(view1 -> {
+    binding.spinnerSelectSector.setOnItemClickListener((adapterView, view1, i, l) -> {
 
     });
 
