@@ -14,6 +14,8 @@ import androidx.navigation.NavDirections;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
+import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
+import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
@@ -146,6 +148,18 @@ public class HomeViewModel extends ViewModel {
 
     public List<String> loadSectorData(){
         return masterDataRepo.getSectorName();
+    }
+
+    public List<SectorEntity> getAllSectorData(){
+        return masterDataRepo.getAllSector();
+    }
+
+    public List<String> loadActivityData(int id){
+        return masterDataRepo.getActivityName(id);
+    }
+
+    public List<ActivityEntity> getAllActivityData(int id){
+        return masterDataRepo.getAllActivity(id);
     }
 
 }
