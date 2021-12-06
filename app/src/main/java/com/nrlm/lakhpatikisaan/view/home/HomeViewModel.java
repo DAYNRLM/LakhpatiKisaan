@@ -1,30 +1,22 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
 import android.content.Context;
-import android.os.Build;
-import android.view.View;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
-import androidx.navigation.NavDirections;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
-import com.nrlm.lakhpatikisaan.database.AppDatabase;
-import com.nrlm.lakhpatikisaan.database.dbbean.BlockBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
-import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.Result;
-import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.CheckDuplicateResponseBean;
-import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
 import com.nrlm.lakhpatikisaan.repository.MasterDataRepo;
 import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
@@ -35,6 +27,7 @@ import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class HomeViewModel extends ViewModel {
     private MasterDataRepo masterDataRepo;
@@ -194,8 +187,19 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getBlockName();
     }
 
-    public List<BlockBean> getAllBlockData(){
+    public List<BlockDataBean> getAllBlockData(){
         return masterDataRepo.getAllBlock();
     }
+
+
+    public List<MemberListDataBean> memberListMasterData(String shgCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.memberListMasterData(shgCode);
+    }
+
+    public List<GpDataBean> getGpListData(String blockCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getGpListData(blockCode);
+    }
+
+
 
 }

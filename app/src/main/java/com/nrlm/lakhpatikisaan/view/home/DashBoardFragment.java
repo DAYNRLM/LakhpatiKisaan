@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 
 import com.nrlm.lakhpatikisaan.R;
+import com.nrlm.lakhpatikisaan.adaptor.GpDataAdaptor;
+import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
 import com.nrlm.lakhpatikisaan.databinding.FragmentDashboardBinding;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
@@ -23,6 +26,9 @@ import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
+
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashboardBinding> {
     ArrayAdapter<String> locationFromAdapter;
@@ -91,8 +97,39 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         blockAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectBlock.setOnItemClickListener((adapterView, view, i, l) -> {
-            String str = viewModel.getAllBlockData().get(i).getBlockCode();
+            String blockCode = viewModel.getAllBlockData().get(i).getBlockCode();
+
+            try {
+                List<GpDataBean> gpDataBeanList= viewModel.getGpListData(blockCode);
+
+                GpDataAdaptor gpDataAdaptor=new GpDataAdaptor(getCurrentContext(),gpDataBeanList);
+                binding.spinnerSelectGp.setAdapter(gpDataAdaptor);
+                gpDataAdaptor.notifyDataSetChanged();
+                binding.spinnerSelectGp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String gpCode = ((GpDataBean) parent.getItemAtPosition(position)).getGpCode();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
         });
 
     }
+
+
+
 }

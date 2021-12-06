@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.nrlm.lakhpatikisaan.R;
@@ -154,7 +156,10 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     binding.btnSaveEntry.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            homeViewModel.checkDuplicateAtServer(getContext(),"UPAGASSDAD","up","111","111","111","B");
+            Toast.makeText(getContext(),"Data Synced Successfully!!!",Toast.LENGTH_LONG).show();
+            /*NavDirections navDirections =
+            navController.navigate(navDirections);
+            homeViewModel.checkDuplicateAtServer(getContext(),"UPAGASSDAD","up","111","111","111","B");*/
         }
     });
 

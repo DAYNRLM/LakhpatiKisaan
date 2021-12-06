@@ -3,8 +3,6 @@ package com.nrlm.lakhpatikisaan.repository;
 import android.content.Context;
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
@@ -13,7 +11,9 @@ import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
 import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
-import com.nrlm.lakhpatikisaan.database.dbbean.BlockBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
@@ -24,7 +24,6 @@ import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.network.client.ServiceCallback;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
-import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SupportiveMastersResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
@@ -32,6 +31,7 @@ import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -282,6 +282,32 @@ public class MasterDataRepo {
         });
     }
 
+    public List<MemberListDataBean> memberListMasterData(String shgCode) throws ExecutionException, InterruptedException {
+
+            Callable<List<MemberListDataBean>> listCallable = new Callable<List<MemberListDataBean>>() {
+                @Override
+                public List<MemberListDataBean> call() throws Exception {
+                    AppUtils.getInstance().showLog("memberListMasterData"+masterDataDao.getMemberListData(shgCode).size(),MasterDataRepo.class);
+                    return masterDataDao.getMemberListData(shgCode);
+                }
+            };
+            Future<List<MemberListDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            return future.get();
+    }
+
+
+    public List<GpDataBean> getGpListData(String blockCode) throws ExecutionException, InterruptedException {
+
+        Callable<List<GpDataBean>> listCallable = new Callable<List<GpDataBean>>() {
+            @Override
+            public List<GpDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getGpListData"+masterDataDao.getGpListData(blockCode).size(),MasterDataRepo.class);
+                return masterDataDao.getGpListData(blockCode);
+            }
+        };
+        Future<List<GpDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
 
 
     /*********added by lincon***********/
@@ -393,17 +419,17 @@ public class MasterDataRepo {
     }
 
 
-    public List<BlockBean> getAllBlock(){
-        List<BlockBean> masterBlockData=null;
+    public List<BlockDataBean> getAllBlock(){
+        List<BlockDataBean> masterBlockData=null;
         try {
-            Callable<List<BlockBean>> listCallable = new Callable<List<BlockBean>>() {
+            Callable<List<BlockDataBean>> listCallable = new Callable<List<BlockDataBean>>() {
                 @Override
-                public List<BlockBean> call() throws Exception {
+                public List<BlockDataBean> call() throws Exception {
                     AppUtils.getInstance().showLog("masterDataDao.getAllBlock()"+masterDataDao.getAllBlock().size(),MasterDataRepo.class);
                     return masterDataDao.getAllBlock();
                 }
             };
-            Future<List<BlockBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            Future<List<BlockDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
             masterBlockData = future.get();
 
         }catch (Exception e){
@@ -415,7 +441,7 @@ public class MasterDataRepo {
     public List<String> getBlockName(){
         List<String> incomeName= null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            incomeName = getAllBlock().stream().map(BlockBean::getBlockName).collect(Collectors.toList());
+            incomeName = getAllBlock().stream().map(BlockDataBean::getBlockName).collect(Collectors.toList());
         }
         AppUtils.getInstance().showLog("incomeName"+incomeName.size(),MasterDataDao.class);
         return incomeName;

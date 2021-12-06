@@ -30,7 +30,11 @@
         android:id="@+id/memberEntryFragment"
         android:name="com.nrlm.lakhpatikisaan.view.home.MemberEntryFragment"
         android:label="Income Entry"
-        tools:layout="@layout/fragment_member_entry" />
+        tools:layout="@layout/fragment_member_entry" >
+        <action
+            android:id="@+id/action_memberEntryFragment_to_shgMemberFragment"
+            app:destination="@id/shgMemberFragment" />
+    </fragment>
     <fragment
         android:id="@+id/incomeEntryAfterNrlmFragment"
         android:name="com.nrlm.lakhpatikisaan.view.home.IncomeEntryAfterNrlmFragment"

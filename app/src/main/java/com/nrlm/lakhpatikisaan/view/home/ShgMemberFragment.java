@@ -8,16 +8,20 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatViewInflater;
 import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.nrlm.lakhpatikisaan.adaptor.ShgMemberAdapter;
+import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.databinding.FragmentDashboardBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ShgMemberFragment  extends BaseFragment<HomeViewModel, FragmentShgMemberBinding> {
     ShgMemberAdapter shgMemberAdapter;
@@ -44,14 +48,23 @@ public class ShgMemberFragment  extends BaseFragment<HomeViewModel, FragmentShgM
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        viewModel.getHomeViewModelRepos(getContext());
+        try {
+            List<MemberListDataBean> memberListMasterData= viewModel.memberListMasterData("322249");
+            AppUtils.getInstance().showLog("memberListMasterData"+memberListMasterData.size(),ShgMemberFragment.class);
+            shgMemberAdapter  =  new ShgMemberAdapter(memberListMasterData,getCurrentContext(),navController);
+            binding.rvShgMembers.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
+            binding.rvShgMembers.setAdapter(shgMemberAdapter);
+            shgMemberAdapter.notifyDataSetChanged();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         List<String> str =  new ArrayList<>();
 
 
-        shgMemberAdapter  =  new ShgMemberAdapter(str,getCurrentContext(),navController);
-        binding.rvShgMembers.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
-        binding.rvShgMembers.setAdapter(shgMemberAdapter);
-        shgMemberAdapter.notifyDataSetChanged();
+
 
     }
 }

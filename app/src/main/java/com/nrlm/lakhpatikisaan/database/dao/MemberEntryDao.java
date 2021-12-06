@@ -8,6 +8,7 @@ import androidx.room.Query;
 
 import com.nrlm.lakhpatikisaan.database.dbbean.ActivityDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberDataToCheckDup;
+import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgAndMemberDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 
@@ -45,4 +46,6 @@ public interface MemberEntryDao {
             "and (MemberEntryEntity.shgCode=:shgCode and (MemberEntryEntity.shgMemberCode=:memberCode" +
             " and MemberEntryEntity.flagBeforeAfterNrlm =:entryFlag )) ")
     List<ActivityDataBean> getActivityData(String shgCode, String memberCode,String entryFlag, String syncFlag);
+
+
 }

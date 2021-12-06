@@ -54,4 +54,5 @@
     <string name="no_internet_dialog">No Internet!</string>
 
     <string name="loading_heavy">Loading...</string>
+    <string name="not_filled">Not Filled</string>
 </resources>
