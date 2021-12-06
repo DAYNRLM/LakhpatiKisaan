@@ -14,6 +14,7 @@ import androidx.navigation.NavDirections;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
+import com.nrlm.lakhpatikisaan.database.dbbean.BlockBean;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
@@ -193,7 +194,7 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getBlockName();
     }
 
-    public List<MasterDataEntity> getAllBlockData(){
+    public List<BlockBean> getAllBlockData(){
         return masterDataRepo.getAllBlock();
     }
 

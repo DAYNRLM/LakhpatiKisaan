@@ -91,7 +91,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         blockAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectBlock.setOnItemClickListener((adapterView, view, i, l) -> {
-            String str = viewModel.getAllBlockData().get(i).getBlock_code();
+            String str = viewModel.getAllBlockData().get(i).getBlockCode();
         });
 
     }

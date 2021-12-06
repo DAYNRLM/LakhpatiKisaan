@@ -39,6 +39,9 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        String mobileNumber=binding.etMobileNumber.getText().toString();
+
+
         binding.btnSendOtp.setOnClickListener(v -> {
             NavDirections action = SendOtpFragmentDirections.actionSendOtpFragmentToForgetPasswordFragment();
             navController.navigate(action);

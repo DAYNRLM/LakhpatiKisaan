@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,20 +80,27 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 authViewModel.makeLoginRequestData(getContext());
-                String loginApiStatus=checkApiStatus();
-                if (!loginApiStatus.equalsIgnoreCase("")){
-                    progressDialog.dismiss();
-                    Intent intent = new Intent(getContext(), HomeActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }else {
-                    try {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
                         progressDialog.dismiss();
-                        showServerError(loginApiStatus);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        String loginApiStatus=authViewModel.loginApiResult();
+                        if (!loginApiStatus.equalsIgnoreCase("")){
+
+                            Intent intent = new Intent(getContext(), HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }else {
+                            try {
+
+                                showServerError(loginApiStatus);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
-                }
+                },2000);
+
             }
 
         });
@@ -131,12 +139,5 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 );
         }
     }
-  public String checkApiStatus(){
-        String loginApiStatus=authViewModel.loginApiResult();
-        if (loginApiStatus.equalsIgnoreCase(""))
-            checkApiStatus();
-        else return loginApiStatus;
 
-     return loginApiStatus ;
-  }
 }

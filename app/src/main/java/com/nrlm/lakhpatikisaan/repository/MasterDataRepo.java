@@ -13,6 +13,7 @@ import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
 import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
+import com.nrlm.lakhpatikisaan.database.dbbean.BlockBean;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
@@ -392,16 +393,16 @@ public class MasterDataRepo {
     }
 
 
-    public List<MasterDataEntity> getAllBlock(){
-        List<MasterDataEntity> masterBlockData=null;
+    public List<BlockBean> getAllBlock(){
+        List<BlockBean> masterBlockData=null;
         try {
-            Callable<List<MasterDataEntity>> listCallable = new Callable<List<MasterDataEntity>>() {
+            Callable<List<BlockBean>> listCallable = new Callable<List<BlockBean>>() {
                 @Override
-                public List<MasterDataEntity> call() throws Exception {
+                public List<BlockBean> call() throws Exception {
                     return masterDataDao.getAllBlock();
                 }
             };
-            Future<List<MasterDataEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            Future<List<BlockBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
             masterBlockData = future.get();
 
         }catch (Exception e){
@@ -413,7 +414,7 @@ public class MasterDataRepo {
     public List<String> getBlockName(){
         List<String> incomeName= null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            incomeName = getAllBlock().stream().map(MasterDataEntity::getBlock_name).collect(Collectors.toList());
+            incomeName = getAllBlock().stream().map(BlockBean::getBlockName).collect(Collectors.toList());
         }
         return incomeName;
     }
