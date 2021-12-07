@@ -18,7 +18,7 @@ import java.util.List;
 public interface MemberEntryDao {
 
     @Insert
-    void insertAll(MemberEntryEntity memberEntryEntity);
+    void insertAll(List<MemberEntryEntity> memberEntryEntity);
 
     @Query("select * from MemberEntryEntity")
     List<MemberEntryEntity> getAllData();

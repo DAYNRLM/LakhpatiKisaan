@@ -11,7 +11,7 @@ import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
 import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
-import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao_Impl;
+
 import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
@@ -67,6 +67,7 @@ public class MasterDataRepo {
         activityDao=appDatabase.getActivityDao();
         frequencyDao=appDatabase.getFrequencyDao();
         incomeRangeDao=appDatabase.getIncomeRangeDao();
+        memberEntryDao=appDatabase.memberEntryDao();
     }
 
     public static MasterDataRepo getInstance(ExecutorService executor,Context context){
@@ -484,17 +485,13 @@ public class MasterDataRepo {
 
 
     public void insertBeforeNrlmEntry(List<MemberEntryEntity> memberEntryDataItem){
-        for(MemberEntryEntity entryObject :memberEntryDataItem){
-            AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    memberEntryDao.insertAll(entryObject);
-                }
-            });
-        }
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                memberEntryDao.insertAll(memberEntryDataItem);
+            }
+        });
     }
-
-
 
 
 }

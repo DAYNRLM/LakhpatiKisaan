@@ -69,9 +69,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
         holder.itemBinding.tvGoToEntry.setOnClickListener(view -> {
             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedMemberCode(),dataItem.get(position).getMemberCode(),context);
-            NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToMemberEntryFragment();
-            navController.navigate(navDirections);
-
             new MaterialAlertDialogBuilder(context).setTitle("Income Selection").setIcon(R.drawable.ic_baseline_add_circle_outline_24)
                     .setItems(AppConstant.ConstantObject.getItems(), new DialogInterface.OnClickListener() {
                         @Override
@@ -79,7 +76,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                             String arr[] =  AppConstant.ConstantObject.getItems();
                             String str = arr[i];
                             if(str.equalsIgnoreCase("Income (Before coming into NRLM Fold)")){
-
                                 NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToMemberEntryFragment();
                                 navController.navigate(navDirections);
 
