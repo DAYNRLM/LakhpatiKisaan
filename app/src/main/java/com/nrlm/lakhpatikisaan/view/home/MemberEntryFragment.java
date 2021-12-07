@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMemberEntryBinding> {
+public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMemberEntryBinding> {
 
     EntryBeforeNrlmFoldAdapter entryBeforeNrlmFoldAdapter;
     List<MemberEntryEntity> memberEntryDataItem;
@@ -59,10 +59,11 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     String incomeFrequencyName;
     String incomeRangName;
     String monthName;
+    String seccNumber;
 
 
     int count = 0;
-    private HomeViewModel  homeViewModel;
+    private HomeViewModel homeViewModel;
 
 
     @Override
@@ -88,29 +89,33 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        homeViewModel=new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         Calendar today = Calendar.getInstance();
 
         memberEntryDataItem = new ArrayList<>();
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
 
-
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
-            loadEntryList();
-            count++;
 
-            entryBeforeNrlmFoldAdapter  =  new EntryBeforeNrlmFoldAdapter(memberEntryDataItem,getCurrentContext());
-            binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
-            binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
-            entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
+            if(isDataValidate()){
+                loadEntryList();
+                count++;
+
+                entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext());
+                binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
+                binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
+                entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
 
 
-            binding.cvRecyclerview.setVisibility(View.VISIBLE);
-            binding.cvSelectActivity.setVisibility(View.GONE);
-            binding.btnAddActivity.setText("Add Another Activity");
-            binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
-            binding.tvTotalActivityCount.setText("Total Activities is :" +count);
+                binding.cvRecyclerview.setVisibility(View.VISIBLE);
+                binding.cvSelectActivity.setVisibility(View.GONE);
+                binding.btnAddActivity.setText("Add Another Activity");
+                binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
+                binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+
+                resetFunction(1);
+            }
         });
 
         binding.btnMonthYear.setOnClickListener(view1 -> {
@@ -120,13 +125,13 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
                     SimpleDateFormat month_date = new SimpleDateFormat("MMM");
 
-                    today.set(Calendar.MONTH,selectedMonth);
+                    today.set(Calendar.MONTH, selectedMonth);
 
                     String month_name = month_date.format(today.getTime());
 
 
                     binding.tvMonth.setText(month_name);
-                    binding.tvYear.setText(""+selectedYear);
+                    binding.tvYear.setText("" + selectedYear);
 
                     binding.cvSelectMonthYear.setVisibility(View.GONE);
                     binding.cvChangeMonthYear.setVisibility(View.VISIBLE);
@@ -148,22 +153,20 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
         });
 
 
-
-
         /****** Start add activity btn
          * user can add multiple activity*****/
         binding.btnAddActivity.setOnClickListener(view1 -> {
-            if(count==0){
+            if (count == 0) {
                 Observer<String> actionObserver = new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
 
-                        if(s.equalsIgnoreCase("ok")){
+                        if (s.equalsIgnoreCase("ok")) {
                             binding.btnChangeMonthYear.setVisibility(View.GONE);
                             binding.cvSelectActivity.setVisibility(View.VISIBLE);
                             loadSector();
-                        }else {
-                            ViewUtilsKt.toast(getCurrentContext(),"Chenage Date First");
+                        } else {
+                            ViewUtilsKt.toast(getCurrentContext(), "Chenage Date First");
 
                         }
 
@@ -172,10 +175,9 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
                 viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
 
-            }else {
+            } else {
                 binding.cvSelectActivity.setVisibility(View.VISIBLE);
             }
-
         });
 
 
@@ -184,24 +186,25 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
         });
 
-    binding.btnSaveEntry.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getContext(),"Data Synced Successfully!!!",Toast.LENGTH_LONG).show();
-            viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
+        binding.btnSaveEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
 
-            NavDirections navDirections =  MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
-            navController.navigate(navDirections);
+                NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
+                navController.navigate(navDirections);
 
-        }
-    });
+            }
+        });
 
-    binding.spinnerSelectSector.setOnItemClickListener((adapterView, view1, i, l) -> {
-        sectorDate = String.valueOf(viewModel.getAllSectorData().get(i).getSector_code());
-        sectorName = viewModel.loadSectorData().get(i);
-        loadActivityData(viewModel.getAllSectorData().get(i).getSector_code());
+        binding.spinnerSelectSector.setOnItemClickListener((adapterView, view1, i, l) -> {
+            sectorDate = String.valueOf(viewModel.getAllSectorData().get(i).getSector_code());
+            sectorName = viewModel.loadSectorData().get(i);
+            resetFunction(2);
+            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code());
 
-    });
+        });
 
 
     }
@@ -209,23 +212,25 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     private void loadEntryList() {
 
         MemberEntryEntity memberEntryEntity = new MemberEntryEntity();
-        memberEntryEntity.shgCode="";
-        memberEntryEntity.shgMemberCode="";
-        memberEntryEntity.entryYearCode=entryYearCode;
-        memberEntryEntity.entryMonthCode=entryMonthCode;
-        memberEntryEntity.entryCreatedDate=appDateFactory.getTimeStamp();
-        memberEntryEntity.sectorDate=sectorDate;
-        memberEntryEntity.activityCode=activityCode;
-        memberEntryEntity.incomeFrequencyCode=incomeFrequencyCode;
-        memberEntryEntity.incomeRangCode=incomeRangCode;
-        memberEntryEntity.flagBeforeAfterNrlm=flagBeforeAfterNrlm;
-        memberEntryEntity.flagSyncStatus= AppConstant.beforeNrlmStatus;
+        memberEntryEntity.shgCode = "";
+        memberEntryEntity.shgMemberCode = "";
+        memberEntryEntity.entryYearCode = entryYearCode;
+        memberEntryEntity.entryMonthCode = entryMonthCode;
+        memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
+        memberEntryEntity.sectorDate = sectorDate;
+        memberEntryEntity.activityCode = activityCode;
+        memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
+        memberEntryEntity.incomeRangCode = incomeRangCode;
+        memberEntryEntity.flagBeforeAfterNrlm = flagBeforeAfterNrlm;
+        memberEntryEntity.flagSyncStatus = AppConstant.beforeNrlmStatus;
 
-        memberEntryEntity.sectorName=sectorName;
-        memberEntryEntity.activityName=activityName;
-        memberEntryEntity.incomeFrequencyName=incomeFrequencyName;
-        memberEntryEntity.incomeRangName=incomeRangName;
-        memberEntryEntity.monthName=monthName;
+        memberEntryEntity.sectorName = sectorName;
+        memberEntryEntity.activityName = activityName;
+        memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
+        memberEntryEntity.incomeRangName = incomeRangName;
+        memberEntryEntity.monthName = monthName;
+
+        memberEntryEntity.seccNumber = binding.etSeccNumber.getText().toString();
 
         memberEntryDataItem.add(memberEntryEntity);
 
@@ -233,26 +238,27 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
 
     private void loadActivityData(int id) {
-        activityAdapter =new ArrayAdapter<String>(getContext(), R.layout.spinner_text,viewModel.loadActivityData(id));
+        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadActivityData(id));
         binding.spinnerSelectActivity.setAdapter(activityAdapter);
         activityAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
             activityCode = String.valueOf(viewModel.getAllActivityData(id).get(i).getActivity_code());
             activityName = viewModel.loadActivityData(id).get(i);
+            resetFunction(3);
             loadFreaquency();
         });
     }
 
     private void loadSector() {
-        sectorAdapter =new ArrayAdapter<String>(getContext(), R.layout.spinner_text,viewModel.loadSectorData());
+        sectorAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadSectorData());
         binding.spinnerSelectSector.setAdapter(sectorAdapter);
         sectorAdapter.notifyDataSetChanged();
     }
 
     private void loadFreaquency() {
 
-        frequencyAdapter =new ArrayAdapter<String>(getContext(), R.layout.spinner_text,viewModel.loadFrequencyData());
+        frequencyAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadFrequencyData());
         binding.spinnerSelectFrequency.setAdapter(frequencyAdapter);
         frequencyAdapter.notifyDataSetChanged();
 
@@ -264,7 +270,7 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     }
 
     private void loadIncomeData(int frequency_id) {
-        incomeAdapter =new ArrayAdapter<String>(getContext(), R.layout.spinner_text,viewModel.loadIncomeData(frequency_id));
+        incomeAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadIncomeData(frequency_id));
         binding.spinnerSelectIncome.setAdapter(incomeAdapter);
         incomeAdapter.notifyDataSetChanged();
 
@@ -276,20 +282,133 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     }
 
 
-    public void resetFunction(int id){
-
-        switch (id){
+    public void resetFunction(int id) {
+        switch (id) {
             case 1:
-                // reset all info on this screen
+
+                sectorAdapter = null;
+                activityAdapter = null;
+                frequencyAdapter = null;
+                incomeAdapter = null;
+
+                binding.spinnerSelectSector.setText("");
+                binding.spinnerSelectActivity.setText("");
+                binding.spinnerSelectFrequency.setText("");
+                binding.spinnerSelectIncome.setText("");
+
+                activityCode = null;
+                incomeFrequencyCode = null;
+                incomeRangCode = null;
+                sectorDate = null;
+
+                sectorName = null;
+                activityName = null;
+                incomeFrequencyName = null;
+                incomeRangName = null;
+
 
                 break;
 
             case 2:
-                //reset current activity data
+
+                activityAdapter = null;
+                frequencyAdapter = null;
+                incomeAdapter = null;
+
+                binding.spinnerSelectActivity.setText("");
+                binding.spinnerSelectFrequency.setText("");
+                binding.spinnerSelectIncome.setText("");
+
+                activityCode = null;
+                incomeFrequencyCode = null;
+                incomeRangCode = null;
+
+                activityName = null;
+                incomeFrequencyName = null;
+                incomeRangName = null;
+
+                break;
+
+            case 3:
+
+
+                frequencyAdapter = null;
+                incomeAdapter = null;
+
+                binding.spinnerSelectFrequency.setText("");
+                binding.spinnerSelectIncome.setText("");
+
+
+                incomeFrequencyCode = null;
+                incomeRangCode = null;
+
+                incomeFrequencyName = null;
+                incomeRangName = null;
+
+                break;
+
+            case 4:
+                incomeAdapter = null;
+
+                binding.spinnerSelectIncome.setText("");
+
+                incomeRangCode = null;
+
+                incomeRangName = null;
+
+                break;
+
+            case 5:
+                binding.cvSelectActivity.setVisibility(View.GONE);
+
+                sectorAdapter = null;
+                activityAdapter = null;
+                frequencyAdapter = null;
+                incomeAdapter = null;
+
+                binding.spinnerSelectSector.setText("");
+                binding.spinnerSelectActivity.setText("");
+                binding.spinnerSelectFrequency.setText("");
+                binding.spinnerSelectIncome.setText("");
+
+                activityCode = null;
+                incomeFrequencyCode = null;
+                incomeRangCode = null;
+                sectorDate = null;
+
+                sectorName = null;
+                activityName = null;
+                incomeFrequencyName = null;
+                incomeRangName = null;
+
                 break;
 
         }
 
 
+    }
+
+    public boolean isDataValidate(){
+        boolean status = true;
+
+        if(binding.etSeccNumber.getText().toString().isEmpty()){
+            ViewUtilsKt.toast(getCurrentContext(),"Enter SECC number first");
+            status =false;
+        }else if(sectorDate.isEmpty()){
+            ViewUtilsKt.toast(getCurrentContext(),"Select Sector first");
+            status =false;
+        }else if(activityCode.isEmpty()){
+            ViewUtilsKt.toast(getCurrentContext(),"Select Activity first");
+            status =false;
+        }else if(incomeFrequencyCode.isEmpty()){
+            ViewUtilsKt.toast(getCurrentContext(),"Select Frequency first");
+            status =false;
+        }else if(incomeRangCode.isEmpty()){
+            ViewUtilsKt.toast(getCurrentContext(),"Select Income Range first");
+            status =false;
+        }else {
+            status =true;
+        }
+        return status;
     }
 }

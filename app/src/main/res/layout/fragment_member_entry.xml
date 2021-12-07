@@ -301,7 +301,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/cv_selectActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -319,6 +319,28 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/space_3dp"
                         android:orientation="vertical">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Enter SECC Number"
+                            app:boxStrokeColor="@color/out_line_strok"
+                            android:fontFamily="@font/manrope_regular"
+                            android:padding="@dimen/space_3dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/et_seccNumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:lines="2"
+                                android:maxLength="29"
+                                android:fontFamily="@font/manrope_regular"
+                                android:inputType="text" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/ttl_sector"

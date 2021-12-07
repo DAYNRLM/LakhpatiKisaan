@@ -26,6 +26,15 @@ public class MemberEntryEntity {
     public String incomeFrequencyName;
     public String incomeRangName;
     public String monthName;
+    public String seccNumber;
+
+    public String getSeccNumber() {
+        return seccNumber;
+    }
+
+    public void setSeccNumber(String seccNumber) {
+        this.seccNumber = seccNumber;
+    }
 
     public String getMonthName() {
         return monthName;
