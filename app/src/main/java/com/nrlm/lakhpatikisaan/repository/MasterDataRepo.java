@@ -320,7 +320,7 @@ public class MasterDataRepo {
         Callable<List<VillageDataBean>> listCallable = new Callable<List<VillageDataBean>>() {
             @Override
             public List<VillageDataBean> call() throws Exception {
-                AppUtils.getInstance().showLog("getGpListData"+masterDataDao.getGpListData(gpCode).size(),MasterDataRepo.class);
+                AppUtils.getInstance().showLog("getVillageListData"+masterDataDao.getGpListData(gpCode).size()+"---"+gpCode,MasterDataRepo.class);
                 return masterDataDao.getVillageListData(gpCode);
             }
         };
@@ -333,13 +333,80 @@ public class MasterDataRepo {
         Callable<List<ShgDataBean>> listCallable = new Callable<List<ShgDataBean>>() {
             @Override
             public List<ShgDataBean> call() throws Exception {
-                AppUtils.getInstance().showLog("getGpListData"+masterDataDao.getGpListData(villageCode).size(),MasterDataRepo.class);
+                AppUtils.getInstance().showLog("getShgListData"+masterDataDao.getGpListData(villageCode).size(),MasterDataRepo.class);
                 return masterDataDao.getShgListData(villageCode);
             }
         };
         Future<List<ShgDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
         return future.get();
     }
+
+    public String getMemberNameDB(String memBerCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("ShgListData"+masterDataDao.getGpListData(memBerCode).size(),MasterDataRepo.class);
+                return masterDataDao.getMemberNameDB(memBerCode);
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public String getShgNameDB(String shgCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("ShgNameDB"+masterDataDao.getGpListData(shgCode).size(),MasterDataRepo.class);
+                return masterDataDao.getShgNameDB(shgCode);
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("getMemberCount"+masterDataDao.getGpListData(shgCode).size(),MasterDataRepo.class);
+                return String.valueOf(masterDataDao.getMemberCount(shgCode));
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public String getBeforeEntryMemberCount(String shgCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("getBeforeEntryMemberCount"+masterDataDao.getGpListData(shgCode).size(),MasterDataRepo.class);
+                return String.valueOf(masterDataDao.getBeforeEntryMemberCount(shgCode));
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public String getAfterEntryMemberCount(String shgCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("getAfterEntryMemberCount"+masterDataDao.getGpListData(shgCode).size(),MasterDataRepo.class);
+                return String.valueOf(masterDataDao.getAfterEntryMemberCount(shgCode));
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+
+
+
+
+
+
 
 
 
@@ -492,6 +559,7 @@ public class MasterDataRepo {
             }
         });
     }
+
 
 
 }

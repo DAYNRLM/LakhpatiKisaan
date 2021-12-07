@@ -28,15 +28,36 @@ public interface MasterDataDao {
 
     @Query("select shg_code,member_code,member_name,last_entry_before_nrlm,last_entry_after_nrlm from MasterDataEntity where shg_code=:shgCode")
     List<MemberListDataBean> getMemberListData(String shgCode);
-
+/*3120002*/
     @Query("select gp_code,gp_name from MasterDataEntity where block_code=:blockCode")
     List<GpDataBean> getGpListData(String blockCode);
-
-    @Query("select village_code,village_name from MasterDataEntity where block_code=:gpCode")
+/*3120002002*/
+    @Query("select distinct village_code,village_name from MasterDataEntity where gp_code=:gpCode")
     List<VillageDataBean> getVillageListData(String gpCode);
-
-    @Query("select shg_code,shg_name from MasterDataEntity where block_code=:villageCode")
+/*3120002002002*/
+    @Query("select distinct shg_code,shg_name from MasterDataEntity where village_code=:villageCode")
     List<ShgDataBean> getShgListData(String villageCode);
+
+    @Query("select distinct member_name from MasterDataEntity where member_code=:memberCode")
+    String getMemberNameDB(String memberCode);
+
+    @Query("select distinct shg_name from MasterDataEntity where shg_code=:shgCode")
+    String getShgNameDB(String shgCode);
+
+    @Query("select count( member_code) from MasterDataEntity where shg_code=:shgCode")
+    Integer getMemberCount(String shgCode);
+/*change the querry of below two */
+    @Query("select count( member_code) from MasterDataEntity where shg_code=:shgCode")
+    Integer getBeforeEntryMemberCount(String shgCode);
+
+    @Query("select count( member_code) from MasterDataEntity where shg_code=:shgCode")
+    Integer getAfterEntryMemberCount(String shgCode);
+
+
+
+
+
+
 
 
 }

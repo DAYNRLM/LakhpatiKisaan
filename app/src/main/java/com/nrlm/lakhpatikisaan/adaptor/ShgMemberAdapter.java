@@ -92,7 +92,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return 20;
+        return dataItem.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

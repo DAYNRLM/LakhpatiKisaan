@@ -243,11 +243,31 @@ public class HomeViewModel extends ViewModel {
     }
 
 
-
-
    public void insertBeforeNrlmEntryData(List<MemberEntryEntity> memberEntryDataItem){
         masterDataRepo.insertBeforeNrlmEntry(memberEntryDataItem);
     }
+
+  String getMemberNameDB(String memberCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getMemberNameDB(memberCode);
+    }
+
+    String getShgNameDB(String memberCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getShgNameDB(memberCode);
+    }
+
+    String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getMemberCount(shgCode);
+    }
+    String getBeforeEntryMemberCount(String shgCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getBeforeEntryMemberCount(shgCode);
+    }
+    String getAfterEntryMemberCount(String shgCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getAfterEntryMemberCount(shgCode);
+    }
+
+
+
+
 
 
 

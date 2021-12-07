@@ -51,10 +51,11 @@ public class ShgMemberFragment  extends BaseFragment<HomeViewModel, FragmentShgM
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getHomeViewModelRepos(getContext());
         try {
-            shgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(),getContext());
-            List<MemberListDataBean> memberListMasterData= viewModel.memberListMasterData("322249");
+            viewModel.getHomeViewModelRepos(getContext());
+          shgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(),getContext());
+            List<MemberListDataBean> memberListMasterData= viewModel.memberListMasterData(shgCode);
+            AppUtils.getInstance().showLog("selectedShgCode"+shgCode,ShgMemberFragment.class);
             AppUtils.getInstance().showLog("memberListMasterData"+memberListMasterData.size(),ShgMemberFragment.class);
             shgMemberAdapter  =  new ShgMemberAdapter(memberListMasterData,getCurrentContext(),navController);
             binding.rvShgMembers.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
@@ -65,7 +66,7 @@ public class ShgMemberFragment  extends BaseFragment<HomeViewModel, FragmentShgM
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<String> str =  new ArrayList<>();
+
 
 
 

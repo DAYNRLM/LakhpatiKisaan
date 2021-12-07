@@ -22,6 +22,8 @@ import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
+import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
+import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
@@ -31,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMemberEntryBinding> {
 
@@ -91,14 +94,39 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         super.onViewCreated(view, savedInstanceState);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         Calendar today = Calendar.getInstance();
-
         memberEntryDataItem = new ArrayList<>();
         viewModel.getHomeViewModelRepos(getCurrentContext());
+
+        try {
+            String selectedMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
+            String selectedShgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
+            String memberName = viewModel.getMemberNameDB(selectedMemberCode);
+            String shgName = viewModel.getShgNameDB(selectedShgCode);
+            binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
+            binding.tvShgNameCode.setText(memberName+" ("+selectedMemberCode+")");
+            binding.tvMemberNameCode.setText(shgName+" ("+selectedShgCode+")");
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
 
-            if(isDataValidate()){
+            if (binding.etSeccNumber.getText().toString().isEmpty()) {
+                ViewUtilsKt.toast(getCurrentContext(), "Enter SECC number first");
+
+            } else if (sectorDate == null || sectorDate.isEmpty()) {
+                ViewUtilsKt.toast(getCurrentContext(), "Select Sector first");
+
+            } else if (activityCode == null || activityCode.isEmpty()) {
+                ViewUtilsKt.toast(getCurrentContext(), "Select Activity first");
+            } else if (incomeFrequencyCode == null || incomeFrequencyCode.isEmpty()) {
+                ViewUtilsKt.toast(getCurrentContext(), "Select Frequency first");
+            } else if (incomeRangCode == null || incomeRangCode.isEmpty()) {
+                ViewUtilsKt.toast(getCurrentContext(), "Select Income Range first");
+            } else {
                 loadEntryList();
                 count++;
 
@@ -116,6 +144,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
                 resetFunction(1);
             }
+
         });
 
         binding.btnMonthYear.setOnClickListener(view1 -> {
@@ -388,26 +417,26 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
     }
 
-    public boolean isDataValidate(){
+    public boolean isDataValidate() {
         boolean status = true;
 
-        if(binding.etSeccNumber.getText().toString().isEmpty()){
-            ViewUtilsKt.toast(getCurrentContext(),"Enter SECC number first");
-            status =false;
-        }else if(sectorDate.isEmpty()){
-            ViewUtilsKt.toast(getCurrentContext(),"Select Sector first");
-            status =false;
-        }else if(activityCode.isEmpty()){
-            ViewUtilsKt.toast(getCurrentContext(),"Select Activity first");
-            status =false;
-        }else if(incomeFrequencyCode.isEmpty()){
-            ViewUtilsKt.toast(getCurrentContext(),"Select Frequency first");
-            status =false;
-        }else if(incomeRangCode.isEmpty()){
-            ViewUtilsKt.toast(getCurrentContext(),"Select Income Range first");
-            status =false;
-        }else {
-            status =true;
+        if (binding.etSeccNumber.getText().toString().isEmpty()) {
+            ViewUtilsKt.toast(getCurrentContext(), "Enter SECC number first");
+            status = false;
+        } else if (sectorDate.isEmpty()) {
+            ViewUtilsKt.toast(getCurrentContext(), "Select Sector first");
+            status = false;
+        } else if (activityCode.isEmpty()) {
+            ViewUtilsKt.toast(getCurrentContext(), "Select Activity first");
+            status = false;
+        } else if (incomeFrequencyCode.isEmpty()) {
+            ViewUtilsKt.toast(getCurrentContext(), "Select Frequency first");
+            status = false;
+        } else if (incomeRangCode.isEmpty()) {
+            ViewUtilsKt.toast(getCurrentContext(), "Select Income Range first");
+            status = false;
+        } else {
+            status = true;
         }
         return status;
     }
