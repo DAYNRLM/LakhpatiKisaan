@@ -105,10 +105,11 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedBlockCode(), blockCode, getContext());
 
             try {
-                List<GpDataBean> gpDataBeanList = viewModel.getGpListData(blockCode);
-                GpDataAdaptor gpDataAdaptor = new GpDataAdaptor(getCurrentContext(), gpDataBeanList);
-                binding.spinnerSelectGp.setAdapter(gpDataAdaptor);
-                gpDataAdaptor.notifyDataSetChanged();
+             /*   List<GpDataBean> gpDataBeanList = viewModel.getGpListData(blockCode);
+                GpDataAdaptor gpDataAdaptor = new GpDataAdaptor(getCurrentContext(), gpDataBeanList);*/
+                gpAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getGpListName(blockCode));
+                binding.spinnerSelectGp.setAdapter(gpAdapter);
+                gpAdapter.notifyDataSetChanged();
                 binding.spinnerSelectGp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

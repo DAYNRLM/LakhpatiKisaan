@@ -1,12 +1,14 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
 import android.content.Context;
+import android.os.Build;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
+import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
@@ -31,6 +33,7 @@ import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 public class HomeViewModel extends ViewModel {
     private MasterDataRepo masterDataRepo;
@@ -210,12 +213,39 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getShgListData(villageCode);
     }
 
+    public List<String> getGpListName(String blockCode) throws ExecutionException, InterruptedException {
+        List<String> incomeName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            incomeName = getGpListData(blockCode).stream().map(GpDataBean::getGpName).collect(Collectors.toList());
+        }
+        AppUtils.getInstance().showLog("incomeName"+incomeName.size(), MasterDataDao.class);
+        return incomeName;
+
+    }
+
+    public List<String> getVillageListName(String gpCode) throws ExecutionException, InterruptedException {
+        List<String> incomeName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            incomeName = getVillageListData(gpCode).stream().map(VillageDataBean::getVillageName).collect(Collectors.toList());
+        }
+        AppUtils.getInstance().showLog("incomeName"+incomeName.size(), MasterDataDao.class);
+        return incomeName;
+    }
+
+
+    public List<String> getShgListName(String villageCode) throws ExecutionException, InterruptedException {
+        List<String> incomeName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            incomeName = getShgListData(villageCode).stream().map(ShgDataBean::getShgName).collect(Collectors.toList());
+        }
+        AppUtils.getInstance().showLog("incomeName"+incomeName.size(), MasterDataDao.class);
+        return incomeName;
+    }
 
 
 
 
-
-    public void insertBeforeNrlmEntryData(List<MemberEntryEntity> memberEntryDataItem){
+   public void insertBeforeNrlmEntryData(List<MemberEntryEntity> memberEntryDataItem){
         masterDataRepo.insertBeforeNrlmEntry(memberEntryDataItem);
     }
 
