@@ -20,7 +20,11 @@ import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
+import com.whiteelephant.monthpicker.MonthPickerDialog;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, FragmentMemberEntryAfterNrlmBinding> {
@@ -75,6 +79,46 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Calendar today = Calendar.getInstance();
+        memberEntryDataItem = new ArrayList<>();
+        viewModel.getHomeViewModelRepos(getCurrentContext());
+
+
+
+        binding.btnMonthYear.setOnClickListener(view1 -> {
+            MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(int selectedMonth, int selectedYear) {
+
+                    SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+
+                    today.set(Calendar.MONTH, selectedMonth);
+
+                    String month_name = month_date.format(today.getTime());
+
+
+                    binding.tvMonth.setText(month_name);
+                    binding.tvYear.setText("" + selectedYear);
+
+                    binding.llSelectDate.setVisibility(View.GONE);
+                    binding.llStartActivity.setVisibility(View.VISIBLE);
+
+                    entryYearCode = String.valueOf(selectedYear);
+                    entryMonthCode = String.valueOf(selectedMonth);
+                    monthName = month_name;
+
+                }
+            }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
+
+            //.setMinMonth(Calendar.FEBRUARY)
+            builder.setActivatedMonth(today.get(Calendar.MONTH))
+                    .setActivatedYear(today.get(Calendar.YEAR))
+                    .setMinYear(1990)
+                    .setMaxYear(today.get(Calendar.YEAR))
+                    .setTitle("Select Month")
+                    .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
+        });
 
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
           if (sectorDate == null || sectorDate.isEmpty()) {

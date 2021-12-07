@@ -183,7 +183,38 @@
                                 android:layout_height="100dp"
                                 android:orientation="vertical">
 
+
                                 <LinearLayout
+                                    android:id="@+id/ll_selectDate"
+                                    android:visibility="visible"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginRight="@dimen/space_10dp"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="@dimen/space_3dp">
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:visibility="visible"
+                                        android:id="@+id/btn_monthYear"
+                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Select Month/Year"
+                                        android:textAppearance="?attr/textAppearanceSmallPopupMenu"
+                                        android:textColor="@color/orange_500"
+                                        app:icon="@drawable/ic_baseline_published_with_changes_24"
+                                        app:iconGravity="end"
+                                        app:iconTint="@color/orange_500"
+                                        app:strokeColor="@color/green_500" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/ll_startActivity"
+                                    android:visibility="gone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
