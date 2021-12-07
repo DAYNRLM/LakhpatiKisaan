@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_memberEntryFragment_to_shgMemberFragment"
             app:destination="@id/shgMemberFragment" />
+        <action
+            android:id="@+id/action_memberEntryFragment_to_incomeEntryAfterNrlmFragment"
+            app:destination="@id/incomeEntryAfterNrlmFragment" />
     </fragment>
     <fragment
         android:id="@+id/incomeEntryAfterNrlmFragment"

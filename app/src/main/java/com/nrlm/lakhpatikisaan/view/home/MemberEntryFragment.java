@@ -1,6 +1,7 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.adaptor.EntryBeforeNrlmFoldAdapter;
 import com.nrlm.lakhpatikisaan.adaptor.ShgMemberAdapter;
@@ -218,12 +220,53 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         binding.btnSaveEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
-                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
 
-                NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
-                navController.navigate(navDirections);
 
+                new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
+                        .setItems(AppConstant.ConstantObject.getItems(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String arr[] =  AppConstant.ConstantObject.getStatus();
+                                String str = arr[i];
+                                if(str.equalsIgnoreCase("1")){
+                                    /****data save in database and
+                                     * sync operation perform and
+                                     * redirect to afternrl screen****/
+                                   dialogInterface.dismiss();
+                                    Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+                                    viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
+
+                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                    navController.navigate(navDirections);
+
+
+                                }else if(str.equalsIgnoreCase("2")){
+                                    dialogInterface.dismiss();
+
+                                    Observer<String> actionObserver = new Observer<String>() {
+                                        @Override
+                                        public void onChanged(String s) {
+
+                                            if(s.equalsIgnoreCase("ok")) {
+                                                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
+                                                NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
+                                                navController.navigate(navDirections);
+
+                                            } else {
+                                                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
+                                                NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
+                                                navController.navigate(navDirections);
+
+                                            }
+
+                                        }
+                                    };
+
+                                    viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
+
+                                }
+                            }
+                        }).setCancelable(false).show();
             }
         });
 
