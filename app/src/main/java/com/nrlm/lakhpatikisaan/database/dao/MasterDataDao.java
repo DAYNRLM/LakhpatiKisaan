@@ -7,6 +7,8 @@ import androidx.room.Query;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 
 
@@ -29,5 +31,13 @@ public interface MasterDataDao {
 
     @Query("select gp_code,gp_name from MasterDataEntity where block_code=:blockCode")
     List<GpDataBean> getGpListData(String blockCode);
+
+    @Query("select village_code,village_name from MasterDataEntity where block_code=:gpCode")
+    List<VillageDataBean> getVillageListData(String gpCode);
+
+    @Query("select shg_code,shg_name from MasterDataEntity where block_code=:villageCode")
+    List<ShgDataBean> getShgListData(String villageCode);
+
+
 }
 

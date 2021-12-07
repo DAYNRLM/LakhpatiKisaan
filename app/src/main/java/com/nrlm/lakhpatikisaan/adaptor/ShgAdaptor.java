@@ -11,15 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.nrlm.lakhpatikisaan.R;
-import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
 
 import java.util.List;
 
-public class GpDataAdaptor extends ArrayAdapter<GpDataBean> {
+public class ShgAdaptor extends ArrayAdapter<ShgDataBean> {
 
-    public GpDataAdaptor(@NonNull Context context, @NonNull List<GpDataBean> docTypeDataList) {
+    public ShgAdaptor(@NonNull Context context, @NonNull List<ShgDataBean> docTypeDataList) {
         super(context, 0, docTypeDataList);
     }
+
 
     @NonNull
     @Override
@@ -34,23 +36,20 @@ public class GpDataAdaptor extends ArrayAdapter<GpDataBean> {
     }
 
     @Nullable
-    private View initView(int position, @Nullable View convertView,
-                          ViewGroup parent) {
+    private View initView(int position, @Nullable View convertView, ViewGroup parent) {
         // It is used to set our custom view.
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_textview, parent, false);
         }
 
         TextView textViewName = convertView.findViewById(R.id.spi);
-        GpDataBean currentItem = getItem(position);
+        ShgDataBean currentItem = getItem(position);
 
         // It is used the name to the TextView when the
         // current item is not null.
         if (currentItem != null) {
-            String gpName=currentItem.getGpName();
-            textViewName.setText(gpName);
+            textViewName.setText(currentItem.getShgName());
         }
         return convertView;
     }
-
 }

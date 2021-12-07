@@ -17,6 +17,8 @@ import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.databinding.FragmentDashboardBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
+import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 public class ShgMemberFragment  extends BaseFragment<HomeViewModel, FragmentShgMemberBinding> {
     ShgMemberAdapter shgMemberAdapter;
+    private String shgCode;
     @Override
     public Class<HomeViewModel> getViewModel() {
         return HomeViewModel.class;
@@ -50,7 +53,8 @@ public class ShgMemberFragment  extends BaseFragment<HomeViewModel, FragmentShgM
         super.onViewCreated(view, savedInstanceState);
         viewModel.getHomeViewModelRepos(getContext());
         try {
-            List<MemberListDataBean> memberListMasterData= viewModel.memberListMasterData("322249");
+            shgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(),getContext());
+            List<MemberListDataBean> memberListMasterData= viewModel.memberListMasterData(shgCode);
             AppUtils.getInstance().showLog("memberListMasterData"+memberListMasterData.size(),ShgMemberFragment.class);
             shgMemberAdapter  =  new ShgMemberAdapter(memberListMasterData,getCurrentContext(),navController);
             binding.rvShgMembers.setLayoutManager(new LinearLayoutManager(getCurrentContext()));

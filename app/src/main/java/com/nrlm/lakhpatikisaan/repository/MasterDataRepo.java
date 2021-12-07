@@ -14,6 +14,8 @@ import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
@@ -308,6 +310,35 @@ public class MasterDataRepo {
         Future<List<GpDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
         return future.get();
     }
+    public List<VillageDataBean> getVillageListData(String gpCode) throws ExecutionException, InterruptedException {
+
+        Callable<List<VillageDataBean>> listCallable = new Callable<List<VillageDataBean>>() {
+            @Override
+            public List<VillageDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getGpListData"+masterDataDao.getGpListData(gpCode).size(),MasterDataRepo.class);
+                return masterDataDao.getVillageListData(gpCode);
+            }
+        };
+        Future<List<VillageDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public List<ShgDataBean> getShgListData(String villageCode) throws ExecutionException, InterruptedException {
+
+        Callable<List<ShgDataBean>> listCallable = new Callable<List<ShgDataBean>>() {
+            @Override
+            public List<ShgDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getGpListData"+masterDataDao.getGpListData(villageCode).size(),MasterDataRepo.class);
+                return masterDataDao.getShgListData(villageCode);
+            }
+        };
+        Future<List<ShgDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+
+
+
 
 
     /*********added by lincon***********/

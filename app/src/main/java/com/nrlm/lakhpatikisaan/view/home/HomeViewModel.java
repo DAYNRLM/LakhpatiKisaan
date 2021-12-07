@@ -10,6 +10,8 @@ import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
@@ -199,6 +201,18 @@ public class HomeViewModel extends ViewModel {
     public List<GpDataBean> getGpListData(String blockCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getGpListData(blockCode);
     }
+
+    public List<VillageDataBean> getVillageListData(String gpCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getVillageListData(gpCode);
+    }
+    public List<ShgDataBean> getShgListData(String villageCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getShgListData(villageCode);
+    }
+
+
+
+
+
 
 
 
