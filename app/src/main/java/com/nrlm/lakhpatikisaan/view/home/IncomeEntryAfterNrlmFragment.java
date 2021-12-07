@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.nrlm.lakhpatikisaan.R;
@@ -103,6 +105,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
                     binding.llSelectDate.setVisibility(View.GONE);
                     binding.llStartActivity.setVisibility(View.VISIBLE);
+                    binding.ccDisplayDate.setVisibility(View.VISIBLE);
 
                     entryYearCode = String.valueOf(selectedYear);
                     entryMonthCode = String.valueOf(selectedMonth);
@@ -208,6 +211,14 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             } else {
                 binding.cvSelectActivity.setVisibility(View.VISIBLE);
             }
+        });
+
+        binding.btnSaveEntry.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+            viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
+
+            NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+            navController.navigate(navDirections);
         });
     }
 

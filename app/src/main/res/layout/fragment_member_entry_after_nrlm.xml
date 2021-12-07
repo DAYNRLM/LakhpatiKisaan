@@ -122,6 +122,8 @@
                         android:weightSum="2">
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cc_displayDate"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/space_5dp"
@@ -273,7 +275,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/cv_selectActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

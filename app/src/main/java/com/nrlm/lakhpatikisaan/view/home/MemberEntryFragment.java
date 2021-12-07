@@ -223,7 +223,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
 
                 new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
-                        .setItems(AppConstant.ConstantObject.getItems(), new DialogInterface.OnClickListener() {
+                        .setItems(AppConstant.ConstantObject.getConfirmation(), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String arr[] =  AppConstant.ConstantObject.getStatus();
