@@ -15,6 +15,7 @@ import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
+import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
@@ -213,6 +214,10 @@ public class HomeViewModel extends ViewModel {
 
 
 
+
+    public void insertBeforeNrlmEntryData(List<MemberEntryEntity> memberEntryDataItem){
+        masterDataRepo.insertBeforeNrlmEntry(memberEntryDataItem);
+    }
 
 
 

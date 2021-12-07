@@ -8,6 +8,8 @@ class AppConstant {
         const val afterNrlmStatus: String = "A"
         const val geoSelection: String = "gp_village"
         const val vo_clfSelection: String = "vo_clf"
+        val items = arrayOf("Income (Before coming into NRLM Fold)", "Income at present")
+
     }
 }
 

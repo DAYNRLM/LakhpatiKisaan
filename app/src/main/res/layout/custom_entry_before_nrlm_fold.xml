@@ -36,6 +36,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_sector"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sector"
@@ -45,6 +46,7 @@
                         android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_Activity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Activity"
@@ -53,6 +55,7 @@
                         android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_frequency"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Frequency Rang"
@@ -61,6 +64,7 @@
                         android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_incomeRange"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="10000 and 2000 Rs. Rang "

@@ -18,8 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.adaptor.EntryBeforeNrlmFoldAdapter;
 import com.nrlm.lakhpatikisaan.adaptor.ShgMemberAdapter;
+import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
+import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
@@ -33,12 +35,32 @@ import java.util.List;
 public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMemberEntryBinding> {
 
     EntryBeforeNrlmFoldAdapter entryBeforeNrlmFoldAdapter;
-    List<String> getList;
+    List<MemberEntryEntity> memberEntryDataItem;
 
     ArrayAdapter<String> sectorAdapter;
     ArrayAdapter<String> activityAdapter;
     ArrayAdapter<String> frequencyAdapter;
     ArrayAdapter<String> incomeAdapter;
+
+    String shgCode;
+    String shgMemberCode;
+    String entryYearCode;
+    String entryMonthCode;
+    String entryCreatedDate;
+    String sectorDate;
+    String activityCode;
+    String incomeFrequencyCode;
+    String incomeRangCode;
+    String flagBeforeAfterNrlm;
+    String flagSyncStatus;
+
+    String sectorName;
+    String activityName;
+    String incomeFrequencyName;
+    String incomeRangName;
+    String monthName;
+
+
     int count = 0;
     private HomeViewModel  homeViewModel;
 
@@ -66,21 +88,24 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-          homeViewModel=new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel=new ViewModelProvider(this).get(HomeViewModel.class);
         Calendar today = Calendar.getInstance();
 
-        getList = new ArrayList<>();
+        memberEntryDataItem = new ArrayList<>();
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
 
 
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
-            getList.add("");
+            loadEntryList();
             count++;
-            entryBeforeNrlmFoldAdapter  =  new EntryBeforeNrlmFoldAdapter(getList,getCurrentContext());
+
+            entryBeforeNrlmFoldAdapter  =  new EntryBeforeNrlmFoldAdapter(memberEntryDataItem,getCurrentContext());
             binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
             binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
             entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
+
+
             binding.cvRecyclerview.setVisibility(View.VISIBLE);
             binding.cvSelectActivity.setVisibility(View.GONE);
             binding.btnAddActivity.setText("Add Another Activity");
@@ -94,23 +119,29 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
                 public void onDateSet(int selectedMonth, int selectedYear) {
 
                     SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+
                     today.set(Calendar.MONTH,selectedMonth);
+
                     String month_name = month_date.format(today.getTime());
+
 
                     binding.tvMonth.setText(month_name);
                     binding.tvYear.setText(""+selectedYear);
 
                     binding.cvSelectMonthYear.setVisibility(View.GONE);
                     binding.cvChangeMonthYear.setVisibility(View.VISIBLE);
-                    /*binding.etSelectMonth.setText(month_name);
-                    binding.etSelectYear.setText(""+selectedYear);*/
+
+                    entryYearCode = String.valueOf(selectedYear);
+                    entryMonthCode = String.valueOf(selectedMonth);
+                    monthName = month_name;
+
                 }
             }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 
             //.setMinMonth(Calendar.FEBRUARY)
             builder.setActivatedMonth(today.get(Calendar.MONTH))
-                    .setMinYear(1990)
                     .setActivatedYear(today.get(Calendar.YEAR))
+                    .setMinYear(1990)
                     .setMaxYear(today.get(Calendar.YEAR))
                     .setTitle("Select Month")
                     .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
@@ -157,13 +188,17 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
         @Override
         public void onClick(View v) {
             Toast.makeText(getContext(),"Data Synced Successfully!!!",Toast.LENGTH_LONG).show();
-            /*NavDirections navDirections =
+            viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
+
+            NavDirections navDirections =  MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
             navController.navigate(navDirections);
-            homeViewModel.checkDuplicateAtServer(getContext(),"UPAGASSDAD","up","111","111","111","B");*/
+
         }
     });
 
     binding.spinnerSelectSector.setOnItemClickListener((adapterView, view1, i, l) -> {
+        sectorDate = String.valueOf(viewModel.getAllSectorData().get(i).getSector_code());
+        sectorName = viewModel.loadSectorData().get(i);
         loadActivityData(viewModel.getAllSectorData().get(i).getSector_code());
 
     });
@@ -171,6 +206,29 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
 
     }
 
+    private void loadEntryList() {
+
+        MemberEntryEntity memberEntryEntity = new MemberEntryEntity();
+        memberEntryEntity.shgCode="";
+        memberEntryEntity.shgMemberCode="";
+        memberEntryEntity.entryYearCode=entryYearCode;
+        memberEntryEntity.entryMonthCode=entryMonthCode;
+        memberEntryEntity.entryCreatedDate=appDateFactory.getTimeStamp();
+        memberEntryEntity.sectorDate=sectorDate;
+        memberEntryEntity.activityCode=activityCode;
+        memberEntryEntity.incomeFrequencyCode=incomeFrequencyCode;
+        memberEntryEntity.incomeRangCode=incomeRangCode;
+        memberEntryEntity.flagBeforeAfterNrlm=flagBeforeAfterNrlm;
+        memberEntryEntity.flagSyncStatus= AppConstant.beforeNrlmStatus;
+
+        memberEntryEntity.sectorName="";
+        memberEntryEntity.activityName="";
+        memberEntryEntity.incomeFrequencyName="";
+        memberEntryEntity.incomeRangName="";
+
+        memberEntryDataItem.add(memberEntryEntity);
+
+    }
 
 
     private void loadActivityData(int id) {
@@ -179,7 +237,8 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
         activityAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
-            int activityId = viewModel.getAllActivityData(id).get(i).getActivity_code();
+            activityCode = String.valueOf(viewModel.getAllActivityData(id).get(i).getActivity_code());
+            activityName = viewModel.loadActivityData(id).get(i);
             loadFreaquency();
         });
     }
@@ -197,7 +256,8 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
         frequencyAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectFrequency.setOnItemClickListener((adapterView, view, i, l) -> {
-
+            incomeFrequencyCode = String.valueOf(viewModel.getAllFrequencyData().get(i).getFrequency_id());
+            incomeFrequencyName = viewModel.loadFrequencyData().get(i);
             loadIncomeData(viewModel.getAllFrequencyData().get(i).getFrequency_id());
         });
     }
@@ -208,7 +268,8 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
         incomeAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectIncome.setOnItemClickListener((adapterView, view, i, l) -> {
-            int rangId = viewModel.getAllIncomeData(frequency_id).get(i).getFrequency_id();
+            incomeRangCode = String.valueOf(viewModel.getAllIncomeData(frequency_id).get(i).getFrequency_id());
+            incomeRangName = viewModel.loadIncomeData(frequency_id).get(i);
         });
 
     }

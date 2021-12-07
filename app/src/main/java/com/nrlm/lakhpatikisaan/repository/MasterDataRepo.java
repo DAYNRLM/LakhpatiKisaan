@@ -10,6 +10,8 @@ import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
 import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
 import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
+import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
+import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao_Impl;
 import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
@@ -20,6 +22,7 @@ import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
+import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
 import com.nrlm.lakhpatikisaan.network.client.Result;
@@ -53,6 +56,7 @@ public class MasterDataRepo {
     private ActivityDao activityDao;
     private FrequencyDao frequencyDao;
     private IncomeRangeDao incomeRangeDao;
+    private MemberEntryDao memberEntryDao;
 
     private MasterDataRepo(ExecutorService executor,Context context) {
         this.executor = executor;
@@ -476,6 +480,18 @@ public class MasterDataRepo {
         }
         AppUtils.getInstance().showLog("incomeName"+incomeName.size(),MasterDataDao.class);
         return incomeName;
+    }
+
+
+    public void insertBeforeNrlmEntry(List<MemberEntryEntity> memberEntryDataItem){
+        for(MemberEntryEntity entryObject :memberEntryDataItem){
+            AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    memberEntryDao.insertAll(entryObject);
+                }
+            });
+        }
     }
 
 
