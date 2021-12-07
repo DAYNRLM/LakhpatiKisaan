@@ -41,6 +41,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
     ArrayAdapter<String> blockAdapter;
     ArrayAdapter<String> gpAdapter;
     ArrayAdapter<String> villageAdapter;
+    ArrayAdapter<String> shgAdaptor;
 
     @Override
     public Class<HomeViewModel> getViewModel() {
@@ -100,90 +101,124 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         binding.spinnerSelectBlock.setAdapter(blockAdapter);
         blockAdapter.notifyDataSetChanged();
 
-        binding.spinnerSelectBlock.setOnItemClickListener((adapterView, view, i, l) -> {
-            String blockCode = viewModel.getAllBlockData().get(i).getBlockCode();
-            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedBlockCode(), blockCode, getContext());
+           binding.spinnerSelectBlock.setOnItemClickListener((adapterView, view, i, l) -> {
 
-            try {
              /*   List<GpDataBean> gpDataBeanList = viewModel.getGpListData(blockCode);
                 GpDataAdaptor gpDataAdaptor = new GpDataAdaptor(getCurrentContext(), gpDataBeanList);*/
-                gpAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getGpListName(blockCode));
-                binding.spinnerSelectGp.setAdapter(gpAdapter);
-                gpAdapter.notifyDataSetChanged();
-                binding.spinnerSelectGp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        binding.spinnerSelectGp.setText(((GpDataBean) parent.getItemAtPosition(position)).getGpName());
-                        String gpCode = ((GpDataBean) parent.getItemAtPosition(position)).getGpCode();
-                        PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedGpCode(), gpCode, getContext());
+               String blockCode = viewModel.getAllBlockData().get(i).getBlockCode();
+               PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedBlockCode(), blockCode, getContext());
 
-                        try {
-                            List<VillageDataBean> villageDataBeanList = viewModel.getVillageListData(gpCode);
-                            VillageAdaptor villageAdaptor = new VillageAdaptor(getCurrentContext(), villageDataBeanList);
-                            binding.spinnerSelectVillage.setAdapter(villageAdaptor);
-                            villageAdaptor.notifyDataSetChanged();
-
-                            binding.spinnerSelectVillage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    binding.spinnerSelectVillage.setText(((VillageDataBean) parent.getItemAtPosition(position)).getVillageName());
-                                    String villageCode = ((VillageDataBean) parent.getItemAtPosition(position)).getVillageCode();
-                                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedVillageCode(), villageCode, getContext());
-                                    try {
-                                        List<ShgDataBean> shgDataBeanList = viewModel.getShgListData(villageCode);
-                                        ShgAdaptor shgAdaptor = new ShgAdaptor(getCurrentContext(), shgDataBeanList);
-                                        binding.spinnerSelectShg.setAdapter(shgAdaptor);
-                                        shgAdaptor.notifyDataSetChanged();
-                                        binding.spinnerSelectShg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                            @Override
-                                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                                binding.spinnerSelectShg.setText(((ShgDataBean) parent.getItemAtPosition(position)).getShgName());
-                                                String shgCode = ((ShgDataBean) parent.getItemAtPosition(position)).getShgCode();
-                                                PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedShgCode(), shgCode, getContext());
-                                            }
-
-                                            @Override
-                                            public void onNothingSelected(AdapterView<?> parent) {
-
-                                            }
-                                        });
-
-                                    } catch (ExecutionException e) {
-                                        e.printStackTrace();
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-
-
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-
-
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
+                loadGpData(blockCode);
 
         });
+
+    }
+
+    private void loadGpData(String blockCode){
+        try {
+            gpAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getGpListName(blockCode));
+            binding.spinnerSelectGp.setAdapter(gpAdapter);
+            gpAdapter.notifyDataSetChanged();
+            binding.spinnerSelectGp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    // binding.spinnerSelectGp.setText(((GpDataBean) parent.getItemAtPosition(position)).getGpName());
+                    try {
+                        String gpCode = viewModel.getGpListData(blockCode).get(position).getGpCode();
+                        AppUtils.getInstance().showLog("gpCode"+gpCode,DashBoardFragment.class);
+                        PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedGpCode(), gpCode, getContext());
+
+                          /*  List<VillageDataBean> villageDataBeanList = viewModel.getVillageListData(gpCode);
+                            VillageAdaptor villageAdaptor = new VillageAdaptor(getCurrentContext(), villageDataBeanList);*/
+                        loadVillageData(gpCode);
+
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private void loadVillageData(String gpCode){
+        try {
+            villageAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getVillageListName(gpCode));
+            binding.spinnerSelectVillage.setAdapter(villageAdapter);
+            villageAdapter.notifyDataSetChanged();
+
+            binding.spinnerSelectVillage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    // binding.spinnerSelectVillage.setText(((VillageDataBean) parent.getItemAtPosition(position)).getVillageName());
+                    try {
+
+                        String villageCode =viewModel.getVillageListData(gpCode).get(position).getVillageCode() ;
+                        PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedVillageCode(), villageCode, getContext());
+                        loadShgData(villageCode);
+
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void loadShgData(String villageCode){
+        try {
+            shgAdaptor = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getShgListName(villageCode));
+            binding.spinnerSelectShg.setAdapter(shgAdaptor);
+            shgAdaptor.notifyDataSetChanged();
+
+            binding.spinnerSelectShg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    // binding.spinnerSelectShg.setText(((ShgDataBean) parent.getItemAtPosition(position)).getShgName());
+                    String shgCode = null;
+                    try {
+                        shgCode = viewModel.getShgListData(villageCode).get(position).getShgCode();
+                        PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedShgCode(), shgCode, getContext());
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 

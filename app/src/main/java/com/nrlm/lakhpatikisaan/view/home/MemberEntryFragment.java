@@ -221,10 +221,11 @@ public class MemberEntryFragment  extends BaseFragment<HomeViewModel, FragmentMe
         memberEntryEntity.flagBeforeAfterNrlm=flagBeforeAfterNrlm;
         memberEntryEntity.flagSyncStatus= AppConstant.beforeNrlmStatus;
 
-        memberEntryEntity.sectorName="";
-        memberEntryEntity.activityName="";
-        memberEntryEntity.incomeFrequencyName="";
-        memberEntryEntity.incomeRangName="";
+        memberEntryEntity.sectorName=sectorName;
+        memberEntryEntity.activityName=activityName;
+        memberEntryEntity.incomeFrequencyName=incomeFrequencyName;
+        memberEntryEntity.incomeRangName=incomeRangName;
+        memberEntryEntity.monthName=monthName;
 
         memberEntryDataItem.add(memberEntryEntity);
 
