@@ -96,8 +96,11 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                         }else {
                             try {
 
-                                showServerError(loginApiStatus);
-                            } catch (JSONException e) {
+                                Intent intent = new Intent(getContext(), HomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                //showServerError(loginApiStatus);
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
