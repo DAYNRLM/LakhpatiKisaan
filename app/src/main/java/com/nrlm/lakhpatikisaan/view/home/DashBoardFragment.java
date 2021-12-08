@@ -145,7 +145,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                 binding.spinnerSelectVO.setAdapter(voAdaptor);
                 voAdaptor.notifyDataSetChanged();
 
-                binding.spinnerSelectClf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                binding.spinnerSelectVO.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String voCode=voDataBeanList.get(position).getVo_code();
