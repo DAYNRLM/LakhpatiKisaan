@@ -8,10 +8,13 @@ public class ShgAndMemberDataBean {
     private String shgCode;
     @ColumnInfo(name = "shgMemberCode")
     private String memberCode;
+    @ColumnInfo(name = "seccNumber")
+    private String secc;
 
-    public ShgAndMemberDataBean(String shgCode, String memberCode) {
+    public ShgAndMemberDataBean(String shgCode, String memberCode, String secc) {
         this.shgCode = shgCode;
         this.memberCode = memberCode;
+        this.secc = secc;
     }
 
     public String getShgCode() {
@@ -28,5 +31,13 @@ public class ShgAndMemberDataBean {
 
     public void setMemberCode(String memberCode) {
         this.memberCode = memberCode;
+    }
+
+    public String getSecc() {
+        return secc;
+    }
+
+    public void setSecc(String secc) {
+        this.secc = secc;
     }
 }

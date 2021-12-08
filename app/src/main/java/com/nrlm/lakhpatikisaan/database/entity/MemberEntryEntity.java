@@ -27,6 +27,23 @@ public class MemberEntryEntity {
     public String incomeRangName;
     public String monthName;
     public String seccNumber;
+    public String entryCompleteConfirmation;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEntryCompleteConfirmation() {
+        return entryCompleteConfirmation;
+    }
+
+    public void setEntryCompleteConfirmation(String entryCompleteConfirmation) {
+        this.entryCompleteConfirmation = entryCompleteConfirmation;
+    }
 
     public String getSeccNumber() {
         return seccNumber;

@@ -4,6 +4,8 @@ class AppConstant {
     companion object ConstantObject {
         const val wantToShow: Boolean = true
         const val dummyImei: String = "dummy_123456789"
+        const val unsyncStatus: String = "0"
+        const val syncStatus: String = "1"
         const val beforeNrlmStatus: String = "B"
         const val afterNrlmStatus: String = "A"
         const val geoSelection: String = "gp_village"

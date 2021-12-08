@@ -244,6 +244,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.monthName = monthName;
 
         memberEntryEntity.seccNumber = "";
+        memberEntryEntity.entryCompleteConfirmation="1";
 
         memberEntryDataItem.add(memberEntryEntity);
 

@@ -7,7 +7,16 @@ public class PreferenceKeyManager {
     private static final String PrefSelectedGpCode="PrefSelectedGpCode";
     private static final String PrefSelectedVillageCode="PrefSelectedVillageCode";
     private static final String PrefSelectedShgCode="PrefSelectedShgCode";
+    private static final String PrefSelectedClfCode="PrefSelectedClfCode";
+    private static final String PrefSelectedVoCode="PrefSelectedVoCode";
 
+    public static String getPrefSelectedClfCode() {
+        return PrefSelectedClfCode;
+    }
+
+    public static String getPrefSelectedVoCode() {
+        return PrefSelectedVoCode;
+    }
 
     public static String getPrefSelectedBlockCode() {
         return PrefSelectedBlockCode;

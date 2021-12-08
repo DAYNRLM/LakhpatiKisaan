@@ -32,20 +32,20 @@ public interface MemberEntryDao {
     @Query("DELETE FROM MemberEntryEntity where MemberEntryEntity.flagBeforeAfterNrlm =:flag")
     void deleteWithEntryFlag(String flag);
 
-    @Query("select shgCode,shgMemberCode,sectorDate,activityCode  from MemberEntryEntity " +
-            "where MemberEntryEntity.flagBeforeAfterNrlm =:entryFlag and MemberEntryEntity.flagSyncStatus=:syncFlag")
-   List<MemberDataToCheckDup> getDataToCheckDuplicate(String entryFlag, String syncFlag);
+    @Query("select shgCode,shgMemberCode,sectorDate,activityCode,flagBeforeAfterNrlm  from MemberEntryEntity " +
+            "where MemberEntryEntity.entryCompleteConfirmation =:entryCompleteConfirmation and MemberEntryEntity.flagSyncStatus=:syncFlag")
+   List<MemberDataToCheckDup> getDataToCheckDuplicate(String entryCompleteConfirmation, String syncFlag);
 
-    @Query("select distinct shgCode,shgMemberCode from MemberEntryEntity " +
-            "where MemberEntryEntity.flagBeforeAfterNrlm =:entryFlag and MemberEntryEntity.flagSyncStatus=:syncFlag ")
-    List<ShgAndMemberDataBean> getDistinctShgAndMemberToSync(String entryFlag, String syncFlag);
+    @Query("select distinct shgCode,shgMemberCode,seccNumber from MemberEntryEntity " +
+            "where MemberEntryEntity.entryCompleteConfirmation =:entryCompleteConfirmation and MemberEntryEntity.flagSyncStatus=:syncFlag ")
+    List<ShgAndMemberDataBean> getDistinctShgAndMemberToSync(String entryCompleteConfirmation, String syncFlag);
 
     @Query("select entryYearCode,entryMonthCode,entryCreatedDate,activityCode," +
             "incomeFrequencyCode,incomeRangCode,sectorDate,flagBeforeAfterNrlm" +
             " from MemberEntryEntity where MemberEntryEntity.flagSyncStatus =:syncFlag " +
             "and (MemberEntryEntity.shgCode=:shgCode and (MemberEntryEntity.shgMemberCode=:memberCode" +
-            " and MemberEntryEntity.flagBeforeAfterNrlm =:entryFlag )) ")
-    List<ActivityDataBean> getActivityData(String shgCode, String memberCode,String entryFlag, String syncFlag);
+            " and MemberEntryEntity.entryCompleteConfirmation =:entryCompleteConfirmation )) ")
+    List<ActivityDataBean> getActivityData(String shgCode, String memberCode,String entryCompleteConfirmation, String syncFlag);
 
 
 }

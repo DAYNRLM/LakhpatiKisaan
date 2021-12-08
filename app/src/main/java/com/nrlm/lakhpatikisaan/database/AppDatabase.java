@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {MemberEntryEntity.class,
         TempEntryBeforeNrlmEntity.class, LoginInfoEntity.class, MasterDataEntity.class, SectorEntity.class,
         ActivityEntity.class, FrequencyEntity.class, IncomeRangeEntity.class}
-        , version = 3, exportSchema = true)
+        , version = 5, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
 
@@ -41,8 +41,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "lakhpatiShg.db";
     public static volatile AppDatabase instance;
     private static final int NUMBER_OF_THREADS = 5;
-    public static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public abstract MemberEntryDao memberEntryDao();
     public abstract LoginInfoDao getLoginInfoDao();

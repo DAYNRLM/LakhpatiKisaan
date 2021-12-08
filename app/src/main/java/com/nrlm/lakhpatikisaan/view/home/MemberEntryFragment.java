@@ -56,7 +56,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String activityCode;
     String incomeFrequencyCode;
     String incomeRangCode;
-    String flagBeforeAfterNrlm;
+    String flagBeforeAfterNrlm="B";
     String flagSyncStatus;
 
     String sectorName;
@@ -294,7 +294,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
         memberEntryEntity.incomeRangCode = incomeRangCode;
         memberEntryEntity.flagBeforeAfterNrlm = flagBeforeAfterNrlm;
-        memberEntryEntity.flagSyncStatus = AppConstant.beforeNrlmStatus;
+        memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
 
         memberEntryEntity.sectorName = sectorName;
         memberEntryEntity.activityName = activityName;

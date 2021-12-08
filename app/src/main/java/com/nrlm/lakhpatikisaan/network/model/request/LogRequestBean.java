@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class LogRequestBean implements Serializable {
 
 
+
     private String login_id;
     private String state_short_name;
     private String imei_no;

@@ -14,10 +14,12 @@ import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
 
 import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.ClfDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.VoDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
@@ -400,6 +402,51 @@ public class MasterDataRepo {
         Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
         return future.get();
     }
+
+    public List<ClfDataBean> getUniqueClf() throws ExecutionException, InterruptedException {
+        Callable<List<ClfDataBean>> listCallable = new Callable<List<ClfDataBean>>() {
+            @Override
+            public List<ClfDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getAfterEntryMemberCount"+masterDataDao.getUniqueClf().size(),MasterDataRepo.class);
+                return masterDataDao.getUniqueClf();
+            }
+        };
+        Future<List<ClfDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+
+    public List<VoDataBean> getUniqueVo(String clfCode) throws ExecutionException, InterruptedException {
+        Callable<List<VoDataBean>> listCallable = new Callable<List<VoDataBean>>() {
+            @Override
+            public List<VoDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getAfterEntryMemberCount"+masterDataDao.getUniqueVo(clfCode).size(),MasterDataRepo.class);
+                return masterDataDao.getUniqueVo(clfCode);
+            }
+        };
+        Future<List<VoDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public List<ShgDataBean> getShgDataWithVo(String voCode) throws ExecutionException, InterruptedException {
+        Callable<List<ShgDataBean>> listCallable = new Callable<List<ShgDataBean>>() {
+            @Override
+            public List<ShgDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getShgDataWithVo"+masterDataDao.getShgDataWithVo(voCode).size(),MasterDataRepo.class);
+                return masterDataDao.getShgDataWithVo(voCode);
+            }
+        };
+        Future<List<ShgDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+
+
+
+
+
+
+
 
 
 

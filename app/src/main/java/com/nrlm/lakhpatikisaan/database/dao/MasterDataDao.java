@@ -5,10 +5,12 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.ClfDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.VoDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 
 
@@ -47,11 +49,20 @@ public interface MasterDataDao {
     @Query("select count( member_code) from MasterDataEntity where shg_code=:shgCode")
     Integer getMemberCount(String shgCode);
 /*change the querry of below two */
-    @Query("select count( member_code) from MasterDataEntity where shg_code=:shgCode")
+    @Query("select count( member_code) from MasterDataEntity where shg_code=:shgCode and last_entry_before_nrlm IS NOT NULL")
     Integer getBeforeEntryMemberCount(String shgCode);
 
-    @Query("select count( member_code) from MasterDataEntity where shg_code=:shgCode")
+    @Query("select count( member_code) from MasterDataEntity where shg_code=:shgCode and last_entry_after_nrlm IS NOT NULL")
     Integer getAfterEntryMemberCount(String shgCode);
+
+    @Query("select distinct clf_code,clf_name from MasterDataEntity")
+    List<ClfDataBean> getUniqueClf();
+
+    @Query("select distinct vo_code,vo_name from MasterDataEntity where clf_code=:clfCode")
+    List<VoDataBean> getUniqueVo(String clfCode);
+
+    @Query("select distinct shg_code,shg_name from MasterDataEntity where vo_code=:voCode")
+    List<ShgDataBean> getShgDataWithVo(String voCode);
 
 
 

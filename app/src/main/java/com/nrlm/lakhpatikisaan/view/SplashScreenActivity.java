@@ -17,7 +17,7 @@ import com.nrlm.lakhpatikisaan.view.mpin.MpinActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private static int SPLASH_SCREEN_TIME_OUT=4000;
+    private static int SPLASH_SCREEN_TIME_OUT=2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

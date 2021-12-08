@@ -99,6 +99,7 @@
                                     <AutoCompleteTextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:id="@+id/spinner_selectClf"
                                         android:focusable="false"
                                         android:focusableInTouchMode="false"
                                         android:fontFamily="@font/montserrat_regular"
@@ -122,6 +123,7 @@
                                     <AutoCompleteTextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:id="@+id/spinner_selectVO"
                                         android:focusable="false"
                                         android:focusableInTouchMode="false"
                                         android:fontFamily="@font/montserrat_regular"
@@ -145,6 +147,7 @@
                                     <AutoCompleteTextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:id="@+id/spinner_selectShg_cbo"
                                         android:focusable="false"
                                         android:focusableInTouchMode="false"
                                         android:fontFamily="@font/montserrat_regular"
@@ -274,7 +277,8 @@
                         style="@style/carViewTheme">
 
                         <LinearLayout
-                            android:id="@+id/test"
+                            android:id="@+id/cv_shg_details"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">

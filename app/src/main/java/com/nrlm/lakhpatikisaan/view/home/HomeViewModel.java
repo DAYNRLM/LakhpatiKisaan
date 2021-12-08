@@ -10,10 +10,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.ClfDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.VoDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
@@ -65,10 +67,10 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void checkDuplicateAtServer(Context context, String loginId, String stateShortName, String imeiNo
-            , String deviceName, String locationCoordinates, String entryFlag) {
+            , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
         syncDataRepo = SyncDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         syncDataRepo.makeCheckDuplicateRequest(syncDataRepo.getCheckDuplicateRequest(loginId, stateShortName, imeiNo,
-                deviceName, locationCoordinates, entryFlag), new RepositoryCallback() {
+                deviceName, locationCoordinates, entryCompleteConfirmation), new RepositoryCallback() {
             @Override
             public void onComplete(Result result) {
                 try {
@@ -79,10 +81,10 @@ public class HomeViewModel extends ViewModel {
                         if (!checkDuplicateResponseBean.getMember_code().equalsIgnoreCase("0")) {
                             /*delete  duplicate entries and hit sync api*/
 
-                            makeSyncMemberEntry(loginId,stateShortName, imeiNo, deviceName, locationCoordinates,entryFlag);
+                            makeSyncMemberEntry(loginId,stateShortName, imeiNo, deviceName, locationCoordinates,entryCompleteConfirmation);
 
                         } else {
-                            makeSyncMemberEntry(loginId,stateShortName, imeiNo, deviceName, locationCoordinates,entryFlag);
+                            makeSyncMemberEntry(loginId,stateShortName, imeiNo, deviceName, locationCoordinates,entryCompleteConfirmation);
                         }
                     } else {
                         Object errorObject = ((Result.Error) result).exception;
@@ -109,8 +111,8 @@ public class HomeViewModel extends ViewModel {
 
 
     private void makeSyncMemberEntry(String loginId, String stateShortName, String imeiNo
-            , String deviceName, String locationCoordinates, String entryFlag) {
-       SyncEntriesRequestBean syncEntriesRequestBean= syncDataRepo.getSyncEntriesRequest(loginId, stateShortName , imeiNo, deviceName, locationCoordinates, entryFlag);
+            , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
+       SyncEntriesRequestBean syncEntriesRequestBean= syncDataRepo.getSyncEntriesRequest(loginId, stateShortName , imeiNo, deviceName, locationCoordinates, entryCompleteConfirmation);
        if (syncEntriesRequestBean.getNrlm_entry_sync()!=null && syncEntriesRequestBean.getNrlm_entry_sync().size()!=0 ){
            syncDataRepo.makeSyncEntriesRequest(syncEntriesRequestBean, new RepositoryCallback() {
                @Override
@@ -118,6 +120,9 @@ public class HomeViewModel extends ViewModel {
                    try {
                        if (result instanceof Result.Success) {
                            SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
+
+                           /*update sync status in member entry table*/
+
                            AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "---" +
                                    simpleResponseBean.getError().getMessage(), HomeViewModel.class);
                        } else {
@@ -247,6 +252,9 @@ public class HomeViewModel extends ViewModel {
         masterDataRepo.insertBeforeNrlmEntry(memberEntryDataItem);
     }
 
+
+
+
   String getMemberNameDB(String memberCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getMemberNameDB(memberCode);
     }
@@ -264,6 +272,56 @@ public class HomeViewModel extends ViewModel {
     String getAfterEntryMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getAfterEntryMemberCount(shgCode);
     }
+
+
+
+
+    public List<String> getUniqueClfName() throws ExecutionException, InterruptedException {
+        List<String> incomeName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            incomeName = getUniqueClf().stream().map(ClfDataBean::getClf_name).collect(Collectors.toList());
+        }
+        AppUtils.getInstance().showLog("getClf_name"+incomeName.size(), MasterDataDao.class);
+        return incomeName;
+    }
+
+    public List<ClfDataBean> getUniqueClf() throws ExecutionException, InterruptedException {
+        return masterDataRepo.getUniqueClf();
+    }
+
+    public List<VoDataBean> getUniqueVo(String clfCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getUniqueVo(clfCode);
+    }
+
+    public List<String> getUniqueVoName(String clfCode) throws ExecutionException, InterruptedException {
+        List<String> incomeName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            incomeName = getUniqueVo(clfCode).stream().map(VoDataBean::getVo_name).collect(Collectors.toList());
+        }
+        AppUtils.getInstance().showLog("getUniqueVoName"+incomeName.size(), MasterDataDao.class);
+        return incomeName;
+    }
+
+    public List<ShgDataBean> getShgDataWithVo(String voCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getShgDataWithVo(voCode);
+    }
+
+    public List<String> getShgNameWithVo(String voCode) throws ExecutionException, InterruptedException {
+        List<String> incomeName= null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            incomeName = getShgDataWithVo(voCode).stream().map(ShgDataBean::getShgName).collect(Collectors.toList());
+        }
+        AppUtils.getInstance().showLog("getShgNameWithVo"+incomeName.size(), MasterDataDao.class);
+        return incomeName;
+    }
+
+
+
+
+
+
+
+
 
 
 
