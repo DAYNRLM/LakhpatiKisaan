@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.dao.LoginInfoDao;
 import com.nrlm.lakhpatikisaan.database.entity.LoginInfoEntity;
@@ -49,7 +48,7 @@ public class LoginRepo {
             @Override
             public void run() {
                 try {
-                  loginRequest(loginRequestObject, new ServiceCallback<Result>() {
+                  callLoginRequest(loginRequestObject, new ServiceCallback<Result>() {
                       @Override
                       public void success(Result<Result> successResponse) {
                           /*fill data into db*/
@@ -83,7 +82,7 @@ public class LoginRepo {
     }
 
 
-    private void loginRequest(final LoginRequestBean loginRequestObject, final ServiceCallback<Result> serviceCallback) {
+    private void callLoginRequest(final LoginRequestBean loginRequestObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
         Call<JsonObject> call = (Call<JsonObject>) apiServices.loginApi(loginRequestObject);

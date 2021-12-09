@@ -197,7 +197,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                             binding.cvSelectActivity.setVisibility(View.VISIBLE);
                             loadSector();
                         } else {
-                            ViewUtilsKt.toast(getCurrentContext(), "Chenage Date First");
+                            ViewUtilsKt.toast(getCurrentContext(), "Change Date First");
 
                         }
 

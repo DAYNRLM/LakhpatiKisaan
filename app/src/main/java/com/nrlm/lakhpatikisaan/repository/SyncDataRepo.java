@@ -216,7 +216,7 @@ public class SyncDataRepo {
                 AppUtils.getInstance().showLog("Exception while getting duplicate data from db ::"+e,SyncDataRepo.class);
         }
         return new CheckDuplicateRequestBean(stateShortName, loginId, imeiNo, deviceName
-                , locationCoordinates, memberData,"B");
+                , locationCoordinates, AppUtils.getInstance().removeComma(memberData),"B");
     }
 
     public SyncEntriesRequestBean getSyncEntriesRequest(String loginId, String stateShortName, String imeiNo
@@ -259,7 +259,13 @@ public class SyncDataRepo {
         }
         return syncEntriesRequestBean;
     }
+    public void updateSyncStatus(){
+        memberEntryDao.updateSyncStatus();
+    }
 
+    public void deleteDuplicateEntries(String shgCode,String memberCode,String sectorCode,String activityCode,String entryType){
+        memberEntryDao.deleteDuplicateEntries(shgCode,memberCode,sectorCode,activityCode,entryType);
+    }
 
 }
 /*{ }*/

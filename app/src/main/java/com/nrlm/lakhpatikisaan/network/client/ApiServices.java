@@ -2,6 +2,7 @@ package com.nrlm.lakhpatikisaan.network.client;
 
 import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.network.model.request.CheckDuplicateRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.DeleteShgRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
@@ -26,4 +27,11 @@ public interface ApiServices {
 
     @POST("addmemberdata")
     Call<JsonObject> syncEntriesDataApi(@Body SyncEntriesRequestBean syncEntriesRequestBean);
+
+    @POST("unassignShgWeb")
+    Call<JsonObject> checkDeleteShgApi(@Body LogRequestBean logRequestBean);
+
+    @POST("deleteShg")
+    Call<JsonObject> deleteShgApi(@Body DeleteShgRequestBean deleteShgRequestBean);
+
 }

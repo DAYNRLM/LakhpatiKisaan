@@ -181,6 +181,25 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String shgCode=shgDataBeanListWithVo.get(position).getShgCode();
                         PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedShgCode(),shgCode,getContext());
+
+                        String memberCount = null;
+                        String beforeEntryMemberCount = null;
+                        String afterEntryMemberCount = null;
+                        try {
+                            memberCount = viewModel.getMemberCount(shgCode);
+                            beforeEntryMemberCount = viewModel.getBeforeEntryMemberCount(shgCode);
+                            afterEntryMemberCount = viewModel.getAfterEntryMemberCount(shgCode);
+                            AppUtils.getInstance().showLog("shgCodeee" + shgCode, DashBoardFragment.class);
+                            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedShgCode(), shgCode, getContext());
+                            binding.tvMemberCount.setText(memberCount);
+                            binding.completedBeforeEntryCount.setText(beforeEntryMemberCount);
+                            binding.completedAfterEntryCount.setText(afterEntryMemberCount);
+                            binding.cvShgDetails.setVisibility(View.VISIBLE);
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         //loadShgDataWithVo(voCode);
 
                     }

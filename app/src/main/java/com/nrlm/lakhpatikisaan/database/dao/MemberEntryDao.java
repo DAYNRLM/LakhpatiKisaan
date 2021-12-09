@@ -47,5 +47,13 @@ public interface MemberEntryDao {
             " and MemberEntryEntity.entryCompleteConfirmation =:entryCompleteConfirmation )) ")
     List<ActivityDataBean> getActivityData(String shgCode, String memberCode,String entryCompleteConfirmation, String syncFlag);
 
+    @Query("update memberentryentity set flagSyncStatus='1' where flagSyncStatus='0'")
+     void updateSyncStatus();
+
+    @Query("delete from memberentryentity  where shgCode=:shgCode and (shgMemberCode=:memberCode" +
+            " and (flagBeforeAfterNrlm=:entryType and (flagSyncStatus='0'" +
+            " and (sectorDate=:sectorCode and activityCode=:activityCode) )))")
+    void deleteDuplicateEntries(String shgCode, String memberCode, String sectorCode, String activityCode, String entryType);
+
 
 }

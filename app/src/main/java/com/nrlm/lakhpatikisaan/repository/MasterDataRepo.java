@@ -99,7 +99,7 @@ public class MasterDataRepo {
                                     MasterDataEntity masterDataEntity=new MasterDataEntity(masterData.getBlock_name(),masterData.getBlock_code(),masterData.getGp_code(),masterData.getGp_name(),masterData.getVillage_code(),
                                             masterData.getVillage_name(),masterData.getShg_name(),masterData.getShg_code(),masterData.getMember_code(),masterData.getMember_name(),masterData.getClf_code(),
                                             masterData.getClf_name(),masterData.getVo_code(),masterData.getVo_name(),masterData.getMember_joining_date(),
-                                            masterData.getLast_entry_after_nrlm(),masterData.getLast_entry_before_nrlm());
+                                            masterData.getLast_entry_after_nrlm(),masterData.getLast_entry_before_nrlm(),masterData.getSecc_no_flag(),masterData.getLgd_village_code());
                                     masterDataEntityList.add(masterDataEntity);
                                 }
                                 insertAllMasterData(masterDataEntityList);
@@ -606,6 +606,9 @@ public class MasterDataRepo {
             }
         });
     }
+
+
+
 
 
 

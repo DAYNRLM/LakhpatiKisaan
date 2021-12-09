@@ -7,6 +7,8 @@ class AppConstant {
         const val unsyncStatus: String = "0"
         const val syncStatus: String = "1"
         const val beforeNrlmStatus: String = "B"
+        const val entryCompleted: String = "0"
+        const val entryNotCompleted: String = "1"
         const val afterNrlmStatus: String = "A"
         const val geoSelection: String = "gp_village"
         const val vo_clfSelection: String = "vo_clf"
