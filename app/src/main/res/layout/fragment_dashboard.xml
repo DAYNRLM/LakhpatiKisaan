@@ -8,11 +8,20 @@
 
     </data>
 
+    <!-- <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+         <ScrollView
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:scrollbars="vertical">
+         </ScrollView>
+     </LinearLayout>-->
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <ScrollView
             android:layout_marginBottom="@dimen/space_5dp"
@@ -21,341 +30,382 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/btn_goToMember"
-            android:layout_marginBottom="@dimen/space_3dp"
-            android:orientation="vertical">
+            <LinearLayout
+                android:layout_marginBottom="@dimen/space_3dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/btn_goToMember"
+                android:orientation="vertical">
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/top_card_view"
-                style="@style/carViewTheme">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/top_card_view"
+                    style="@style/carViewTheme">
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_click"
-                        style="@style/TitleTextViewTheme"
-                        android:text="Select SHG" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ttl_assignVehicle"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/space_3dp"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:hint="@string/select_member_from"
-                        android:padding="3dp"
-                        app:boxStrokeColor="@color/out_line_strok">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/spinner_selectLocationFrom"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:inputType="none"
-                            android:textColor="@color/black"
-                            android:textSize="15dp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
-                        android:id="@+id/layout_cboLocation"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/space_3dp"
-                            android:layout_marginRight="@dimen/space_3dp"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select CLF"
-                            android:padding="3dp"
-                            app:boxStrokeColor="@color/out_line_strok">
-
-                            <AutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:inputType="none"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/space_3dp"
-                            android:layout_marginRight="@dimen/space_3dp"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select VO"
-                            android:padding="3dp"
-                            app:boxStrokeColor="@color/out_line_strok">
-
-                            <AutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:inputType="none"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/space_3dp"
-                            android:layout_marginRight="@dimen/space_3dp"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select SHG"
-                            android:padding="3dp"
-                            app:boxStrokeColor="@color/out_line_strok">
-
-                            <AutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:inputType="none"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/layout_geoLocation"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/space_3dp"
-                            android:layout_marginRight="@dimen/space_3dp"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select Block"
-                            android:padding="3dp"
-                            app:boxStrokeColor="@color/out_line_strok">
-
-                            <AutoCompleteTextView
-                                android:id="@+id/spinner_selectBlock"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:inputType="none"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/space_3dp"
-                            android:layout_marginRight="@dimen/space_3dp"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select Gram Panchayat:"
-                            android:padding="3dp"
-                            app:boxStrokeColor="@color/out_line_strok">
-
-                            <AutoCompleteTextView
-                                android:id="@+id/spinner_selectGp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:inputType="none"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/space_3dp"
-                            android:layout_marginRight="@dimen/space_3dp"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select Village"
-                            android:padding="3dp"
-                            app:boxStrokeColor="@color/out_line_strok">
-
-                            <AutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:inputType="none"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/space_3dp"
-                            android:layout_marginRight="@dimen/space_3dp"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select SHG"
-                            android:padding="3dp"
-                            app:boxStrokeColor="@color/out_line_strok">
-
-                            <AutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:inputType="none"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/detail_card_view"
-                style="@style/carViewTheme">
-
-                <LinearLayout
-                    android:id="@+id/test"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TitleTextViewTheme"
-                        android:text="@string/shg_detail" />
-
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/totalMember_card_view"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/space_5dp"
-                        android:backgroundTint="@color/blue_gray_50"
-                        app:cardCornerRadius="0dp"
-                        app:cardElevation="8dp"
-                        app:strokeColor="@color/green_500"
-                        app:strokeWidth="1dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/tv_click"
+                            style="@style/TitleTextViewTheme"
+                            android:text="Select SHG" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ttl_assignVehicle"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/space_3dp"
-                            android:orientation="vertical"
-                            android:padding="2dp">
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Select Member from"
+                            android:padding="3dp"
+                            app:boxStrokeColor="@color/out_line_strok">
 
-                            <TextView
+                            <AutoCompleteTextView
+                                android:id="@+id/spinner_selectLocationFrom"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_regular"
-                                android:text="@string/total_member" />
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:inputType="none"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
 
-                            <TextView
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/layout_cboLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope_extra_bold"
-                                android:gravity="center_horizontal"
-                                android:text="100"
-                                android:textStyle="bold" />
+                                android:layout_marginLeft="@dimen/space_3dp"
+                                android:layout_marginRight="@dimen/space_3dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:hint="Select CLF"
+                                android:padding="3dp"
+                                app:boxStrokeColor="@color/out_line_strok">
+
+                                <AutoCompleteTextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/spinner_selectClf"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:fontFamily="@font/montserrat_regular"
+                                    android:inputType="none"
+                                    android:textColor="@color/black"
+                                    android:textSize="15dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/space_3dp"
+                                android:layout_marginRight="@dimen/space_3dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:hint="Select VO"
+                                android:padding="3dp"
+                                app:boxStrokeColor="@color/out_line_strok">
+
+                                <AutoCompleteTextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/spinner_selectVO"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:fontFamily="@font/montserrat_regular"
+                                    android:inputType="none"
+                                    android:textColor="@color/black"
+                                    android:textSize="15dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/space_3dp"
+                                android:layout_marginRight="@dimen/space_3dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:hint="Select SHG"
+                                android:padding="3dp"
+                                app:boxStrokeColor="@color/out_line_strok">
+
+                                <AutoCompleteTextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/spinner_selectShg_cbo"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:fontFamily="@font/montserrat_regular"
+                                    android:inputType="none"
+                                    android:textColor="@color/black"
+                                    android:textSize="15dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
 
-                                    <LinearLayout
+                        <LinearLayout
+                            android:id="@+id/layout_geoLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/space_3dp"
+                                android:layout_marginRight="@dimen/space_3dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:hint="Select Block"
+                                android:padding="3dp"
+                                app:boxStrokeColor="@color/out_line_strok">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/spinner_selectBlock"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:fontFamily="@font/montserrat_regular"
+                                    android:inputType="none"
+                                    android:textColor="@color/black"
+                                    android:textSize="15dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/space_3dp"
+                                android:layout_marginRight="@dimen/space_3dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:hint="Select Gram Panchayat:"
+                                android:padding="3dp"
+                                app:boxStrokeColor="@color/out_line_strok">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/spinner_selectGp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:fontFamily="@font/montserrat_regular"
+                                    android:inputType="none"
+                                    android:textColor="@color/black"
+                                    android:textSize="15dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/space_3dp"
+                                android:layout_marginRight="@dimen/space_3dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:hint="Select Village"
+                                android:padding="3dp"
+                                app:boxStrokeColor="@color/out_line_strok">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/spinner_selectVillage"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:fontFamily="@font/montserrat_regular"
+                                    android:inputType="none"
+                                    android:textColor="@color/black"
+                                    android:textSize="15dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/space_3dp"
+                                android:layout_marginRight="@dimen/space_3dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:hint="Select SHG"
+                                android:padding="3dp"
+                                app:boxStrokeColor="@color/out_line_strok">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/spinner_selectShg"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:fontFamily="@font/montserrat_regular"
+                                    android:inputType="none"
+                                    android:textColor="@color/black"
+                                    android:textSize="15dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/detail_card_view"
+                    style="@style/carViewTheme">
+
+                    <LinearLayout
+                        android:id="@+id/cv_shg_details"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TitleTextViewTheme"
+                            android:text="SHG Detail" />
+
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/shg_details_card_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/space_5dp"
+                            android:backgroundTint="@color/blue_gray_50"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="8dp"
+                            app:strokeColor="@color/green_500"
+                            app:strokeWidth="1dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/space_3dp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:padding="2dp">
+
+                                    <TextView
                                         android:layout_width="match_parent"
+                                        android:layout_weight=".3"
+                                        android:layout_margin="@dimen/space_5dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_margin="@dimen/space_3dp"
-                                        android:weightSum="2"
-                                        android:orientation="horizontal"
-                                        android:padding="2dp">
+                                        android:fontFamily="@font/manrope_regular"
+                                        android:text="Total Member" />
 
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:layout_weight=".3"
-                                            android:layout_margin="@dimen/space_5dp"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/manrope_regular"
-                                            android:text="Member's completed befor nrlm entry" />
-
-                                        <TextView
-                                            android:layout_width="match_parent"
-                                            android:id="@+id/completed_after_entry_count"
-                                            android:layout_weight="1.7"
-                                            android:gravity="center"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/manrope_extra_bold"
-                                            android:layout_margin="@dimen/space_5dp"
-                                            android:text="100"
-                                            android:textStyle="bold" />
-
-                                    </LinearLayout>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/tv_member_count"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/manrope_extra_bold"
+                                        android:layout_margin="@dimen/space_5dp"
+                                        android:text="100"
+                                        android:textStyle="bold" />
 
                                 </LinearLayout>
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/space_3dp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:padding="2dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_weight=".3"
+                                        android:layout_margin="@dimen/space_5dp"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/manrope_regular"
+                                        android:text="Member's completed befor nrlm entry" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/completed_before_entry_count"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/manrope_extra_bold"
+                                        android:layout_margin="@dimen/space_5dp"
+                                        android:text="100"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/space_3dp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:padding="2dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_weight=".3"
+                                        android:layout_margin="@dimen/space_5dp"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/manrope_regular"
+                                        android:text="Member's completed befor nrlm entry" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/completed_after_entry_count"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/manrope_extra_bold"
+                                        android:layout_margin="@dimen/space_5dp"
+                                        android:text="100"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
 
 
 
-                    </com.google.android.material.card.MaterialCardView>
+
+                        </com.google.android.material.card.MaterialCardView>
 
 
-                </LinearLayout>
+                    </LinearLayout>
 
 
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-            </ScrollView>
+        </ScrollView>
 
 
 
@@ -371,9 +421,12 @@
             android:fontFamily="@font/manrope_semi_bold"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="@string/go_to_shg_members"
+            android:text="Go to SHG Member's"
             android:textSize="16sp" />
     </RelativeLayout>
+
+
+
 
 
 

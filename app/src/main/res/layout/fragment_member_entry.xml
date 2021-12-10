@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -28,12 +31,11 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/space_5dp"
-                    android:layout_marginTop="@dimen/space_5dp"
-                    android:layout_marginRight="@dimen/space_5dp"
+                    android:layout_margin="@dimen/space_10dp"
                     android:outlineAmbientShadowColor="@color/green_500"
                     android:outlineSpotShadowColor="@color/green_500"
-                    app:cardCornerRadius="0dp"
+                    app:cardCornerRadius="@dimen/space_10dp"
+                    android:translationZ="@dimen/space_10dp"
                     app:cardElevation="8dp"
                     app:strokeColor="@color/light_green_50"
                     app:strokeWidth="1dp">
@@ -42,7 +44,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/space_3dp"
+                        android:layout_margin="@dimen/space_5dp"
                         android:orientation="vertical"
                         android:padding="@dimen/space_3dp">
 
@@ -50,20 +52,24 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/manrope_semi_bold"
-                            android:text="xxxxxxxxxxxxxxxxxx"
+                            android:id="@+id/tv_shg_name_code"
+                            android:fontFamily="@font/manrope_regular"
+                            android:text="Shambhu Ghanshyam  ( 3456762 )"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_20sp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/tv_member_name_code"
                             android:fontFamily="@font/manrope_regular"
                             android:text="Date Of Joining: 11-March-206"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/space_15dp"/>
 
                         <TextView
                             android:layout_width="match_parent"
+                            android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_regular"
                             android:text="Select Entry Date"
@@ -301,7 +307,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/cv_selectActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -319,6 +325,28 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/space_3dp"
                         android:orientation="vertical">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Enter SECC Number"
+                            app:boxStrokeColor="@color/out_line_strok"
+                            android:fontFamily="@font/manrope_regular"
+                            android:padding="@dimen/space_3dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/et_seccNumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:lines="2"
+                                android:maxLength="29"
+                                android:fontFamily="@font/manrope_regular"
+                                android:inputType="number" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/ttl_sector"
@@ -527,20 +555,15 @@
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/after_card_view"
                             style="@style/carViewTheme">
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-
                                 <TextView
                                     android:id="@+id/after_nrlm_entry_title"
                                     style="@style/TitleTextViewTheme"
                                     android:text="Income (After join NRLM Fold)" />
-
                             </LinearLayout>
-
-
                         </com.google.android.material.card.MaterialCardView>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -548,7 +571,6 @@
                             android:layout_margin="@dimen/space_10dp"
                             android:weightSum="2"
                             android:orientation="horizontal">
-
                             <com.google.android.material.textview.MaterialTextView
                                 android:textColor="@color/green_500"
                                 android:layout_weight="1"
@@ -562,7 +584,6 @@
                                 app:cornerRadius="@dimen/text_20sp"
                                 android:layout_marginRight="@dimen/space_10dp"
                                 android:textSize="16sp" />
-
                             <com.google.android.material.textview.MaterialTextView
                                 android:textColor="@color/green_500"
                                 android:layout_weight="1"
@@ -575,7 +596,6 @@
                                 android:gravity="center|center_vertical"
                                 android:layout_marginRight="@dimen/space_10dp"
                                 android:textSize="16sp" />
-
                         </LinearLayout>
                         <androidx.recyclerview.widget.RecyclerView
                             android:layout_width="match_parent"
