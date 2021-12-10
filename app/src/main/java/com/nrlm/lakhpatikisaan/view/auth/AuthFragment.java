@@ -23,9 +23,11 @@ import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
 import com.nrlm.lakhpatikisaan.repository.MasterDataRepo;
 import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
+import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
+import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
@@ -82,29 +84,39 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 progressDialog.setMessage(getString(R.string.loading_heavy));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                authViewModel.makeLoginRequestData(getContext());
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        String loginApiStatus=authViewModel.loginApiResult();
-                        AppUtils.getInstance().showLog("loginApiStatus"+loginApiStatus,AuthFragment.class);
-                        progressDialog.dismiss();
-                        if (loginApiStatus.equalsIgnoreCase("E200")){
-                            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginSessionKey(),"logedin",getContext());
-                            intentToMpin();
+                if (NetworkFactory.isInternetOn(getContext())){
+                    authViewModel.makeLoginRequestData(getContext());
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            String loginApiStatus=authViewModel.loginApiResult();
+                            AppUtils.getInstance().showLog("loginApiStatus"+loginApiStatus,AuthFragment.class);
+                            progressDialog.dismiss();
+                            if (loginApiStatus.equalsIgnoreCase("E200")){
+                                PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginSessionKey(),"logedin",getContext());
+                                intentToMpin();
                          /*   Intent intent = new Intent(getContext(), HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);*/
-                        }else {
-                            try {
+                            }else {
+                                try {
 
-                                showServerError(loginApiStatus);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                    showServerError(loginApiStatus);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
+                    },10000);
+                }else {
+                    try {
+                        progressDialog.dismiss();
+                        showServerError(AppConstant.noInternetCode);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                },10000);
+                }
+
 
             }
 
@@ -137,6 +149,14 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                         , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
                 );
                 break;
+
+            case "12163":
+                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.NO_INTERNET_TITLE)
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                );
+                break;
+
+
 
             default:
                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.SERVER_ERROR_TITLE)

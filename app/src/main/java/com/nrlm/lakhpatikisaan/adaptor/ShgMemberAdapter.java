@@ -69,7 +69,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
         holder.itemBinding.tvGoToEntry.setOnClickListener(view -> {
             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedMemberCode(),dataItem.get(position).getMemberCode(),context);
-            new MaterialAlertDialogBuilder(context).setTitle("Income Selection").setIcon(R.drawable.ic_baseline_add_circle_outline_24)
+            new MaterialAlertDialogBuilder(context).setTitle(context.getResources().getString(R.string.income_selection)).setIcon(R.drawable.ic_baseline_add_circle_outline_24)
                     .setItems(AppConstant.ConstantObject.getItems(), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -85,7 +85,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
                             }
                         }
-                    }).setCancelable(false).show();
+                    }).setCancelable(true).show();
         });
 
     }

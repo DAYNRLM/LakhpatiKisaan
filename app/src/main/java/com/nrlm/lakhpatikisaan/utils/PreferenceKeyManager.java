@@ -10,6 +10,12 @@ public class PreferenceKeyManager {
     private static final String PrefSelectedClfCode="PrefSelectedClfCode";
     private static final String PrefSelectedVoCode="PrefSelectedVoCode";
 
+
+    private static final String ForgotMobileNumber="forgotmobile";
+    private static final String RandomOtp="genratedOtp";
+    private static final String PREF_KEY_MPIN= "prfMPIN";
+    private static final String PREF_KEY_LOGIN_DONE = "Longin";
+
     public static String getPrefSelectedClfCode() {
         return PrefSelectedClfCode;
     }
@@ -33,10 +39,7 @@ public class PreferenceKeyManager {
     public static String getPrefSelectedShgCode() {
         return PrefSelectedShgCode;
     }
-    private static final String ForgotMobileNumber="forgotmobile";
-    private static final String RandomOtp="genratedOtp";
-    private static final String PREF_KEY_MPIN= "prfMPIN";
-    private static final String PREF_KEY_LOGIN_DONE = "Longin";
+
 
     public static String getPrefKeyLoginDone() {
         return PREF_KEY_LOGIN_DONE;

@@ -17,6 +17,7 @@ import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.LoginInfoDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
+import com.nrlm.lakhpatikisaan.database.dao.SeccDao;
 import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.CheckDeleteShgEntity;
@@ -25,6 +26,7 @@ import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
 import com.nrlm.lakhpatikisaan.database.entity.LoginInfoEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
+import com.nrlm.lakhpatikisaan.database.entity.SeccEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.database.entity.TempEntryBeforeNrlmEntity;
 
@@ -34,7 +36,7 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {MemberEntryEntity.class,
         TempEntryBeforeNrlmEntity.class, LoginInfoEntity.class, MasterDataEntity.class, SectorEntity.class,
-        ActivityEntity.class, FrequencyEntity.class, IncomeRangeEntity.class, CheckDeleteShgEntity.class}
+        ActivityEntity.class, FrequencyEntity.class, IncomeRangeEntity.class, CheckDeleteShgEntity.class, SeccEntity.class}
         , version = 5, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -53,6 +55,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract FrequencyDao getFrequencyDao();
     public abstract IncomeRangeDao getIncomeRangeDao();
     public abstract CheckDeleteShgDao getCheckDeleteShgDao();
+    public abstract SeccDao getSeccDao();
 
     public static AppDatabase getDatabase(final Context context) {
         if (instance == null) {

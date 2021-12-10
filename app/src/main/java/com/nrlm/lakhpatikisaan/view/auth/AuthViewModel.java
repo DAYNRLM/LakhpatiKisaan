@@ -4,13 +4,16 @@ import android.content.Context;
 
 import androidx.lifecycle.ViewModel;
 
+import com.nrlm.lakhpatikisaan.database.dbbean.LgdVillageCode;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.OtpRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.ResetPasswordBean;
+import com.nrlm.lakhpatikisaan.network.model.request.SeccRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
+import com.nrlm.lakhpatikisaan.network.model.response.SeccResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SupportiveMastersResponseBean;
 import com.nrlm.lakhpatikisaan.repository.LoginRepo;
@@ -24,11 +27,14 @@ import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.home.DashBoardFragment;
 import com.nrlm.lakhpatikisaan.view.home.HomeViewModel;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 public class AuthViewModel extends ViewModel {
     private LoginRepo loginRepo;
     private MasterDataRepo masterDataRepo;
-    private String loginApiStatus="";
-    public String resetPasswordApiStatuss="";
+    private String loginApiStatus = "";
+    public String resetPasswordApiStatuss = "";
     public SimpleResponseBean simpleResponseBean;
 
     public AuthViewModel() {
@@ -122,6 +128,52 @@ public class AuthViewModel extends ViewModel {
 
                                 }
                             });
+                            List<LgdVillageCode> lgdVillageCodeList = getLgdVillageCodes();
+
+                            SeccRequestBean seccRequestBean = new SeccRequestBean();
+
+                            seccRequestBean.setDevice_name(logRequestBean.getDevice_name());
+                            seccRequestBean.setImei_no(logRequestBean.getImei_no());
+                            seccRequestBean.setLocation_coordinate(logRequestBean.getLocation_coordinate());
+                            seccRequestBean.setLogin_id(logRequestBean.getLogin_id());
+                            seccRequestBean.setState_short_name(logRequestBean.getState_short_name());
+
+                            String lgdVillageCodes="";
+
+                            for (LgdVillageCode lgdVillageCode:lgdVillageCodeList){
+                                lgdVillageCodes+=lgdVillageCode.getLgd_village_code()+",";
+                            }
+
+                            seccRequestBean.setLgd_village_code(AppUtils.getInstance().removeComma(lgdVillageCodes));
+
+                            masterDataRepo.makeSeccDataRequest(seccRequestBean, new RepositoryCallback() {
+                                @Override
+                                public void onComplete(Result result) {
+                                    AppUtils.getInstance().showLog("SeccMasterDataResult" + result.toString(), AuthViewModel.class);
+                                    if (result instanceof Result.Success) {
+                                        SeccResponseBean seccResponseBean = (SeccResponseBean) ((Result.Success) result).data;
+                                        AppUtils.getInstance().showLog("SeccrDataResponseBean" + seccResponseBean.getError().getCode() + "---"
+                                                + seccResponseBean.getError().getMessage(), AuthViewModel.class);
+
+                                    } else {
+                                        Object errorObject = ((Result.Error) result).exception;
+                                        if (errorObject != null) {
+                                            if (errorObject instanceof SupportiveMastersResponseBean.Error) {
+                                                SeccResponseBean.Error responseError = (SeccResponseBean.Error) errorObject;
+                                                AppUtils.getInstance().showLog(responseError.getCode() + "SeccApiErrorObj"
+                                                        + responseError.getMessage(), AuthViewModel.class);
+                                            } else if (errorObject instanceof Throwable) {
+                                                Throwable exception = (Throwable) errorObject;
+                                                AppUtils.getInstance().showLog("SeccRetrofitErrors:-------" + exception.getMessage()
+                                                        , AuthViewModel.class);
+                                            }
+                                        }
+
+                                    }
+                                }
+                            });
+
+
                         }
 
                     } else {
@@ -129,11 +181,11 @@ public class AuthViewModel extends ViewModel {
                         if (errorObject != null) {
                             if (errorObject instanceof MasterDataResponseBean.Error) {
                                 LoginResponseBean.Error responseError = (LoginResponseBean.Error) errorObject;
-                                loginApiStatus=responseError.getCode();
+                                loginApiStatus = responseError.getCode();
                                 AppUtils.getInstance().showLog(responseError.getCode() + " loginApiErrorObj" + responseError.getMessage(), AuthViewModel.class);
                             } else if (errorObject instanceof Throwable) {
                                 Throwable exception = (Throwable) errorObject;
-                                loginApiStatus=exception.getMessage();
+                                loginApiStatus = exception.getMessage();
                                 AppUtils.getInstance().showLog("RetrofitErrorsLogin:-------" + exception.getMessage(), AuthViewModel.class);
                             }
                         }
@@ -145,57 +197,55 @@ public class AuthViewModel extends ViewModel {
             }
         });
     }
-    public void makeOtpRequest(Context context)
-    {
+
+    public void makeOtpRequest(Context context) {
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
-        String otp=AppUtils.getInstance().getRandomOtp();
-        OtpRequestBean otpRequestBean=new OtpRequestBean();
-        otpRequestBean.setMobileno(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getForgotMobileNumber(),context));
+        String otp = AppUtils.getInstance().getRandomOtp();
+        OtpRequestBean otpRequestBean = new OtpRequestBean();
+        otpRequestBean.setMobileno(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getForgotMobileNumber(), context));
         otpRequestBean.setMessage(otp);
-        ViewUtilsKt.toast(context,otp);
+        ViewUtilsKt.toast(context, otp);
 
 
-        PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getRandomOtp(),otp,context);
-        AppUtils.getInstance().showLog("OTP "+otp,AuthViewModel.class);
+        PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getRandomOtp(), otp, context);
+        AppUtils.getInstance().showLog("OTP " + otp, AuthViewModel.class);
 
 
-loginRepo.callOtpServices(otpRequestBean, new RepositoryCallback() {
-    @Override
-    public void onComplete(Result result) {
-        AppUtils.getInstance().showLog("OtpResult" + result.toString(), AuthViewModel.class);
-        if (result instanceof Result.Success) {
+        loginRepo.callOtpServices(otpRequestBean, new RepositoryCallback() {
+            @Override
+            public void onComplete(Result result) {
+                AppUtils.getInstance().showLog("OtpResult" + result.toString(), AuthViewModel.class);
+                if (result instanceof Result.Success) {
 
 
-        }
+                }
 
+
+            }
+        });
 
 
     }
-});
 
+    public void ResetPasswordRequestData(Context context) {
+        ResetPasswordBean resetPasswordBean = new ResetPasswordBean();
+        loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
+        resetPasswordBean.setPassword("c6024fd19953c32dc6e2b8fe91684a16a889cc8482157f1ec652616517537239");
+        resetPasswordBean.setDevice_name("OPPO-OP4B79L1-CPH1933");
+        resetPasswordBean.setImei_no("5d7eaa5ef9d3ebed");
+        resetPasswordBean.setLocation_coordinate("28.6771787,77.4923927");
+        resetPasswordBean.setLogin_id("HRKSVISHAKHA");
+        ResetPassword(resetPasswordBean);
 
-}
-public void ResetPasswordRequestData(Context context)
-{
-    ResetPasswordBean resetPasswordBean=new ResetPasswordBean();
-    loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
-    resetPasswordBean.setPassword("c6024fd19953c32dc6e2b8fe91684a16a889cc8482157f1ec652616517537239");
-    resetPasswordBean.setDevice_name("OPPO-OP4B79L1-CPH1933");
-    resetPasswordBean.setImei_no("5d7eaa5ef9d3ebed");
-    resetPasswordBean.setLocation_coordinate("28.6771787,77.4923927");
-    resetPasswordBean.setLogin_id("HRKSVISHAKHA");
-     ResetPassword(resetPasswordBean);
-
-}
+    }
 
     private void ResetPassword(ResetPasswordBean resetPasswordBean) {
         loginRepo.resetPasswordRequestLog(resetPasswordBean, new RepositoryCallback() {
             @Override
             public void onComplete(Result result) {
-                if (result instanceof Result.Success)
-                {
-                     simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
-                      resetPasswordApiStatuss="E200";
+                if (result instanceof Result.Success) {
+                    simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
+                    resetPasswordApiStatuss = "E200";
 
                 }
             }
@@ -204,9 +254,14 @@ public void ResetPasswordRequestData(Context context)
 
     }
 
-
+    private List<LgdVillageCode> getLgdVillageCodes() throws ExecutionException, InterruptedException {
+        return loginRepo.getLgdVillageCodes();
+    }
 
     public String loginApiResult() {
         return loginApiStatus;
     }
+
+
+
 }

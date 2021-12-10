@@ -7,6 +7,7 @@ import androidx.room.Query;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ClfDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.LgdVillageCode;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
@@ -63,6 +64,9 @@ public interface MasterDataDao {
 
     @Query("select distinct shg_code,shg_name from MasterDataEntity where vo_code=:voCode")
     List<ShgDataBean> getShgDataWithVo(String voCode);
+
+    @Query("select distinct lgd_village_code from masterdataentity")
+    List<LgdVillageCode> getLgdVillageCodes();
 
 
 

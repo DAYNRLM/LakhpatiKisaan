@@ -19,6 +19,7 @@ import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 import com.nrlm.lakhpatikisaan.view.home.HomeViewModel;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MpinViewModel extends ViewModel {
     private CheckAndDeleteShgRepo checkAndDeleteShgRepo;
@@ -43,22 +44,34 @@ public class MpinViewModel extends ViewModel {
                         homeViewModel.checkDuplicateAtServer(context, logRequestBean.getLogin_id(), logRequestBean.getState_short_name(), logRequestBean.getImei_no(),
                                 logRequestBean.getDevice_name(), logRequestBean.getLocation_coordinate(), AppConstant.entryNotCompleted);
 
-                       List<CheckDeleteShgEntity> checkDeleteShgEntityList= getShgToDelete();
-                       String shgCodesForDelete="";
-                       for (CheckDeleteShgEntity checkDeleteShgEntity:checkDeleteShgEntityList){
-                           shgCodesForDelete+=checkDeleteShgEntity.getShgCode()+",";
-                       }
+                        List<CheckDeleteShgEntity> checkDeleteShgEntityList= null;
+                        try {
+                            checkDeleteShgEntityList = getShgToDelete();
 
-                        DeleteShgRequestBean deleteShgRequestBean=new DeleteShgRequestBean();
-                        deleteShgRequestBean.setDevice_name(logRequestBean.getDevice_name());
-                        deleteShgRequestBean.setImei_no(logRequestBean.getImei_no());
-                        deleteShgRequestBean.setLocation_coordinate(logRequestBean.getLocation_coordinate());
-                        deleteShgRequestBean.setLogin_id(logRequestBean.getLogin_id());
-                        deleteShgRequestBean.setState_short_name(logRequestBean.getState_short_name());
 
-                        deleteShgRequestBean.setShg_code(AppUtils.getInstance().removeComma(shgCodesForDelete));
+                            DeleteShgRequestBean deleteShgRequestBean=new DeleteShgRequestBean();
+                            deleteShgRequestBean.setDevice_name(logRequestBean.getDevice_name());
+                            deleteShgRequestBean.setImei_no(logRequestBean.getImei_no());
+                            deleteShgRequestBean.setLocation_coordinate(logRequestBean.getLocation_coordinate());
+                            deleteShgRequestBean.setLogin_id(logRequestBean.getLogin_id());
+                            deleteShgRequestBean.setState_short_name(logRequestBean.getState_short_name());
 
-                        makeDeleteShgRequest(deleteShgRequestBean);
+                            String shgCodesForDelete="";
+                            for (CheckDeleteShgEntity checkDeleteShgEntity:checkDeleteShgEntityList){
+                                shgCodesForDelete+=checkDeleteShgEntity.getShgCode()+",";
+                            }
+
+                            deleteShgRequestBean.setShg_code(AppUtils.getInstance().removeComma(shgCodesForDelete));
+
+                            makeDeleteShgRequest(deleteShgRequestBean);
+                        } catch (ExecutionException e) {
+                            AppUtils.getInstance().showLog("getShgToDeleteExp:-------" + e.getMessage()
+                                    , AuthViewModel.class);
+                        } catch (InterruptedException e) {
+                            AppUtils.getInstance().showLog("getShgToDeleteExp:-------" + e.getMessage()
+                                    , AuthViewModel.class);
+                        }
+
 
                     } else {
                         /*got to dashboard*/
@@ -102,7 +115,7 @@ return apiStatus;
         });
     }
 
-    private List<CheckDeleteShgEntity> getShgToDelete(){
+    private List<CheckDeleteShgEntity> getShgToDelete() throws ExecutionException, InterruptedException {
         return checkAndDeleteShgRepo.getShgToDelete();
     }
 

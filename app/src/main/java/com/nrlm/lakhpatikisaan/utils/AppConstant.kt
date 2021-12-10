@@ -4,6 +4,7 @@ class AppConstant {
     companion object ConstantObject {
         const val wantToShow: Boolean = true
         const val dummyImei: String = "dummy_123456789"
+        const val noInternetCode: String = "12163"
         const val unsyncStatus: String = "0"
         const val syncStatus: String = "1"
         const val beforeNrlmStatus: String = "B"

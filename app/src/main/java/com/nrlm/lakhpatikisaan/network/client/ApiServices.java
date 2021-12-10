@@ -7,6 +7,7 @@ import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.OtpRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.ResetPasswordBean;
+import com.nrlm.lakhpatikisaan.network.model.request.SeccRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
 
 import retrofit2.Call;
@@ -32,6 +33,7 @@ public interface ApiServices {
 
     @POST("forgotPassword")
     Call<JsonObject> otpApi(@Body OtpRequestBean otpRequestBean);
+
     @POST("resetPassword")
     Call<JsonObject> resetPasswordApi(@Body ResetPasswordBean resetPasswordBean);
 
@@ -40,5 +42,8 @@ public interface ApiServices {
 
     @POST("deleteShg")
     Call<JsonObject> deleteShgApi(@Body DeleteShgRequestBean deleteShgRequestBean);
+
+    @POST("seccdata")
+    Call<JsonObject> seccDataApi(@Body SeccRequestBean seccRequestBean);
 
 }

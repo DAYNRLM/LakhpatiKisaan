@@ -22,7 +22,11 @@ import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,8 +65,8 @@ public class CheckAndDeleteShgRepo {
                         for (CheckDeleteShgResponseBean.DeletedShgData deletedShgData:checkDeleteShgResponseBean.getShg_data()){
                             checkDeleteShgEntityList.add(new CheckDeleteShgEntity(deletedShgData.getShg_code()));
                         }
-                        checkDeleteShgDao.insertAll(checkDeleteShgEntityList);
 
+                        insertAllCheckDeleteShg(checkDeleteShgEntityList);
                         repositoryCallback.onComplete(successResponse);
                     }
 
@@ -130,8 +134,6 @@ public class CheckAndDeleteShgRepo {
         });
     }
 
-
-
     private void callDeleteShgApi(final DeleteShgRequestBean deleteShgRequestBean, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
@@ -167,8 +169,26 @@ public class CheckAndDeleteShgRepo {
         });
     }
 
-    public List<CheckDeleteShgEntity> getShgToDelete(){
-        return checkDeleteShgDao.getShgToDelete();
+    public List<CheckDeleteShgEntity> getShgToDelete() throws ExecutionException, InterruptedException {
+
+       Callable<List<CheckDeleteShgEntity>> callable=new Callable<List<CheckDeleteShgEntity>>() {
+           @Override
+           public List<CheckDeleteShgEntity> call() throws Exception {
+               return checkDeleteShgDao.getShgToDelete();
+           }
+       };
+        Future<List<CheckDeleteShgEntity>> future= Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
     }
+
+    private void insertAllCheckDeleteShg(List<CheckDeleteShgEntity> checkDeleteShgEntityList){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                checkDeleteShgDao.insertAll(checkDeleteShgEntityList);
+            }
+        });
+    }
+
 
 }

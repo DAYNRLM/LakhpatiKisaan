@@ -60,14 +60,6 @@
 
 
 
-    <!--Strings added after labels sent to Atul Sir-->
-    <string name="no_block_found">No assigned block found</string>
-    <string name="no_gp_found">No assigned gram panchayat found</string>
-    <string name="no_village_found">No assigned village found</string>
-    <string name="no_shg_found">No assigned shg found</string>
-    <string name="no_member_found">No assigned member found</string>
-    <string name="no_clf_found">No assigned CLF found</string>
-    <string name="no_vo_found">No assigned VO found</string>
 
 //new strings 7/12/2021
     <string name="invalid_userid">Invalid user id</string>
@@ -110,5 +102,19 @@
     <string name="enter_mpin_first">Enter Mpin first</string>
     <string name="enter_confirm_first">Enter confirm Mpin first</string>
     <string name="mpin_can_not_empty">Mpin can not be empty</string>
+
+
+    <!--Strings added after labels sent to Atul Sir-->
+    <string name="no_block_found">No assigned block found</string>
+    <string name="no_gp_found">No assigned gram panchayat found</string>
+    <string name="no_village_found">No assigned village found</string>
+    <string name="no_shg_found">No assigned shg found</string>
+    <string name="no_member_found">No assigned member found</string>
+    <string name="no_clf_found">No assigned CLF found</string>
+    <string name="no_vo_found">No assigned VO found</string>
+    <string name="authenticating">Authenticating...</string>
+    <string name="before_income_title">Fill Income (Before coming into NRLM Fold)</string>
+    <string name="after_income_title">Fill Income at present</string>
+    <string name="income_selection">"Income Selection"</string>
 
 </resources>

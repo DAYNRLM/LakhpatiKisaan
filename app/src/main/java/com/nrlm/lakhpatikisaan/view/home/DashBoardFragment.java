@@ -78,21 +78,6 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         binding.cvShgDetails.animate().alpha(1f).setDuration(7000).start();
         //  HomeViewModel authViewModel=   new ViewModelProvider(this).get(HomeViewModel.class);
 
-        MpinViewModel mpinViewModel = new ViewModelProvider(getActivity()).get(MpinViewModel.class);
-        mpinViewModel.initializeObjects(getCurrentContext());
-         apiStatus = mpinViewModel.makeCheckDeleteShgRequest(getCurrentContext(), new LogRequestBean("UPAGASDFGH", "UP", "111", "1111", "111"));
-
-
-
-         new Handler().postDelayed(new Runnable() {
-             @Override
-             public void run() {
-                 status(mpinViewModel.getApiStatus());
-             }
-         },6000);
-
-
-
         locationFromAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getLocationFrom());
         binding.spinnerSelectLocationFrom.setAdapter(locationFromAdapter);
         locationFromAdapter.notifyDataSetChanged();
@@ -378,12 +363,5 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
 
     }
 
-
-    private void status(String apiStatus){
-        if (apiStatus.equalsIgnoreCase("E200"))
-            Toast.makeText(getContext(), "Shg data deletion and syncronization successful.", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(getContext(), "Shg data deletion and syncronization failed.", Toast.LENGTH_SHORT).show();
-    }
 
 }

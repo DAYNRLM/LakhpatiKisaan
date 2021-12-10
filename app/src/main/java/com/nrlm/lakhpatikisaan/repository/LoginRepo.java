@@ -7,6 +7,8 @@ import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.dao.LoginInfoDao;
+import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
+import com.nrlm.lakhpatikisaan.database.dbbean.LgdVillageCode;
 import com.nrlm.lakhpatikisaan.database.entity.LoginInfoEntity;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
 import com.nrlm.lakhpatikisaan.network.client.Result;
@@ -19,7 +21,12 @@ import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,11 +38,13 @@ public class LoginRepo {
     private static LoginRepo instance=null;
     private Context context;
     private  LoginInfoDao loginInfoDao;
+    private MasterDataDao masterDataDao;
 
     private LoginRepo(ExecutorService executor, Context context) {
         this.executor = executor;
         this.context=context;
         loginInfoDao=AppDatabase.getDatabase(context).getLoginInfoDao();
+        masterDataDao=AppDatabase.getDatabase(context).getMasterDataDao();
     }
 
     public static LoginRepo getInstance(ExecutorService executor,Context context){
@@ -232,6 +241,18 @@ private void resetpassRequest(final ResetPasswordBean resetPasswordBean, final S
                 }
             });
 
+        }
+
+        public List<LgdVillageCode> getLgdVillageCodes() throws ExecutionException, InterruptedException {
+            Callable<List<LgdVillageCode>> callable=new Callable<List<LgdVillageCode>>() {
+                @Override
+                public List<LgdVillageCode> call() throws Exception {
+                    return masterDataDao.getLgdVillageCodes();
+                }
+            };
+
+            Future<List<LgdVillageCode>> future= Executors.newSingleThreadExecutor().submit(callable);
+            return future.get();
         }
 
     }
