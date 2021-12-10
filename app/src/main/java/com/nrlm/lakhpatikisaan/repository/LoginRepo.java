@@ -123,6 +123,12 @@ private void resetpassRequest(final ResetPasswordBean resetPasswordBean, final S
             }
 
         }
+
+        @Override
+        public void onFailure(Call<JsonObject> call, Throwable t) {
+            AppUtils.getInstance().showLog("resetpassRequest" + t.toString(), MasterDataRepo.class);
+            serviceCallback.error(new Result.Error(t));
+        }
     });
 }
 

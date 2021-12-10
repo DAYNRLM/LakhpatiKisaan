@@ -18,7 +18,7 @@ import com.nrlm.lakhpatikisaan.view.mpin.MpinActivity;
 public class SplashScreenActivity extends AppCompatActivity {
 
     private static int SPLASH_SCREEN_TIME_OUT=2000;
-    private static int SPLASH_SCREEN_TIME_OUT=4000;
+
     String login_statusPref="";
 
     @Override
@@ -57,7 +57,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }else {
-            Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
+           /* Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
             startActivity(i);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();*/
