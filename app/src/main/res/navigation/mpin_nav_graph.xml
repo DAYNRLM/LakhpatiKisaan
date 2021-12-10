@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mpin_nav_graph"
+    app:startDestination="@id/setMpinFragment">
+
+    <fragment
+        android:id="@+id/setMpinFragment"
+        android:name="com.nrlm.lakhpatikisaan.view.mpin.SetMpinFragment"
+        android:label="fragment_set_mpin"
+        tools:layout="@layout/fragment_set_mpin" >
+        <action
+            android:id="@+id/action_setMpinFragment_to_verifyMpinFragment"
+            app:destination="@id/verifyMpinFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyMpinFragment"
+        android:name="com.nrlm.lakhpatikisaan.view.mpin.VerifyMpinFragment"
+        android:label="fragment_verify_mpin"
+        tools:layout="@layout/fragment_verify_mpin" />
+</navigation>

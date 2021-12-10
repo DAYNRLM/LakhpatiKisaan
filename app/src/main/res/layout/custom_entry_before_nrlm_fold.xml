@@ -39,7 +39,7 @@
                         android:id="@+id/tv_sector"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sector"
+                        android:text="@string/sector"
                         android:textSize="14sp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/manrope_semi_bold"
@@ -49,7 +49,7 @@
                         android:id="@+id/tv_Activity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Activity"
+                        android:text="@string/activity"
                         android:textSize="14sp"
                         android:fontFamily="@font/manrope_semi_bold"
                         android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
@@ -58,7 +58,7 @@
                         android:id="@+id/tv_frequency"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Frequency Rang"
+                        android:text="@string/frequency_range"
                         android:textSize="14sp"
                         android:fontFamily="@font/manrope_semi_bold"
                         android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
@@ -67,7 +67,7 @@
                         android:id="@+id/tv_incomeRange"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10000 and 2000 Rs. Rang "
+                        android:text="@string/range_value"
                         android:textSize="16sp"
                         android:fontFamily="@font/manrope_extra_bold"
                         android:textColor="@color/green_700" />
@@ -140,7 +140,7 @@
                             style="@style/Widget.MaterialComponents.Button.TextButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Delete"
+                            android:text="@string/delete"
                             app:icon="@drawable/ic_baseline_delete_outline_24"
                             app:iconGravity="end"
                             android:textAppearance="?attr/textAppearanceSmallPopupMenu"
@@ -167,31 +167,9 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_baseline_delete_outline_24"/>
                         </com.google.android.material.card.MaterialCardView>-->
-
-
-
-                    </LinearLayout>
-
-
-
-
-
-
-
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
-
-
-
-
-
-
-
-
-        </com.google.android.material.card.MaterialCardView>
-
+         </LinearLayout>
+         </LinearLayout>
+        </RelativeLayout>
+       </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </layout>

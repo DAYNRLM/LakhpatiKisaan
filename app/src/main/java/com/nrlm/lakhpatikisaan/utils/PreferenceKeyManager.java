@@ -33,6 +33,35 @@ public class PreferenceKeyManager {
     public static String getPrefSelectedShgCode() {
         return PrefSelectedShgCode;
     }
+    private static final String ForgotMobileNumber="forgotmobile";
+    private static final String RandomOtp="genratedOtp";
+    private static final String PREF_KEY_MPIN= "prfMPIN";
+    private static final String PREF_KEY_LOGIN_DONE = "Longin";
+
+    public static String getPrefKeyLoginDone() {
+        return PREF_KEY_LOGIN_DONE;
+    }
+
+
+
+
+
+    public static String getPrefKeyMpin() {
+        return PREF_KEY_MPIN;
+    }
+
+
+    public static String getRandomOtp() {
+        return RandomOtp;
+    }
+
+
+
+    public static String getForgotMobileNumber() {
+        return ForgotMobileNumber;
+    }
+
+
 
     public static String getPrefSelectedMemberCode() {
         return PrefSelectedMemberCode;

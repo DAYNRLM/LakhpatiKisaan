@@ -19,6 +19,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private static int SPLASH_SCREEN_TIME_OUT=2000;
 
+    String login_statusPref="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void goToNextScreen() {
+        login_statusPref = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyLoginDone(), SplashScreenActivity.this);
         String loginStatus ="";
         loginStatus = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginSessionKey(),this);
 
@@ -54,9 +57,13 @@ public class SplashScreenActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }else {
-            Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
+           /* Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
             startActivity(i);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();*/
+            Intent intent = new Intent(SplashScreenActivity.this, MpinActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         }
     }

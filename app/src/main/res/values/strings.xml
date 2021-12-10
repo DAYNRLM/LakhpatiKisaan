@@ -68,4 +68,47 @@
     <string name="no_member_found">No assigned member found</string>
     <string name="no_clf_found">No assigned CLF found</string>
     <string name="no_vo_found">No assigned VO found</string>
+
+//new strings 7/12/2021
+    <string name="invalid_userid">Invalid user id</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="sector">Sector</string>
+    <string name="activity">Activity</string>
+    <string name="frequency_range">Frequency Range</string>
+    <string name="delete">Delete</string>
+    <string name="range_value">10000 and 2000 Rs. Rang</string> //this string can be deleted
+    <string name="last_entry_before_nrlm">Last entry before NRLM</string>
+    <string name="last_entry_after_nrlm">Last entry after NRLM</string>
+    <string name="no_field_date">Not filled/ Date</string>
+    <string name="go_to_member_entry">Go To Member Entry</string>
+    <string name="select_shg">Select SHG</string>
+    <string name="select_member_from">Select Member from</string>
+    <string name="shg_detail">SHG Detail</string>
+    <string name="total_member">Total Member</string>
+    <string name="go_to_shg_members">Go to SHG Members</string>
+    <string name="income_before_coming_nrlm">Income (Before coming into NRLM Fold)</string>
+    <string name="select_month_and_year_before_your_date_of_joining">Select Month and Year before your date of joining in NRLM.</string>
+    <string name="select_month_and_year">Select Month/Year</string>
+    <string name="select_sector">Select Sector</string>
+    <string name="select_activity">Select Activity</string>
+    <string name="income_frquency">Income Frequency</string>
+    <string name="income_range">Income Range</string>
+    <string name="add">Add</string>
+    <string name="reset">Reset</string>
+    <string name="submit_details">Submit Details</string>
+    <string name="shg_members">SHG Members</string>
+        <string name="home">Home</string>
+    <string name="alert">Alert!</string>
+    <string name="number_cant_be_empty">First enter your mobile number.</string>
+    <string name="tv_mpin_title">We Value Security</string>
+    <string name="tv_mpin_msg">Set new MPIN to Keep your Application safe and secure</string>
+    <string name="tv_mpin_confirm">Confirm Mpin</string>
+    <string name="tv_mpin_set_mpin">Set Mpin </string>
+    <string name="tv_mpin_user_msg">Hi, AGEY User</string>
+    <string name="tv_mpin_userId">UserId:</string>
+    <string name="btn_verify_mpin">Verify Mpin</string>
+    <string name="enter_mpin_first">Enter Mpin first</string>
+    <string name="enter_confirm_first">Enter confirm Mpin first</string>
+    <string name="mpin_can_not_empty">Mpin can not be empty</string>
+
 </resources>

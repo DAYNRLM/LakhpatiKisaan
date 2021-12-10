@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.dao.LoginInfoDao;
 import com.nrlm.lakhpatikisaan.database.entity.LoginInfoEntity;
@@ -12,7 +13,10 @@ import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.network.client.ServiceCallback;
 import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.OtpRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.ResetPasswordBean;
 import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
+import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
 import java.util.concurrent.ExecutorService;
@@ -41,7 +45,28 @@ public class LoginRepo {
         return instance;
     }
 
-
+public void resetPasswordRequestLog(final ResetPasswordBean resetPasswordBean,final RepositoryCallback repositoryCallback)
+{
+    executor.execute(new Runnable() {
+        @Override
+        public void run() {
+            resetpassRequest(resetPasswordBean, new ServiceCallback<Result>() {
+                @Override
+                public void success(Result<Result> successResponse) {
+                    if (successResponse instanceof Result.Success) {
+                        SimpleResponseBean simpleResponseBean=(SimpleResponseBean) ((Result.Success) successResponse).data;
+                        AppUtils.getInstance().showLog("LoginRepo "+simpleResponseBean.toString(),LoginRepo.class);
+                    }
+                    repositoryCallback.onComplete(successResponse);
+                }
+                @Override
+                public void error(Result<Result> errorResponse) {
+                    repositoryCallback.onComplete(errorResponse);
+                }
+            });
+        }
+    });
+}
     public void makeLoginRequest(final LoginRequestBean loginRequestObject,
                                  final RepositoryCallback repositoryCallback){
         executor.execute(new Runnable() {
@@ -78,52 +103,135 @@ public class LoginRepo {
                 }
             }
         });
-
     }
+private void resetpassRequest(final ResetPasswordBean resetPasswordBean, final ServiceCallback<Result> serviceCallback)
+{
 
+    ApiServices apiServices = RetrofitClient.getApiServices();
+    Call<JsonObject> call = (Call<JsonObject>) apiServices.resetPasswordApi(resetPasswordBean);
+    call.enqueue(new Callback<JsonObject>() {
+        @Override
+        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            AppUtils.getInstance().showLog("reset Password response" + response.toString(), LoginRepo.class);
+            if (response.isSuccessful()) {
+                SimpleResponseBean simpleResponseBean = new Gson().fromJson(response.body(), SimpleResponseBean.class);
+                serviceCallback.success(new Result.Success(simpleResponseBean));
 
-    private void callLoginRequest(final LoginRequestBean loginRequestObject, final ServiceCallback<Result> serviceCallback) {
+            } else {
+                serviceCallback.error(new Result.Error(new Throwable(response.code() + " " + response.message())));
 
-        ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.loginApi(loginRequestObject);
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-                AppUtils.getInstance().showLog("LoginDataResponse"+response.toString(), MasterDataRepo.class);
-                if (response.isSuccessful()) {
-
-                    if(response.body() == null || response.code() == 204){ // 204 is empty response
-                        serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    }else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")){
-                        LoginResponseBean.Error error=  new Gson().fromJson(response.body().getAsJsonObject("error"), LoginResponseBean.Error.class);
-                        serviceCallback.error(new Result.Error(error));
-                    }
-                    else{
-                        LoginResponseBean loginResponseBean = new Gson().fromJson(response.body(), LoginResponseBean.class);
-                        serviceCallback.success( new Result.Success(loginResponseBean));
-                    }
-
-                }else {
-                    serviceCallback.error(new Result.Error(new Throwable(response.code()+" "+response.message())));
-                }
             }
 
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                AppUtils.getInstance().showLog("ServerFailureInLoginApi"+t.toString(),MasterDataRepo.class);
-                serviceCallback.error(new Result.Error(t));
-             }
-        });
-    }
+        }
 
-    private void insertLoginInfo(LoginInfoEntity loginInfoEntity){
-        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                loginInfoDao.insert(loginInfoEntity);
-            }
-        });
-    }
-
+        @Override
+        public void onFailure(Call<JsonObject> call, Throwable t) {
+            AppUtils.getInstance().showLog("resetpassRequest" + t.toString(), MasterDataRepo.class);
+            serviceCallback.error(new Result.Error(t));
+        }
+    });
 }
+
+
+        private void callLoginRequest(final LoginRequestBean loginRequestObject, final ServiceCallback<Result> serviceCallback) {
+
+            ApiServices apiServices = RetrofitClient.getApiServices();
+            Call<JsonObject> call = (Call<JsonObject>) apiServices.loginApi(loginRequestObject);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                    AppUtils.getInstance().showLog("LoginDataResponse" + response.toString(), MasterDataRepo.class);
+                    if (response.isSuccessful()) {
+
+                        if (response.body() == null || response.code() == 204) { // 204 is empty response
+                            serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
+                        } else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
+                            LoginResponseBean.Error error = new Gson().fromJson(response.body().getAsJsonObject("error"), LoginResponseBean.Error.class);
+                            serviceCallback.error(new Result.Error(error));
+                        } else {
+                            LoginResponseBean loginResponseBean = new Gson().fromJson(response.body(), LoginResponseBean.class);
+                            serviceCallback.success(new Result.Success(loginResponseBean));
+                        }
+
+                    } else {
+                        serviceCallback.error(new Result.Error(new Throwable(response.code() + " " + response.message())));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    AppUtils.getInstance().showLog("ServerFailureInLoginApi" + t.toString(), MasterDataRepo.class);
+                    serviceCallback.error(new Result.Error(t));
+                }
+            });
+        }
+
+        public void callOtpServices(final OtpRequestBean otpRequestBean, final RepositoryCallback repositoryCallback) {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    otpService(otpRequestBean, new ServiceCallback<Result>() {
+
+                        @Override
+                        public void success(Result<Result> successResponse) {
+
+                        }
+
+                        @Override
+                        public void error(Result<Result> errorResponse) {
+
+                        }
+                    });
+                }
+            });
+
+        }
+
+        private void otpService(final OtpRequestBean otpRequestBean, final ServiceCallback<Result> serviceCallback) {
+
+            ApiServices apiServices = RetrofitClient.getApiServices();
+            Call<JsonObject> call = (Call<JsonObject>) apiServices.otpApi(otpRequestBean);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                    AppUtils.getInstance().showLog("Otp Response" + response.toString(), LoginRepo.class);
+                    if (response.isSuccessful()) {
+
+                        if (response.body() == null || response.code() == 204) { // 204 is empty response
+                            serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
+                        } else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
+                        /*LoginResponseBean.Error error=  new Gson().fromJson(response.body().getAsJsonObject("error"), LoginResponseBean.Error.class);
+                        serviceCallback.error(new Result.Error(error));*/
+                        } else {
+                       /* LoginResponseBean loginResponseBean = new Gson().fromJson(response.body(), LoginResponseBean.class);
+                        serviceCallback.success( new Result.Success(loginResponseBean));*/
+                            //REsult
+                        }
+
+                    } else {
+                        serviceCallback.error(new Result.Error(new Throwable(response.code() + " " + response.message())));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    AppUtils.getInstance().showLog("ServerFailureInLoginApi" + t.toString(), LoginRepo.class);
+                    serviceCallback.error(new Result.Error(t));
+                }
+            });
+        }
+
+
+        private void insertLoginInfo(LoginInfoEntity loginInfoEntity) {
+            AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    loginInfoDao.insert(loginInfoEntity);
+                }
+            });
+
+        }
+
+    }

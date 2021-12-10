@@ -17,6 +17,7 @@ public class DialogFactory {
     public static DialogFactory dialogFactory;
     private androidx.appcompat.app.AlertDialog alertDialog;
     private androidx.appcompat.app.AlertDialog serverAlertDialog;
+    private androidx.appcompat.app.AlertDialog alert;
 
     public static DialogFactory getInstance() {
         if (dialogFactory == null)
@@ -143,5 +144,16 @@ public class DialogFactory {
             builder.setNegativeButton(negativeButtonText, dialogNegativeClickListener);
         }
         builder.show();
+    }
+    public void showAlert(Context context,String message,String positiveButtonText ){
+        alert= DialogFactory.getInstance().showAlertDialog(context,0,"Alert!",message, positiveButtonText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        },true);
+
+        alert.show();
+
     }
 }

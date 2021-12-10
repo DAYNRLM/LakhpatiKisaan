@@ -39,7 +39,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/space_2dp"
-                        android:text="Simran mahila Self Help Group(1345732) "
+                        android:text="xxxxxxxxxxxxxxxxxx"
                         android:textSize="@dimen/text_16sp"
                         android:fontFamily="@font/manrope_extra_bold"
                         android:textColor="@color/black" />
@@ -83,7 +83,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/space_2dp"
-                            android:text="Last entry before NRLM"
+                            android:text="@string/last_entry_before_nrlm"
                             android:textSize="@dimen/text_16sp"
                             android:fontFamily="@font/manrope_extra_bold"
                             android:textColor="@color/black" />
@@ -96,7 +96,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_horizontal"
-                            android:text="Not filled/ Date"
+                            android:text="@string/no_field_date"
                             android:textStyle="bold"
                             android:textColor="@color/red_500"
                             android:textSize="@dimen/text_16sp"
@@ -131,7 +131,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/space_2dp"
-                            android:text="Last entry after NRLM"
+                            android:text="@string/last_entry_after_nrlm"
                             android:textSize="@dimen/text_16sp"
                             android:fontFamily="@font/manrope_extra_bold"
                             android:textColor="@color/black" />
@@ -144,7 +144,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_horizontal"
-                            android:text="Not filled/ Date"
+                            android:text="@string/no_field_date"
                             android:textStyle="bold"
                             android:textColor="@color/red_500"
                             android:textSize="@dimen/text_16sp"
@@ -173,7 +173,7 @@
                     android:gravity="center_vertical"
                     android:drawableEnd="@drawable/ic_baseline_keyboard_double_arrow_right_24"
                     android:textSize="13sp"
-                    android:text="Go To Member Entry"/>
+                    android:text="@string/go_to_member_entry"/>
 
 
             </LinearLayout>
