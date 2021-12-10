@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.network.model.request.CheckDuplicateRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.OtpRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.ResetPasswordBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
 
 import retrofit2.Call;
@@ -26,4 +28,9 @@ public interface ApiServices {
 
     @POST("addmemberdata")
     Call<JsonObject> syncEntriesDataApi(@Body SyncEntriesRequestBean syncEntriesRequestBean);
+
+    @POST("forgotPassword")
+    Call<JsonObject> otpApi(@Body OtpRequestBean otpRequestBean);
+    @POST("resetPassword")
+    Call<JsonObject> resetPasswordApi(@Body ResetPasswordBean resetPasswordBean);
 }

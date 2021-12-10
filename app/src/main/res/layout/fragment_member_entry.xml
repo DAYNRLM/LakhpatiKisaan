@@ -51,7 +51,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_semi_bold"
-                            android:text="Shambhu Ghanshyam  ( 3456762 )"
+                            android:text="xxxxxxxxxxxxxxxxxx"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_20sp" />
 
@@ -92,7 +92,7 @@
                             <TextView
                                 android:id="@+id/tv_click"
                                 style="@style/TitleTextViewTheme"
-                                android:text="Income (Before coming into NRLM Fold)" />
+                                android:text="@string/income_before_coming_nrlm" />
 
                         </LinearLayout>
 
@@ -129,7 +129,7 @@
                             android:fontFamily="@font/manrope_semi_bold"
                             android:gravity="center_horizontal"
                             android:padding="@dimen/space_3dp"
-                            android:text="Select Month and Year before your date of joining in NRLM."
+                            android:text="@string/select_month_and_year_before_your_date_of_joining"
                             android:textColor="@color/black" />
 
 
@@ -147,7 +147,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="@dimen/text_20sp"
-                                android:text="Select Month/Year"
+                                android:text="@string/select_month_and_year"
                                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                 android:textColor="@color/orange_500"
                                 app:strokeColor="@color/green_500" />
@@ -326,7 +326,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select Sector"
+                            android:hint="@string/select_sector"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -350,7 +350,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select Activity"
+                            android:hint="@string/select_activity"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -374,7 +374,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="Income Frequency"
+                            android:hint="@string/income_frquency"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -398,7 +398,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="Income Range"
+                            android:hint="@string/income_range"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -432,7 +432,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="@dimen/space_10dp"
                                 android:fontFamily="@font/manrope_semi_bold"
-                                android:text="Add"
+                                android:text="@string/add"
                                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                 android:textSize="16sp"
                                 app:cornerRadius="@dimen/text_20sp" />
@@ -443,7 +443,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_semi_bold"
-                                android:text="Reset"
+                                android:text="@string/reset"
                                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                 android:textSize="16sp"
                                 app:cornerRadius="@dimen/text_20sp" />
@@ -477,7 +477,7 @@
                         <TextView
 
                             style="@style/TitleTextViewTheme"
-                            android:text="Selected Activity" />
+                            android:text="@string/select_activity" />
 
                         <LinearLayout
                             android:layout_marginTop="@dimen/space_3dp"
@@ -512,7 +512,7 @@
             android:fontFamily="@font/manrope_semi_bold"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="Submit Detail's"
+            android:text="@string/submit_details"
             android:textSize="16sp" />
 
     </RelativeLayout>

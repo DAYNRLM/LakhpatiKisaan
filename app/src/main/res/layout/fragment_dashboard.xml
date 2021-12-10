@@ -14,10 +14,10 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_marginBottom="@dimen/space_3dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/btn_goToMember"
+            android:layout_marginBottom="@dimen/space_3dp"
             android:orientation="vertical">
 
 
@@ -43,7 +43,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/space_3dp"
                         android:fontFamily="@font/montserrat_regular"
-                        android:hint="Select Member from"
+                        android:hint="@string/select_member_from"
                         android:padding="3dp"
                         app:boxStrokeColor="@color/out_line_strok">
 
@@ -61,11 +61,11 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/layout_cboLocation"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -261,7 +261,7 @@
 
                     <TextView
                         style="@style/TitleTextViewTheme"
-                        android:text="SHG Detail" />
+                        android:text="@string/shg_detail" />
 
 
                     <com.google.android.material.card.MaterialCardView
@@ -286,7 +286,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_regular"
-                                android:text="Total Member" />
+                                android:text="@string/total_member" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -323,7 +323,7 @@
             android:fontFamily="@font/manrope_semi_bold"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="Go to SHG Member's"
+            android:text="@string/go_to_shg_members"
             android:textSize="16sp" />
     </RelativeLayout>
 

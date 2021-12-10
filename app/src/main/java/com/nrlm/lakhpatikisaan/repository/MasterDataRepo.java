@@ -24,6 +24,7 @@ import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.network.client.ServiceCallback;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.OtpRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SupportiveMastersResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
@@ -166,6 +167,8 @@ public class MasterDataRepo {
         });
 
     }
+
+
 
 
     private void callMasterDataApi(final LogRequestBean logRequestObject, final ServiceCallback<Result> serviceCallback) {

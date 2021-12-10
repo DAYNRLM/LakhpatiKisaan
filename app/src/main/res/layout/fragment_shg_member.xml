@@ -16,7 +16,7 @@
         <TextView
             android:id="@+id/tv_click"
             style="@style/TitleTextViewTheme"
-            android:text="SHG Members" />
+            android:text="@string/shg_members" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_shgMembers"

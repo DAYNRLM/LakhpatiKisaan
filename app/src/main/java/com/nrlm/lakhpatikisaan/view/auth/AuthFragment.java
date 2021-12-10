@@ -30,6 +30,7 @@ import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.nrlm.lakhpatikisaan.view.home.HomeActivity;
+import com.nrlm.lakhpatikisaan.view.mpin.MpinActivity;
 
 import org.json.JSONException;
 
@@ -73,9 +74,9 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             String password = binding.etPassword.getText().toString();
             String userId = binding.etUserId.getText().toString();
             if (userId.equalsIgnoreCase("")){
-                binding.etUserId.setError("Invalid user id");
+                binding.etUserId.setError(getString(R.string.invalid_userid));
             }else if(password.equalsIgnoreCase("")) {
-                binding.etPassword.setError("Invalid password");
+                binding.etPassword.setError(getString(R.string.invalid_password));
             }else {
                 progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage(getString(R.string.loading_heavy));
@@ -85,14 +86,14 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
                         String loginApiStatus=authViewModel.loginApiResult();
                         progressDialog.dismiss();
                         if (!loginApiStatus.equalsIgnoreCase("")){
                             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginSessionKey(),"logedin",getContext());
-                            Intent intent = new Intent(getContext(), HomeActivity.class);
+                            intentToMpin();
+                         /*   Intent intent = new Intent(getContext(), HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+                            startActivity(intent);*/
                         }else {
                             try {
 
@@ -141,6 +142,11 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                         , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, false
                 );
         }
+    }
+    private void intentToMpin() {
+        Intent intent=new Intent(getContext(), MpinActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
 }
