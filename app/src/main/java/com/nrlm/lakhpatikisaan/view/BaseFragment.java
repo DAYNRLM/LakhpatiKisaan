@@ -15,6 +15,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
 
+import com.nrlm.lakhpatikisaan.utils.AppDateFactory;
+
 public abstract class BaseFragment<VM extends ViewModel,
         B extends ViewBinding> extends Fragment {
 
@@ -23,6 +25,7 @@ public abstract class BaseFragment<VM extends ViewModel,
     public B binding;
     public VM viewModel;
     public NavController navController;
+    public AppDateFactory appDateFactory;
 
     @Nullable
     @Override
@@ -30,6 +33,7 @@ public abstract class BaseFragment<VM extends ViewModel,
         binding = getFragmentBinding(inflater, container);
         viewModel = new ViewModelProvider(this).get(getViewModel());
         navController = NavHostFragment.findNavController(this);
+        appDateFactory =AppDateFactory.getInstance();
 
         this.onFragmentReady();
         return binding.getRoot();

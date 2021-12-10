@@ -70,6 +70,24 @@ public class MasterDataResponseBean {
         private String member_joining_date  ;
         private String last_entry_after_nrlm  ;
         private String last_entry_before_nrlm  ;
+        private String lgd_village_code  ;
+        private String secc_no_flag  ;
+
+        public String getLgd_village_code() {
+            return lgd_village_code;
+        }
+
+        public void setLgd_village_code(String lgd_village_code) {
+            this.lgd_village_code = lgd_village_code;
+        }
+
+        public String getSecc_no_flag() {
+            return secc_no_flag;
+        }
+
+        public void setSecc_no_flag(String secc_no_flag) {
+            this.secc_no_flag = secc_no_flag;
+        }
 
         public String getBlock_code() {
             return block_code;

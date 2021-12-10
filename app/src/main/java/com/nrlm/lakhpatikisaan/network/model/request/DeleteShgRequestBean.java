@@ -1,23 +1,20 @@
 package com.nrlm.lakhpatikisaan.network.model.request;
 
-import java.io.Serializable;
+public class DeleteShgRequestBean {
 
-public class LogRequestBean implements Serializable {
-
-
-
+    private String state_short_name ;
     private String login_id;
-    private String state_short_name;
     private String imei_no;
     private String device_name;
     private String location_coordinate;
+    private String shg_code;
 
-    public LogRequestBean(String login_id, String state_short_name, String imei_no, String device_name, String location_coordinate) {
-        this.login_id = login_id;
+    public String getState_short_name() {
+        return state_short_name;
+    }
+
+    public void setState_short_name(String state_short_name) {
         this.state_short_name = state_short_name;
-        this.imei_no = imei_no;
-        this.device_name = device_name;
-        this.location_coordinate = location_coordinate;
     }
 
     public String getLogin_id() {
@@ -26,14 +23,6 @@ public class LogRequestBean implements Serializable {
 
     public void setLogin_id(String login_id) {
         this.login_id = login_id;
-    }
-
-    public String getState_short_name() {
-        return state_short_name;
-    }
-
-    public void setState_short_name(String state_short_name) {
-        this.state_short_name = state_short_name;
     }
 
     public String getImei_no() {
@@ -59,10 +48,22 @@ public class LogRequestBean implements Serializable {
     public void setLocation_coordinate(String location_coordinate) {
         this.location_coordinate = location_coordinate;
     }
+
+    public String getShg_code() {
+        return shg_code;
+    }
+
+    public void setShg_code(String shg_code) {
+        this.shg_code = shg_code;
+    }
 }
-  /*{  "state_short_name":"hr",
-   "user_id":"HRKSVISHAKHA",
+/*{
+   "state_short_name":"up",
+   "login_id":"UPAGASSDAD",
      "imei_no":"111",
    "device_name":"111",
-   "location_coordinate":"111"
+   "location_coordinate":"111",
+   "shg_code":"247028"
+
+
 }*/

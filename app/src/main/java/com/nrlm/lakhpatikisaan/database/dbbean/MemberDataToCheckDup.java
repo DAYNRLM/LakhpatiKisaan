@@ -11,12 +11,15 @@ public class MemberDataToCheckDup {
     private String sectorCode;
     @ColumnInfo(name = "activityCode")
     private String activityCode;
+    @ColumnInfo(name = "flagBeforeAfterNrlm")
+    private String flagBeforeAfterNrlm;
 
-    public MemberDataToCheckDup(String shgCode, String memberCode, String sectorCode, String activityCode) {
+    public MemberDataToCheckDup(String shgCode, String memberCode, String sectorCode, String activityCode, String flagBeforeAfterNrlm) {
         this.shgCode = shgCode;
         this.memberCode = memberCode;
         this.sectorCode = sectorCode;
         this.activityCode = activityCode;
+        this.flagBeforeAfterNrlm = flagBeforeAfterNrlm;
     }
 
     public String getShgCode() {
@@ -49,5 +52,13 @@ public class MemberDataToCheckDup {
 
     public void setActivityCode(String activityCode) {
         this.activityCode = activityCode;
+    }
+
+    public String getFlagBeforeAfterNrlm() {
+        return flagBeforeAfterNrlm;
+    }
+
+    public void setFlagBeforeAfterNrlm(String flagBeforeAfterNrlm) {
+        this.flagBeforeAfterNrlm = flagBeforeAfterNrlm;
     }
 }

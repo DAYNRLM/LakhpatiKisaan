@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/space_15dp"
         android:padding="@dimen/space_5dp"
         android:textSize="@dimen/space_25dp"
-        android:textColor="@color/cardview_dark_background"
+        android:textColor="@color/green_500"
         />
 
 

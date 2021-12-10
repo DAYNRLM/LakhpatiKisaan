@@ -9,9 +9,12 @@ public class MasterDataEntity {
     @PrimaryKey(autoGenerate = true)
     public int id;
     private String block_name,block_code,gp_code,gp_name,village_code,village_name,shg_name,shg_code,member_code,member_name
-            ,clf_code,clf_name,vo_code,vo_name,member_joining_date,last_entry_after_nrlm,last_entry_before_nrlm;
+            ,clf_code,clf_name,vo_code,vo_name,member_joining_date,last_entry_after_nrlm,last_entry_before_nrlm,secc_no_flag,lgd_village_code;
 
-    public MasterDataEntity(String block_name, String block_code, String gp_code, String gp_name, String village_code, String village_name, String shg_name, String shg_code, String member_code, String member_name, String clf_code, String clf_name, String vo_code, String vo_name, String member_joining_date, String last_entry_after_nrlm, String last_entry_before_nrlm) {
+    public MasterDataEntity(String block_name, String block_code, String gp_code, String gp_name,
+                            String village_code, String village_name, String shg_name, String shg_code, String member_code,
+                            String member_name, String clf_code, String clf_name, String vo_code, String vo_name, String member_joining_date,
+                            String last_entry_after_nrlm, String last_entry_before_nrlm, String secc_no_flag, String lgd_village_code) {
         this.block_name = block_name;
         this.block_code = block_code;
         this.gp_code = gp_code;
@@ -29,7 +32,10 @@ public class MasterDataEntity {
         this.member_joining_date = member_joining_date;
         this.last_entry_after_nrlm = last_entry_after_nrlm;
         this.last_entry_before_nrlm = last_entry_before_nrlm;
+        this.secc_no_flag = secc_no_flag;
+        this.lgd_village_code = lgd_village_code;
     }
+
 
     public int getId() {
         return id;
@@ -173,5 +179,21 @@ public class MasterDataEntity {
 
     public void setLast_entry_before_nrlm(String last_entry_before_nrlm) {
         this.last_entry_before_nrlm = last_entry_before_nrlm;
+    }
+
+    public String getSecc_no_flag() {
+        return secc_no_flag;
+    }
+
+    public void setSecc_no_flag(String secc_no_flag) {
+        this.secc_no_flag = secc_no_flag;
+    }
+
+    public String getLgd_village_code() {
+        return lgd_village_code;
+    }
+
+    public void setLgd_village_code(String lgd_village_code) {
+        this.lgd_village_code = lgd_village_code;
     }
 }

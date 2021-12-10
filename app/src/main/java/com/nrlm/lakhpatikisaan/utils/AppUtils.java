@@ -85,6 +85,10 @@ public class AppUtils {
         return "" + otp;
     }
 
+    public String removeComma(String string){
+        return string.replaceAll("(,)*$", "");
+    }
+
    /* public void setLocale(String localeName, Resources res) {
         Locale myLocale = new Locale(localeName);
         Locale.setDefault(myLocale);

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.CustomEntryBeforeNrlmFoldBinding;
 import com.nrlm.lakhpatikisaan.databinding.CustomShgMemberLayoutBinding;
 
@@ -15,11 +16,11 @@ import java.util.List;
 
 public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBeforeNrlmFoldAdapter.MyViewHolder> {
 
-    List<String> dataItem;
+    List<MemberEntryEntity> memberEntryDataItem;
     Context context;
 
-    public EntryBeforeNrlmFoldAdapter(List<String> dataItem, Context context) {
-        this.dataItem = dataItem;
+    public EntryBeforeNrlmFoldAdapter(List<MemberEntryEntity> memberEntryDataItem, Context context) {
+        this.memberEntryDataItem = memberEntryDataItem;
         this.context = context;
     }
 
@@ -33,12 +34,17 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
+        holder.itemBinding.tvSector.setText(memberEntryDataItem.get(position).getSectorName());
+        holder.itemBinding.tvActivity.setText(memberEntryDataItem.get(position).getActivityName());
+        holder.itemBinding.tvFrequency.setText(memberEntryDataItem.get(position).getIncomeFrequencyName());
+        holder.itemBinding.tvIncomeRange.setText(memberEntryDataItem.get(position).getIncomeRangName());
+        holder.itemBinding.tvMonth.setText(memberEntryDataItem.get(position).getMonthName());
+        holder.itemBinding.tvYear.setText(memberEntryDataItem.get(position).getEntryYearCode());
     }
 
     @Override
     public int getItemCount() {
-        return dataItem.size();
+        return memberEntryDataItem.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

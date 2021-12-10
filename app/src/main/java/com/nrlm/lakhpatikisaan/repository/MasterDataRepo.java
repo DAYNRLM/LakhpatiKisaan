@@ -10,14 +10,21 @@ import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
 import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
 import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
+import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
+
 import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.ClfDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.VoDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
+import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
 import com.nrlm.lakhpatikisaan.network.client.Result;
@@ -52,6 +59,7 @@ public class MasterDataRepo {
     private ActivityDao activityDao;
     private FrequencyDao frequencyDao;
     private IncomeRangeDao incomeRangeDao;
+    private MemberEntryDao memberEntryDao;
 
     private MasterDataRepo(ExecutorService executor,Context context) {
         this.executor = executor;
@@ -62,6 +70,7 @@ public class MasterDataRepo {
         activityDao=appDatabase.getActivityDao();
         frequencyDao=appDatabase.getFrequencyDao();
         incomeRangeDao=appDatabase.getIncomeRangeDao();
+        memberEntryDao=appDatabase.memberEntryDao();
     }
 
     public static MasterDataRepo getInstance(ExecutorService executor,Context context){
@@ -91,7 +100,7 @@ public class MasterDataRepo {
                                     MasterDataEntity masterDataEntity=new MasterDataEntity(masterData.getBlock_name(),masterData.getBlock_code(),masterData.getGp_code(),masterData.getGp_name(),masterData.getVillage_code(),
                                             masterData.getVillage_name(),masterData.getShg_name(),masterData.getShg_code(),masterData.getMember_code(),masterData.getMember_name(),masterData.getClf_code(),
                                             masterData.getClf_name(),masterData.getVo_code(),masterData.getVo_name(),masterData.getMember_joining_date(),
-                                            masterData.getLast_entry_after_nrlm(),masterData.getLast_entry_before_nrlm());
+                                            masterData.getLast_entry_after_nrlm(),masterData.getLast_entry_before_nrlm(),masterData.getSecc_no_flag(),masterData.getLgd_village_code());
                                     masterDataEntityList.add(masterDataEntity);
                                 }
                                 insertAllMasterData(masterDataEntityList);
@@ -311,6 +320,147 @@ public class MasterDataRepo {
         Future<List<GpDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
         return future.get();
     }
+    public List<VillageDataBean> getVillageListData(String gpCode) throws ExecutionException, InterruptedException {
+
+        Callable<List<VillageDataBean>> listCallable = new Callable<List<VillageDataBean>>() {
+            @Override
+            public List<VillageDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getVillageListData"+masterDataDao.getGpListData(gpCode).size()+"---"+gpCode,MasterDataRepo.class);
+                return masterDataDao.getVillageListData(gpCode);
+            }
+        };
+        Future<List<VillageDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public List<ShgDataBean> getShgListData(String villageCode) throws ExecutionException, InterruptedException {
+
+        Callable<List<ShgDataBean>> listCallable = new Callable<List<ShgDataBean>>() {
+            @Override
+            public List<ShgDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getShgListData"+masterDataDao.getGpListData(villageCode).size(),MasterDataRepo.class);
+                return masterDataDao.getShgListData(villageCode);
+            }
+        };
+        Future<List<ShgDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public String getMemberNameDB(String memBerCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("ShgListData"+masterDataDao.getGpListData(memBerCode).size(),MasterDataRepo.class);
+                return masterDataDao.getMemberNameDB(memBerCode);
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public String getShgNameDB(String shgCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("ShgNameDB"+masterDataDao.getGpListData(shgCode).size(),MasterDataRepo.class);
+                return masterDataDao.getShgNameDB(shgCode);
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("getMemberCount"+masterDataDao.getGpListData(shgCode).size(),MasterDataRepo.class);
+                return String.valueOf(masterDataDao.getMemberCount(shgCode));
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public String getBeforeEntryMemberCount(String shgCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("getBeforeEntryMemberCount"+masterDataDao.getGpListData(shgCode).size(),MasterDataRepo.class);
+                return String.valueOf(masterDataDao.getBeforeEntryMemberCount(shgCode));
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public String getAfterEntryMemberCount(String shgCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("getAfterEntryMemberCount"+masterDataDao.getGpListData(shgCode).size(),MasterDataRepo.class);
+                return String.valueOf(masterDataDao.getAfterEntryMemberCount(shgCode));
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public List<ClfDataBean> getUniqueClf() throws ExecutionException, InterruptedException {
+        Callable<List<ClfDataBean>> listCallable = new Callable<List<ClfDataBean>>() {
+            @Override
+            public List<ClfDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getAfterEntryMemberCount"+masterDataDao.getUniqueClf().size(),MasterDataRepo.class);
+                return masterDataDao.getUniqueClf();
+            }
+        };
+        Future<List<ClfDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+
+    public List<VoDataBean> getUniqueVo(String clfCode) throws ExecutionException, InterruptedException {
+        Callable<List<VoDataBean>> listCallable = new Callable<List<VoDataBean>>() {
+            @Override
+            public List<VoDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getAfterEntryMemberCount"+masterDataDao.getUniqueVo(clfCode).size(),MasterDataRepo.class);
+                return masterDataDao.getUniqueVo(clfCode);
+            }
+        };
+        Future<List<VoDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public List<ShgDataBean> getShgDataWithVo(String voCode) throws ExecutionException, InterruptedException {
+        Callable<List<ShgDataBean>> listCallable = new Callable<List<ShgDataBean>>() {
+            @Override
+            public List<ShgDataBean> call() throws Exception {
+                AppUtils.getInstance().showLog("getShgDataWithVo"+masterDataDao.getShgDataWithVo(voCode).size(),MasterDataRepo.class);
+                return masterDataDao.getShgDataWithVo(voCode);
+            }
+        };
+        Future<List<ShgDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /*********added by lincon***********/
@@ -449,6 +599,18 @@ public class MasterDataRepo {
         AppUtils.getInstance().showLog("incomeName"+incomeName.size(),MasterDataDao.class);
         return incomeName;
     }
+
+
+    public void insertBeforeNrlmEntry(List<MemberEntryEntity> memberEntryDataItem){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                memberEntryDao.insertAll(memberEntryDataItem);
+            }
+        });
+    }
+
+
 
 
 

@@ -87,8 +87,9 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     @Override
                     public void run() {
                         String loginApiStatus=authViewModel.loginApiResult();
+                        AppUtils.getInstance().showLog("loginApiStatus"+loginApiStatus,AuthFragment.class);
                         progressDialog.dismiss();
-                        if (!loginApiStatus.equalsIgnoreCase("")){
+                        if (loginApiStatus.equalsIgnoreCase("E200")){
                             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginSessionKey(),"logedin",getContext());
                             intentToMpin();
                          /*   Intent intent = new Intent(getContext(), HomeActivity.class);
@@ -103,7 +104,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                             }
                         }
                     }
-                },2000);
+                },3000);
 
             }
 
@@ -114,32 +115,32 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
 
             case "E202":
                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.invalid_fields)
-                        , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
+                        , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, true
                 );
 
                 break;
 
             case "E201":
                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.error_security_validation)
-                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, false
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
                 );
                 break;
 
             case "E1004":
                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.error_validation)
-                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, false
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
                 );
                 break;
 
             case "E206":
                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.error_session_exist)
-                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, false
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
                 );
                 break;
 
             default:
                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.SERVER_ERROR_TITLE)
-                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, false
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
                 );
         }
     }

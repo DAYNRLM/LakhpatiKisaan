@@ -21,10 +21,9 @@ public class AppDateFactory {
     }
 
     /****get time stamp in yyyy-MM-dd HH:mm:ss*******/
-    public String getDateTime() {
+    public String getTimeStamp() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = df.format(Calendar.getInstance().getTime());
-
         return date;
     }
 

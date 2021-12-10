@@ -65,6 +65,16 @@ public class SyncEntriesRequestBean implements Serializable {
     public static class SyncEntry{
         private String shg_code ;
         private String shg_member_code;
+        private String secc;
+
+        public String getSecc() {
+            return secc;
+        }
+
+        public void setSecc(String secc) {
+            this.secc = secc;
+        }
+
         private List<ActivityData> activities_data_sync;
 
         public String getShg_code() {

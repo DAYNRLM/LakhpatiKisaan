@@ -3,24 +3,7 @@ package com.nrlm.lakhpatikisaan.network.model.request;
 import java.io.Serializable;
 
 public class CheckDuplicateRequestBean implements Serializable {
-/*http://10.197.183.105:8989/lakhpatishg/checkDuplicay
 
-==========request=======
-{
-   "state_short_name":"up",
-   "user_id":"UPAGASSDAD",
-     "imei_no":"111",
-   "device_name":"111",
-   "location_coordinate":"111",
-   "shg_code":"322249",
-   "member_data":"322249|3712039|1|1,", ----------------------shgcode|member_code|sector_code|activity_code
-   "flag":"B"------------------------------represent before or after data
-
-}
-==========response=======
-{
-    "member_code": "322249|3712039|1|1"
-}*/
 
     private String state_short_name;
     private String user_id;
@@ -96,3 +79,22 @@ public class CheckDuplicateRequestBean implements Serializable {
         this.flag = flag;
     }
 }
+
+/*http://10.197.183.105:8989/lakhpatishg/checkDuplicay
+
+==========request=======
+{
+   "state_short_name":"up",
+   "user_id":"UPAGASSDAD",
+     "imei_no":"111",
+   "device_name":"111",
+   "location_coordinate":"111",
+   "shg_code":"322249",
+   "member_data":"322249|3712039|1|1,", ----------------------shgcode|member_code|sector_code|activity_code
+   "flag":"B"------------------------------represent before or after data
+
+}
+==========response=======
+{
+    "member_code": "322249|3712039|1|1"
+}*/

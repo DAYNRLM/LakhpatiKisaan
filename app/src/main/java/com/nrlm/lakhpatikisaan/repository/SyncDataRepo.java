@@ -163,12 +163,12 @@ public class SyncDataRepo {
         });
     }
 
-    public List<MemberDataToCheckDup> getDataToCheckDuplicate(String entryFlag) throws ExecutionException, InterruptedException {
+    public List<MemberDataToCheckDup> getDataToCheckDuplicate(String entryCompleteConfirmation) throws ExecutionException, InterruptedException {
 
         Callable<List<MemberDataToCheckDup>> callable = new Callable<List<MemberDataToCheckDup>>() {
             @Override
             public List<MemberDataToCheckDup> call() throws Exception {
-                return memberEntryDao.getDataToCheckDuplicate(entryFlag, "0");
+                return memberEntryDao.getDataToCheckDuplicate(entryCompleteConfirmation, "0");
             }
         };
         Future<List<MemberDataToCheckDup>> future = Executors.newSingleThreadExecutor().submit(callable);
@@ -177,12 +177,12 @@ public class SyncDataRepo {
     }
 
 
-    public List<ShgAndMemberDataBean> getDistinctShgAndMemberToSync(String entryFlag) throws ExecutionException, InterruptedException {
+    public List<ShgAndMemberDataBean> getDistinctShgAndMemberToSync(String entryCompleteConfirmation) throws ExecutionException, InterruptedException {
 
         Callable<List<ShgAndMemberDataBean>> callable = new Callable<List<ShgAndMemberDataBean>>() {
             @Override
             public List<ShgAndMemberDataBean> call() throws Exception {
-                return memberEntryDao.getDistinctShgAndMemberToSync(entryFlag, "0");
+                return memberEntryDao.getDistinctShgAndMemberToSync(entryCompleteConfirmation, "0");
             }
         };
         Future<List<ShgAndMemberDataBean>> future = Executors.newSingleThreadExecutor().submit(callable);
@@ -190,12 +190,12 @@ public class SyncDataRepo {
 
     }
 
-    public List<ActivityDataBean> getActivityData (String shgCode, String memberCode, String entryFlag) throws ExecutionException, InterruptedException {
+    public List<ActivityDataBean> getActivityData (String shgCode, String memberCode, String entryCompleteConfirmation) throws ExecutionException, InterruptedException {
 
         Callable<List<ActivityDataBean>> callable = new Callable<List<ActivityDataBean>>() {
             @Override
             public List<ActivityDataBean> call() throws Exception {
-                return memberEntryDao.getActivityData(shgCode,memberCode, entryFlag, "0");
+                return memberEntryDao.getActivityData(shgCode,memberCode, entryCompleteConfirmation, "0");
             }
         };
         Future<List<ActivityDataBean>> future = Executors.newSingleThreadExecutor().submit(callable);
@@ -204,23 +204,23 @@ public class SyncDataRepo {
     }
 
     public CheckDuplicateRequestBean getCheckDuplicateRequest(String loginId, String stateShortName, String imeiNo
-            , String deviceName, String locationCoordinates, String entryFlag) {
+            , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
         String memberData = "";
         try {
-            List<MemberDataToCheckDup> memberDataToCheckDupList = getDataToCheckDuplicate(entryFlag);
+            List<MemberDataToCheckDup> memberDataToCheckDupList = getDataToCheckDuplicate(entryCompleteConfirmation);
             for (MemberDataToCheckDup memberDataToCheckDup : memberDataToCheckDupList) {
                 memberData += memberDataToCheckDup.getShgCode() + "|" + memberDataToCheckDup.getMemberCode() +
-                        "|" + memberDataToCheckDup.getSectorCode() + "|" + memberDataToCheckDup.getActivityCode() + ",";
+                        "|" + memberDataToCheckDup.getSectorCode() + "|" + memberDataToCheckDup.getActivityCode() +"|"+memberDataToCheckDup.getFlagBeforeAfterNrlm()+ ",";
             }
         } catch (Exception e) {
                 AppUtils.getInstance().showLog("Exception while getting duplicate data from db ::"+e,SyncDataRepo.class);
         }
         return new CheckDuplicateRequestBean(stateShortName, loginId, imeiNo, deviceName
-                , locationCoordinates, memberData, entryFlag);
+                , locationCoordinates, AppUtils.getInstance().removeComma(memberData),"B");
     }
 
     public SyncEntriesRequestBean getSyncEntriesRequest(String loginId, String stateShortName, String imeiNo
-            , String deviceName, String locationCoordinates, String entryFlag) {
+            , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
         SyncEntriesRequestBean syncEntriesRequestBean = new SyncEntriesRequestBean();
         try {
         List<SyncEntriesRequestBean.SyncEntry> syncEntryList = new ArrayList<>();
@@ -231,11 +231,12 @@ public class SyncDataRepo {
         syncEntriesRequestBean.setLocation_coordinate(locationCoordinates);
         syncEntriesRequestBean.setState_short_name(stateShortName);
 
-        for (ShgAndMemberDataBean shgAndMemberDataBean : getDistinctShgAndMemberToSync(entryFlag)) {
+        for (ShgAndMemberDataBean shgAndMemberDataBean : getDistinctShgAndMemberToSync(entryCompleteConfirmation)) {
             SyncEntriesRequestBean.SyncEntry syncEntry = new SyncEntriesRequestBean.SyncEntry();
             syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
             syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
-            List<ActivityDataBean> activityDataBeanList = getActivityData(shgAndMemberDataBean.getShgCode(),shgAndMemberDataBean.getMemberCode(),entryFlag);
+            syncEntry.setSecc(shgAndMemberDataBean.getSecc());
+            List<ActivityDataBean> activityDataBeanList = getActivityData(shgAndMemberDataBean.getShgCode(),shgAndMemberDataBean.getMemberCode(),entryCompleteConfirmation);
             List<SyncEntriesRequestBean.ActivityData> activityDataList = new ArrayList<>();
             for (ActivityDataBean activityDataBean : activityDataBeanList) {
                 SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
@@ -258,7 +259,13 @@ public class SyncDataRepo {
         }
         return syncEntriesRequestBean;
     }
+    public void updateSyncStatus(){
+        memberEntryDao.updateSyncStatus();
+    }
 
+    public void deleteDuplicateEntries(String shgCode,String memberCode,String sectorCode,String activityCode,String entryType){
+        memberEntryDao.deleteDuplicateEntries(shgCode,memberCode,sectorCode,activityCode,entryType);
+    }
 
 }
 /*{ }*/

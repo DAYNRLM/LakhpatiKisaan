@@ -13,6 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <ScrollView
+            android:layout_marginBottom="@dimen/space_5dp"
+            android:layout_above="@+id/btn_goToMember"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -274,6 +282,10 @@
                         app:cardElevation="8dp"
                         app:strokeColor="@color/green_500"
                         app:strokeWidth="1dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -298,6 +310,39 @@
 
                         </LinearLayout>
 
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/space_3dp"
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:padding="2dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_weight=".3"
+                                            android:layout_margin="@dimen/space_5dp"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/manrope_regular"
+                                            android:text="Member's completed befor nrlm entry" />
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:id="@+id/completed_after_entry_count"
+                                            android:layout_weight="1.7"
+                                            android:gravity="center"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/manrope_extra_bold"
+                                            android:layout_margin="@dimen/space_5dp"
+                                            android:text="100"
+                                            android:textStyle="bold" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -309,6 +354,9 @@
 
 
         </LinearLayout>
+
+            </ScrollView>
+
 
 
         <com.google.android.material.button.MaterialButton
