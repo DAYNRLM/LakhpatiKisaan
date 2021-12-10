@@ -30,7 +30,7 @@ public class MpinViewModel extends ViewModel {
         homeViewModel = new HomeViewModel();
     }
 
-   public void makeCheckDeleteShgRequest(Context context, final LogRequestBean logRequestBean) {
+   public String makeCheckDeleteShgRequest(Context context, final LogRequestBean logRequestBean) {
 
         checkAndDeleteShgRepo.makeCheckDeleteShgApiRequest(logRequestBean, new RepositoryCallback() {
             @Override
@@ -70,7 +70,7 @@ public class MpinViewModel extends ViewModel {
                 }
             }
         });
-
+return apiStatus;
     }
 
     public void makeDeleteShgRequest(DeleteShgRequestBean deleteShgRequestBean) {

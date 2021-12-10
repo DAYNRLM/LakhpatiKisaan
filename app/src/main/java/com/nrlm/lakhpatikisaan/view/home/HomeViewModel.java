@@ -75,6 +75,7 @@ public class HomeViewModel extends ViewModel {
 
         CheckDuplicateRequestBean checkDuplicateRequestBean= syncDataRepo.getCheckDuplicateRequest(loginId, stateShortName, imeiNo,deviceName, locationCoordinates, entryCompleteConfirmation);
         if (checkDuplicateRequestBean.getMember_data().equalsIgnoreCase("")){
+            AppUtils.getInstance().showLog("NoDataToCheckDuplicate", AuthViewModel.class);
             return;
         }else {
             syncDataRepo.makeCheckDuplicateRequest(checkDuplicateRequestBean, new RepositoryCallback() {
