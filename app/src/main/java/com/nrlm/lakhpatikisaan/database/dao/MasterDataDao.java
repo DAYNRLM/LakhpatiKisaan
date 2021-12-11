@@ -68,7 +68,7 @@ public interface MasterDataDao {
     @Query("select distinct lgd_village_code from masterdataentity")
     List<LgdVillageCode> getLgdVillageCodes();
 
-    @Query("select member_joining_date shg_code from MasterDataEntity where member_code=:memberCode")
+    @Query("select member_joining_date from MasterDataEntity where member_code=:memberCode")
     String getMemberDOJ(String memberCode);
 
 

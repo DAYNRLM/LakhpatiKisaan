@@ -346,7 +346,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     String getMemberDOJ(String memberCode) throws ExecutionException, InterruptedException {
-        return masterDataRepo.getMemberNameDB(memberCode);
+        return masterDataRepo.getMemberDoj(memberCode);
     }
 
 
