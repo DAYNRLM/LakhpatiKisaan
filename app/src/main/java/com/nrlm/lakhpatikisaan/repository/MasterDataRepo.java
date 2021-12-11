@@ -710,10 +710,13 @@ public class MasterDataRepo {
         List<String> finalList =null;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            List<String> memberName =  getSeccData(memberCode).stream().map(SeccEntity::getMember_name).collect(Collectors.toList());
+            /*List<String> memberName =  getSeccData(memberCode).stream().map(SeccEntity::getMember_name).collect(Collectors.toList());
             List<String> fatherName =  getSeccData(memberCode).stream().map(SeccEntity::getFather_name).collect(Collectors.toList());
             Stream<String> combinStream = Stream.concat(memberName.stream(),fatherName.stream());
-            finalList =combinStream.collect(Collectors.toList());
+            finalList =combinStream.collect(Collectors.toList());*/
+
+            finalList =  getSeccData(memberCode).stream().map(SeccEntity::getFather_name).collect(Collectors.toList());
+
 
         }
         return finalList;

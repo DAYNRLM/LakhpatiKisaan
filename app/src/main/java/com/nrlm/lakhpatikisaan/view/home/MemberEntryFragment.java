@@ -68,6 +68,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String monthName;
     String seccNumber;
 
+    String selectedMemberCode;
+
 
     int count = 0;
     private HomeViewModel homeViewModel;
@@ -104,7 +106,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
 
         try {
-            String selectedMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
+            selectedMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
             String selectedShgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
             String memberName = viewModel.getMemberNameDB(selectedMemberCode);
             String shgName = viewModel.getShgNameDB(selectedShgCode);
