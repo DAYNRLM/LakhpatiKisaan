@@ -715,7 +715,7 @@ public class MasterDataRepo {
             Stream<String> combinStream = Stream.concat(memberName.stream(),fatherName.stream());
             finalList =combinStream.collect(Collectors.toList());*/
 
-            finalList =  getSeccData(memberCode).stream().map(SeccEntity::getFather_name).collect(Collectors.toList());
+             finalList =  getSeccData(memberCode).stream().map(SeccEntity::getFather_name).collect(Collectors.toList());
 
 
         }
