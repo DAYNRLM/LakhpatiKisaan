@@ -329,25 +329,31 @@
 
 
                         <com.google.android.material.textfield.TextInputLayout
-
+                            android:id="@+id/ttl_seccc"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Enter SECC Number"
-                            app:boxStrokeColor="@color/out_line_strok"
-                            android:fontFamily="@font/manrope_regular"
-                            android:padding="@dimen/space_3dp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Select Secc"
+                            android:padding="3dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/out_line_strok">
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_seccNumber"
+                            <AutoCompleteTextView
+                                android:id="@+id/spinner_seccNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:lines="2"
-                                android:maxLength="29"
-                                android:fontFamily="@font/manrope_regular"
-                                android:inputType="number" />
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:inputType="none"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
 
                         </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/ttl_sector"

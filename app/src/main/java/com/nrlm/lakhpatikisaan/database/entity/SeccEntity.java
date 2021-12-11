@@ -8,10 +8,10 @@ public class SeccEntity {
  @PrimaryKey(autoGenerate = true)
     private int id;
 
- private String secc_no;
- private String member_name;
- private String father_name;
- private String shg_member_code;
+    public String secc_no;
+    public String member_name;
+    public String father_name;
+    public String shg_member_code;
 
     public SeccEntity(String secc_no, String member_name, String father_name, String shg_member_code) {
         this.secc_no = secc_no;

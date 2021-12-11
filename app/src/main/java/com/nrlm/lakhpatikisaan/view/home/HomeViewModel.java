@@ -20,6 +20,7 @@ import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
+import com.nrlm.lakhpatikisaan.database.entity.SeccEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.CheckDuplicateRequestBean;
@@ -348,6 +349,16 @@ public class HomeViewModel extends ViewModel {
     String getMemberDOJ(String memberCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getMemberDoj(memberCode);
     }
+
+    public List<String> loadSeccNameData(String memberCode){
+        return  masterDataRepo.getSeccNameData(memberCode);
+    }
+
+    public List<SeccEntity> getSeccData(String memberCode){
+        return  masterDataRepo.getSeccData(memberCode);
+    }
+
+
 
 
 }

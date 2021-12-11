@@ -48,6 +48,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -685,6 +686,38 @@ public class MasterDataRepo {
                 memberEntryDao.insertAll(memberEntryDataItem);
             }
         });
+    }
+
+    public List<SeccEntity> getSeccData(String memberCode) {
+        List<SeccEntity> seccData = null;
+        try {
+            Callable<List<SeccEntity>> listCallable = new Callable<List<SeccEntity>>() {
+                @Override
+                public List<SeccEntity> call() throws Exception {
+                    return seccDao.getSeccDetail(memberCode);
+                }
+            };
+            Future<List<SeccEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            seccData = future.get();
+
+        } catch (Exception e) {
+
+        }
+        return seccData;
+    }
+
+    public List<String> getSeccNameData(String memberCode){
+        List<String> finalList =null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            List<String> memberName =  getSeccData(memberCode).stream().map(SeccEntity::getMember_name).collect(Collectors.toList());
+            List<String> fatherName =  getSeccData(memberCode).stream().map(SeccEntity::getFather_name).collect(Collectors.toList());
+            Stream<String> combinStream = Stream.concat(memberName.stream(),fatherName.stream());
+            finalList =combinStream.collect(Collectors.toList());
+
+        }
+        return finalList;
+
     }
 
 

@@ -47,6 +47,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     ArrayAdapter<String> activityAdapter;
     ArrayAdapter<String> frequencyAdapter;
     ArrayAdapter<String> incomeAdapter;
+    ArrayAdapter<String> seccAdapter;
 
     String shgCode;
     String shgMemberCode;
@@ -100,6 +101,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryDataItem = new ArrayList<>();
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
+
+
         try {
             String selectedMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
             String selectedShgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
@@ -109,6 +112,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             String memberDOJ =  viewModel.getMemberDOJ(selectedMemberCode);
 
             monthYearItem =  appDateFactory.monthYear(memberDOJ,AppConstant.nrlm_formation_date);
+            loadSecc(selectedMemberCode);
 
             monthName = monthYearItem.get(0);
             entryYearCode = monthYearItem.get(1);
@@ -131,8 +135,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         /**** add activity after selection****/
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
 
-            if (binding.etSeccNumber.getText().toString().isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Enter SECC number first");
+            if (seccNumber==null||seccNumber.isEmpty()) {
+                ViewUtilsKt.toast(getCurrentContext(), "Select SECC first");
 
             } else if (sectorDate == null || sectorDate.isEmpty()) {
                 ViewUtilsKt.toast(getCurrentContext(), "Select Sector first");
@@ -300,6 +304,18 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         });
 
 
+
+
+    }
+
+    private void loadSecc(String memberCode) {
+        seccAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadSeccNameData(memberCode));
+        binding.spinnerSeccNumber.setAdapter(seccAdapter);
+        seccAdapter.notifyDataSetChanged();
+
+        binding.spinnerSeccNumber.setOnItemClickListener((adapterView, view, i, l) -> {
+            seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
+        });
     }
 
     private void loadEntryList() {
@@ -323,7 +339,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryEntity.incomeRangName = incomeRangName;
         memberEntryEntity.monthName = monthName;
 
-        memberEntryEntity.seccNumber = binding.etSeccNumber.getText().toString();
+        memberEntryEntity.seccNumber = seccNumber;
 
         memberEntryDataItem.add(memberEntryEntity);
 
@@ -484,10 +500,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     public boolean isDataValidate() {
         boolean status = true;
 
-        if (binding.etSeccNumber.getText().toString().isEmpty()) {
-            ViewUtilsKt.toast(getCurrentContext(), "Enter SECC number first");
-            status = false;
-        } else if (sectorDate.isEmpty()) {
+        if (sectorDate.isEmpty()) {
             ViewUtilsKt.toast(getCurrentContext(), "Select Sector first");
             status = false;
         } else if (activityCode.isEmpty()) {
