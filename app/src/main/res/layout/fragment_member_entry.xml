@@ -106,7 +106,8 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
-                <com.google.android.material.card.MaterialCardView
+               <!-- <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
                     android:id="@+id/cv_selectMonthYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -164,10 +165,10 @@
                     </LinearLayout>
 
 
-                </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>-->
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:id="@+id/cv_changeMonthYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -281,7 +282,7 @@
                                         app:iconTint="@color/orange_500"
                                         app:strokeColor="@color/green_500" />
 
-                                    <com.google.android.material.button.MaterialButton
+                                    <!--<com.google.android.material.button.MaterialButton
                                         android:visibility="visible"
                                         android:id="@+id/btn_changeMonthYear"
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -293,7 +294,7 @@
                                         app:icon="@drawable/ic_baseline_published_with_changes_24"
                                         app:iconGravity="end"
                                         app:iconTint="@color/orange_500"
-                                        app:strokeColor="@color/green_500" />
+                                        app:strokeColor="@color/green_500" />-->
 
                                 </LinearLayout>
 

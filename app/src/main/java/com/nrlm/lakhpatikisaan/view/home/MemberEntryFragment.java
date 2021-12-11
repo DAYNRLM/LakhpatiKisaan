@@ -41,6 +41,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
     EntryBeforeNrlmFoldAdapter entryBeforeNrlmFoldAdapter;
     List<MemberEntryEntity> memberEntryDataItem;
+    List<String> monthYearItem;
 
     ArrayAdapter<String> sectorAdapter;
     ArrayAdapter<String> activityAdapter;
@@ -104,6 +105,19 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             String selectedShgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
             String memberName = viewModel.getMemberNameDB(selectedMemberCode);
             String shgName = viewModel.getShgNameDB(selectedShgCode);
+
+            String memberDOJ =  viewModel.getMemberDOJ(selectedMemberCode);
+
+            monthYearItem =  appDateFactory.monthYear(memberDOJ,AppConstant.nrlm_formation_date);
+
+            monthName = monthYearItem.get(0);
+            entryYearCode = monthYearItem.get(1);
+            entryMonthCode = monthYearItem.get(2);
+
+
+            binding.tvMonth.setText(monthName);
+            binding.tvYear.setText("" + entryYearCode);
+
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
             binding.tvShgNameCode.setText(memberName+" ("+selectedMemberCode+")");
             binding.tvMemberNameCode.setText(shgName+" ("+selectedShgCode+")");
@@ -114,6 +128,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         }
 
 
+        /**** add activity after selection****/
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
 
             if (binding.etSeccNumber.getText().toString().isEmpty()) {
@@ -149,7 +164,12 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
         });
 
-        binding.btnMonthYear.setOnClickListener(view1 -> {
+        // add date condition on this btn click..
+
+        //06-06-2019 //dd-mm-yyyy
+
+
+       /* binding.btnMonthYear.setOnClickListener(view1 -> {
             MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(int selectedMonth, int selectedYear) {
@@ -181,19 +201,20 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                     .setMaxYear(today.get(Calendar.YEAR))
                     .setTitle("Select Month")
                     .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
-        });
+        });*/
 
 
         /****** Start add activity btn
          * user can add multiple activity*****/
         binding.btnAddActivity.setOnClickListener(view1 -> {
             if (count == 0) {
+                // date confirmation dialog
                 Observer<String> actionObserver = new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
 
                         if (s.equalsIgnoreCase("ok")) {
-                            binding.btnChangeMonthYear.setVisibility(View.GONE);
+                            //binding.btnChangeMonthYear.setVisibility(View.GONE);
                             binding.cvSelectActivity.setVisibility(View.VISIBLE);
                             loadSector();
                         } else {

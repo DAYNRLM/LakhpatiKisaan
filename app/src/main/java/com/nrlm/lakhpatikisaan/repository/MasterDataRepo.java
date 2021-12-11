@@ -2,7 +2,6 @@ package com.nrlm.lakhpatikisaan.repository;
 
 import android.content.Context;
 import android.os.Build;
-import android.widget.ArrayAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -39,7 +38,6 @@ import com.nrlm.lakhpatikisaan.network.model.request.SeccRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SeccResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SupportiveMastersResponseBean;
-import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -532,8 +530,20 @@ public class MasterDataRepo {
 
     /*********added by lincon***********/
 
-    public List<SectorEntity> getAllSector() {
-        List<SectorEntity> sectorData = null;
+    public String getMemberDoj(String memberCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("***MEMBER DOJ***"+masterDataDao.getMemberDOJ(memberCode),MasterDataRepo.class);
+                return masterDataDao.getMemberDOJ(memberCode);
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public List<SectorEntity> getAllSector(){
+        List<SectorEntity> sectorData=null;
         try {
             Callable<List<SectorEntity>> listCallable = new Callable<List<SectorEntity>>() {
                 @Override
@@ -676,6 +686,11 @@ public class MasterDataRepo {
             }
         });
     }
+
+
+
+
+
 
 }
 

@@ -14,9 +14,11 @@ class AppConstant {
         const val afterNrlmStatus: String = "A"
         const val geoSelection: String = "gp_village"
         const val vo_clfSelection: String = "vo_clf"
+        const val nrlm_formation_date: String = "01-06-2011"
         val items = arrayOf("Income (Before coming into NRLM Fold)", "Income at present")
         val confirmation = arrayOf("Do you confirm all this entry", "Do You want still add more activity")
         val status = arrayOf("1","2");
+
 
     }
 }

@@ -4,20 +4,27 @@ import com.nrlm.lakhpatikisaan.MainApplication;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class AppDateFactory {
     private static AppDateFactory dateFactory;
     private Locale locale;
     MainApplication mainApplication;
+    AppUtils appUtils;
 
     public static AppDateFactory getInstance() {
         if (dateFactory == null) {
             dateFactory = new AppDateFactory();
         }
         return dateFactory;
+    }
+
+    public AppDateFactory() {
+        appUtils = AppUtils.getInstance();
     }
 
     /****get time stamp in yyyy-MM-dd HH:mm:ss*******/
@@ -63,6 +70,83 @@ public class AppDateFactory {
             e.printStackTrace();
         }
         return str;
+
+    }
+
+
+    /***convert String date to Date object in given formate
+     *
+     * @param date
+     * @return input- dd-MM-YYYY(string)
+     *         output- dd-MM-YYY(Date)
+     */
+    public Date convertStringToDate(String date){
+        Date convertedDate = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            convertedDate = sdf.parse(date);
+            sdf.format(convertedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
+    }
+
+
+    /***both date is is in DD-mm-YYYY
+     *
+     * @param memberDOJ
+     * @param nrlmFormationDate
+     * @return monthname-year(JAN-2019)
+     */
+    public List<String> monthYear(String memberDOJ, String nrlmFormationDate){
+        List<String> monthYearData = new ArrayList<>();
+
+        if(convertStringToDate(memberDOJ).before(convertStringToDate(nrlmFormationDate))){
+            Date d = null;
+            try {
+                d = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(nrlmFormationDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
+            String year = new SimpleDateFormat("yyyy").format(cal.getTime());
+            String yearCode = new SimpleDateFormat("MM").format(cal.getTime());
+            appUtils.showLog("***YEAR NAME****"+year,AppDateFactory.class);
+            appUtils.showLog("***MONTH NAME****"+monthName,AppDateFactory.class);
+            appUtils.showLog("***Year Code****"+yearCode,AppDateFactory.class);
+
+            monthYearData.add(monthName);
+            monthYearData.add(year);
+            monthYearData.add(yearCode);
+
+
+        }else if(convertStringToDate(memberDOJ).after(convertStringToDate(nrlmFormationDate))) {
+
+            Date d = null;
+            try {
+                d = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(memberDOJ);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            cal.add(Calendar.MONTH,-1);
+            String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
+            String year = new SimpleDateFormat("yyyy").format(cal.getTime());
+            String yearCode = new SimpleDateFormat("MM").format(cal.getTime());
+            appUtils.showLog("***YEAR NAME****"+year,AppDateFactory.class);
+            appUtils.showLog("***MONTH NAME****"+monthName,AppDateFactory.class);
+            appUtils.showLog("***Year Code****"+yearCode,AppDateFactory.class);
+
+            monthYearData.add(monthName);
+            monthYearData.add(year);
+            monthYearData.add(yearCode);
+
+        }
+        return monthYearData;
 
     }
 
