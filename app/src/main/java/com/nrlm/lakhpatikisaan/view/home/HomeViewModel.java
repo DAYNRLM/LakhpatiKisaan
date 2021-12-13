@@ -188,12 +188,39 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getAllSector();
     }
 
-    public List<String> loadActivityData(int id) {
-        return masterDataRepo.getActivityName(id);
+    public List<String> loadActivityData(int id,String memberCode) {
+        return  masterDataRepo.getActivityName(id,memberCode);
     }
 
     public List<ActivityEntity> getAllActivityData(int id) {
         return masterDataRepo.getAllActivity(id);
+    }
+
+    public List<ActivityEntity> getSelectedActivity(int id,String memberCode){
+        List<ActivityEntity> activityData =masterDataRepo.getAllActivity(id);
+        List<MemberEntryEntity> entryData = masterDataRepo.getAllMemberForActivity(memberCode);
+
+        if(!entryData.isEmpty()){
+            for(MemberEntryEntity entryObject:entryData){
+                for(ActivityEntity activityObject:activityData){
+                    if(entryObject.getActivityCode().equalsIgnoreCase(String.valueOf(activityObject.getActivity_code()))){
+                        activityData.remove(activityObject);
+                    }
+                }
+            }
+
+        }else {
+            activityData =masterDataRepo.getAllActivity(id);
+        }
+        return activityData;
+    }
+
+    public List<String> getSelectedActivityName(int id,String memberCode){
+        List<String> activityName = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            activityName = getSelectedActivity(id,memberCode).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
+        }
+        return activityName;
     }
 
     public List<String> loadFrequencyData() {
@@ -369,7 +396,14 @@ public class HomeViewModel extends ViewModel {
         return  masterDataRepo.getSeccData(memberCode);
     }
 
+    public void deleteActivity(String memberCode,String activityCode){
+        masterDataRepo.deleteActivity(memberCode,activityCode);
+    }
 
+
+    public List<MemberEntryEntity> getAllEntryData(String memberCode, String entryStatus){
+        return masterDataRepo.getAllMemberDataWithEntryStatus(memberCode,entryStatus);
+    }
 
 
 }

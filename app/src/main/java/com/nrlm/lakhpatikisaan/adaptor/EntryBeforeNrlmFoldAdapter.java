@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.CustomEntryBeforeNrlmFoldBinding;
 import com.nrlm.lakhpatikisaan.databinding.CustomShgMemberLayoutBinding;
+import com.nrlm.lakhpatikisaan.view.home.HomeViewModel;
 
 import java.util.List;
 
@@ -18,10 +19,12 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
 
     List<MemberEntryEntity> memberEntryDataItem;
     Context context;
+    HomeViewModel homeViewModel;
 
-    public EntryBeforeNrlmFoldAdapter(List<MemberEntryEntity> memberEntryDataItem, Context context) {
+    public EntryBeforeNrlmFoldAdapter(List<MemberEntryEntity> memberEntryDataItem, Context context, HomeViewModel homeViewModel) {
         this.memberEntryDataItem = memberEntryDataItem;
         this.context = context;
+        this.homeViewModel = homeViewModel;
     }
 
     @NonNull
@@ -40,6 +43,16 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
         holder.itemBinding.tvIncomeRange.setText(memberEntryDataItem.get(position).getIncomeRangName());
         holder.itemBinding.tvMonth.setText(memberEntryDataItem.get(position).getMonthName());
         holder.itemBinding.tvYear.setText(memberEntryDataItem.get(position).getEntryYearCode());
+
+        holder.itemBinding.btnDeleteEnter.setOnClickListener(view -> {
+            String shgMemebrCode = memberEntryDataItem.get(position).shgMemberCode;
+            String activityCode = memberEntryDataItem.get(position).activityCode;
+
+            homeViewModel.deleteActivity(shgMemebrCode,activityCode);
+            memberEntryDataItem.remove(position);
+            notifyDataSetChanged();
+
+        });
     }
 
     @Override

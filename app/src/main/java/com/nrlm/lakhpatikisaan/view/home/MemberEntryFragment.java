@@ -71,7 +71,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String monthName;
     String seccNumber;
 
-    String selectedMemberCode;
 
 
     int count = 0;
@@ -106,16 +105,18 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryDataItem = new ArrayList<>();
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
-        try {
-            selectedMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
-            String selectedShgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
-            String memberName = viewModel.getMemberNameDB(selectedMemberCode);
-            String shgName = viewModel.getShgNameDB(selectedShgCode);
 
-            String memberDOJ =  viewModel.getMemberDOJ(selectedMemberCode);
+
+        try {
+            shgMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
+            shgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
+            String memberName = viewModel.getMemberNameDB(shgMemberCode);
+            String shgName = viewModel.getShgNameDB(shgCode);
+
+            String memberDOJ =  viewModel.getMemberDOJ(shgMemberCode);
 
             monthYearItem =  appDateFactory.monthYear(memberDOJ,AppConstant.nrlm_formation_date);
-            loadSecc("5748106");
+            loadSecc(shgMemberCode);
 
             monthName = monthYearItem.get(0);
             entryYearCode = monthYearItem.get(1);
@@ -126,24 +127,46 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             binding.tvYear.setText("" + entryYearCode);
 
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
-            binding.tvShgNameCode.setText(memberName+" ("+selectedMemberCode+")");
-            binding.tvMemberNameCode.setText(shgName+" ("+selectedShgCode+")");
+            binding.tvShgNameCode.setText(memberName+" ("+shgMemberCode+")");
+            binding.tvMemberNameCode.setText(shgName+" ("+shgCode+")");
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        /*** check if data exist in member entry table or not******/
+
+        memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode,AppConstant.beforeNrlmStatus);
+
+        if(!memberEntryDataItem.isEmpty()){
+            count = memberEntryDataItem.size()+1;
+            entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(),viewModel);
+            binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
+            binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
+            entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
+
+
+            binding.cvRecyclerview.setVisibility(View.VISIBLE);
+            binding.cvSelectActivity.setVisibility(View.GONE);
+            binding.btnAddActivity.setText("Add Another Activity");
+            binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
+            binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+
+            resetFunction(1);
+
+
+        }else {
+
+        }
+
 
         /**** add activity after selection****/
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
-
             if (seccNumber==null||seccNumber.isEmpty()) {
                 ViewUtilsKt.toast(getCurrentContext(), "Select SECC first");
-
             } else if (sectorDate == null || sectorDate.isEmpty()) {
                 ViewUtilsKt.toast(getCurrentContext(), "Select Sector first");
-
             } else if (activityCode == null || activityCode.isEmpty()) {
                 ViewUtilsKt.toast(getCurrentContext(), "Select Activity first");
             } else if (incomeFrequencyCode == null || incomeFrequencyCode.isEmpty()) {
@@ -154,7 +177,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                 loadEntryList();
                 count++;
 
-                entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext());
+                entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(),viewModel);
                 binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
                 binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
                 entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
@@ -327,7 +350,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             sectorDate = String.valueOf(viewModel.getAllSectorData().get(i).getSector_code());
             sectorName = viewModel.loadSectorData().get(i);
             resetFunction(2);
-            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code());
+            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(),shgMemberCode);
 
         });
 
@@ -349,8 +372,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     private void loadEntryList() {
 
         MemberEntryEntity memberEntryEntity = new MemberEntryEntity();
-        memberEntryEntity.shgCode = "";
-        memberEntryEntity.shgMemberCode = "";
+        memberEntryEntity.shgCode = shgCode;
+        memberEntryEntity.shgMemberCode = shgMemberCode;
         memberEntryEntity.entryYearCode = entryYearCode;
         memberEntryEntity.entryMonthCode = entryMonthCode;
         memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
@@ -374,17 +397,30 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     }
 
 
-    private void loadActivityData(int id) {
-        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadActivityData(id));
+    private void loadActivityData(int id,String memberCode) {
+        /****** tis selection based on condition on activity id*****/
+        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getSelectedActivityName(id,memberCode));
+        binding.spinnerSelectActivity.setAdapter(activityAdapter);
+        activityAdapter.notifyDataSetChanged();
+
+        binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
+            activityCode = String.valueOf(viewModel.getSelectedActivity(id,memberCode).get(i).getActivity_code());
+            activityName = viewModel.getSelectedActivityName(id,memberCode).get(i);
+            resetFunction(3);
+            loadFreaquency();
+        });
+
+
+       /* activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadActivityData(id,memberCode));
         binding.spinnerSelectActivity.setAdapter(activityAdapter);
         activityAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
             activityCode = String.valueOf(viewModel.getAllActivityData(id).get(i).getActivity_code());
-            activityName = viewModel.loadActivityData(id).get(i);
+            activityName = viewModel.loadActivityData(id,memberCode).get(i);
             resetFunction(3);
             loadFreaquency();
-        });
+        });*/
     }
 
     private void loadSector() {

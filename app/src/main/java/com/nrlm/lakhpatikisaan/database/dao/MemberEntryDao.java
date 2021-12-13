@@ -10,6 +10,7 @@ import com.nrlm.lakhpatikisaan.database.dbbean.ActivityDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberDataToCheckDup;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgAndMemberDataBean;
+import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 
 import java.util.List;
@@ -55,5 +56,15 @@ public interface MemberEntryDao {
             " and (sectorDate=:sectorCode and activityCode=:activityCode) )))")
     void deleteDuplicateEntries(String shgCode, String memberCode, String sectorCode, String activityCode, String entryType);
 
+    @Query("select * from MemberEntryEntity where shgMemberCode =:memberCode")
+    List<MemberEntryEntity> getAllSelectedMember(String memberCode);
+
+
+    @Query("DELETE  from MemberEntryEntity where MemberEntryEntity.shgMemberCode = :memberCode and MemberEntryEntity.activityCode=:activityCode ")
+    void deleteSelectedActivity(String memberCode,String activityCode);
+
+
+    @Query("select * from MemberEntryEntity where MemberEntryEntity.shgMemberCode = :memberCode and MemberEntryEntity.flagBeforeAfterNrlm=:entryStatus")
+    List<MemberEntryEntity> getAllDataWithEntryStatus(String memberCode, String entryStatus);
 
 }

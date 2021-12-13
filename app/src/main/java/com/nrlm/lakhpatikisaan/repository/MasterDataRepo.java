@@ -587,7 +587,7 @@ public class MasterDataRepo {
         return activityData;
     }
 
-    public List<String> getActivityName(int id) {
+    public List<String> getActivityName(int id,String memberCode) {
         List<String> activityName = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             activityName = getAllActivity(id).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
@@ -723,13 +723,47 @@ public class MasterDataRepo {
 
     }
 
+    public List<MemberEntryEntity> getAllMemberForActivity(String membercode){
 
+        List<MemberEntryEntity> memberDataEntry = null;
+        try {
+            Callable<List<MemberEntryEntity>> listCallable = new Callable<List<MemberEntryEntity>>() {
+                @Override
+                public List<MemberEntryEntity> call() throws Exception {
+                    AppUtils.getInstance().showLog("masterDataDao.getAllBlock()" + masterDataDao.getAllBlock().size(), MasterDataRepo.class);
+                    return memberEntryDao.getAllSelectedMember(membercode);
+                }
+            };
+            Future<List<MemberEntryEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            memberDataEntry = future.get();
 
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("getAllBlockExp" + e.toString(), MasterDataRepo.class);
+        }
+        return memberDataEntry;
+    }
 
+    public void deleteActivity(String memberCode,String activityCode){
+        memberEntryDao.deleteSelectedActivity(memberCode,activityCode);
 
+    }
 
+    public List<MemberEntryEntity> getAllMemberDataWithEntryStatus(String memberCode,String entryStatus ){
+        List<MemberEntryEntity> memberDataEntry = null;
+        try {
+            Callable<List<MemberEntryEntity>> listCallable = new Callable<List<MemberEntryEntity>>() {
+                @Override
+                public List<MemberEntryEntity> call() throws Exception {
+                    AppUtils.getInstance().showLog("masterDataDao.getAllBlock()" + masterDataDao.getAllBlock().size(), MasterDataRepo.class);
+                    return memberEntryDao.getAllDataWithEntryStatus(memberCode,entryStatus);
+                }
+            };
+            Future<List<MemberEntryEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            memberDataEntry = future.get();
+
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("getAllBlockExp" + e.toString(), MasterDataRepo.class);
+        }
+        return memberDataEntry;
+    }
 }
-
-/*{
-
-                                }*/
