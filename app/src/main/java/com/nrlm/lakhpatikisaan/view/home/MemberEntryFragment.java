@@ -69,7 +69,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String incomeFrequencyName;
     String incomeRangName;
     String monthName;
-    String seccNumber;
+    String seccNumber="1";
 
 
 
@@ -140,7 +140,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode,AppConstant.beforeNrlmStatus);
 
         if(!memberEntryDataItem.isEmpty()){
-            count = memberEntryDataItem.size()+1;
+            count = memberEntryDataItem.size();
             entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(),viewModel);
             binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
             binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
@@ -381,7 +381,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryEntity.activityCode = activityCode;
         memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
         memberEntryEntity.incomeRangCode = incomeRangCode;
-        memberEntryEntity.flagBeforeAfterNrlm = flagBeforeAfterNrlm;
+        memberEntryEntity.flagBeforeAfterNrlm = AppConstant.beforeNrlmStatus;
         memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
 
         memberEntryEntity.sectorName = sectorName;
