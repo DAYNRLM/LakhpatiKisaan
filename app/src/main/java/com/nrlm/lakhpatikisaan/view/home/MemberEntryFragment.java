@@ -114,7 +114,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             String memberDOJ =  viewModel.getMemberDOJ(selectedMemberCode);
 
             monthYearItem =  appDateFactory.monthYear(memberDOJ,AppConstant.nrlm_formation_date);
-            loadSecc(selectedMemberCode);
+            loadSecc("5748106");
 
             monthName = monthYearItem.get(0);
             entryYearCode = monthYearItem.get(1);

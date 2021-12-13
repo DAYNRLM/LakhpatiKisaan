@@ -1,17 +1,25 @@
 package com.nrlm.lakhpatikisaan.utils;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.nrlm.lakhpatikisaan.BuildConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +31,7 @@ import java.util.Random;
 
 public class AppUtils {
     public static AppUtils utilsInstance;
+    private TelephonyManager telephonyManager;
 
     public synchronized static AppUtils getInstance() {
         if (utilsInstance == null) {
@@ -89,6 +98,22 @@ public class AppUtils {
         return string.replaceAll("(,)*$", "");
     }
 
+    public String getDeviceInfo() {
+        String deviceInfo = "";
+        try{
+            deviceInfo = Build.MANUFACTURER + "-" + Build.DEVICE + "-" + Build.MODEL;
+        }catch (Exception e){
+            AppUtils.getInstance().showLog("Expection: "+e,AppDeviceInfoUtils.class);
+
+        }
+
+        if (deviceInfo.equalsIgnoreCase("")|| deviceInfo==null)
+            return "123-dummy-123";
+
+        //    appSharedPreferences.setDeviceInfo(deviceInfo);
+        return deviceInfo;
+    }
+
    /* public void setLocale(String localeName, Resources res) {
         Locale myLocale = new Locale(localeName);
         Locale.setDefault(myLocale);
@@ -99,4 +124,75 @@ public class AppUtils {
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
     }*/
+
+
+    @SuppressLint("HardwareIds")
+    public String getIMEINo1(Context context) {
+        String imeiNo1 = "";
+        try {
+            if (getSIMSlotCount(context) > 0) {
+                if (ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                }
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    imeiNo1 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+                    Build.getSerial();
+
+                    AppUtils.getInstance().showLog("BUILD SERIAL "+ Build.getSerial(),AppDeviceInfoUtils.class);
+
+                }else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    imeiNo1 = telephonyManager.getDeviceId(0);
+
+                }else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    imeiNo1 ="dummy_123456789";
+                }
+
+            } else imeiNo1 = telephonyManager.getDeviceId();
+        }catch (Exception e){
+            AppUtils.getInstance().showLog("Expection: "+e,AppDeviceInfoUtils.class);
+        }
+        //appSharedPreferences.setImeiNumber(imeiNo1);
+        AppUtils.getInstance().showLog("imeiiiiii: "+imeiNo1,AppDeviceInfoUtils.class);
+        return imeiNo1;
+    }
+
+
+    private int getSIMSlotCount(Context context) {
+        int getPhoneCount = 0;
+        try {
+            telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getPhoneCount = telephonyManager.getPhoneCount();
+            }
+        }catch (Exception e){
+            AppUtils.getInstance().showLog("Expection: "+e,AppDeviceInfoUtils.class);
+        }
+        return getPhoneCount;
+    }
+
+
+
+    public String getAppVersion() {
+        String appVersion = "";
+        try {
+            appVersion =  BuildConfig.VERSION_NAME;;
+        }catch (Exception e){
+            AppUtils.getInstance().showLog("Expection: "+e,AppDeviceInfoUtils.class);
+        }
+        return appVersion;
+    }
+
+    public String getAndroidApiVersion(){
+        int version = 0;
+        try {
+            version =  Build.VERSION.SDK_INT;
+        }catch (Exception e){
+        }
+        return String.valueOf(version);
+    }
+
+
+
+
 }

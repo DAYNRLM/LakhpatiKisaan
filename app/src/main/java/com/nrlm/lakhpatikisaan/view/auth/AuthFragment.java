@@ -15,23 +15,18 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.nrlm.lakhpatikisaan.BuildConfig;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.databinding.FragmentAuthLoginBinding;
-import com.nrlm.lakhpatikisaan.network.client.Result;
-import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
-import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
-import com.nrlm.lakhpatikisaan.repository.MasterDataRepo;
-import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
+import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
-import com.nrlm.lakhpatikisaan.utils.AppExecutor;
+import com.nrlm.lakhpatikisaan.utils.AppDateFactory;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
-import com.nrlm.lakhpatikisaan.view.home.HomeActivity;
 import com.nrlm.lakhpatikisaan.view.mpin.MpinActivity;
 
 import org.json.JSONException;
@@ -66,6 +61,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         super.onViewCreated(view, savedInstanceState);
 
          authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+         authViewModel.init(getContext());
 
         binding.tvForgetPassword.setOnClickListener(v -> {
             NavDirections action = AuthFragmentDirections.actionAuthFragmentToSendOtpFragment();
@@ -74,18 +70,38 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
 
         binding.btnLogin.setOnClickListener(v -> {
             String password = binding.etPassword.getText().toString();
-            String userId = binding.etUserId.getText().toString();
+            String userId = binding.etUserId.getText().toString().trim().toUpperCase();
             if (userId.equalsIgnoreCase("")){
                 binding.etUserId.setError(getString(R.string.invalid_userid));
             }else if(password.equalsIgnoreCase("")) {
                 binding.etPassword.setError(getString(R.string.invalid_password));
             }else {
+
                 progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage(getString(R.string.loading_heavy));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
+                String imeiNo=AppUtils.getInstance().getIMEINo1(getContext());
+                if (!imeiNo.equalsIgnoreCase(""))
+                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(),imeiNo,getContext());
                 if (NetworkFactory.isInternetOn(getContext())){
-                    authViewModel.makeLoginRequestData(getContext());
+
+                    final LoginRequestBean loginRequestBean = new LoginRequestBean();
+                    loginRequestBean.setLogin_id(userId);
+                    loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
+
+                    loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
+                    loginRequestBean.setAndroid_version("10");
+                    loginRequestBean.setApp_login_time("2021-04-13 16:33:23");
+                    loginRequestBean.setApp_versions(BuildConfig.VERSION_NAME);
+                    loginRequestBean.setDate(AppDateFactory.getInstance().getTodayDate());
+                    loginRequestBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
+                    loginRequestBean.setImei_no(imeiNo);
+                    loginRequestBean.setLocation_coordinate("28.6771787,77.4923927");
+                    loginRequestBean.setLogout_time("2021-04-13 16:33:23");
+
+                    authViewModel.makeLogin(loginRequestBean,getContext());
+
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -94,6 +110,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                             progressDialog.dismiss();
                             if (loginApiStatus.equalsIgnoreCase("E200")){
                                 PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginSessionKey(),"logedin",getContext());
+                                PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginId(),userId,getContext());
                                 intentToMpin();
                          /*   Intent intent = new Intent(getContext(), HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -113,7 +130,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                         progressDialog.dismiss();
                         showServerError(AppConstant.noInternetCode);
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        AppUtils.getInstance().showLog("NoInternetElse"+e.getMessage(),AuthFragment.class);
                     }
                 }
 

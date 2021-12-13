@@ -9,12 +9,27 @@ public class PreferenceKeyManager {
     private static final String PrefSelectedShgCode="PrefSelectedShgCode";
     private static final String PrefSelectedClfCode="PrefSelectedClfCode";
     private static final String PrefSelectedVoCode="PrefSelectedVoCode";
+    private static final String PrefLoginId="PrefLoginId";
+    private static final String PrefStateShortName="PrefStateShortName";
+    private static final String PrefImeiNo="PrefImeiNo";
 
 
     private static final String ForgotMobileNumber="forgotmobile";
     private static final String RandomOtp="genratedOtp";
     private static final String PREF_KEY_MPIN= "prfMPIN";
     private static final String PREF_KEY_LOGIN_DONE = "Longin";
+
+    public static String getPrefImeiNo() {
+        return PrefImeiNo;
+    }
+
+    public static String getPrefStateShortName() {
+        return PrefStateShortName;
+    }
+
+    public static String getPrefLoginId() {
+        return PrefLoginId;
+    }
 
     public static String getPrefSelectedClfCode() {
         return PrefSelectedClfCode;

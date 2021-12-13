@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.databinding.FragmentVerifyMpinBinding;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
@@ -68,7 +69,13 @@ public class VerifyMpinFragment extends BaseFragment<MpinViewModel, FragmentVeri
                     if (NetworkFactory.isInternetOn(getCurrentContext())) {
                         MpinViewModel mpinViewModel = new ViewModelProvider(getActivity()).get(MpinViewModel.class);
                         mpinViewModel.initializeObjects(getCurrentContext());
-                        mpinViewModel.makeCheckDeleteShgRequest(getCurrentContext(), new LogRequestBean("UPAGASDFGH", "UP", "111", "1111", "111"));
+
+                        String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getCurrentContext());
+                        String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getCurrentContext());
+                        String imei=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getCurrentContext());
+
+                        mpinViewModel.makeCheckDeleteShgRequest(getCurrentContext(),new LogRequestBean(loginId,stateShortName,imei,
+                                AppUtils.getInstance().getDeviceInfo(),"00.00"));
 
 
                         new Handler().postDelayed(new Runnable() {

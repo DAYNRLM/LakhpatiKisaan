@@ -37,30 +37,19 @@ public class AuthViewModel extends ViewModel {
     public String resetPasswordApiStatuss = "";
     public SimpleResponseBean simpleResponseBean;
 
+
     public AuthViewModel() {
 
     }
 
-    public void makeLoginRequestData(Context context) {
+    public void init(Context context) {
+
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         masterDataRepo = MasterDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
-        final LoginRequestBean loginRequestBean = new LoginRequestBean();
-        loginRequestBean.setAndroid_api_version("1.0.0");
-        loginRequestBean.setAndroid_version("1.0.0");
-        loginRequestBean.setApp_login_time("2021-04-13 16:33:23");
-        loginRequestBean.setApp_versions("1.0.0");
-        loginRequestBean.setDate("10-12-2021");
-        loginRequestBean.setDevice_name("OPPO-OP4B79L1-CPH1933");
-        loginRequestBean.setImei_no("5d7eaa5ef9d3ebed");
-        loginRequestBean.setLocation_coordinate("28.6771787,77.4923927");
-        loginRequestBean.setLogout_time("2021-04-13 16:33:23");
-        loginRequestBean.setLogin_id("HRKSVISHAKHA");
-        loginRequestBean.setPassword("c6024fd19953c32dc6e2b8fe91684a16a889cc8482157f1ec652616517537239");
-        makeLogin(loginRequestBean);
 
     }
 
-    public void makeLogin(LoginRequestBean loginRequestBean) {
+    public void makeLogin(LoginRequestBean loginRequestBean,Context context) {
         loginRepo.makeLoginRequest(loginRequestBean, new RepositoryCallback() {
             @Override
             public void onComplete(Result result) {
@@ -68,11 +57,16 @@ public class AuthViewModel extends ViewModel {
                     AppUtils.getInstance().showLog("loginDataResult" + result.toString(), AuthViewModel.class);
                     if (result instanceof Result.Success) {
                         LoginResponseBean loginResponseBean = (LoginResponseBean) ((Result.Success) result).data;
-                        AppUtils.getInstance().showLog("loginDataResponseBean" + loginResponseBean.getError().getCode() + "---" + loginResponseBean.getError().getMessage(), AuthViewModel.class);
-                        loginApiStatus = "E200";
-                        if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200")) {
-                            LogRequestBean logRequestBean = new LogRequestBean("UPAGASSDAD", "up"
-                                    , "111", "111", "111");
+                        AppUtils.getInstance().showLog("loginDataResponseBean" + loginResponseBean.getError().getCode() + "---" +
+                                loginResponseBean.getError().getMessage(), AuthViewModel.class);
+
+                        String stateShortName=loginRepo.getStateNameDB();
+                        if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200") && stateShortName!=null) {
+                            loginApiStatus = "E200";
+                          PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(),stateShortName,context);
+                            LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), stateShortName
+                                    ,loginRequestBean.getImei_no() , loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
+
 
                             masterDataRepo.makeMasterDataRequest(logRequestBean, new RepositoryCallback() {
                                 @Override
@@ -250,7 +244,6 @@ public class AuthViewModel extends ViewModel {
                 }
             }
         });
-
 
     }
 
