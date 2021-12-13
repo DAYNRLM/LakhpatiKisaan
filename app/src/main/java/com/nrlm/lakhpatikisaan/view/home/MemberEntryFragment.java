@@ -237,7 +237,11 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         /****** Start add activity btn
          * user can add multiple activity*****/
         binding.btnAddActivity.setOnClickListener(view1 -> {
-            if (count == 0) {
+
+            binding.cvSelectActivity.setVisibility(View.VISIBLE);
+            loadSector();
+
+           /* if (count == 0) {
                 // date confirmation dialog
                 Observer<String> actionObserver = new Observer<String>() {
                     @Override
@@ -259,7 +263,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
             } else {
                 binding.cvSelectActivity.setVisibility(View.VISIBLE);
-            }
+            }*/
         });
 
 
@@ -393,6 +397,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryEntity.seccNumber = seccNumber;
 
         memberEntryDataItem.add(memberEntryEntity);
+
+        viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
 
     }
 
