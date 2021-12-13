@@ -171,14 +171,15 @@ public class AuthViewModel extends ViewModel {
                         }
 
                     } else {
-                        Object errorObject = ((Result.Error) result).exception;
-                        if (errorObject != null) {
-                            if (errorObject instanceof MasterDataResponseBean.Error) {
-                                LoginResponseBean.Error responseError = (LoginResponseBean.Error) errorObject;
+                        //Object errorObject = ;
+                        AppUtils.getInstance().showLog("ClassTypeError"+((Result.Error) result).exception.getClass(),AuthViewModel.class);
+                        if (((Result.Error) result).exception != null) {
+                            if (((Result.Error) result).exception instanceof LoginResponseBean.Error) {
+                                LoginResponseBean.Error responseError = (LoginResponseBean.Error) ((Result.Error) result).exception;
                                 loginApiStatus = responseError.getCode();
                                 AppUtils.getInstance().showLog(responseError.getCode() + " loginApiErrorObj" + responseError.getMessage(), AuthViewModel.class);
-                            } else if (errorObject instanceof Throwable) {
-                                Throwable exception = (Throwable) errorObject;
+                            } else if (((Result.Error) result).exception instanceof Throwable) {
+                                Throwable exception = (Throwable) ((Result.Error) result).exception;
                                 loginApiStatus = exception.getMessage();
                                 AppUtils.getInstance().showLog("RetrofitErrorsLogin:-------" + exception.getMessage(), AuthViewModel.class);
                             }

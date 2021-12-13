@@ -40,7 +40,7 @@
     <string name="info">Info</string>
     <string name="error_code_not_found">Error code not found.</string>
     <string name="not_getting_data_from_server">Error, while getting data from server.</string>
-    <string name="invalid_fields">Required Files are invalid.</string>
+    <string name="invalid_fields">Required Fields are invalid.</string>
     <string name="error_security_validation">Security validation failed.</string>
     <string name="error_validation">Validations are failed.</string>
     <string name="error_session_exist">Session already exists.</string>
@@ -116,5 +116,9 @@
     <string name="before_income_title">Fill Income (Before coming into NRLM Fold)</string>
     <string name="after_income_title">Fill Income at present</string>
     <string name="income_selection">"Income Selection"</string>
+    <string name="login_attempt_exceded">"Please wait for 15 minutes you exceed limit more than 5 !!!"</string>
+    <string name="invalid_id_or_pass">"Invalid User Id or Password"</string>
+    <string name="invalid_login_time">"Invalid APP Login time !!!"</string>
+    <string name="invalid_device">"Invalid device !!!"</string>
 
 </resources>

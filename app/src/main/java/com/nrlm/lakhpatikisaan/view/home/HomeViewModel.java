@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 public class HomeViewModel extends ViewModel {
     private MasterDataRepo masterDataRepo;
     private SyncDataRepo syncDataRepo;
+    private String syncApiStatus;
 
     public HomeViewModel() {
     }
@@ -102,12 +103,14 @@ public class HomeViewModel extends ViewModel {
                                 } else*/
                                 if (errorObject instanceof Throwable) {
                                     Throwable exception = (Throwable) errorObject;
+                                    syncApiStatus=exception.getMessage();
                                     AppUtils.getInstance().showLog("CheckDuplicateRetrofitErrors:-------" + exception.getMessage()
                                             , AuthViewModel.class);
                                 }
                             }
                         }
                     } catch (Exception e) {
+                        syncApiStatus=e.getMessage();
                         AppUtils.getInstance().showLog("checkDuplicateDataResultExp" + e.toString(), AuthViewModel.class);
                     }
                 }
@@ -131,6 +134,7 @@ public class HomeViewModel extends ViewModel {
                             SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
 
                             /*update sync status in member entry table*/
+                            syncApiStatus="E200";
 
                             updateSyncStatus();
 
@@ -141,16 +145,19 @@ public class HomeViewModel extends ViewModel {
                             if (errorObject != null) {
                                 if (errorObject instanceof SimpleResponseBean.Error) {
                                     SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
+                                    syncApiStatus=responseError.getCode();
                                     AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
                                             + responseError.getMessage(), AuthViewModel.class);
                                 } else if (errorObject instanceof Throwable) {
                                     Throwable exception = (Throwable) errorObject;
+                                    syncApiStatus=exception.getMessage();
                                     AppUtils.getInstance().showLog("SyncEntriesRetrofitErrors:-------" + exception.getMessage()
                                             , AuthViewModel.class);
                                 }
                             }
                         }
                     } catch (Exception e) {
+                        syncApiStatus=e.getMessage();
                         AppUtils.getInstance().showLog("SyncEntriesResultExp" + e.toString(), AuthViewModel.class);
 
                     }
@@ -158,6 +165,10 @@ public class HomeViewModel extends ViewModel {
             });
         }
 
+    }
+
+    public String getSyncApiStatus(){
+        return syncApiStatus;
     }
 
 

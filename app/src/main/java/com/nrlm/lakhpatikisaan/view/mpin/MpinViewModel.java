@@ -42,7 +42,7 @@ public class MpinViewModel extends ViewModel {
                         /* 1. sync all data
                          *  2. hit delete shg api */
                         homeViewModel.checkDuplicateAtServer(context, logRequestBean.getLogin_id(), logRequestBean.getState_short_name(), logRequestBean.getImei_no(),
-                                logRequestBean.getDevice_name(), logRequestBean.getLocation_coordinate(), AppConstant.entryNotCompleted);
+                                logRequestBean.getDevice_name(), logRequestBean.getLocation_coordinate(), AppConstant.entryCompleted);
 
                         List<CheckDeleteShgEntity> checkDeleteShgEntityList= null;
                         try {

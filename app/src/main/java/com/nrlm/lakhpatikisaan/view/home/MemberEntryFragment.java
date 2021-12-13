@@ -3,6 +3,7 @@ package com.nrlm.lakhpatikisaan.view.home;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
@@ -102,8 +105,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         Calendar today = Calendar.getInstance();
         memberEntryDataItem = new ArrayList<>();
         viewModel.getHomeViewModelRepos(getCurrentContext());
-
-
 
         try {
             selectedMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
@@ -260,11 +261,36 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                      * sync operation perform and
                                      * redirect to afternrl screen****/
                                    dialogInterface.dismiss();
-                                    Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
-                                    viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
 
-                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
-                                    navController.navigate(navDirections);
+                                    viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
+                                    if (NetworkFactory.isInternetOn(getContext())){
+                                        viewModel.checkDuplicateAtServer(getContext()
+                                                ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
+                                                ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
+                                                ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getContext())
+                                                , AppUtils.getInstance().getDeviceInfo()
+                                                ,"0.0,0.0"
+                                                ,AppConstant.entryCompleted);
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
+                                                    Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+                                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                                    navController.navigate(navDirections);
+                                                }else {
+                                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                                    navController.navigate(navDirections);
+                                                }
+
+                                            }
+                                        },6000);
+                                    }else {
+                                        NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                        navController.navigate(navDirections);
+                                    }
+
+
 
 
                                 }else if(str.equalsIgnoreCase("2")){
