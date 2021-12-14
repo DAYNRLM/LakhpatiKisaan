@@ -16,4 +16,7 @@ public interface IncomeRangeDao {
 
     @Query("select * from IncomeRangeEntity where IncomeRangeEntity.frequency_id =:freqId")
     List<IncomeRangeEntity> getAllIncomeRange(int freqId);
+
+    @Query("delete from incomerangeentity")
+    void deleteAll();
 }

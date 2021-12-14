@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -232,8 +234,14 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                      * redirect to afternrl screen****//*
                                    dialogInterface.dismiss();
 
+                                    ProgressDialog progressDialog=new ProgressDialog(getContext());
+                                    progressDialog.setMessage(getContext().getResources().getString(R.string.syncing_data));
+                                    progressDialog.setCancelable(false);
+                                    progressDialog.show();
+
                                     viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
                                     if (NetworkFactory.isInternetOn(getContext())){
+
                                         viewModel.checkDuplicateAtServer(getContext()
                                                 ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
                                                 ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
@@ -244,11 +252,14 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                if (viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
-                                                    Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+                                                progressDialog.show();
+                                                if (viewModel.getSyncApiStatus() !=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
+
+                                                    Toast.makeText(getContext(),getContext().getResources().getString(R.string.synced_msg) , Toast.LENGTH_LONG).show();
                                                     NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                     navController.navigate(navDirections);
                                                 }else {
+
                                                     NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                     navController.navigate(navDirections);
                                                 }
@@ -256,6 +267,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                             }
                                         },6000);
                                     }else {
+                                        progressDialog.show();
                                         NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                         navController.navigate(navDirections);
                                     }

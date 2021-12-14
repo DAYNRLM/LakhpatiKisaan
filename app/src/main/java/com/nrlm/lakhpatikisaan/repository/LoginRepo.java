@@ -6,8 +6,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
+import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
+import com.nrlm.lakhpatikisaan.database.dao.CheckDeleteShgDao;
+import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
+import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.LoginInfoDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
+import com.nrlm.lakhpatikisaan.database.dao.SeccDao;
+import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.LgdVillageCode;
 import com.nrlm.lakhpatikisaan.database.entity.LoginInfoEntity;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
@@ -39,12 +45,25 @@ public class LoginRepo {
     private Context context;
     private LoginInfoDao loginInfoDao;
     private MasterDataDao masterDataDao;
+    private SeccDao seccDao;
+    private SectorDao sectorDao;
+    private ActivityDao activityDao;
+    private IncomeRangeDao incomeRangeDao;
+    private FrequencyDao frequencyDao;
+    private CheckDeleteShgDao checkDeleteShgDao;
 
     private LoginRepo(ExecutorService executor, Context context) {
         this.executor = executor;
         this.context = context;
-        loginInfoDao = AppDatabase.getDatabase(context).getLoginInfoDao();
-        masterDataDao = AppDatabase.getDatabase(context).getMasterDataDao();
+        AppDatabase appDatabase = AppDatabase.getDatabase(context);
+        loginInfoDao = appDatabase.getLoginInfoDao();
+        masterDataDao = appDatabase.getMasterDataDao();
+        seccDao = appDatabase.getSeccDao();
+        sectorDao = appDatabase.getSectorDao();
+        activityDao = appDatabase.getActivityDao();
+        incomeRangeDao = appDatabase.getIncomeRangeDao();
+        frequencyDao = appDatabase.getFrequencyDao();
+        checkDeleteShgDao = appDatabase.getCheckDeleteShgDao();
     }
 
     public static LoginRepo getInstance(ExecutorService executor, Context context) {
@@ -266,6 +285,22 @@ public class LoginRepo {
 
         Future<String> future = Executors.newSingleThreadExecutor().submit(callable);
         return future.get();
+    }
+
+    public void deleteAllMaster() {
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                loginInfoDao.deleteAll();
+                masterDataDao.deleteAll();
+                seccDao.deleteAll();
+                sectorDao.deleteAll();
+                activityDao.deleteAll();
+                incomeRangeDao.deleteAll();
+                frequencyDao.deleteAll();
+                checkDeleteShgDao.deleteAll();
+            }
+        });
     }
 
 

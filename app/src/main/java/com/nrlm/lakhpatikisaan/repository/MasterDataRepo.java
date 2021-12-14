@@ -744,7 +744,13 @@ public class MasterDataRepo {
     }
 
     public void deleteActivity(String memberCode,String activityCode){
-        memberEntryDao.deleteSelectedActivity(memberCode,activityCode);
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                memberEntryDao.deleteSelectedActivity(memberCode,activityCode);
+            }
+        });
+
 
     }
 

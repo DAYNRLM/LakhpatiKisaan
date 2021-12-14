@@ -17,4 +17,7 @@ public interface FrequencyDao {
 
     @Query("select * from FrequencyEntity")
     List<FrequencyEntity> getAllFrequency();
+
+    @Query("delete from frequencyentity")
+    void deleteAll();
 }

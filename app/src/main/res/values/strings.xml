@@ -115,10 +115,12 @@
     <string name="authenticating">Authenticating...</string>
     <string name="before_income_title">Fill Income (Before coming into NRLM Fold)</string>
     <string name="after_income_title">Fill Income at present</string>
-    <string name="income_selection">"Income Selection"</string>
-    <string name="login_attempt_exceded">"Please wait for 15 minutes you exceed limit more than 5 !!!"</string>
-    <string name="invalid_id_or_pass">"Invalid User Id or Password"</string>
-    <string name="invalid_login_time">"Invalid APP Login time !!!"</string>
-    <string name="invalid_device">"Invalid device !!!"</string>
+    <string name="income_selection">Income Selection</string>
+    <string name="login_attempt_exceded">Please wait for 15 minutes you exceed limit more than 5 !!!</string>
+    <string name="invalid_id_or_pass">Invalid User Id or Password</string>
+    <string name="invalid_login_time">Invalid APP Login time !!!</string>
+    <string name="invalid_device">Invalid device !!!</string>
+    <string name="syncing_data">Syncing...</string>
+    <string name="synced_msg">Data Synced Successfully!!!</string>
 
 </resources>

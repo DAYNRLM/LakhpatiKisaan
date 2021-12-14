@@ -74,8 +74,10 @@ public interface MasterDataDao {
 
 
 
+/* delete queries-----*/
 
-
+    @Query("delete from masterdataentity")
+    void deleteAll();
 
 
 

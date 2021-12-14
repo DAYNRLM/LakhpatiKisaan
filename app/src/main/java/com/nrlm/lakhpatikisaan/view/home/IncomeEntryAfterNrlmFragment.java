@@ -152,7 +152,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                 binding.cvSelectActivity.setVisibility(View.GONE);
                 binding.btnAddActivity.setText("Add Another Activity");
                 binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
-                binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+                binding.tvTotalActivityCount.setText("Total Activities are :" + count);
 
                 resetFunction(1);
             }
@@ -219,7 +219,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         });
 
         binding.btnSaveEntry.setOnClickListener(v -> {
-          //  Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+        /*  //  Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
             viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
 
             if (NetworkFactory.isInternetOn(getContext())){
@@ -247,7 +247,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             }else {
                 NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
                 navController.navigate(navDirections);
-            }
+            }*/
 
 
         });
