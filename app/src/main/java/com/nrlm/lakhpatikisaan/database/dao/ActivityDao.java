@@ -16,4 +16,7 @@ public interface ActivityDao {
 
     @Query("select * from ActivityEntity where ActivityEntity.sector_code =:sectorId ")
     List<ActivityEntity> getAllActivity(int sectorId);
+
+    @Query("delete from activityentity")
+    void deleteAll();
 }

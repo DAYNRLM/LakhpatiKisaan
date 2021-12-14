@@ -16,5 +16,6 @@ public interface CheckDeleteShgDao {
 
     @Query("select * from checkdeleteshgentity")
     List<CheckDeleteShgEntity> getShgToDelete();
-
+    @Query("delete from checkdeleteshgentity")
+    void deleteAll();
 }

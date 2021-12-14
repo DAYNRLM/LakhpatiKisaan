@@ -1,12 +1,16 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 
@@ -23,6 +28,7 @@ import com.nrlm.lakhpatikisaan.databinding.FragmentAuthLoginBinding;
 import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppDateFactory;
+import com.nrlm.lakhpatikisaan.utils.AppDeviceInfoUtils;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
@@ -37,6 +43,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
 
     private ProgressDialog progressDialog;
     private AuthViewModel authViewModel;
+    private TelephonyManager telephonyManager;
 
     @Override
     public Class<AuthViewModel> getViewModel() {
@@ -84,7 +91,8 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 progressDialog.setMessage(getString(R.string.loading_heavy));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                String imeiNo = AppUtils.getInstance().getIMEINo1(getContext());
+                String imeiNo = getIMEINo1(getContext());
+                AppUtils.getInstance().showLog("imeiNoFinal" + imeiNo, AuthFragment.class);
                 if (!imeiNo.equalsIgnoreCase(""))
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(), imeiNo, getContext());
                 if (NetworkFactory.isInternetOn(getContext())) {
@@ -96,9 +104,9 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     loginRequestBean.setImei_no("5d7eaa5ef9d3ebed");
 
                     /*---------------LIVE------------------*/
-                  /*  loginRequestBean.setLogin_id(userId);
+                   /* loginRequestBean.setLogin_id(userId);
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
-                    loginRequestBean.setImei_no(imeiNo);*/
+                    loginRequestBean.setImei_no("5d7eaa5ef9d3ebe");*/
 
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("10");
@@ -223,6 +231,54 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         Intent intent = new Intent(getContext(), MpinActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+
+    public String getIMEINo1(Context context) {
+        String imeiNo1 = "";
+        try {
+            if (getSIMSlotCount(context) > 0) {
+                if (ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                }
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    imeiNo1 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+                    Build.getSerial();
+
+                    AppUtils.getInstance().showLog("BUILD SERIAL "+ Build.getSerial(), AppDeviceInfoUtils.class);
+
+                }else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    imeiNo1 = telephonyManager.getDeviceId(0);
+                    AppUtils.getInstance().showLog("BUILD SERIAL-imeiNo1 "+ imeiNo1,AppDeviceInfoUtils.class);
+
+                }else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    imeiNo1 ="dummy_123456789";
+                    AppUtils.getInstance().showLog("BUILD SERIAL-dummy "+ imeiNo1,AppDeviceInfoUtils.class);
+                }
+
+            } else imeiNo1 = telephonyManager.getDeviceId();
+        }catch (Exception e){
+            AppUtils.getInstance().showLog("Expection in imeiiiiii: "+e,AppDeviceInfoUtils.class);
+        }
+        //appSharedPreferences.setImeiNumber(imeiNo1);
+        AppUtils.getInstance().showLog("imeiiiiii: "+imeiNo1,AppDeviceInfoUtils.class);
+        return imeiNo1;
+    }
+
+
+    private int getSIMSlotCount(Context context) {
+        int getPhoneCount = 0;
+        try {
+            telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getPhoneCount = telephonyManager.getPhoneCount();
+            }
+        }catch (Exception e){
+            AppUtils.getInstance().showLog("Expection: "+e,AppDeviceInfoUtils.class);
+        }
+        AppUtils.getInstance().showLog("getSimSlotCount: "+getPhoneCount,AppDeviceInfoUtils.class);
+        return getPhoneCount;
     }
 
 }

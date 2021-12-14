@@ -16,4 +16,7 @@ public interface SeccDao {
 
     @Query("select * from SeccEntity where shg_member_code=:memberCode")
     List<SeccEntity> getSeccDetail(String memberCode);
+
+    @Query("delete from seccentity")
+    void deleteAll();
 }

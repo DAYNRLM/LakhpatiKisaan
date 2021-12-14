@@ -266,21 +266,28 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
                                 }else if(str.equalsIgnoreCase("2")){
                                     dialogInterface.dismiss();
+
                                     Observer<String> actionObserver = new Observer<String>() {
                                         @Override
                                         public void onChanged(String s) {
 
                                             if(s.equalsIgnoreCase("ok")) {
+                                                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
                                                 NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
                                                 navController.navigate(navDirections);
 
                                             } else {
+                                                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
                                                 NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
                                                 navController.navigate(navDirections);
+
                                             }
+
                                         }
                                     };
+
                                     viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
+
                                 }
                             }
                         }).setCancelable(false).show();

@@ -38,7 +38,7 @@ public class RetrofitClient {
             case "demo":
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
-                NRLM_STATUS = "nrlmwebservicedemo";
+                NRLM_STATUS = "lakhpatishgDemo";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
                 break;
 
