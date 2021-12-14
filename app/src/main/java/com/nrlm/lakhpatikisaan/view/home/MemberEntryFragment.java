@@ -272,12 +272,10 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                         public void onChanged(String s) {
 
                                             if(s.equalsIgnoreCase("ok")) {
-                                                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
                                                 NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
                                                 navController.navigate(navDirections);
 
                                             } else {
-                                                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
                                                 NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
                                                 navController.navigate(navDirections);
 
