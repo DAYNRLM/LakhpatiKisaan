@@ -37,6 +37,7 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        int number = 0;
         holder.itemBinding.tvSector.setText(memberEntryDataItem.get(position).getSectorName());
         holder.itemBinding.tvActivity.setText(memberEntryDataItem.get(position).getActivityName());
         holder.itemBinding.tvFrequency.setText(memberEntryDataItem.get(position).getIncomeFrequencyName());
@@ -53,6 +54,22 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
             notifyDataSetChanged();
 
         });
+
+        String rang =  memberEntryDataItem.get(position).getIncomeRangName();
+        String frequencyCode = memberEntryDataItem.get(position).getIncomeFrequencyCode();
+        String noSpaceStr = rang.replaceAll("\\s", ""); // using built in method
+
+        if(isStringOnlyAlphabet(noSpaceStr)){
+             number = Integer.parseInt(getNumber(rang));
+        }else {
+             number = Integer.parseInt(splitString(rang));
+        }
+        holder.itemBinding.tvYearlyIncome.setText(getYearlyData(frequencyCode,number));
+       // String yearly = getYearlyData(frequencyCode,number);
+
+
+
+
     }
 
     @Override
@@ -66,5 +83,62 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
             super(rootView.getRoot());
             itemBinding = rootView;
         }
+    }
+
+
+    public static boolean isStringOnlyAlphabet(String str)
+    {
+        //^\d*[a-zA-Z][a-zA-Z\d]*$
+        //^[a-zA-Z]*$
+        return ((str != null)
+                && (!str.equals(""))
+                && (str.matches("^\\d*[a-zA-Z][a-zA-Z\\d]*$")));
+    }
+
+    public String getNumber(String str){
+        StringBuffer alpha = new StringBuffer(),
+                num = new StringBuffer(), special = new StringBuffer();
+
+        for (int i=0; i<str.length(); i++)
+        {
+            if (Character.isDigit(str.charAt(i)))
+                num.append(str.charAt(i));
+            else if(Character.isAlphabetic(str.charAt(i)))
+                alpha.append(str.charAt(i));
+            else
+                special.append(str.charAt(i));
+        }
+
+        System.out.println(alpha);
+        System.out.println(num);
+        System.out.println(special);
+
+        return num.toString();
+    }
+
+    public String splitString(String str){
+       // 5000-8000
+        String[] arrOfStr = str.split("-");
+        return arrOfStr[1];
+    }
+
+    public String getYearlyData(String freqCode,int amount){
+
+        int totlIncome=0;
+        switch (freqCode){
+            case "1":
+                totlIncome =amount*12;
+                break;
+            case "2":
+                totlIncome =amount*4;
+                break;
+            case "3":
+                totlIncome =amount*6;
+                break;
+            case "4":
+                totlIncome =amount*1;
+                break;
+        }
+        return ""+totlIncome;
     }
 }

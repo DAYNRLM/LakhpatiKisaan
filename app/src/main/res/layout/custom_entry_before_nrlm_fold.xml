@@ -72,6 +72,14 @@
                         android:fontFamily="@font/manrope_extra_bold"
                         android:textColor="@color/green_700" />
 
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_yearlyIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/range_value"
+                        android:fontFamily="@font/manrope_extra_bold"
+                        android:textColor="@color/green_700" />
+
 
 
                 </LinearLayout>
