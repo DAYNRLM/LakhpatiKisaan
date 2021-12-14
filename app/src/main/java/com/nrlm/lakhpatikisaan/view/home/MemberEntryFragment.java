@@ -219,21 +219,22 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             @Override
             public void onClick(View v) {
 
-
-               /* new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
+                new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
                         .setItems(AppConstant.ConstantObject.getConfirmation(), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String arr[] =  AppConstant.ConstantObject.getStatus();
                                 String str = arr[i];
                                 if(str.equalsIgnoreCase("1")){
-                                    *//****data save in database and
+                                    /****data save in database and
                                      * sync operation perform and
-                                     * redirect to afternrl screen****//*
+                                     * redirect to afternrl screen****/
                                    dialogInterface.dismiss();
 
-                                    viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
-                                    if (NetworkFactory.isInternetOn(getContext())){
+                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                    navController.navigate(navDirections);
+
+                                   /* if (NetworkFactory.isInternetOn(getContext())){
                                         viewModel.checkDuplicateAtServer(getContext()
                                                 ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
                                                 ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
@@ -258,38 +259,31 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                     }else {
                                         NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                         navController.navigate(navDirections);
-                                    }
+                                    }*/
 
 
 
 
                                 }else if(str.equalsIgnoreCase("2")){
                                     dialogInterface.dismiss();
-
                                     Observer<String> actionObserver = new Observer<String>() {
                                         @Override
                                         public void onChanged(String s) {
 
                                             if(s.equalsIgnoreCase("ok")) {
-                                                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
                                                 NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
                                                 navController.navigate(navDirections);
 
                                             } else {
-                                                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
                                                 NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
                                                 navController.navigate(navDirections);
-
                                             }
-
                                         }
                                     };
-
                                     viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
-
                                 }
                             }
-                        }).setCancelable(false).show();*/
+                        }).setCancelable(false).show();
             }
         });
 
@@ -300,10 +294,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(),shgMemberCode);
 
         });
-
-
-
-
     }
 
     private void loadSecc(String memberCode) {
