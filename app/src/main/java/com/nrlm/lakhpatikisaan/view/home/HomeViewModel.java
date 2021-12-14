@@ -201,13 +201,21 @@ public class HomeViewModel extends ViewModel {
         List<MemberEntryEntity> entryData = masterDataRepo.getAllMemberForActivity(memberCode);
 
         if(!entryData.isEmpty()){
-            for(MemberEntryEntity entryObject:entryData){
+
+            for(int i=0; i<entryData.size();i++){
+                for(int j=0;j<activityData.size();j++){
+                    if(entryData.get(i).getActivityCode().equalsIgnoreCase(String.valueOf(activityData.get(j).getActivity_code()))){
+                        activityData.remove(j);
+                    }
+                }
+            }
+           /* for(MemberEntryEntity entryObject:entryData){
                 for(ActivityEntity activityObject:activityData){
                     if(entryObject.getActivityCode().equalsIgnoreCase(String.valueOf(activityObject.getActivity_code()))){
                         activityData.remove(activityObject);
                     }
                 }
-            }
+            }*/
 
         }else {
             activityData =masterDataRepo.getAllActivity(id);

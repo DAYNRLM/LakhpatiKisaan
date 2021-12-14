@@ -19,6 +19,7 @@ import com.nrlm.lakhpatikisaan.network.model.response.SupportiveMastersResponseB
 import com.nrlm.lakhpatikisaan.repository.LoginRepo;
 import com.nrlm.lakhpatikisaan.repository.MasterDataRepo;
 import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
+import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
@@ -104,6 +105,62 @@ public class AuthViewModel extends ViewModel {
                                         AppUtils.getInstance().showLog("supportiveMasterDataResponseBean" + supportiveMastersResponseBean.getError().getCode() + "---"
                                                 + supportiveMastersResponseBean.getError().getMessage(), AuthViewModel.class);
 
+                                        List<LgdVillageCode> lgdVillageCodeList = null;
+                                        try {
+                                            lgdVillageCodeList = getLgdVillageCodes();
+
+                                        AppUtils.getInstance().showLog("lgdCodesListSize:- "+lgdVillageCodeList.size(),AuthViewModel.class);
+                                        SeccRequestBean seccRequestBean = new SeccRequestBean();
+
+                                        seccRequestBean.setDevice_name(logRequestBean.getDevice_name());
+                                        seccRequestBean.setImei_no(logRequestBean.getImei_no());
+                                        seccRequestBean.setLocation_coordinate(logRequestBean.getLocation_coordinate());
+                                        seccRequestBean.setLogin_id(logRequestBean.getLogin_id());
+                                        seccRequestBean.setState_short_name(logRequestBean.getState_short_name());
+
+                                        String lgdVillageCodes="";
+
+                                        for (LgdVillageCode lgdVillageCode:lgdVillageCodeList){
+                                            lgdVillageCodes+=lgdVillageCode.getLgd_village_code()+",";
+                                        }
+
+                                        AppUtils.getInstance().showLog("lgdCodesFromDb"+AppUtils.getInstance().removeComma(lgdVillageCodes),AuthViewModel.class);
+
+                                        seccRequestBean.setLgd_village_code(AppUtils.getInstance().removeComma(lgdVillageCodes));
+
+                                        masterDataRepo.makeSeccDataRequest(seccRequestBean, new RepositoryCallback() {
+                                            @Override
+                                            public void onComplete(Result result) {
+                                                AppUtils.getInstance().showLog("SeccMasterDataResult" + result.toString(), AuthViewModel.class);
+                                                if (result instanceof Result.Success) {
+                                                    SeccResponseBean seccResponseBean = (SeccResponseBean) ((Result.Success) result).data;
+                                                    AppUtils.getInstance().showLog("SeccrDataResponseBean" + seccResponseBean.getError().getCode() + "---"
+                                                            + seccResponseBean.getError().getMessage(), AuthViewModel.class);
+
+                                                } else {
+                                                    Object errorObject = ((Result.Error) result).exception;
+                                                    if (errorObject != null) {
+                                                        if (errorObject instanceof SupportiveMastersResponseBean.Error) {
+                                                            SeccResponseBean.Error responseError = (SeccResponseBean.Error) errorObject;
+                                                            AppUtils.getInstance().showLog(responseError.getCode() + "SeccApiErrorObj"
+                                                                    + responseError.getMessage(), AuthViewModel.class);
+                                                        } else if (errorObject instanceof Throwable) {
+                                                            Throwable exception = (Throwable) errorObject;
+                                                            AppUtils.getInstance().showLog("SeccRetrofitErrors:-------" + exception.getMessage()
+                                                                    , AuthViewModel.class);
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                        });
+
+                                        } catch (ExecutionException e) {
+                                            AppUtils.getInstance().showLog("makeSeccDataRequestExp:- "+e.getMessage(),AuthViewModel.class);
+                                        } catch (InterruptedException e) {
+                                            AppUtils.getInstance().showLog("makeSeccDataRequestExp:- "+e.getMessage(),AuthViewModel.class);
+                                        }
+
                                     } else {
                                         Object errorObject = ((Result.Error) result).exception;
                                         if (errorObject != null) {
@@ -122,50 +179,7 @@ public class AuthViewModel extends ViewModel {
 
                                 }
                             });
-                            List<LgdVillageCode> lgdVillageCodeList = getLgdVillageCodes();
 
-                            SeccRequestBean seccRequestBean = new SeccRequestBean();
-
-                            seccRequestBean.setDevice_name(logRequestBean.getDevice_name());
-                            seccRequestBean.setImei_no(logRequestBean.getImei_no());
-                            seccRequestBean.setLocation_coordinate(logRequestBean.getLocation_coordinate());
-                            seccRequestBean.setLogin_id(logRequestBean.getLogin_id());
-                            seccRequestBean.setState_short_name(logRequestBean.getState_short_name());
-
-                            String lgdVillageCodes="";
-
-                            for (LgdVillageCode lgdVillageCode:lgdVillageCodeList){
-                                lgdVillageCodes+=lgdVillageCode.getLgd_village_code()+",";
-                            }
-
-                            seccRequestBean.setLgd_village_code(AppUtils.getInstance().removeComma(lgdVillageCodes));
-
-                            masterDataRepo.makeSeccDataRequest(seccRequestBean, new RepositoryCallback() {
-                                @Override
-                                public void onComplete(Result result) {
-                                    AppUtils.getInstance().showLog("SeccMasterDataResult" + result.toString(), AuthViewModel.class);
-                                    if (result instanceof Result.Success) {
-                                        SeccResponseBean seccResponseBean = (SeccResponseBean) ((Result.Success) result).data;
-                                        AppUtils.getInstance().showLog("SeccrDataResponseBean" + seccResponseBean.getError().getCode() + "---"
-                                                + seccResponseBean.getError().getMessage(), AuthViewModel.class);
-
-                                    } else {
-                                        Object errorObject = ((Result.Error) result).exception;
-                                        if (errorObject != null) {
-                                            if (errorObject instanceof SupportiveMastersResponseBean.Error) {
-                                                SeccResponseBean.Error responseError = (SeccResponseBean.Error) errorObject;
-                                                AppUtils.getInstance().showLog(responseError.getCode() + "SeccApiErrorObj"
-                                                        + responseError.getMessage(), AuthViewModel.class);
-                                            } else if (errorObject instanceof Throwable) {
-                                                Throwable exception = (Throwable) errorObject;
-                                                AppUtils.getInstance().showLog("SeccRetrofitErrors:-------" + exception.getMessage()
-                                                        , AuthViewModel.class);
-                                            }
-                                        }
-
-                                    }
-                                }
-                            });
 
 
                         }
