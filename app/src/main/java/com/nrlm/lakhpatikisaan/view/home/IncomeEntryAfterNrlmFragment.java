@@ -240,8 +240,8 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.activityCode = activityCode;
         memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
         memberEntryEntity.incomeRangCode = incomeRangCode;
-        memberEntryEntity.flagBeforeAfterNrlm = flagBeforeAfterNrlm;
-        memberEntryEntity.flagSyncStatus = AppConstant.afterNrlmStatus;
+        memberEntryEntity.flagBeforeAfterNrlm = AppConstant.afterNrlmStatus;
+        memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus ;
 
         memberEntryEntity.sectorName = sectorName;
         memberEntryEntity.activityName = activityName;
