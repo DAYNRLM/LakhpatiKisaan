@@ -707,18 +707,24 @@ public class MasterDataRepo {
     }
 
     public List<String> getSeccNameData(String memberCode){
-        List<String> finalList =null;
+        List<String> finalList =new ArrayList<>();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            /*List<String> memberName =  getSeccData(memberCode).stream().map(SeccEntity::getMember_name).collect(Collectors.toList());
+
+        List<SeccEntity> seccData = getSeccData(memberCode);
+        for(SeccEntity seccEntityObject:seccData){
+            finalList.add(seccEntityObject.getMember_name() + " ( "+seccEntityObject.getFather_name()+" )");
+        }
+
+      /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            List<String> memberName =  getSeccData(memberCode).stream().map(SeccEntity::getMember_name).collect(Collectors.toList());
             List<String> fatherName =  getSeccData(memberCode).stream().map(SeccEntity::getFather_name).collect(Collectors.toList());
             Stream<String> combinStream = Stream.concat(memberName.stream(),fatherName.stream());
-            finalList =combinStream.collect(Collectors.toList());*/
+            finalList =combinStream.collect(Collectors.toList());
 
              finalList =  getSeccData(memberCode).stream().map(SeccEntity::getFather_name).collect(Collectors.toList());
 
 
-        }
+        }*/
         return finalList;
 
     }

@@ -167,7 +167,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                     binding.ccDisplayDate.setVisibility(View.VISIBLE);
 
                     entryYearCode = String.valueOf(selectedYear);
-                    entryMonthCode = String.valueOf(selectedMonth);
+                    entryMonthCode = String.valueOf(selectedMonth+1);
                     monthName = month_name;
 
                 }

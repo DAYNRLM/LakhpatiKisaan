@@ -69,7 +69,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String incomeFrequencyName;
     String incomeRangName;
     String monthName;
-    String seccNumber="1";
+    String seccNumber;
+    String seccName;
 
 
 
@@ -150,6 +151,12 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             binding.btnAddActivity.setText("Add Another Activity");
             binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
             binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+
+            seccName= memberEntryDataItem.get(0).getSeccName();
+            seccNumber= memberEntryDataItem.get(0).getSeccNumber();
+
+            binding.spinnerSeccNumber.setText(memberEntryDataItem.get(0).getSeccName());
+
 
             resetFunction(1);
 
@@ -307,6 +314,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         seccAdapter.notifyDataSetChanged();
 
         binding.spinnerSeccNumber.setOnItemClickListener((adapterView, view, i, l) -> {
+            seccName = viewModel.loadSeccNameData(memberCode).get(i);
             seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
         });
     }
@@ -332,6 +340,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryEntity.incomeRangName = incomeRangName;
         memberEntryEntity.monthName = monthName;
         memberEntryEntity.seccNumber = seccNumber;
+        memberEntryEntity.seccName = seccName;
 
         viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
 
