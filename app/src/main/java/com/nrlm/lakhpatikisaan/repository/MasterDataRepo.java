@@ -679,7 +679,7 @@ public class MasterDataRepo {
     }
 
 
-    public void insertBeforeNrlmEntry(List<MemberEntryEntity> memberEntryDataItem) {
+    public void insertBeforeNrlmEntry(MemberEntryEntity memberEntryDataItem) {
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {

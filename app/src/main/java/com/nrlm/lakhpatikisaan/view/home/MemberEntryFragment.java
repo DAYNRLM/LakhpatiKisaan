@@ -102,7 +102,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         super.onViewCreated(view, savedInstanceState);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         Calendar today = Calendar.getInstance();
-        memberEntryDataItem = new ArrayList<>();
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
 
@@ -136,7 +135,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         }
 
         /*** check if data exist in member entry table or not******/
-
         memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode,AppConstant.beforeNrlmStatus);
 
         if(!memberEntryDataItem.isEmpty()){
@@ -175,7 +173,11 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                 ViewUtilsKt.toast(getCurrentContext(), "Select Income Range first");
             } else {
                 loadEntryList();
-                count++;
+
+
+                memberEntryDataItem =viewModel.getAllEntryData(shgMemberCode,AppConstant.beforeNrlmStatus);
+
+                count =memberEntryDataItem.size();
 
                 entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(),viewModel);
                 binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
@@ -194,44 +196,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
         });
 
-        // add date condition on this btn click..
 
-        //06-06-2019 //dd-mm-yyyy
-
-
-       /* binding.btnMonthYear.setOnClickListener(view1 -> {
-            MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(int selectedMonth, int selectedYear) {
-
-                    SimpleDateFormat month_date = new SimpleDateFormat("MMM");
-
-                    today.set(Calendar.MONTH, selectedMonth);
-
-                    String month_name = month_date.format(today.getTime());
-
-
-                    binding.tvMonth.setText(month_name);
-                    binding.tvYear.setText("" + selectedYear);
-
-                    binding.cvSelectMonthYear.setVisibility(View.GONE);
-                    binding.cvChangeMonthYear.setVisibility(View.VISIBLE);
-
-                    entryYearCode = String.valueOf(selectedYear);
-                    entryMonthCode = String.valueOf(selectedMonth);
-                    monthName = month_name;
-
-                }
-            }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
-
-            //.setMinMonth(Calendar.FEBRUARY)
-            builder.setActivatedMonth(today.get(Calendar.MONTH))
-                    .setActivatedYear(today.get(Calendar.YEAR))
-                    .setMinYear(1990)
-                    .setMaxYear(today.get(Calendar.YEAR))
-                    .setTitle("Select Month")
-                    .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
-        });*/
 
 
         /****** Start add activity btn
@@ -241,29 +206,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             binding.cvSelectActivity.setVisibility(View.VISIBLE);
             loadSector();
 
-           /* if (count == 0) {
-                // date confirmation dialog
-                Observer<String> actionObserver = new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
 
-                        if (s.equalsIgnoreCase("ok")) {
-                            //binding.btnChangeMonthYear.setVisibility(View.GONE);
-                            binding.cvSelectActivity.setVisibility(View.VISIBLE);
-                            loadSector();
-                        } else {
-                            ViewUtilsKt.toast(getCurrentContext(), "Change Date First");
-
-                        }
-
-                    }
-                };
-
-                viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
-
-            } else {
-                binding.cvSelectActivity.setVisibility(View.VISIBLE);
-            }*/
         });
 
 
@@ -277,16 +220,16 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             public void onClick(View v) {
 
 
-                new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
+               /* new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
                         .setItems(AppConstant.ConstantObject.getConfirmation(), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String arr[] =  AppConstant.ConstantObject.getStatus();
                                 String str = arr[i];
                                 if(str.equalsIgnoreCase("1")){
-                                    /****data save in database and
+                                    *//****data save in database and
                                      * sync operation perform and
-                                     * redirect to afternrl screen****/
+                                     * redirect to afternrl screen****//*
                                    dialogInterface.dismiss();
 
                                     viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
@@ -346,7 +289,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
                                 }
                             }
-                        }).setCancelable(false).show();
+                        }).setCancelable(false).show();*/
             }
         });
 
@@ -375,6 +318,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
     private void loadEntryList() {
 
+        //memberEntryDataItem = new ArrayList<>();
         MemberEntryEntity memberEntryEntity = new MemberEntryEntity();
         memberEntryEntity.shgCode = shgCode;
         memberEntryEntity.shgMemberCode = shgMemberCode;
@@ -387,18 +331,14 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryEntity.incomeRangCode = incomeRangCode;
         memberEntryEntity.flagBeforeAfterNrlm = AppConstant.beforeNrlmStatus;
         memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
-
         memberEntryEntity.sectorName = sectorName;
         memberEntryEntity.activityName = activityName;
         memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
         memberEntryEntity.incomeRangName = incomeRangName;
         memberEntryEntity.monthName = monthName;
-
         memberEntryEntity.seccNumber = seccNumber;
 
-        memberEntryDataItem.add(memberEntryEntity);
-
-        viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
+        viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
 
     }
 
@@ -588,3 +528,69 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         return status;
     }
 }
+
+
+// add date condition on this btn click..
+
+//06-06-2019 //dd-mm-yyyy
+
+
+       /* binding.btnMonthYear.setOnClickListener(view1 -> {
+            MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(int selectedMonth, int selectedYear) {
+
+                    SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+
+                    today.set(Calendar.MONTH, selectedMonth);
+
+                    String month_name = month_date.format(today.getTime());
+
+
+                    binding.tvMonth.setText(month_name);
+                    binding.tvYear.setText("" + selectedYear);
+
+                    binding.cvSelectMonthYear.setVisibility(View.GONE);
+                    binding.cvChangeMonthYear.setVisibility(View.VISIBLE);
+
+                    entryYearCode = String.valueOf(selectedYear);
+                    entryMonthCode = String.valueOf(selectedMonth);
+                    monthName = month_name;
+
+                }
+            }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
+
+            //.setMinMonth(Calendar.FEBRUARY)
+            builder.setActivatedMonth(today.get(Calendar.MONTH))
+                    .setActivatedYear(today.get(Calendar.YEAR))
+                    .setMinYear(1990)
+                    .setMaxYear(today.get(Calendar.YEAR))
+                    .setTitle("Select Month")
+                    .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
+        });*/
+
+
+
+  /* if (count == 0) {
+                // date confirmation dialog
+                Observer<String> actionObserver = new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+
+                        if (s.equalsIgnoreCase("ok")) {
+                            //binding.btnChangeMonthYear.setVisibility(View.GONE);
+                            binding.cvSelectActivity.setVisibility(View.VISIBLE);
+                            loadSector();
+                        } else {
+                            ViewUtilsKt.toast(getCurrentContext(), "Change Date First");
+
+                        }
+
+                    }
+                };
+
+                viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
+
+            } else {
+                binding.cvSelectActivity.setVisibility(View.VISIBLE);
+            }*/

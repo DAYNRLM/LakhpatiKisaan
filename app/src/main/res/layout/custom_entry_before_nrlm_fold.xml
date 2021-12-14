@@ -77,8 +77,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/range_value"
-                        android:fontFamily="@font/manrope_extra_bold"
-                        android:textColor="@color/green_700" />
+                        android:fontFamily="@font/montserrat_regular" />
 
 
 

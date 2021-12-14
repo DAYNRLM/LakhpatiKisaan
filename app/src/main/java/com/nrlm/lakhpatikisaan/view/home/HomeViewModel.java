@@ -309,7 +309,7 @@ public class HomeViewModel extends ViewModel {
     }
 
 
-    public void insertBeforeNrlmEntryData(List<MemberEntryEntity> memberEntryDataItem) {
+    public void insertBeforeNrlmEntryData(MemberEntryEntity memberEntryDataItem) {
         masterDataRepo.insertBeforeNrlmEntry(memberEntryDataItem);
     }
 

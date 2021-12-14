@@ -19,7 +19,7 @@ import java.util.List;
 public interface MemberEntryDao {
 
     @Insert
-    void insertAll(List<MemberEntryEntity> memberEntryEntity);
+    void insertAll(MemberEntryEntity memberEntryEntity);
 
     @Query("select * from MemberEntryEntity")
     List<MemberEntryEntity> getAllData();

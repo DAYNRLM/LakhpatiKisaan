@@ -64,7 +64,7 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
         }else {
              number = Integer.parseInt(splitString(rang));
         }
-        holder.itemBinding.tvYearlyIncome.setText(getYearlyData(frequencyCode,number));
+        holder.itemBinding.tvYearlyIncome.setText("Yearly Income : "+getYearlyData(frequencyCode,number));
        // String yearly = getYearlyData(frequencyCode,number);
 
 
@@ -133,7 +133,7 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
                 totlIncome =amount*4;
                 break;
             case "3":
-                totlIncome =amount*6;
+                totlIncome =amount*2;
                 break;
             case "4":
                 totlIncome =amount*1;
