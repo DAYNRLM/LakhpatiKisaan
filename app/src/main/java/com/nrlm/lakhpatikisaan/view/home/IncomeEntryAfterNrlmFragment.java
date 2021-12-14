@@ -112,6 +112,41 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             e.printStackTrace();
         }
 
+
+        memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode, AppConstant.afterNrlmStatus);
+        if(!memberEntryDataItem.isEmpty()){
+
+            count = memberEntryDataItem.size();
+
+            entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(), viewModel);
+            binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
+            binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
+            entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
+
+            binding.cvRecyclerview.setVisibility(View.VISIBLE);
+            binding.cvSelectActivity.setVisibility(View.GONE);
+            binding.btnAddNewActivity.setText("Add Another Activity");
+            binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
+            binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+
+            binding.tvMonth.setText(memberEntryDataItem.get(0).getMonthName());
+            binding.tvYear.setText("" + memberEntryDataItem.get(0).getEntryYearCode());
+
+            binding.llSelectDate.setVisibility(View.GONE);
+            binding.llStartActivity.setVisibility(View.VISIBLE);
+            binding.ccDisplayDate.setVisibility(View.VISIBLE);
+
+            entryYearCode = String.valueOf(memberEntryDataItem.get(0).getEntryYearCode());
+            entryMonthCode = String.valueOf(memberEntryDataItem.get(0).getMonthName());
+            monthName = memberEntryDataItem.get(0).getMonthName();
+
+            resetFunction(1);
+
+        }else {
+
+        }
+
+
         binding.btnMonthYear.setOnClickListener(view1 -> {
             MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
                 @Override
@@ -141,7 +176,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             //.setMinMonth(Calendar.FEBRUARY)
             builder.setActivatedMonth(today.get(Calendar.MONTH))
                     .setActivatedYear(today.get(Calendar.YEAR))
-                    .setMinYear(1990)
+                    .setMinYear(2011)
                     .setMaxYear(today.get(Calendar.YEAR))
                     .setTitle("Select Month")
                     .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
