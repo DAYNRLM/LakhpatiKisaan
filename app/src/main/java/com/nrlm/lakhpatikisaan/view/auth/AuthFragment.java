@@ -79,7 +79,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             } else if (password.equalsIgnoreCase("")) {
                 binding.etPassword.setError(getString(R.string.invalid_password));
             } else {
-
+                AppUtils.getInstance().showLog("sha256Pass" + AppUtils.getInstance().getSha256(password), AuthFragment.class);
                 progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage(getString(R.string.loading_heavy));
                 progressDialog.setCancelable(false);
@@ -109,10 +109,6 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
 
                     loginRequestBean.setLocation_coordinate("28.6771787,77.4923927");
                     loginRequestBean.setLogout_time("2021-04-13 16:33:23");
-
-
-
-
 
 
                     authViewModel.makeLogin(loginRequestBean, getContext());
