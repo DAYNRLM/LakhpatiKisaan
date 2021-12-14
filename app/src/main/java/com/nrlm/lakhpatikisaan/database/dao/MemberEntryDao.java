@@ -56,8 +56,8 @@ public interface MemberEntryDao {
             " and (sectorDate=:sectorCode and activityCode=:activityCode) )))")
     void deleteDuplicateEntries(String shgCode, String memberCode, String sectorCode, String activityCode, String entryType);
 
-    @Query("select * from MemberEntryEntity where shgMemberCode =:memberCode")
-    List<MemberEntryEntity> getAllSelectedMember(String memberCode);
+    @Query("select * from MemberEntryEntity where shgMemberCode =:memberCode and MemberEntryEntity.flagBeforeAfterNrlm=:entryStatus")
+    List<MemberEntryEntity> getAllSelectedMember(String memberCode ,String entryStatus);
 
 
     @Query("DELETE  from MemberEntryEntity where MemberEntryEntity.shgMemberCode = :memberCode and MemberEntryEntity.activityCode=:activityCode ")

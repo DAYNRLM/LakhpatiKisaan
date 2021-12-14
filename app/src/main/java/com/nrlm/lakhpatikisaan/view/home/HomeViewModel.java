@@ -196,9 +196,9 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getAllActivity(id);
     }
 
-    public List<ActivityEntity> getSelectedActivity(int id,String memberCode){
+    public List<ActivityEntity> getSelectedActivity(int id,String memberCode,String entryFlag){
         List<ActivityEntity> activityData =masterDataRepo.getAllActivity(id);
-        List<MemberEntryEntity> entryData = masterDataRepo.getAllMemberForActivity(memberCode);
+        List<MemberEntryEntity> entryData = masterDataRepo.getAllMemberForActivity(memberCode,entryFlag);
 
         if(!entryData.isEmpty()){
 
@@ -223,10 +223,10 @@ public class HomeViewModel extends ViewModel {
         return activityData;
     }
 
-    public List<String> getSelectedActivityName(int id,String memberCode){
+    public List<String> getSelectedActivityName(int id,String memberCode,String entryFlag){
         List<String> activityName = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            activityName = getSelectedActivity(id,memberCode).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
+            activityName = getSelectedActivity(id,memberCode,entryFlag).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
         }
         return activityName;
     }

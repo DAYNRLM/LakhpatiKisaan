@@ -267,13 +267,13 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
     private void loadActivityData(int id,String memberCode) {
         /****** tis selection based on condition on activity id*****/
-        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getSelectedActivityName(id,memberCode));
+        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getSelectedActivityName(id,memberCode,AppConstant.afterNrlmStatus));
         binding.spinnerSelectActivity.setAdapter(activityAdapter);
         activityAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
-            activityCode = String.valueOf(viewModel.getSelectedActivity(id,memberCode).get(i).getActivity_code());
-            activityName = viewModel.getSelectedActivityName(id,memberCode).get(i);
+            activityCode = String.valueOf(viewModel.getSelectedActivity(id,memberCode,AppConstant.afterNrlmStatus).get(i).getActivity_code());
+            activityName = viewModel.getSelectedActivityName(id,memberCode,AppConstant.afterNrlmStatus).get(i);
             resetFunction(3);
             loadFreaquency();
         });

@@ -723,7 +723,7 @@ public class MasterDataRepo {
 
     }
 
-    public List<MemberEntryEntity> getAllMemberForActivity(String membercode){
+    public List<MemberEntryEntity> getAllMemberForActivity(String membercode,String entryFlag){
 
         List<MemberEntryEntity> memberDataEntry = null;
         try {
@@ -731,7 +731,7 @@ public class MasterDataRepo {
                 @Override
                 public List<MemberEntryEntity> call() throws Exception {
                     AppUtils.getInstance().showLog("masterDataDao.getAllBlock()" + masterDataDao.getAllBlock().size(), MasterDataRepo.class);
-                    return memberEntryDao.getAllSelectedMember(membercode);
+                    return memberEntryDao.getAllSelectedMember(membercode,entryFlag);
                 }
             };
             Future<List<MemberEntryEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
