@@ -89,7 +89,6 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         super.onViewCreated(view, savedInstanceState);
 
         Calendar today = Calendar.getInstance();
-        memberEntryDataItem = new ArrayList<>();
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
 
