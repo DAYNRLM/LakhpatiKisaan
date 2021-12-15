@@ -413,5 +413,13 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getAllMemberDataWithEntryStatus(memberCode,entryStatus);
     }
 
+    public String getSeccStatus(String memberCode){
+        return masterDataRepo.getSeccStatus(memberCode);
+    }
+
+    public void updateConfirmationStatus(String memberCode, String entryStatus){
+         masterDataRepo.updateConfirmationStatus(memberCode,entryStatus);
+    }
+
 
 }
