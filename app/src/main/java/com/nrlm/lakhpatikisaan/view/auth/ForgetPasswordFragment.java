@@ -59,7 +59,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
         linearLayoutFurtherView=(LinearLayout) view.findViewById(R.id.llfurther_view);
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         binding.btnUpdatePw.setOnClickListener(view1 -> {
-            etrOpt=binding.etEnterOtp.getText().toString();
+            etrOpt=binding.etOtp.getText().toString();
             checkingOtp(etrOpt);
         /*    userId=binding.etUserId.getText().toString();
             password=binding.etPassword.getText().toString();

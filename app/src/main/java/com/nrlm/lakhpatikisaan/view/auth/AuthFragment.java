@@ -92,9 +92,13 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 String imeiNo = getIMEINo1(getContext());
+                String deviceInfo=AppUtils.getInstance().getDeviceInfo();
                 AppUtils.getInstance().showLog("imeiNoFinal" + imeiNo, AuthFragment.class);
                 if (!imeiNo.equalsIgnoreCase(""))
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(), imeiNo, getContext());
+                if(deviceInfo!=null && !deviceInfo.equalsIgnoreCase(""))
+                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefDeviceinfo(),deviceInfo,getContext());
+
                 if (NetworkFactory.isInternetOn(getContext())) {
 
                     final LoginRequestBean loginRequestBean = new LoginRequestBean();
