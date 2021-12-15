@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -227,6 +228,12 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             navController.navigate(navDirections);*/
 
             if (NetworkFactory.isInternetOn(getContext())){
+
+                ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
+                progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
                 viewModel.checkDuplicateAtServer(getContext()
                         , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
                         ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
@@ -237,10 +244,14 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
+                        if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
+                            progressDialog.dismiss();
                             Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+                            NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                            navController.navigate(navDirections);
 
                         }else {
+                            progressDialog.dismiss();
                             NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
                             navController.navigate(navDirections);
                         }

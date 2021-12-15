@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -242,6 +243,12 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                     navController.navigate(navDirections);*/
 
                                     if (NetworkFactory.isInternetOn(getContext())) {
+
+                                        ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
+                                        progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
+                                        progressDialog.setCancelable(false);
+                                        progressDialog.show();
+
                                         viewModel.checkDuplicateAtServer(getContext()
                                                 , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), getContext())
                                                 , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getContext())
@@ -253,10 +260,12 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                             @Override
                                             public void run() {
                                                 if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")) {
+                                                    progressDialog.dismiss();
                                                     Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
                                                     NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                     navController.navigate(navDirections);
                                                 } else {
+                                                    progressDialog.dismiss();
                                                     NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                     navController.navigate(navDirections);
                                                 }
@@ -272,7 +281,10 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                 } else if (str.equalsIgnoreCase("2")) {
                                     dialogInterface.dismiss();
 
-                                    Observer<String> actionObserver = new Observer<String>() {
+                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
+                                    navController.navigate(navDirections);
+
+                  /*                  Observer<String> actionObserver = new Observer<String>() {
                                         @Override
                                         public void onChanged(String s) {
 
@@ -282,7 +294,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                         }
                                     };
 
-                                    viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
+                                  viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);*/
 
                                 }
                             }
