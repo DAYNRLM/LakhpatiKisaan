@@ -1,9 +1,15 @@
 package com.nrlm.lakhpatikisaan.utils;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.nrlm.lakhpatikisaan.MainApplication;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,21 +40,35 @@ public class AppDateFactory {
         return date;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String getCurrentDateAndTime() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
+
+    public String getCurrentDate(){
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        return formatter.format(date);
+    }
+
+
     /********get date in yyyy-MM-dd**********/
     public String getTodayDate() {
-        String dateoftodayis="";
+        String dateoftodayis = "";
         try {
             Calendar c = Calendar.getInstance();
             int day = c.get(Calendar.DAY_OF_MONTH);
             int month = c.get(Calendar.MONTH);
             int year = c.get(Calendar.YEAR);
-            dateoftodayis = year+"-"+(month+1)+"-"+day;
+            dateoftodayis = year + "-" + (month + 1) + "-" + day;
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             Date d = df.parse(dateoftodayis);
-            dateoftodayis =df.format(d);
+            dateoftodayis = df.format(d);
 
-        }catch (Exception e){
-            mainApplication.appUtils.showLog("Expection in Today date: "+e, AppDateFactory.class);
+        } catch (Exception e) {
+            mainApplication.appUtils.showLog("Expection in Today date: " + e, AppDateFactory.class);
         }
         return dateoftodayis;
     }
@@ -80,7 +100,7 @@ public class AppDateFactory {
      * @return input- dd-MM-YYYY(string)
      *         output- dd-MM-YYY(Date)
      */
-    public Date convertStringToDate(String date){
+    public Date convertStringToDate(String date) {
         Date convertedDate = null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         try {
@@ -99,10 +119,10 @@ public class AppDateFactory {
      * @param nrlmFormationDate
      * @return monthname-year(JAN-2019)
      */
-    public List<String> monthYear(String memberDOJ, String nrlmFormationDate){
+    public List<String> monthYear(String memberDOJ, String nrlmFormationDate) {
         List<String> monthYearData = new ArrayList<>();
 
-        if(convertStringToDate(memberDOJ).before(convertStringToDate(nrlmFormationDate))){
+        if (convertStringToDate(memberDOJ).before(convertStringToDate(nrlmFormationDate))) {
             Date d = null;
             try {
                 d = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(nrlmFormationDate);
@@ -114,16 +134,16 @@ public class AppDateFactory {
             String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
             String year = new SimpleDateFormat("yyyy").format(cal.getTime());
             String yearCode = new SimpleDateFormat("MM").format(cal.getTime());
-            appUtils.showLog("***YEAR NAME****"+year,AppDateFactory.class);
-            appUtils.showLog("***MONTH NAME****"+monthName,AppDateFactory.class);
-            appUtils.showLog("***Year Code****"+yearCode,AppDateFactory.class);
+            appUtils.showLog("***YEAR NAME****" + year, AppDateFactory.class);
+            appUtils.showLog("***MONTH NAME****" + monthName, AppDateFactory.class);
+            appUtils.showLog("***Year Code****" + yearCode, AppDateFactory.class);
 
             monthYearData.add(monthName);
             monthYearData.add(year);
             monthYearData.add(yearCode);
 
 
-        }else if(convertStringToDate(memberDOJ).after(convertStringToDate(nrlmFormationDate))) {
+        } else if (convertStringToDate(memberDOJ).after(convertStringToDate(nrlmFormationDate))) {
 
             Date d = null;
             try {
@@ -133,13 +153,13 @@ public class AppDateFactory {
             }
             Calendar cal = Calendar.getInstance();
             cal.setTime(d);
-            cal.add(Calendar.MONTH,-1);
+            cal.add(Calendar.MONTH, -1);
             String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
             String year = new SimpleDateFormat("yyyy").format(cal.getTime());
             String yearCode = new SimpleDateFormat("MM").format(cal.getTime());
-            appUtils.showLog("***YEAR NAME****"+year,AppDateFactory.class);
-            appUtils.showLog("***MONTH NAME****"+monthName,AppDateFactory.class);
-            appUtils.showLog("***Year Code****"+yearCode,AppDateFactory.class);
+            appUtils.showLog("***YEAR NAME****" + year, AppDateFactory.class);
+            appUtils.showLog("***MONTH NAME****" + monthName, AppDateFactory.class);
+            appUtils.showLog("***Year Code****" + yearCode, AppDateFactory.class);
 
             monthYearData.add(monthName);
             monthYearData.add(year);

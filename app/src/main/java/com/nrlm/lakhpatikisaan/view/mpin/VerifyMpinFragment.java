@@ -83,7 +83,7 @@ public class VerifyMpinFragment extends BaseFragment<MpinViewModel, FragmentVeri
                             public void run() {
                                 apiStatus = mpinViewModel.getApiStatus();
                                 status(apiStatus);
-                                if (apiStatus.equalsIgnoreCase("E200")) {
+                                if (apiStatus !=null && apiStatus.equalsIgnoreCase("E200")) {
                                     progressDialog.dismiss();
                                     Intent intent = new Intent(getContext(), AuthActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -95,7 +95,7 @@ public class VerifyMpinFragment extends BaseFragment<MpinViewModel, FragmentVeri
                                     startActivity(intentToHomeActy);
                                 }
                             }
-                        }, 6000);
+                        }, 10000);
                     } else {
                         progressDialog.dismiss();
                         Intent intentToHomeActy = new Intent(getCurrentContext(), HomeActivity.class);
@@ -103,7 +103,7 @@ public class VerifyMpinFragment extends BaseFragment<MpinViewModel, FragmentVeri
                         startActivity(intentToHomeActy);
                     }
                 } else {
-                    DialogFactory.getInstance().showAlert(getCurrentContext(), "Entered Mpin is wrong.", "Ok");
+                    DialogFactory.getInstance().showAlert(getCurrentContext(), getCurrentContext().getResources().getString(R.string.wrong_mpin), "Ok");
                 }
             }
         });

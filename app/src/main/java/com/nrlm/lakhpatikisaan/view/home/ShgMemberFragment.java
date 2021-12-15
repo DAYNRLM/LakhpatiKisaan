@@ -25,9 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class ShgMemberFragment  extends BaseFragment<HomeViewModel, FragmentShgMemberBinding> {
+public class ShgMemberFragment extends BaseFragment<HomeViewModel, FragmentShgMemberBinding> {
     ShgMemberAdapter shgMemberAdapter;
     private String shgCode;
+
     @Override
     public Class<HomeViewModel> getViewModel() {
         return HomeViewModel.class;
@@ -53,11 +54,11 @@ public class ShgMemberFragment  extends BaseFragment<HomeViewModel, FragmentShgM
         super.onViewCreated(view, savedInstanceState);
         try {
             viewModel.getHomeViewModelRepos(getContext());
-          shgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(),getContext());
-            List<MemberListDataBean> memberListMasterData= viewModel.memberListMasterData(shgCode);
-            AppUtils.getInstance().showLog("selectedShgCode"+shgCode,ShgMemberFragment.class);
-            AppUtils.getInstance().showLog("memberListMasterData"+memberListMasterData.size(),ShgMemberFragment.class);
-            shgMemberAdapter  =  new ShgMemberAdapter(memberListMasterData,getCurrentContext(),navController);
+            shgCode = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
+            List<MemberListDataBean> memberListMasterData = viewModel.memberListMasterData(shgCode);
+            AppUtils.getInstance().showLog("selectedShgCode" + shgCode, ShgMemberFragment.class);
+            AppUtils.getInstance().showLog("memberListMasterData" + memberListMasterData.size(), ShgMemberFragment.class);
+            shgMemberAdapter = new ShgMemberAdapter(memberListMasterData, getCurrentContext(), navController);
             binding.rvShgMembers.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
             binding.rvShgMembers.setAdapter(shgMemberAdapter);
             shgMemberAdapter.notifyDataSetChanged();
@@ -66,9 +67,6 @@ public class ShgMemberFragment  extends BaseFragment<HomeViewModel, FragmentShgM
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
 
 
     }

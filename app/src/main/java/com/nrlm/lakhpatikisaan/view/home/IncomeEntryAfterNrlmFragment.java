@@ -2,6 +2,7 @@ package com.nrlm.lakhpatikisaan.view.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,10 @@ import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryAfterNrlmBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
+import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
+import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
@@ -28,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, FragmentMemberEntryAfterNrlmBinding> {
     EntryBeforeNrlmFoldAdapter entryBeforeNrlmFoldAdapter;
@@ -83,9 +89,62 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         super.onViewCreated(view, savedInstanceState);
 
         Calendar today = Calendar.getInstance();
-        memberEntryDataItem = new ArrayList<>();
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
+
+        try {
+            shgMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
+            shgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
+            String memberName = viewModel.getMemberNameDB(shgMemberCode);
+            String shgName = viewModel.getShgNameDB(shgCode);
+
+            String memberDOJ =  viewModel.getMemberDOJ(shgMemberCode);
+
+            binding.tvMonth.setText(monthName);
+            binding.tvYear.setText("" + entryYearCode);
+
+            binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
+            binding.tvShgNameCode.setText(memberName+" ("+shgMemberCode+")");
+            binding.tvMemberNameCode.setText(shgName+" ("+shgCode+")");
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode, AppConstant.afterNrlmStatus);
+        if(!memberEntryDataItem.isEmpty()){
+
+            count = memberEntryDataItem.size();
+
+            entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(), viewModel);
+            binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
+            binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
+            entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
+
+            binding.cvRecyclerview.setVisibility(View.VISIBLE);
+            binding.cvSelectActivity.setVisibility(View.GONE);
+            binding.btnAddNewActivity.setText("Add Another Activity");
+            binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
+            binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+
+            binding.tvMonth.setText(memberEntryDataItem.get(0).getMonthName());
+            binding.tvYear.setText("" + memberEntryDataItem.get(0).getEntryYearCode());
+
+            binding.llSelectDate.setVisibility(View.GONE);
+            binding.llStartActivity.setVisibility(View.VISIBLE);
+            binding.ccDisplayDate.setVisibility(View.VISIBLE);
+
+            entryYearCode = String.valueOf(memberEntryDataItem.get(0).getEntryYearCode());
+            entryMonthCode = String.valueOf(memberEntryDataItem.get(0).getMonthName());
+            monthName = memberEntryDataItem.get(0).getMonthName();
+
+            resetFunction(1);
+
+        }else {
+
+        }
 
 
         binding.btnMonthYear.setOnClickListener(view1 -> {
@@ -108,7 +167,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                     binding.ccDisplayDate.setVisibility(View.VISIBLE);
 
                     entryYearCode = String.valueOf(selectedYear);
-                    entryMonthCode = String.valueOf(selectedMonth);
+                    entryMonthCode = String.valueOf(selectedMonth+1);
                     monthName = month_name;
 
                 }
@@ -117,14 +176,19 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             //.setMinMonth(Calendar.FEBRUARY)
             builder.setActivatedMonth(today.get(Calendar.MONTH))
                     .setActivatedYear(today.get(Calendar.YEAR))
-                    .setMinYear(1990)
+                    .setMinYear(2011)
                     .setMaxYear(today.get(Calendar.YEAR))
                     .setTitle("Select Month")
                     .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
         });
 
+        binding.btnAddNewActivity.setOnClickListener(view1 -> {
+            binding.cvSelectActivity.setVisibility(View.VISIBLE);
+            loadSector();
+        });
+
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
-          if (sectorDate == null || sectorDate.isEmpty()) {
+            if (sectorDate == null || sectorDate.isEmpty()) {
                 ViewUtilsKt.toast(getCurrentContext(), "Select Sector first");
 
             } else if (activityCode == null || activityCode.isEmpty()) {
@@ -135,9 +199,12 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                 ViewUtilsKt.toast(getCurrentContext(), "Select Income Range first");
             } else {
                 loadEntryList();
-                count++;
 
-                entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext());
+                memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode, AppConstant.afterNrlmStatus);
+
+                count = memberEntryDataItem.size();
+
+                entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(), viewModel);
                 binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
                 binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
                 entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
@@ -145,38 +212,45 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
                 binding.cvRecyclerview.setVisibility(View.VISIBLE);
                 binding.cvSelectActivity.setVisibility(View.GONE);
-                binding.btnAddActivity.setText("Add Another Activity");
+                binding.btnAddNewActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
                 binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
-                binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+                binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity) + count);
 
                 resetFunction(1);
             }
 
         });
 
-        binding.btnAddActivity.setOnClickListener(view1 -> {
-            if (count == 0) {
-                Observer<String> actionObserver = new Observer<String>() {
+        binding.btnSaveEntry.setOnClickListener(v -> {
+
+            NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+            navController.navigate(navDirections);
+
+          /*  if (NetworkFactory.isInternetOn(getContext())){
+                viewModel.checkDuplicateAtServer(getContext()
+                        , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
+                        ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
+                        ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getContext())
+                        , AppUtils.getInstance().getDeviceInfo()
+                        ,"0.0,0.0"
+                        ,AppConstant.entryCompleted);
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void onChanged(String s) {
+                    public void run() {
+                        if (viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
+                            Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
 
-                        if (s.equalsIgnoreCase("ok")) {
-                            binding.btnChangeMonthYear.setVisibility(View.GONE);
-                            binding.cvSelectActivity.setVisibility(View.VISIBLE);
-                            loadSector();
-                        } else {
-                            ViewUtilsKt.toast(getCurrentContext(), "Chenage Date First");
-
+                        }else {
+                            NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                            navController.navigate(navDirections);
                         }
 
                     }
-                };
-
-                viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
-
-            } else {
-                binding.cvSelectActivity.setVisibility(View.VISIBLE);
-            }
+                },6000);
+            }else {
+                NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                navController.navigate(navDirections);
+            }*/
 
         });
 
@@ -184,49 +258,16 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             sectorDate = String.valueOf(viewModel.getAllSectorData().get(i).getSector_code());
             sectorName = viewModel.loadSectorData().get(i);
             resetFunction(2);
-            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code());
+            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(),shgMemberCode);
 
-        });
-
-        binding.btnAddActivity.setOnClickListener(view1 -> {
-            if (count == 0) {
-                Observer<String> actionObserver = new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
-
-                        if (s.equalsIgnoreCase("ok")) {
-                            binding.btnChangeMonthYear.setVisibility(View.GONE);
-                            binding.cvSelectActivity.setVisibility(View.VISIBLE);
-                            loadSector();
-                        } else {
-                            ViewUtilsKt.toast(getCurrentContext(), "Chenage Date First");
-
-                        }
-
-                    }
-                };
-
-                viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
-
-            } else {
-                binding.cvSelectActivity.setVisibility(View.VISIBLE);
-            }
-        });
-
-        binding.btnSaveEntry.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
-            viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
-
-            NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-            navController.navigate(navDirections);
         });
     }
 
     private void loadEntryList() {
 
         MemberEntryEntity memberEntryEntity = new MemberEntryEntity();
-        memberEntryEntity.shgCode = "";
-        memberEntryEntity.shgMemberCode = "";
+        memberEntryEntity.shgCode = shgCode;
+        memberEntryEntity.shgMemberCode = shgMemberCode;
         memberEntryEntity.entryYearCode = entryYearCode;
         memberEntryEntity.entryMonthCode = entryMonthCode;
         memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
@@ -234,8 +275,8 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.activityCode = activityCode;
         memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
         memberEntryEntity.incomeRangCode = incomeRangCode;
-        memberEntryEntity.flagBeforeAfterNrlm = flagBeforeAfterNrlm;
-        memberEntryEntity.flagSyncStatus = AppConstant.afterNrlmStatus;
+        memberEntryEntity.flagBeforeAfterNrlm = AppConstant.afterNrlmStatus;
+        memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus ;
 
         memberEntryEntity.sectorName = sectorName;
         memberEntryEntity.activityName = activityName;
@@ -244,9 +285,11 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.monthName = monthName;
 
         memberEntryEntity.seccNumber = "";
-        memberEntryEntity.entryCompleteConfirmation="1";
+        memberEntryEntity.entryCompleteConfirmation = "1";
 
-        memberEntryDataItem.add(memberEntryEntity);
+        // memberEntryDataItem.add(memberEntryEntity);
+
+        viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
 
     }
 
@@ -256,18 +299,20 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         sectorAdapter.notifyDataSetChanged();
     }
 
-    private void loadActivityData(int id) {
-        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadActivityData(id));
+    private void loadActivityData(int id,String memberCode) {
+        /****** tis selection based on condition on activity id*****/
+        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getSelectedActivityName(id,memberCode,AppConstant.afterNrlmStatus));
         binding.spinnerSelectActivity.setAdapter(activityAdapter);
         activityAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
-            activityCode = String.valueOf(viewModel.getAllActivityData(id).get(i).getActivity_code());
-            activityName = viewModel.loadActivityData(id).get(i);
+            activityCode = String.valueOf(viewModel.getSelectedActivity(id,memberCode,AppConstant.afterNrlmStatus).get(i).getActivity_code());
+            activityName = viewModel.getSelectedActivityName(id,memberCode,AppConstant.afterNrlmStatus).get(i);
             resetFunction(3);
             loadFreaquency();
         });
     }
+
 
     private void loadFreaquency() {
 

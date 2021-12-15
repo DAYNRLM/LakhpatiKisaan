@@ -58,7 +58,7 @@ public class SetMpinFragment extends BaseFragment<MpinViewModel, FragmentSetMpin
                     NavDirections navDirections= SetMpinFragmentDirections.actionSetMpinFragmentToVerifyMpinFragment();
                     navController.navigate(navDirections);
                 }else{
-                    DialogFactory.getInstance().showAlert(getCurrentContext(),"Entered Mpin is wrong.","Ok");
+                    DialogFactory.getInstance().showAlert(getCurrentContext(),getCurrentContext().getResources().getString(R.string.wrong_mpin),"Ok");
 
                 }
 

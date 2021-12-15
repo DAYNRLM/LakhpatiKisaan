@@ -3,6 +3,7 @@ package com.nrlm.lakhpatikisaan.network.client;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.nrlm.lakhpatikisaan.utils.AppConstant;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -18,13 +19,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static final String server = "local";
-    // private static final String server="demo";
-    // private static final String server="live";
+    // private static final String server ="demo";
+    // private static final String server ="live";
 
     private static final int CONNECTION_TIMEOUT = 1000;
     private static final int READ_TIMEOUT = 1000;
 
+
     private static String getBaseUrl(String server) {
+
         String baseURL = "";
         String HTTP_TYPE, IP_ADDRESS, NRLM_STATUS;
         switch (server) {
@@ -38,7 +41,7 @@ public class RetrofitClient {
             case "demo":
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
-                NRLM_STATUS = "nrlmwebservicedemo";
+                NRLM_STATUS = "lakhpatishgDemo";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
                 break;
 
@@ -65,25 +68,50 @@ public class RetrofitClient {
         return httpLoggingInterceptor;
     }
 
-    private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
-            .retryOnConnectionFailure(false)
-            .addInterceptor(new Interceptor() {
-                @NonNull
-                @Override
-                public Response intercept(@NonNull Chain chain) throws IOException {
 
-                    return chain.proceed(chain.request().newBuilder()
-                            .header("securityToken", "n{j5Y[<!Ps*HWCWg").build());
-                }
-            })
-            .addInterceptor(getHttpLoggingInterceptor()).build();
+    private static OkHttpClient getOkHttpClient(int connTimeout,int readTimeout,boolean retryOnFailure){
+        OkHttpClient okHttpClient;
+        if (AppConstant.wantToShow){
+            okHttpClient= new OkHttpClient.Builder()
+                    .connectTimeout(connTimeout, TimeUnit.SECONDS)
+                    .readTimeout(readTimeout, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(retryOnFailure)
+                    .addInterceptor(new Interceptor() {
+                        @NonNull
+                        @Override
+                        public Response intercept(@NonNull Chain chain) throws IOException {
+
+                            return chain.proceed(chain.request().newBuilder()
+                                    .header("securityToken", "n{j5Y[<!Ps*HWCWg").build());
+                        }
+                    })
+                    .addInterceptor(getHttpLoggingInterceptor()).build();
+        }else {
+            okHttpClient= new OkHttpClient.Builder()
+                    .connectTimeout(connTimeout, TimeUnit.SECONDS)
+                    .readTimeout(readTimeout, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(retryOnFailure)
+                    .addInterceptor(new Interceptor() {
+                        @NonNull
+                        @Override
+                        public Response intercept(@NonNull Chain chain) throws IOException {
+
+                            return chain.proceed(chain.request().newBuilder()
+                                    .header("securityToken", "n{j5Y[<!Ps*HWCWg").build());
+                        }
+                    })
+               .build();
+        }
+
+        return okHttpClient;
+    }
+
+
 
     private static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(getBaseUrl(RetrofitClient.server))
             .addConverterFactory(GsonConverterFactory.create(getGson()))
-            .client(okHttpClient)
+            .client(getOkHttpClient(RetrofitClient.CONNECTION_TIMEOUT,RetrofitClient.READ_TIMEOUT,false))
             .build();
 
     private static ApiServices apiServices = retrofit.create(ApiServices.class);

@@ -66,9 +66,6 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
                navController.navigate(action);
            }
 
-
-
-
         });
     }
 }

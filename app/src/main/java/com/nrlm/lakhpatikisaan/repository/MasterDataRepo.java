@@ -587,7 +587,7 @@ public class MasterDataRepo {
         return activityData;
     }
 
-    public List<String> getActivityName(int id) {
+    public List<String> getActivityName(int id,String memberCode) {
         List<String> activityName = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             activityName = getAllActivity(id).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
@@ -679,7 +679,7 @@ public class MasterDataRepo {
     }
 
 
-    public void insertBeforeNrlmEntry(List<MemberEntryEntity> memberEntryDataItem) {
+    public void insertBeforeNrlmEntry(MemberEntryEntity memberEntryDataItem) {
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -707,29 +707,75 @@ public class MasterDataRepo {
     }
 
     public List<String> getSeccNameData(String memberCode){
-        List<String> finalList =null;
+        List<String> finalList =new ArrayList<>();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            /*List<String> memberName =  getSeccData(memberCode).stream().map(SeccEntity::getMember_name).collect(Collectors.toList());
+
+        List<SeccEntity> seccData = getSeccData(memberCode);
+        for(SeccEntity seccEntityObject:seccData){
+            finalList.add(seccEntityObject.getMember_name() + " ( "+seccEntityObject.getFather_name()+" )");
+        }
+
+      /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            List<String> memberName =  getSeccData(memberCode).stream().map(SeccEntity::getMember_name).collect(Collectors.toList());
             List<String> fatherName =  getSeccData(memberCode).stream().map(SeccEntity::getFather_name).collect(Collectors.toList());
             Stream<String> combinStream = Stream.concat(memberName.stream(),fatherName.stream());
-            finalList =combinStream.collect(Collectors.toList());*/
+            finalList =combinStream.collect(Collectors.toList());
 
              finalList =  getSeccData(memberCode).stream().map(SeccEntity::getFather_name).collect(Collectors.toList());
 
 
-        }
+        }*/
         return finalList;
 
     }
 
+    public List<MemberEntryEntity> getAllMemberForActivity(String membercode,String entryFlag){
+
+        List<MemberEntryEntity> memberDataEntry = null;
+        try {
+            Callable<List<MemberEntryEntity>> listCallable = new Callable<List<MemberEntryEntity>>() {
+                @Override
+                public List<MemberEntryEntity> call() throws Exception {
+                    AppUtils.getInstance().showLog("masterDataDao.getAllBlock()" + masterDataDao.getAllBlock().size(), MasterDataRepo.class);
+                    return memberEntryDao.getAllSelectedMember(membercode,entryFlag);
+                }
+            };
+            Future<List<MemberEntryEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            memberDataEntry = future.get();
+
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("getAllBlockExp" + e.toString(), MasterDataRepo.class);
+        }
+        return memberDataEntry;
+    }
+
+    public void deleteActivity(String memberCode,String activityCode){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                memberEntryDao.deleteSelectedActivity(memberCode,activityCode);
+            }
+        });
 
 
+    }
 
+    public List<MemberEntryEntity> getAllMemberDataWithEntryStatus(String memberCode,String entryStatus ){
+        List<MemberEntryEntity> memberDataEntry = null;
+        try {
+            Callable<List<MemberEntryEntity>> listCallable = new Callable<List<MemberEntryEntity>>() {
+                @Override
+                public List<MemberEntryEntity> call() throws Exception {
+                    AppUtils.getInstance().showLog("masterDataDao.getAllBlock()" + masterDataDao.getAllBlock().size(), MasterDataRepo.class);
+                    return memberEntryDao.getAllDataWithEntryStatus(memberCode,entryStatus);
+                }
+            };
+            Future<List<MemberEntryEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            memberDataEntry = future.get();
 
-
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("getAllBlockExp" + e.toString(), MasterDataRepo.class);
+        }
+        return memberDataEntry;
+    }
 }
-
-/*{
-
-                                }*/

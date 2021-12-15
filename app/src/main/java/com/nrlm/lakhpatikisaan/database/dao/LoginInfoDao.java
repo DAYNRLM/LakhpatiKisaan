@@ -1,6 +1,7 @@
 package com.nrlm.lakhpatikisaan.database.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -15,5 +16,8 @@ public interface LoginInfoDao {
 
     @Query("select distinct  state_short_name from logininfoentity")
     String getStateNameDB();
+
+    @Query("delete from logininfoentity")
+    void deleteAll();
 
 }

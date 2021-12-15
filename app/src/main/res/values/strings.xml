@@ -40,7 +40,7 @@
     <string name="info">Info</string>
     <string name="error_code_not_found">Error code not found.</string>
     <string name="not_getting_data_from_server">Error, while getting data from server.</string>
-    <string name="invalid_fields">Required Files are invalid.</string>
+    <string name="invalid_fields">Required Fields are invalid.</string>
     <string name="error_security_validation">Security validation failed.</string>
     <string name="error_validation">Validations are failed.</string>
     <string name="error_session_exist">Session already exists.</string>
@@ -115,6 +115,26 @@
     <string name="authenticating">Authenticating...</string>
     <string name="before_income_title">Fill Income (Before coming into NRLM Fold)</string>
     <string name="after_income_title">Fill Income at present</string>
-    <string name="income_selection">"Income Selection"</string>
+    <string name="income_selection">Income Selection</string>
+    <string name="login_attempt_exceded">Please wait for 15 minutes you exceed limit more than 5 !!!</string>
+    <string name="invalid_id_or_pass">Invalid User Id or Password</string>
+    <string name="invalid_login_time">Invalid APP Login time !!!</string>
+    <string name="invalid_device">Invalid device !!!</string>
+    <string name="syncing_data">Syncing...</string>
+    <string name="synced_msg">Data Synced Successfully!!!</string>
+    <string name="yearly_income">Yearly Income : </string>
+    <string name="invalid_otp_msg">Entered Otp is invalid.</string>
+    <string name="oops_smthng_wrong">Oops something went Wrong</string>
+    <string name="add_activity_msg">Add Another Activity</string>
+    <string name="total_activity">Total Activities are : </string>
+
+    <string name="secc_not_fill">Please select SECC first</string>
+    <string name="sector_not_fill">Please select sector first</string>
+    <string name="activity_not_fill">Please select activity first</string>
+    <string name="frequency_not_fill">Please select income frequency  first</string>
+    <string name="range_not_fill">Please select income range</string>
+    <string name="wrong_mpin">Entered M-PIN is wrong.</string>
+
+
 
 </resources>

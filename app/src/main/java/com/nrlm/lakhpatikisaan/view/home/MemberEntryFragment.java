@@ -3,6 +3,7 @@ package com.nrlm.lakhpatikisaan.view.home;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
@@ -67,8 +70,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String incomeRangName;
     String monthName;
     String seccNumber;
+    String seccName;
 
-    String selectedMemberCode;
 
 
     int count = 0;
@@ -100,21 +103,20 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         super.onViewCreated(view, savedInstanceState);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         Calendar today = Calendar.getInstance();
-        memberEntryDataItem = new ArrayList<>();
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
 
 
         try {
-            selectedMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
-            String selectedShgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
-            String memberName = viewModel.getMemberNameDB(selectedMemberCode);
-            String shgName = viewModel.getShgNameDB(selectedShgCode);
+            shgMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
+            shgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
+            String memberName = viewModel.getMemberNameDB(shgMemberCode);
+            String shgName = viewModel.getShgNameDB(shgCode);
 
-            String memberDOJ =  viewModel.getMemberDOJ(selectedMemberCode);
+            String memberDOJ =  viewModel.getMemberDOJ(shgMemberCode);
 
             monthYearItem =  appDateFactory.monthYear(memberDOJ,AppConstant.nrlm_formation_date);
-            loadSecc("5748106");
+            loadSecc(shgMemberCode);
 
             monthName = monthYearItem.get(0);
             entryYearCode = monthYearItem.get(1);
@@ -125,35 +127,66 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             binding.tvYear.setText("" + entryYearCode);
 
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
-            binding.tvShgNameCode.setText(memberName+" ("+selectedMemberCode+")");
-            binding.tvMemberNameCode.setText(shgName+" ("+selectedShgCode+")");
+            binding.tvShgNameCode.setText(memberName+" ("+shgMemberCode+")");
+            binding.tvMemberNameCode.setText(shgName+" ("+shgCode+")");
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        /*** check if data exist in member entry table or not******/
+        memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode,AppConstant.beforeNrlmStatus);
+
+        if(!memberEntryDataItem.isEmpty()){
+            count = memberEntryDataItem.size();
+            entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(),viewModel);
+            binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
+            binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
+            entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
+
+
+            binding.cvRecyclerview.setVisibility(View.VISIBLE);
+            binding.cvSelectActivity.setVisibility(View.GONE);
+            binding.btnAddActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
+            binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
+            binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity)+ count);
+
+            seccName= memberEntryDataItem.get(0).getSeccName();
+            seccNumber= memberEntryDataItem.get(0).getSeccNumber();
+
+            binding.spinnerSeccNumber.setText(memberEntryDataItem.get(0).getSeccName());
+
+
+            resetFunction(1);
+
+
+        }else {
+
+        }
+
 
         /**** add activity after selection****/
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
-
             if (seccNumber==null||seccNumber.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select SECC first");
-
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.secc_not_fill));
             } else if (sectorDate == null || sectorDate.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Sector first");
-
+                ViewUtilsKt.toast(getCurrentContext(),  getContext().getResources().getString(R.string.sector_not_fill));
             } else if (activityCode == null || activityCode.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Activity first");
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.activity_not_fill));
             } else if (incomeFrequencyCode == null || incomeFrequencyCode.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Frequency first");
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.frequency_not_fill));
             } else if (incomeRangCode == null || incomeRangCode.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Income Range first");
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.range_not_fill));
             } else {
                 loadEntryList();
-                count++;
 
-                entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext());
+
+                memberEntryDataItem =viewModel.getAllEntryData(shgMemberCode,AppConstant.beforeNrlmStatus);
+
+                count =memberEntryDataItem.size();
+
+                entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(),viewModel);
                 binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
                 binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
                 entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
@@ -161,81 +194,26 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
                 binding.cvRecyclerview.setVisibility(View.VISIBLE);
                 binding.cvSelectActivity.setVisibility(View.GONE);
-                binding.btnAddActivity.setText("Add Another Activity");
+                binding.btnAddActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
                 binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
-                binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+                binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity) + count);
 
                 resetFunction(1);
             }
 
         });
 
-        // add date condition on this btn click..
 
-        //06-06-2019 //dd-mm-yyyy
-
-
-       /* binding.btnMonthYear.setOnClickListener(view1 -> {
-            MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(int selectedMonth, int selectedYear) {
-
-                    SimpleDateFormat month_date = new SimpleDateFormat("MMM");
-
-                    today.set(Calendar.MONTH, selectedMonth);
-
-                    String month_name = month_date.format(today.getTime());
-
-
-                    binding.tvMonth.setText(month_name);
-                    binding.tvYear.setText("" + selectedYear);
-
-                    binding.cvSelectMonthYear.setVisibility(View.GONE);
-                    binding.cvChangeMonthYear.setVisibility(View.VISIBLE);
-
-                    entryYearCode = String.valueOf(selectedYear);
-                    entryMonthCode = String.valueOf(selectedMonth);
-                    monthName = month_name;
-
-                }
-            }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
-
-            //.setMinMonth(Calendar.FEBRUARY)
-            builder.setActivatedMonth(today.get(Calendar.MONTH))
-                    .setActivatedYear(today.get(Calendar.YEAR))
-                    .setMinYear(1990)
-                    .setMaxYear(today.get(Calendar.YEAR))
-                    .setTitle("Select Month")
-                    .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
-        });*/
 
 
         /****** Start add activity btn
          * user can add multiple activity*****/
         binding.btnAddActivity.setOnClickListener(view1 -> {
-            if (count == 0) {
-                // date confirmation dialog
-                Observer<String> actionObserver = new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
 
-                        if (s.equalsIgnoreCase("ok")) {
-                            //binding.btnChangeMonthYear.setVisibility(View.GONE);
-                            binding.cvSelectActivity.setVisibility(View.VISIBLE);
-                            loadSector();
-                        } else {
-                            ViewUtilsKt.toast(getCurrentContext(), "Change Date First");
+            binding.cvSelectActivity.setVisibility(View.VISIBLE);
+            loadSector();
 
-                        }
 
-                    }
-                };
-
-                viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
-
-            } else {
-                binding.cvSelectActivity.setVisibility(View.VISIBLE);
-            }
         });
 
 
@@ -248,7 +226,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             @Override
             public void onClick(View v) {
 
-
                 new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
                         .setItems(AppConstant.ConstantObject.getConfirmation(), new DialogInterface.OnClickListener() {
                             @Override
@@ -260,11 +237,38 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                      * sync operation perform and
                                      * redirect to afternrl screen****/
                                    dialogInterface.dismiss();
-                                    Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
-                                    viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
 
                                     NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                     navController.navigate(navDirections);
+
+                                   /* if (NetworkFactory.isInternetOn(getContext())){
+                                        viewModel.checkDuplicateAtServer(getContext()
+                                                ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
+                                                ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
+                                                ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getContext())
+                                                , AppUtils.getInstance().getDeviceInfo()
+                                                ,"0.0,0.0"
+                                                ,AppConstant.entryCompleted);
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
+                                                    Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+                                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                                    navController.navigate(navDirections);
+                                                }else {
+                                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                                    navController.navigate(navDirections);
+                                                }
+
+                                            }
+                                        },6000);
+                                    }else {
+                                        NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                        navController.navigate(navDirections);
+                                    }*/
+
+
 
 
                                 }else if(str.equalsIgnoreCase("2")){
@@ -275,12 +279,10 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                         public void onChanged(String s) {
 
                                             if(s.equalsIgnoreCase("ok")) {
-                                                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
                                                 NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
                                                 navController.navigate(navDirections);
 
                                             } else {
-                                                viewModel.insertBeforeNrlmEntryData(memberEntryDataItem);
                                                 NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
                                                 navController.navigate(navDirections);
 
@@ -301,13 +303,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             sectorDate = String.valueOf(viewModel.getAllSectorData().get(i).getSector_code());
             sectorName = viewModel.loadSectorData().get(i);
             resetFunction(2);
-            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code());
+            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(),shgMemberCode);
 
         });
-
-
-
-
     }
 
     private void loadSecc(String memberCode) {
@@ -316,15 +314,17 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         seccAdapter.notifyDataSetChanged();
 
         binding.spinnerSeccNumber.setOnItemClickListener((adapterView, view, i, l) -> {
+            seccName = viewModel.loadSeccNameData(memberCode).get(i);
             seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
         });
     }
 
     private void loadEntryList() {
 
+        //memberEntryDataItem = new ArrayList<>();
         MemberEntryEntity memberEntryEntity = new MemberEntryEntity();
-        memberEntryEntity.shgCode = "";
-        memberEntryEntity.shgMemberCode = "";
+        memberEntryEntity.shgCode = shgCode;
+        memberEntryEntity.shgMemberCode = shgMemberCode;
         memberEntryEntity.entryYearCode = entryYearCode;
         memberEntryEntity.entryMonthCode = entryMonthCode;
         memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
@@ -332,33 +332,45 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryEntity.activityCode = activityCode;
         memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
         memberEntryEntity.incomeRangCode = incomeRangCode;
-        memberEntryEntity.flagBeforeAfterNrlm = flagBeforeAfterNrlm;
+        memberEntryEntity.flagBeforeAfterNrlm = AppConstant.beforeNrlmStatus;
         memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
-
         memberEntryEntity.sectorName = sectorName;
         memberEntryEntity.activityName = activityName;
         memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
         memberEntryEntity.incomeRangName = incomeRangName;
         memberEntryEntity.monthName = monthName;
-
         memberEntryEntity.seccNumber = seccNumber;
+        memberEntryEntity.seccName = seccName;
 
-        memberEntryDataItem.add(memberEntryEntity);
+        viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
 
     }
 
 
-    private void loadActivityData(int id) {
-        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadActivityData(id));
+    private void loadActivityData(int id,String memberCode) {
+        /****** tis selection based on condition on activity id*****/
+        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getSelectedActivityName(id,memberCode,AppConstant.beforeNrlmStatus));
+        binding.spinnerSelectActivity.setAdapter(activityAdapter);
+        activityAdapter.notifyDataSetChanged();
+
+        binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
+            activityCode = String.valueOf(viewModel.getSelectedActivity(id,memberCode,AppConstant.beforeNrlmStatus).get(i).getActivity_code());
+            activityName = viewModel.getSelectedActivityName(id,memberCode,AppConstant.beforeNrlmStatus).get(i);
+            resetFunction(3);
+            loadFreaquency();
+        });
+
+
+       /* activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadActivityData(id,memberCode));
         binding.spinnerSelectActivity.setAdapter(activityAdapter);
         activityAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
             activityCode = String.valueOf(viewModel.getAllActivityData(id).get(i).getActivity_code());
-            activityName = viewModel.loadActivityData(id).get(i);
+            activityName = viewModel.loadActivityData(id,memberCode).get(i);
             resetFunction(3);
             loadFreaquency();
-        });
+        });*/
     }
 
     private void loadSector() {
@@ -520,3 +532,69 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         return status;
     }
 }
+
+
+// add date condition on this btn click..
+
+//06-06-2019 //dd-mm-yyyy
+
+
+       /* binding.btnMonthYear.setOnClickListener(view1 -> {
+            MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(int selectedMonth, int selectedYear) {
+
+                    SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+
+                    today.set(Calendar.MONTH, selectedMonth);
+
+                    String month_name = month_date.format(today.getTime());
+
+
+                    binding.tvMonth.setText(month_name);
+                    binding.tvYear.setText("" + selectedYear);
+
+                    binding.cvSelectMonthYear.setVisibility(View.GONE);
+                    binding.cvChangeMonthYear.setVisibility(View.VISIBLE);
+
+                    entryYearCode = String.valueOf(selectedYear);
+                    entryMonthCode = String.valueOf(selectedMonth);
+                    monthName = month_name;
+
+                }
+            }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
+
+            //.setMinMonth(Calendar.FEBRUARY)
+            builder.setActivatedMonth(today.get(Calendar.MONTH))
+                    .setActivatedYear(today.get(Calendar.YEAR))
+                    .setMinYear(1990)
+                    .setMaxYear(today.get(Calendar.YEAR))
+                    .setTitle("Select Month")
+                    .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
+        });*/
+
+
+
+  /* if (count == 0) {
+                // date confirmation dialog
+                Observer<String> actionObserver = new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+
+                        if (s.equalsIgnoreCase("ok")) {
+                            //binding.btnChangeMonthYear.setVisibility(View.GONE);
+                            binding.cvSelectActivity.setVisibility(View.VISIBLE);
+                            loadSector();
+                        } else {
+                            ViewUtilsKt.toast(getCurrentContext(), "Change Date First");
+
+                        }
+
+                    }
+                };
+
+                viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
+
+            } else {
+                binding.cvSelectActivity.setVisibility(View.VISIBLE);
+            }*/

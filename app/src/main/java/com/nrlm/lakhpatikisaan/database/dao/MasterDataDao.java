@@ -32,7 +32,7 @@ public interface MasterDataDao {
     @Query("select shg_code,member_code,member_name,last_entry_before_nrlm,last_entry_after_nrlm from MasterDataEntity where shg_code=:shgCode")
     List<MemberListDataBean> getMemberListData(String shgCode);
 /*3120002*/
-    @Query("select gp_code,gp_name from MasterDataEntity where block_code=:blockCode")
+    @Query("select distinct gp_code,gp_name from MasterDataEntity where block_code=:blockCode")
     List<GpDataBean> getGpListData(String blockCode);
 /*3120002002*/
     @Query("select distinct village_code,village_name from MasterDataEntity where gp_code=:gpCode")
@@ -74,8 +74,10 @@ public interface MasterDataDao {
 
 
 
+/* delete queries-----*/
 
-
+    @Query("delete from masterdataentity")
+    void deleteAll();
 
 
 

@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 public class HomeViewModel extends ViewModel {
     private MasterDataRepo masterDataRepo;
     private SyncDataRepo syncDataRepo;
+    private String syncApiStatus;
 
     public HomeViewModel() {
     }
@@ -102,12 +103,14 @@ public class HomeViewModel extends ViewModel {
                                 } else*/
                                 if (errorObject instanceof Throwable) {
                                     Throwable exception = (Throwable) errorObject;
+                                    syncApiStatus=exception.getMessage();
                                     AppUtils.getInstance().showLog("CheckDuplicateRetrofitErrors:-------" + exception.getMessage()
                                             , AuthViewModel.class);
                                 }
                             }
                         }
                     } catch (Exception e) {
+                        syncApiStatus=e.getMessage();
                         AppUtils.getInstance().showLog("checkDuplicateDataResultExp" + e.toString(), AuthViewModel.class);
                     }
                 }
@@ -131,6 +134,7 @@ public class HomeViewModel extends ViewModel {
                             SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
 
                             /*update sync status in member entry table*/
+                            syncApiStatus="E200";
 
                             updateSyncStatus();
 
@@ -141,16 +145,19 @@ public class HomeViewModel extends ViewModel {
                             if (errorObject != null) {
                                 if (errorObject instanceof SimpleResponseBean.Error) {
                                     SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
+                                    syncApiStatus=responseError.getCode();
                                     AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
                                             + responseError.getMessage(), AuthViewModel.class);
                                 } else if (errorObject instanceof Throwable) {
                                     Throwable exception = (Throwable) errorObject;
+                                    syncApiStatus=exception.getMessage();
                                     AppUtils.getInstance().showLog("SyncEntriesRetrofitErrors:-------" + exception.getMessage()
                                             , AuthViewModel.class);
                                 }
                             }
                         }
                     } catch (Exception e) {
+                        syncApiStatus=e.getMessage();
                         AppUtils.getInstance().showLog("SyncEntriesResultExp" + e.toString(), AuthViewModel.class);
 
                     }
@@ -158,6 +165,10 @@ public class HomeViewModel extends ViewModel {
             });
         }
 
+    }
+
+    public String getSyncApiStatus(){
+        return syncApiStatus;
     }
 
 
@@ -177,12 +188,47 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getAllSector();
     }
 
-    public List<String> loadActivityData(int id) {
-        return masterDataRepo.getActivityName(id);
+    public List<String> loadActivityData(int id,String memberCode) {
+        return  masterDataRepo.getActivityName(id,memberCode);
     }
 
     public List<ActivityEntity> getAllActivityData(int id) {
         return masterDataRepo.getAllActivity(id);
+    }
+
+    public List<ActivityEntity> getSelectedActivity(int id,String memberCode,String entryFlag){
+        List<ActivityEntity> activityData =masterDataRepo.getAllActivity(id);
+        List<MemberEntryEntity> entryData = masterDataRepo.getAllMemberForActivity(memberCode,entryFlag);
+
+        if(!entryData.isEmpty()){
+
+            for(int i=0; i<entryData.size();i++){
+                for(int j=0;j<activityData.size();j++){
+                    if(entryData.get(i).getActivityCode().equalsIgnoreCase(String.valueOf(activityData.get(j).getActivity_code()))){
+                        activityData.remove(j);
+                    }
+                }
+            }
+           /* for(MemberEntryEntity entryObject:entryData){
+                for(ActivityEntity activityObject:activityData){
+                    if(entryObject.getActivityCode().equalsIgnoreCase(String.valueOf(activityObject.getActivity_code()))){
+                        activityData.remove(activityObject);
+                    }
+                }
+            }*/
+
+        }else {
+            activityData =masterDataRepo.getAllActivity(id);
+        }
+        return activityData;
+    }
+
+    public List<String> getSelectedActivityName(int id,String memberCode,String entryFlag){
+        List<String> activityName = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            activityName = getSelectedActivity(id,memberCode,entryFlag).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
+        }
+        return activityName;
     }
 
     public List<String> loadFrequencyData() {
@@ -263,7 +309,7 @@ public class HomeViewModel extends ViewModel {
     }
 
 
-    public void insertBeforeNrlmEntryData(List<MemberEntryEntity> memberEntryDataItem) {
+    public void insertBeforeNrlmEntryData(MemberEntryEntity memberEntryDataItem) {
         masterDataRepo.insertBeforeNrlmEntry(memberEntryDataItem);
     }
 
@@ -358,7 +404,14 @@ public class HomeViewModel extends ViewModel {
         return  masterDataRepo.getSeccData(memberCode);
     }
 
+    public void deleteActivity(String memberCode,String activityCode){
+        masterDataRepo.deleteActivity(memberCode,activityCode);
+    }
 
+
+    public List<MemberEntryEntity> getAllEntryData(String memberCode, String entryStatus){
+        return masterDataRepo.getAllMemberDataWithEntryStatus(memberCode,entryStatus);
+    }
 
 
 }

@@ -31,7 +31,7 @@ import java.util.Random;
 
 public class AppUtils {
     public static AppUtils utilsInstance;
-    private TelephonyManager telephonyManager;
+
 
     public synchronized static AppUtils getInstance() {
         if (utilsInstance == null) {
@@ -126,50 +126,8 @@ public class AppUtils {
     }*/
 
 
-    @SuppressLint("HardwareIds")
-    public String getIMEINo1(Context context) {
-        String imeiNo1 = "";
-        try {
-            if (getSIMSlotCount(context) > 0) {
-                if (ActivityCompat.checkSelfPermission(context,
-                        Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                }
-
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    imeiNo1 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-                    Build.getSerial();
-
-                    AppUtils.getInstance().showLog("BUILD SERIAL "+ Build.getSerial(),AppDeviceInfoUtils.class);
-
-                }else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    imeiNo1 = telephonyManager.getDeviceId(0);
-
-                }else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-                    imeiNo1 ="dummy_123456789";
-                }
-
-            } else imeiNo1 = telephonyManager.getDeviceId();
-        }catch (Exception e){
-            AppUtils.getInstance().showLog("Expection: "+e,AppDeviceInfoUtils.class);
-        }
-        //appSharedPreferences.setImeiNumber(imeiNo1);
-        AppUtils.getInstance().showLog("imeiiiiii: "+imeiNo1,AppDeviceInfoUtils.class);
-        return imeiNo1;
-    }
 
 
-    private int getSIMSlotCount(Context context) {
-        int getPhoneCount = 0;
-        try {
-            telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                getPhoneCount = telephonyManager.getPhoneCount();
-            }
-        }catch (Exception e){
-            AppUtils.getInstance().showLog("Expection: "+e,AppDeviceInfoUtils.class);
-        }
-        return getPhoneCount;
-    }
 
 
 
