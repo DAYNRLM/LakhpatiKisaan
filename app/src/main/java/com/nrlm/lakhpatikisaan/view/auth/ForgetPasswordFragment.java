@@ -74,7 +74,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
 
         if (!genratedOtp.equalsIgnoreCase(etrOpt))
         {
-            DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), "Entered Otp in invalid."
+            DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), getContext().getResources().getString(R.string.invalid_otp_msg)
                     , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
             );
             return;
@@ -105,7 +105,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
 
 
                     }else {
-                        DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), "Oops something went Wrong"
+                        DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), getContext().getResources().getString(R.string.oops_smthng_wrong)
                                 , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false);
 
 

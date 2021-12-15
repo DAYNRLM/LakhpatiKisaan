@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.CustomEntryBeforeNrlmFoldBinding;
 import com.nrlm.lakhpatikisaan.databinding.CustomShgMemberLayoutBinding;
@@ -64,7 +65,7 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
         }else {
              number = Integer.parseInt(splitString(rang));
         }
-        holder.itemBinding.tvYearlyIncome.setText("Yearly Income : "+getYearlyData(frequencyCode,number));
+        holder.itemBinding.tvYearlyIncome.setText(context.getResources().getString(R.string.yearly_income)+getYearlyData(frequencyCode,number));
        // String yearly = getYearlyData(frequencyCode,number);
 
 

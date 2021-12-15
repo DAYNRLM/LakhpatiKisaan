@@ -212,9 +212,9 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
                 binding.cvRecyclerview.setVisibility(View.VISIBLE);
                 binding.cvSelectActivity.setVisibility(View.GONE);
-                binding.btnAddNewActivity.setText("Add Another Activity");
+                binding.btnAddNewActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
                 binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
-                binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+                binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity) + count);
 
                 resetFunction(1);
             }

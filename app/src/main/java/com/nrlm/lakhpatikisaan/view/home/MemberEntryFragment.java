@@ -148,9 +148,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
             binding.cvRecyclerview.setVisibility(View.VISIBLE);
             binding.cvSelectActivity.setVisibility(View.GONE);
-            binding.btnAddActivity.setText("Add Another Activity");
+            binding.btnAddActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
             binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
-            binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+            binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity)+ count);
 
             seccName= memberEntryDataItem.get(0).getSeccName();
             seccNumber= memberEntryDataItem.get(0).getSeccNumber();
@@ -169,15 +169,15 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         /**** add activity after selection****/
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
             if (seccNumber==null||seccNumber.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select SECC first");
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.secc_not_fill));
             } else if (sectorDate == null || sectorDate.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Sector first");
+                ViewUtilsKt.toast(getCurrentContext(),  getContext().getResources().getString(R.string.sector_not_fill));
             } else if (activityCode == null || activityCode.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Activity first");
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.activity_not_fill));
             } else if (incomeFrequencyCode == null || incomeFrequencyCode.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Frequency first");
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.frequency_not_fill));
             } else if (incomeRangCode == null || incomeRangCode.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Income Range first");
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.range_not_fill));
             } else {
                 loadEntryList();
 
@@ -194,9 +194,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
                 binding.cvRecyclerview.setVisibility(View.VISIBLE);
                 binding.cvSelectActivity.setVisibility(View.GONE);
-                binding.btnAddActivity.setText("Add Another Activity");
+                binding.btnAddActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
                 binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
-                binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+                binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity) + count);
 
                 resetFunction(1);
             }

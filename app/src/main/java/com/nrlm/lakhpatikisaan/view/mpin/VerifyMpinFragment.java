@@ -103,7 +103,7 @@ public class VerifyMpinFragment extends BaseFragment<MpinViewModel, FragmentVeri
                         startActivity(intentToHomeActy);
                     }
                 } else {
-                    DialogFactory.getInstance().showAlert(getCurrentContext(), "Entered Mpin is wrong.", "Ok");
+                    DialogFactory.getInstance().showAlert(getCurrentContext(), getCurrentContext().getResources().getString(R.string.wrong_mpin), "Ok");
                 }
             }
         });

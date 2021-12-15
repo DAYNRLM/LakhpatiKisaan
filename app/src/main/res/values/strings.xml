@@ -122,5 +122,19 @@
     <string name="invalid_device">Invalid device !!!</string>
     <string name="syncing_data">Syncing...</string>
     <string name="synced_msg">Data Synced Successfully!!!</string>
+    <string name="yearly_income">Yearly Income : </string>
+    <string name="invalid_otp_msg">Entered Otp is invalid.</string>
+    <string name="oops_smthng_wrong">Oops something went Wrong</string>
+    <string name="add_activity_msg">Add Another Activity</string>
+    <string name="total_activity">Total Activities are : </string>
+
+    <string name="secc_not_fill">Please select SECC first</string>
+    <string name="sector_not_fill">Please select sector first</string>
+    <string name="activity_not_fill">Please select activity first</string>
+    <string name="frequency_not_fill">Please select income frequency  first</string>
+    <string name="range_not_fill">Please select income range</string>
+    <string name="wrong_mpin">Entered M-PIN is wrong.</string>
+
+
 
 </resources>
