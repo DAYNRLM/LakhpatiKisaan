@@ -12,15 +12,16 @@ public class PreferenceKeyManager {
     private static final String PrefLoginId="PrefLoginId";
     private static final String PrefStateShortName="PrefStateShortName";
     private static final String PrefImeiNo="PrefImeiNo";
-
-
+    private static final String PrefDeviceinfo="PrefDeviceInfo";
     private static final String ForgotMobileNumber="forgotmobile";
     private static final String RandomOtp="genratedOtp";
     private static final String PREF_KEY_MPIN= "prfMPIN";
     private static final String PREF_KEY_LOGIN_DONE = "Longin";
-
     public static String getPrefImeiNo() {
         return PrefImeiNo;
+    }
+    public static String getPrefDeviceinfo() {
+        return PrefDeviceinfo;
     }
 
     public static String getPrefStateShortName() {

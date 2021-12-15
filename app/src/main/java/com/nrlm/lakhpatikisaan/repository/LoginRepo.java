@@ -65,9 +65,9 @@ public class LoginRepo {
                             SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) successResponse).data;
                             AppUtils.getInstance().showLog("LoginRepo " + simpleResponseBean.toString(), LoginRepo.class);
                         }
+
                         repositoryCallback.onComplete(successResponse);
                     }
-
                     @Override
                     public void error(Result<Result> errorResponse) {
                         repositoryCallback.onComplete(errorResponse);
@@ -93,14 +93,10 @@ public class LoginRepo {
                                         loginResponseBean.getMobile_number(), loginResponseBean.getState_code(), loginResponseBean.getState_short_name(),
                                         loginResponseBean.getServer_date_time(), loginResponseBean.getLanguage_id(), loginResponseBean.getLogin_attempt(),
                                         loginResponseBean.getLogout_days());
-
                                 insertLoginInfo(loginInfoEntity);
-
-
                             }
                             repositoryCallback.onComplete(successResponse);
                         }
-
                         @Override
                         public void error(Result<Result> errorResponse) {
                             repositoryCallback.onComplete(errorResponse);

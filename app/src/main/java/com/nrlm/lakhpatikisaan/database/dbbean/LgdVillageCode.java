@@ -2,7 +2,8 @@ package com.nrlm.lakhpatikisaan.database.dbbean;
 
 import androidx.room.ColumnInfo;
 
-public class LgdVillageCode {
+public class
+LgdVillageCode {
     @ColumnInfo(name = "lgd_village_code")
     private String lgd_village_code;
 

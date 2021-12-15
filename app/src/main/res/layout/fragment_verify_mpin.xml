@@ -11,56 +11,62 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
-            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_usermsg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter your PIN"
-                android:gravity="center_horizontal"
-                android:textSize="16sp"
                 android:fontFamily="@font/manrope_extra_bold"
-                android:textColor="@color/black" />
+                android:gravity="center_horizontal"
+                android:text="Enter your PIN"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/tv_userDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="For secure access"
+                    android:fontFamily="@font/manrope_regular"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/manrope_regular" />
+                    android:text="For secure access"
+                    android:textColor="@color/black" />
+
                 <TextView
                     android:id="@+id/btn_logout"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tv_logout"
                     android:layout_marginLeft="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/tv_logout"
                     android:textColor="@color/green_500"
-                    android:gravity="center_horizontal" />
+                    android:visibility="gone" />
             </LinearLayout>
+
             <com.chaos.view.PinView
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/pinview_getMpin"
                 style="@style/PinWidget.PinView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:cursorVisible="true"
+                android:fontFamily="@font/montserrat_regular"
                 android:inputType="number"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:fontFamily="@font/montserrat_regular"
                 app:cursorColor="@color/green_500"
                 app:cursorWidth="2dp"
                 app:itemCount="4"

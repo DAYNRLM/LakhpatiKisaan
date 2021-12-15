@@ -84,6 +84,9 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 String imeiNo=AppUtils.getInstance().getIMEINo1(getContext());
                 if (!imeiNo.equalsIgnoreCase(""))
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(),imeiNo,getContext());
+                   String deviceInfo=AppUtils.getInstance().getDeviceInfo();
+                if(!deviceInfo.equalsIgnoreCase(""))
+                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefDeviceinfo(),deviceInfo,getContext());
                 if (NetworkFactory.isInternetOn(getContext())){
 
                     final LoginRequestBean loginRequestBean = new LoginRequestBean();
@@ -92,7 +95,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
 
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("10");
-                    loginRequestBean.setApp_login_time("2021-04-13 16:33:23");
+                    loginRequestBean.setApp_login_time("2021-04-15 16:33:23");
                     loginRequestBean.setApp_versions(BuildConfig.VERSION_NAME);
                     loginRequestBean.setDate(AppDateFactory.getInstance().getTodayDate());
                     loginRequestBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
