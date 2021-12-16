@@ -47,4 +47,8 @@
             android:id="@+id/action_incomeEntryAfterNrlmFragment_to_shgMemberFragment"
             app:destination="@id/shgMemberFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/logOutDialogFragment"
+        android:name="com.nrlm.lakhpatikisaan.view.dialogFragment.LogOutDialogFragment"
+        android:label="LogOutDialogFragment" />
 </navigation>

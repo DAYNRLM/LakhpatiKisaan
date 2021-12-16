@@ -136,5 +136,14 @@
     <string name="wrong_mpin">Entered M-PIN is wrong.</string>
 
 
+    //new strings by lincon
+
+    <string name="dialog_sign_out_title">Confirm Sign Out</string>
+    <string name="dialog_sign_out_msg">You are signing out of your app on this device.</string>
+    <string name="dialog_btn_signout">sign out</string>
+    <string name="toast_success_sign_out">Successfully SignOut</string>
+    <string name="dialog_cancel_btn">cancel</string>
+
+
 
 </resources>

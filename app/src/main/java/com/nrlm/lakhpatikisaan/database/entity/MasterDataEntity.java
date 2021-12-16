@@ -33,6 +33,7 @@ public class MasterDataEntity {
         this.last_entry_after_nrlm = last_entry_after_nrlm;
         this.last_entry_before_nrlm = last_entry_before_nrlm;
         this.secc_no_flag = secc_no_flag;
+         
         this.lgd_village_code = lgd_village_code;
     }
 

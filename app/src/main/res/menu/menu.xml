@@ -20,7 +20,7 @@
         android:actionLayout="@layout/notification_badge"/>-->
 
     <item
-        android:id="@+id/logOut"
+        android:id="@+id/logOutDialogFragment"
         android:title="@string/tv_logout"
         android:menuCategory="secondary"
         app:showAsAction="never"
