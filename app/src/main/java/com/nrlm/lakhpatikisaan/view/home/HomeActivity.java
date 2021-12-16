@@ -37,9 +37,6 @@ public class HomeActivity extends AppCompatActivity {
         boolean status = false;
 
         switch (item.getItemId()) {
-           /* case R.id.settingFragment:
-                status = NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
-                break;*/
             case R.id.logOutDialogFragment:
                 navController.navigate(R.id.logoutDialog);
                 status = true;

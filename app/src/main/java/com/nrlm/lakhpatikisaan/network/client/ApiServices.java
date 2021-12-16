@@ -28,8 +28,10 @@ public interface ApiServices {
     @POST("checkDuplicay")
     Call<JsonObject> checkDuplicateDataApi(@Body CheckDuplicateRequestBean checkDuplicateRequestBean);
 
+
     @POST("addmemberdata")
     Call<JsonObject> syncEntriesDataApi(@Body SyncEntriesRequestBean syncEntriesRequestBean);
+    
 
     @POST("forgotPassword")
     Call<JsonObject> otpApi(@Body OtpRequestBean otpRequestBean);

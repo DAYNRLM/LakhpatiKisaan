@@ -8,7 +8,7 @@
         android:title="@string/menu_setting"
         android:menuCategory="secondary"
         app:showAsAction="never"
-        android:visible="false"/>
+        android:visible="true"/>
     <!-- tools:showIn="navigation_view"-->
 
     <!--<item

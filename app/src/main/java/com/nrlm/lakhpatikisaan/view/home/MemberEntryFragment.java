@@ -316,14 +316,20 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         if (seccStatus.equalsIgnoreCase("Y")) {
             binding.spinnerSeccNumber.setVisibility(View.GONE);
         } else {
-            seccAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadSeccNameData(memberCode));
-            binding.spinnerSeccNumber.setAdapter(seccAdapter);
-            seccAdapter.notifyDataSetChanged();
+            List<String> seccname=viewModel.loadSeccNameData(memberCode);
+            if (seccname!=null && seccname.size()>0){
+                seccAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text,seccname );
+                binding.spinnerSeccNumber.setAdapter(seccAdapter);
+                seccAdapter.notifyDataSetChanged();
 
-            binding.spinnerSeccNumber.setOnItemClickListener((adapterView, view, i, l) -> {
-                seccName = viewModel.loadSeccNameData(memberCode).get(i);
-                seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
-            });
+                binding.spinnerSeccNumber.setOnItemClickListener((adapterView, view, i, l) -> {
+                    seccName = viewModel.loadSeccNameData(memberCode).get(i);
+                    seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
+                });
+            }else {
+                Toast.makeText(getContext(),"SECC Data not found",Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 

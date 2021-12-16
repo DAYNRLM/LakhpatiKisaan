@@ -345,7 +345,7 @@
                                         android:layout_margin="@dimen/space_5dp"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/manrope_regular"
-                                        android:text="Member's completed befor nrlm entry" />
+                                        android:text="Member's completed before nrlm entry" />
 
                                     <TextView
                                         android:layout_width="match_parent"
@@ -374,7 +374,7 @@
                                         android:layout_margin="@dimen/space_5dp"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/manrope_regular"
-                                        android:text="Member's completed befor nrlm entry" />
+                                        android:text="Member's completed after nrlm entry" />
 
                                     <TextView
                                         android:layout_width="match_parent"
