@@ -8,7 +8,7 @@
         android:title="@string/menu_setting"
         android:menuCategory="secondary"
         app:showAsAction="never"
-        android:visible="true"/>
+        android:visible="false"/>
     <!-- tools:showIn="navigation_view"-->
 
     <!--<item
@@ -20,7 +20,7 @@
         android:actionLayout="@layout/notification_badge"/>-->
 
     <item
-        android:id="@+id/logOutDialogFragment"
+        android:id="@+id/logOut"
         android:title="@string/tv_logout"
         android:menuCategory="secondary"
         app:showAsAction="never"

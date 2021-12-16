@@ -46,6 +46,7 @@
 
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_gravity="center"
                         android:layout_weight="1.9"
                         android:id="@+id/textViewOptions"
