@@ -58,15 +58,16 @@ public class AuthViewModel extends ViewModel {
                 try {
                     AppUtils.getInstance().showLog("loginDataResult" + result.toString(), AuthViewModel.class);
                     if (result instanceof Result.Success) {
+
                         LoginResponseBean loginResponseBean = (LoginResponseBean) ((Result.Success) result).data;
                         AppUtils.getInstance().showLog("loginDataResponseBean" + loginResponseBean.getError().getCode() + "---" +
                                 loginResponseBean.getError().getMessage(), AuthViewModel.class);
 
-                        String stateShortName=loginRepo.getStateNameDB();
-                        if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200") && stateShortName!=null) {
-                            loginApiStatus = "E200";
-                          PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(),stateShortName,context);
-                            LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), stateShortName
+                      //  String stateShortName=loginRepo.getStateNameDB();
+                        if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200") && loginResponseBean.getState_short_name()!=null) {
+                            loginApiStatus = loginResponseBean.getError().getCode();
+                          PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(),loginResponseBean.getState_short_name(),context);
+                            LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), loginResponseBean.getState_short_name()
                                     ,loginRequestBean.getImei_no() , loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
 
 

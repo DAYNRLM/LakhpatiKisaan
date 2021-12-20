@@ -218,7 +218,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
 
     private void loadBlockData() {
         List<String> blockNameList = viewModel.loadBlockName();
-        if (blockNameList.size() == 0) {
+        if (blockNameList==null && blockNameList.size() == 0) {
 
             Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_block_found), Toast.LENGTH_LONG).show();
 

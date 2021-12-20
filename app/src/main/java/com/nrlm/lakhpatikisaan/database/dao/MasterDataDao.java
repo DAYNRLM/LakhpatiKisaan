@@ -80,6 +80,10 @@ public interface MasterDataDao {
     void deleteAll();
 
 
+    @Query("select distinct secc_no_flag from MasterDataEntity where MasterDataEntity.member_code=:memberCode ")
+    String getSeccStatus(String memberCode);
+
+
 
 
 

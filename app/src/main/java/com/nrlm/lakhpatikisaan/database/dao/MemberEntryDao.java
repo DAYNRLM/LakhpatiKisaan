@@ -67,4 +67,7 @@ public interface MemberEntryDao {
     @Query("select * from MemberEntryEntity where MemberEntryEntity.shgMemberCode = :memberCode and MemberEntryEntity.flagBeforeAfterNrlm=:entryStatus")
     List<MemberEntryEntity> getAllDataWithEntryStatus(String memberCode, String entryStatus);
 
+    @Query("update MemberEntryEntity set entryCompleteConfirmation='1' where shgMemberCode =:shgMemberCode and flagBeforeAfterNrlm=:entryFlag")
+    void updateConfirmationStatus(String shgMemberCode, String entryFlag);
+
 }

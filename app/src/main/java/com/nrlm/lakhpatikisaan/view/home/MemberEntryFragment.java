@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -61,7 +62,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String activityCode;
     String incomeFrequencyCode;
     String incomeRangCode;
-    String flagBeforeAfterNrlm="B";
+    String flagBeforeAfterNrlm = "B";
     String flagSyncStatus;
 
     String sectorName;
@@ -69,9 +70,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String incomeFrequencyName;
     String incomeRangName;
     String monthName;
-    String seccNumber;
+    String seccNumber = "-";
     String seccName;
-
 
 
     int count = 0;
@@ -106,16 +106,15 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
 
-
         try {
-            shgMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
-            shgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
+            shgMemberCode = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
+            shgCode = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
             String memberName = viewModel.getMemberNameDB(shgMemberCode);
             String shgName = viewModel.getShgNameDB(shgCode);
 
-            String memberDOJ =  viewModel.getMemberDOJ(shgMemberCode);
+            String memberDOJ = viewModel.getMemberDOJ(shgMemberCode);
 
-            monthYearItem =  appDateFactory.monthYear(memberDOJ,AppConstant.nrlm_formation_date);
+            monthYearItem = appDateFactory.monthYear(memberDOJ, AppConstant.nrlm_formation_date);
             loadSecc(shgMemberCode);
 
             monthName = monthYearItem.get(0);
@@ -127,8 +126,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             binding.tvYear.setText("" + entryYearCode);
 
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
-            binding.tvShgNameCode.setText(memberName+" ("+shgMemberCode+")");
-            binding.tvMemberNameCode.setText(shgName+" ("+shgCode+")");
+            binding.tvShgNameCode.setText(memberName + " (" + shgMemberCode + ")");
+            binding.tvMemberNameCode.setText(shgName + " (" + shgCode + ")");
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -136,11 +135,11 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         }
 
         /*** check if data exist in member entry table or not******/
-        memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode,AppConstant.beforeNrlmStatus);
+        memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode, AppConstant.beforeNrlmStatus);
 
-        if(!memberEntryDataItem.isEmpty()){
+        if (!memberEntryDataItem.isEmpty()) {
             count = memberEntryDataItem.size();
-            entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(),viewModel);
+            entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(), viewModel);
             binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
             binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
             entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
@@ -150,10 +149,10 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             binding.cvSelectActivity.setVisibility(View.GONE);
             binding.btnAddActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
             binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
-            binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity)+ count);
+            binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity) + count);
 
-            seccName= memberEntryDataItem.get(0).getSeccName();
-            seccNumber= memberEntryDataItem.get(0).getSeccNumber();
+            seccName = memberEntryDataItem.get(0).getSeccName();
+            seccNumber = memberEntryDataItem.get(0).getSeccNumber();
 
             binding.spinnerSeccNumber.setText(memberEntryDataItem.get(0).getSeccName());
 
@@ -161,17 +160,17 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             resetFunction(1);
 
 
-        }else {
+        } else {
 
         }
 
 
         /**** add activity after selection****/
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
-            if (seccNumber==null||seccNumber.isEmpty()) {
+            if (seccNumber == null || seccNumber.isEmpty()) {
                 ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.secc_not_fill));
             } else if (sectorDate == null || sectorDate.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(),  getContext().getResources().getString(R.string.sector_not_fill));
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.sector_not_fill));
             } else if (activityCode == null || activityCode.isEmpty()) {
                 ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.activity_not_fill));
             } else if (incomeFrequencyCode == null || incomeFrequencyCode.isEmpty()) {
@@ -182,11 +181,11 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                 loadEntryList();
 
 
-                memberEntryDataItem =viewModel.getAllEntryData(shgMemberCode,AppConstant.beforeNrlmStatus);
+                memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode, AppConstant.beforeNrlmStatus);
 
-                count =memberEntryDataItem.size();
+                count = memberEntryDataItem.size();
 
-                entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(),viewModel);
+                entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(), viewModel);
                 binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
                 binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
                 entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
@@ -202,8 +201,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             }
 
         });
-
-
 
 
         /****** Start add activity btn
@@ -230,68 +227,74 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                         .setItems(AppConstant.ConstantObject.getConfirmation(), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                String arr[] =  AppConstant.ConstantObject.getStatus();
+                                String arr[] = AppConstant.ConstantObject.getStatus();
                                 String str = arr[i];
-                                if(str.equalsIgnoreCase("1")){
+                                if (str.equalsIgnoreCase("1")) {
                                     /****data save in database and
                                      * sync operation perform and
                                      * redirect to afternrl screen****/
-                                   dialogInterface.dismiss();
+                                    dialogInterface.dismiss();
 
-                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
-                                    navController.navigate(navDirections);
 
-                                   /* if (NetworkFactory.isInternetOn(getContext())){
+                                    /***update confirmation status based on member code and entry flag**/
+                                    viewModel.updateConfirmationStatus(shgMemberCode, AppConstant.beforeNrlmStatus);
+
+                                  /*  NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                    navController.navigate(navDirections);*/
+
+                                    if (NetworkFactory.isInternetOn(getContext())) {
+
+                                        ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
+                                        progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
+                                        progressDialog.setCancelable(false);
+                                        progressDialog.show();
+
                                         viewModel.checkDuplicateAtServer(getContext()
-                                                ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
-                                                ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
-                                                ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getContext())
+                                                , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), getContext())
+                                                , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getContext())
+                                                , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), getContext())
                                                 , AppUtils.getInstance().getDeviceInfo()
-                                                ,"0.0,0.0"
-                                                ,AppConstant.entryCompleted);
+                                                , "0.0,0.0"
+                                                , AppConstant.entryCompleted);
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                if (viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
+                                                if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")) {
+                                                    progressDialog.dismiss();
                                                     Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
                                                     NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                     navController.navigate(navDirections);
-                                                }else {
+                                                } else {
+                                                    progressDialog.dismiss();
                                                     NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                     navController.navigate(navDirections);
                                                 }
 
                                             }
-                                        },6000);
-                                    }else {
+                                        }, 6000);
+                                    } else {
                                         NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                         navController.navigate(navDirections);
-                                    }*/
+                                    }
 
 
-
-
-                                }else if(str.equalsIgnoreCase("2")){
+                                } else if (str.equalsIgnoreCase("2")) {
                                     dialogInterface.dismiss();
 
-                                    Observer<String> actionObserver = new Observer<String>() {
+                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
+                                    navController.navigate(navDirections);
+
+                  /*                  Observer<String> actionObserver = new Observer<String>() {
                                         @Override
                                         public void onChanged(String s) {
 
-                                            if(s.equalsIgnoreCase("ok")) {
-                                                NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
-                                                navController.navigate(navDirections);
-
-                                            } else {
-                                                NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
-                                                navController.navigate(navDirections);
-
-                                            }
+                                            NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
+                                            navController.navigate(navDirections);
 
                                         }
                                     };
 
-                                    viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
+                                  viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);*/
 
                                 }
                             }
@@ -303,20 +306,31 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             sectorDate = String.valueOf(viewModel.getAllSectorData().get(i).getSector_code());
             sectorName = viewModel.loadSectorData().get(i);
             resetFunction(2);
-            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(),shgMemberCode);
+            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(), shgMemberCode);
 
         });
     }
 
     private void loadSecc(String memberCode) {
-        seccAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.loadSeccNameData(memberCode));
-        binding.spinnerSeccNumber.setAdapter(seccAdapter);
-        seccAdapter.notifyDataSetChanged();
+        String seccStatus = viewModel.getSeccStatus(memberCode);
+        if (seccStatus.equalsIgnoreCase("Y")) {
+            binding.spinnerSeccNumber.setVisibility(View.GONE);
+        } else {
+            List<String> seccname=viewModel.loadSeccNameData(memberCode);
+            if (seccname!=null && seccname.size()>0){
+                seccAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text,seccname );
+                binding.spinnerSeccNumber.setAdapter(seccAdapter);
+                seccAdapter.notifyDataSetChanged();
 
-        binding.spinnerSeccNumber.setOnItemClickListener((adapterView, view, i, l) -> {
-            seccName = viewModel.loadSeccNameData(memberCode).get(i);
-            seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
-        });
+                binding.spinnerSeccNumber.setOnItemClickListener((adapterView, view, i, l) -> {
+                    seccName = viewModel.loadSeccNameData(memberCode).get(i);
+                    seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
+                });
+            }else {
+                Toast.makeText(getContext(),"SECC Data not found",Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
 
     private void loadEntryList() {
@@ -341,21 +355,22 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryEntity.monthName = monthName;
         memberEntryEntity.seccNumber = seccNumber;
         memberEntryEntity.seccName = seccName;
+        memberEntryEntity.entryCompleteConfirmation = "0";
 
         viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
 
     }
 
 
-    private void loadActivityData(int id,String memberCode) {
+    private void loadActivityData(int id, String memberCode) {
         /****** tis selection based on condition on activity id*****/
-        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getSelectedActivityName(id,memberCode,AppConstant.beforeNrlmStatus));
+        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getSelectedActivityName(id, memberCode, AppConstant.beforeNrlmStatus));
         binding.spinnerSelectActivity.setAdapter(activityAdapter);
         activityAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
-            activityCode = String.valueOf(viewModel.getSelectedActivity(id,memberCode,AppConstant.beforeNrlmStatus).get(i).getActivity_code());
-            activityName = viewModel.getSelectedActivityName(id,memberCode,AppConstant.beforeNrlmStatus).get(i);
+            activityCode = String.valueOf(viewModel.getSelectedActivity(id, memberCode, AppConstant.beforeNrlmStatus).get(i).getActivity_code());
+            activityName = viewModel.getSelectedActivityName(id, memberCode, AppConstant.beforeNrlmStatus).get(i);
             resetFunction(3);
             loadFreaquency();
         });

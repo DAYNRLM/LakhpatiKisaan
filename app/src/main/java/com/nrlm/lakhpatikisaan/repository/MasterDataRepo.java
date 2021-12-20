@@ -670,9 +670,10 @@ public class MasterDataRepo {
     }
 
     public List<String> getBlockName() {
+        List<BlockDataBean> blockDataBeans =getAllBlock();
         List<String> incomeName = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            incomeName = getAllBlock().stream().map(BlockDataBean::getBlockName).collect(Collectors.toList());
+        if (blockDataBeans!=null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            incomeName =blockDataBeans.stream().map(BlockDataBean::getBlockName).collect(Collectors.toList());
         }
         AppUtils.getInstance().showLog("incomeName" + incomeName.size(), MasterDataDao.class);
         return incomeName;
@@ -777,5 +778,33 @@ public class MasterDataRepo {
             AppUtils.getInstance().showLog("getAllBlockExp" + e.toString(), MasterDataRepo.class);
         }
         return memberDataEntry;
+    }
+
+    public String getSeccStatus(String memberCode) {
+        String seccData = null;
+        try {
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    return masterDataDao.getSeccStatus(memberCode);
+                }
+            };
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            seccData = future.get();
+
+        } catch (Exception e) {
+
+        }
+        return seccData;
+    }
+
+    public void updateConfirmationStatus(String memberCode, String entryStatus){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                memberEntryDao.updateConfirmationStatus(memberCode,entryStatus);
+            }
+        });
+
     }
 }

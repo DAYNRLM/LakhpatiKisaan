@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -125,9 +126,9 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
             binding.cvRecyclerview.setVisibility(View.VISIBLE);
             binding.cvSelectActivity.setVisibility(View.GONE);
-            binding.btnAddNewActivity.setText("Add Another Activity");
+            binding.btnAddNewActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
             binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
-            binding.tvTotalActivityCount.setText("Total Activities is :" + count);
+            binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity) + count);
 
             binding.tvMonth.setText(memberEntryDataItem.get(0).getMonthName());
             binding.tvYear.setText("" + memberEntryDataItem.get(0).getEntryYearCode());
@@ -189,14 +190,14 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
             if (sectorDate == null || sectorDate.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Sector first");
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.sector_not_fill));
 
             } else if (activityCode == null || activityCode.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Activity first");
+                ViewUtilsKt.toast(getCurrentContext(),getContext().getResources().getString(R.string.activity_not_fill) );
             } else if (incomeFrequencyCode == null || incomeFrequencyCode.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Frequency first");
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.frequency_not_fill));
             } else if (incomeRangCode == null || incomeRangCode.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(), "Select Income Range first");
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.range_not_fill));
             } else {
                 loadEntryList();
 
@@ -223,10 +224,16 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
         binding.btnSaveEntry.setOnClickListener(v -> {
 
-            NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-            navController.navigate(navDirections);
+            /*NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+            navController.navigate(navDirections);*/
 
-          /*  if (NetworkFactory.isInternetOn(getContext())){
+            if (NetworkFactory.isInternetOn(getContext())){
+
+                ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
+                progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
                 viewModel.checkDuplicateAtServer(getContext()
                         , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
                         ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
@@ -237,10 +244,14 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
+                        if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
+                            progressDialog.dismiss();
                             Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+                            NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                            navController.navigate(navDirections);
 
                         }else {
+                            progressDialog.dismiss();
                             NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
                             navController.navigate(navDirections);
                         }
@@ -250,7 +261,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             }else {
                 NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
                 navController.navigate(navDirections);
-            }*/
+            }
 
         });
 
@@ -285,6 +296,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.monthName = monthName;
 
         memberEntryEntity.seccNumber = "";
+        memberEntryEntity.seccName = "";
         memberEntryEntity.entryCompleteConfirmation = "1";
 
         // memberEntryDataItem.add(memberEntryEntity);
