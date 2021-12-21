@@ -36,6 +36,7 @@ import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -184,6 +185,10 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getSectorName();
     }
 
+    public String SectorName(int id) {
+        return masterDataRepo.SectorName(id);
+    }
+
     public List<SectorEntity> getAllSectorData() {
         return masterDataRepo.getAllSector();
     }
@@ -223,10 +228,45 @@ public class HomeViewModel extends ViewModel {
         return activityData;
     }
 
+    public List<ActivityEntity> getAllSelectedActivity(String memberCode,String entryFlag){
+        List<ActivityEntity> activityData =masterDataRepo.getAllActivityWithoutSector();
+        List<MemberEntryEntity> entryData = masterDataRepo.getAllMemberForActivity(memberCode,entryFlag);
+
+        if(!entryData.isEmpty()){
+
+            for(int i=0; i<entryData.size();i++){
+                for(int j=0;j<activityData.size();j++){
+                    if(entryData.get(i).getActivityCode().equalsIgnoreCase(String.valueOf(activityData.get(j).getActivity_code()))){
+                        activityData.remove(j);
+                    }
+                }
+            }
+           /* for(MemberEntryEntity entryObject:entryData){
+                for(ActivityEntity activityObject:activityData){
+                    if(entryObject.getActivityCode().equalsIgnoreCase(String.valueOf(activityObject.getActivity_code()))){
+                        activityData.remove(activityObject);
+                    }
+                }
+            }*/
+
+        }else {
+            activityData =masterDataRepo.getAllActivityWithoutSector();
+        }
+        return activityData;
+    }
+
     public List<String> getSelectedActivityName(int id,String memberCode,String entryFlag){
         List<String> activityName = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             activityName = getSelectedActivity(id,memberCode,entryFlag).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
+        }
+        return activityName;
+    }
+
+    public List<String> getAllSelectedActivityName(String memberCode,String entryFlag){
+        List<String> activityName = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            activityName = getAllSelectedActivity(memberCode,entryFlag).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
         }
         return activityName;
     }
@@ -337,10 +377,18 @@ public class HomeViewModel extends ViewModel {
 
     public List<String> getUniqueClfName() throws ExecutionException, InterruptedException {
         List<String> incomeName = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            incomeName = getUniqueClf().stream().map(ClfDataBean::getClf_name).collect(Collectors.toList());
+        try{
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                incomeName = getUniqueClf().stream().map(ClfDataBean::getClf_name).collect(Collectors.toList());
+                incomeName.removeIf(Objects::isNull);
+            }
+            AppUtils.getInstance().showLog("getClf_name" + incomeName.size(), MasterDataDao.class);
+
+        }catch (Exception e){
+
         }
-        AppUtils.getInstance().showLog("getClf_name" + incomeName.size(), MasterDataDao.class);
+
         return incomeName;
     }
 
@@ -356,6 +404,7 @@ public class HomeViewModel extends ViewModel {
         List<String> incomeName = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             incomeName = getUniqueVo(clfCode).stream().map(VoDataBean::getVo_name).collect(Collectors.toList());
+            incomeName.removeIf(Objects::isNull);
         }
         AppUtils.getInstance().showLog("getUniqueVoName" + incomeName.size(), MasterDataDao.class);
         return incomeName;

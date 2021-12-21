@@ -208,7 +208,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         binding.btnAddActivity.setOnClickListener(view1 -> {
 
             binding.cvSelectActivity.setVisibility(View.VISIBLE);
-            loadSector();
+            //loadSector();
+
+            loadAllActivity( shgMemberCode);
 
 
         });
@@ -309,6 +311,24 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(), shgMemberCode);
 
         });
+    }
+
+    private void loadAllActivity(String memberCode) {
+        /****** tis selection based on condition on activity id*****/
+        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getAllSelectedActivityName( memberCode, AppConstant.beforeNrlmStatus));
+        binding.spinnerSelectActivity.setAdapter(activityAdapter);
+        activityAdapter.notifyDataSetChanged();
+
+        binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
+            activityCode = String.valueOf(viewModel.getAllSelectedActivity( memberCode, AppConstant.beforeNrlmStatus).get(i).getActivity_code());
+            activityName = viewModel.getAllSelectedActivityName(memberCode, AppConstant.beforeNrlmStatus).get(i);
+
+            sectorDate = String.valueOf(viewModel.getAllSelectedActivity( memberCode, AppConstant.beforeNrlmStatus).get(i).getSector_code());
+            sectorName = viewModel.SectorName(viewModel.getAllSelectedActivity( memberCode, AppConstant.beforeNrlmStatus).get(i).getSector_code());
+            resetFunction(3);
+            loadFreaquency();
+        });
+
     }
 
     private void loadSecc(String memberCode) {

@@ -569,6 +569,28 @@ public class MasterDataRepo {
         return sectorName;
     }
 
+
+
+    public String SectorName(int id){
+
+        String sectorName=null;
+        try {
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    return sectorDao.SectorName(id);
+                }
+            };
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            sectorName = future.get();
+
+        } catch (Exception e) {
+
+        }
+        return sectorName;
+
+    }
+
     public List<ActivityEntity> getAllActivity(int id) {
         List<ActivityEntity> activityData = null;
         try {
@@ -586,6 +608,25 @@ public class MasterDataRepo {
         }
         return activityData;
     }
+
+    public List<ActivityEntity> getAllActivityWithoutSector() {
+        List<ActivityEntity> activityData = null;
+        try {
+            Callable<List<ActivityEntity>> listCallable = new Callable<List<ActivityEntity>>() {
+                @Override
+                public List<ActivityEntity> call() throws Exception {
+                    return activityDao.getAllActivityWithoutSec();
+                }
+            };
+            Future<List<ActivityEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            activityData = future.get();
+
+        } catch (Exception e) {
+
+        }
+        return activityData;
+    }
+
 
     public List<String> getActivityName(int id,String memberCode) {
         List<String> activityName = null;
@@ -700,6 +741,9 @@ public class MasterDataRepo {
             };
             Future<List<SeccEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
             seccData = future.get();
+
+            SeccEntity seccEntity =  new SeccEntity("0","Other","NA","0");
+            seccData.add(seccEntity);
 
         } catch (Exception e) {
 
