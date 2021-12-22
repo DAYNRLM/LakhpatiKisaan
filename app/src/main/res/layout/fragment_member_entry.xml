@@ -437,7 +437,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="SECC TIN Number by selecting the name"
+                            android:hint="Seed SECC TIN Number by selecting the name"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
