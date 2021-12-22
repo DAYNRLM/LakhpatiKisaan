@@ -362,6 +362,20 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getShgNameDB(memberCode);
     }
 
+    String getMemberJoiningDate(String memberCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getMemberJoiningDate(memberCode);
+    }
+
+    void updateBeforeEntryDateInLocal(String memberCode,String date) throws ExecutionException, InterruptedException {
+         masterDataRepo.updateBeforeEntryDateInLocal(memberCode,date);
+    }
+
+    void updateAfterEntryDateInLocal(String memberCode,String date) throws ExecutionException, InterruptedException {
+        masterDataRepo.updateAfterEntryDateInLocal(memberCode,date);
+    }
+
+
+
     String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getMemberCount(shgCode);
     }

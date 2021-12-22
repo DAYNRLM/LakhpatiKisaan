@@ -69,7 +69,8 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:visibility="gone"
+                            android:id="@+id/joining_date"
+                            android:visibility="visible"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_regular"
                             android:text="Select Entry Date"
@@ -327,30 +328,8 @@
                         android:layout_margin="@dimen/space_3dp"
                         android:orientation="vertical">
 
+<!--secc-->
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/ttl_seccc"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select Secc"
-                            android:padding="3dp"
-                            app:boxBackgroundColor="@color/white"
-                            app:boxStrokeColor="@color/out_line_strok">
-
-                            <AutoCompleteTextView
-                                android:id="@+id/spinner_seccNumber"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:inputType="none"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
 
 
 
@@ -441,6 +420,30 @@
 
                             <AutoCompleteTextView
                                 android:id="@+id/spinner_selectIncome"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:inputType="none"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ttl_seccc"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="SECC TIN Number by selecting the name"
+                            android:padding="3dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/out_line_strok">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/spinner_seccNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:focusable="false"

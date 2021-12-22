@@ -69,8 +69,8 @@
     <string name="frequency_range">Frequency Range</string>
     <string name="delete">Delete</string>
     <string name="range_value">10000 and 2000 Rs. Rang</string> //this string can be deleted
-    <string name="last_entry_before_nrlm">Last entry before NRLM</string>
-    <string name="last_entry_after_nrlm">Last entry after NRLM</string>
+    <string name="last_entry_before_nrlm">Status before joining NRLM</string>
+    <string name="last_entry_after_nrlm">Present status</string>
     <string name="no_field_date">Not filled/ Date</string>
     <string name="go_to_member_entry">Go To Member Entry</string>
     <string name="select_shg">Select SHG</string>
@@ -116,7 +116,7 @@
     <string name="before_income_title">Fill Income (Before coming into NRLM Fold)</string>
     <string name="after_income_title">Fill Income at present</string>
     <string name="income_selection">Income Selection</string>
-    <string name="login_attempt_exceded">Please wait for 15 minutes you exceed limit more than 5 !!!</string>
+    <string name="login_attempt_exceded">Please wait for 15 minutes, you exceeded the login attempt limit more than 5 !!!</string>
     <string name="invalid_id_or_pass">Invalid User Id or Password</string>
     <string name="invalid_login_time">Invalid APP Login time !!!</string>
     <string name="invalid_device">Invalid device !!!</string>

@@ -111,6 +111,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             shgCode = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
             String memberName = viewModel.getMemberNameDB(shgMemberCode);
             String shgName = viewModel.getShgNameDB(shgCode);
+            String joiningDate = viewModel.getMemberJoiningDate(shgMemberCode);
 
             String memberDOJ = viewModel.getMemberDOJ(shgMemberCode);
 
@@ -128,6 +129,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
             binding.tvShgNameCode.setText(memberName + " (" + shgMemberCode + ")");
             binding.tvMemberNameCode.setText(shgName + " (" + shgCode + ")");
+            binding.joiningDate.setText("Member's joining date : " +  joiningDate );
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

@@ -35,7 +35,7 @@ public class PreferenceFactory {
         return null;
     }
 
-    public int getSharedPrefrencesIntegerData(String key, @NonNull Context context) {
+    public int getSharedPreferenceIntegerData(String key, @NonNull Context context) {
         int value = 0;
         try {
             SharedPreferences sharedPreferences = context.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE);
@@ -58,7 +58,7 @@ public class PreferenceFactory {
         return isDataSaved;
     }
 
-    public boolean saveSharedPrefrecesData(String key, int value, @NonNull Context context) {
+    public boolean saveSharedPreferenceData(String key, int value, @NonNull Context context) {
         SharedPreferences spref = context.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE);
         SharedPreferences.Editor sprefEditor = spref.edit();
         sprefEditor.putInt(key, value);

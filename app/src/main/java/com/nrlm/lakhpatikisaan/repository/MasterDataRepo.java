@@ -455,6 +455,38 @@ public class MasterDataRepo {
         return future.get();
     }
 
+    public String getMemberJoiningDate(String memberCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("ShgNameDB" + masterDataDao.getGpListData(memberCode).size(), MasterDataRepo.class);
+                return masterDataDao.getMemberJoiningDate(memberCode);
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public void updateBeforeEntryDateInLocal(String memberCode,String date) throws ExecutionException, InterruptedException {
+       AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+           @Override
+           public void run() {
+               masterDataDao.updateBeforeEntryDateInLocal(memberCode,date);
+           }
+       });
+    }
+
+    public void updateAfterEntryDateInLocal(String memberCode,String date) throws ExecutionException, InterruptedException {
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                masterDataDao.updateAfterEntryDateInLocal(memberCode,date);
+            }
+        });
+    }
+
+
+
     public String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         Callable<String> listCallable = new Callable<String>() {
             @Override

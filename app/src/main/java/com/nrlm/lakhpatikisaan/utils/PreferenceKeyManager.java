@@ -12,6 +12,7 @@ public class PreferenceKeyManager {
     private static final String PrefLoginId="PrefLoginId";
     private static final String PrefStateShortName="PrefStateShortName";
     private static final String PrefImeiNo="PrefImeiNo";
+    private static final String PrefLogoutTime="PrefLogoutTime";
 
 
     private static final String ForgotMobileNumber="forgotmobile";
@@ -87,5 +88,10 @@ public class PreferenceKeyManager {
 
     public static String getPrefLoginSessionKey() {
         return PrefLoginSessionKey;
+    }
+
+
+    public static String getPrefLogoutTime() {
+        return PrefLogoutTime;
     }
 }

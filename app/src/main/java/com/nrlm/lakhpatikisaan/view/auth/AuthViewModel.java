@@ -191,7 +191,7 @@ public class AuthViewModel extends ViewModel {
 
 
 
-                        }
+                        }else loginApiStatus = "";
 
                     } else {
                         //Object errorObject = ;
@@ -277,7 +277,15 @@ public class AuthViewModel extends ViewModel {
 
     public String loginApiResult() {
         return loginApiStatus;
+
     }
+
+
+    public void deleteAllMaster(){
+        loginRepo.deleteAllMaster();
+    }
+
+
 
 
 

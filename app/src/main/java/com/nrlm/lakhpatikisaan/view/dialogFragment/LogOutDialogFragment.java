@@ -21,6 +21,9 @@ import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.auth.AuthActivity;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class LogOutDialogFragment extends DialogFragment {
     AlertDialog alertDialog;
     CustomProgressDialog customProgressDialog;
@@ -39,10 +42,11 @@ public class LogOutDialogFragment extends DialogFragment {
                 .setTitle(getContext().getResources().getString(R.string.dialog_sign_out_title)).setMessage(getContext().getResources().getString(R.string.dialog_sign_out_msg))
                 .setCancelable(false)
                 .setPositiveButton(getContext().getResources().getString(R.string.dialog_btn_signout), (dialogInterface, i) -> {
-                    dialogInterface.dismiss();
-                    ViewUtilsKt.toast(requireContext(),getContext().getResources().getString(R.string.toast_success_sign_out));
                     loginRepo.deleteAllMaster();
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginSessionKey(),"",requireContext());
+                    ViewUtilsKt.toast(requireContext(),getContext().getResources().getString(R.string.toast_success_sign_out));
+                    dialogInterface.dismiss();
+                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLogoutTime(),""+new Timestamp(new Date().getTime()),getContext());
                     Intent intent = new Intent(getContext(), AuthActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     getContext().startActivity(intent);
