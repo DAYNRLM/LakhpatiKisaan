@@ -12,5 +12,7 @@
 
     /************text size************/
     <dimen name="text_16sp">16sp</dimen>
+    <dimen name="text_18sp">18sp</dimen>
     <dimen name="text_20sp">20sp</dimen>
+
 </resources>

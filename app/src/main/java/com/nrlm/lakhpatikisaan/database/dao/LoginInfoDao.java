@@ -16,6 +16,8 @@ public interface LoginInfoDao {
 
     @Query("select distinct  state_short_name from logininfoentity")
     String getStateNameDB();
+    @Query("select distinct language_id from loginInfoEntity")
+    String getLanguageCode();
 
     @Query("delete from logininfoentity")
     void deleteAll();

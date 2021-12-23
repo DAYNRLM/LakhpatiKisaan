@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.nrlm.lakhpatikisaan.R;
 
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.auth.AuthActivity;
@@ -27,7 +28,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
-        setContentView(R.layout.activity_splash_screen);
+
+
+        getLanguageCode();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -45,7 +48,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         appUtils.setLocale(appSharedPreferences.getLanguageCode(),getResources());*/
     }
+    private void getLanguageCode() {
+        String getLanguageCode = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLanguageCode(), SplashScreenActivity.this);
+        if (getLanguageCode.equalsIgnoreCase("")) {
+            getLanguageCode = "en";
+        }
 
+        AppUtils.getInstance().setLocale(getLanguageCode, getResources(), SplashScreenActivity.this);
+    }
     private void goToNextScreen() {
         login_statusPref = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyLoginDone(), SplashScreenActivity.this);
         String loginStatus ="";

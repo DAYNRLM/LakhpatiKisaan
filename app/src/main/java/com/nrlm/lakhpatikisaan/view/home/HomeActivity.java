@@ -67,10 +67,14 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         boolean status = false;
 
+
         switch (item.getItemId()) {
             case R.id.logOut:
                 navController.navigate(R.id.logOutDialogFragment);
                 break;
+
+            case R.id.changeLanguage:
+                navController.navigate(R.id.changeLanguageFragment2);
         }
         return NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
     }

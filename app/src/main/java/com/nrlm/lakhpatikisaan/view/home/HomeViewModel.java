@@ -27,6 +27,7 @@ import com.nrlm.lakhpatikisaan.network.model.request.CheckDuplicateRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.CheckDuplicateResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
+import com.nrlm.lakhpatikisaan.repository.LoginRepo;
 import com.nrlm.lakhpatikisaan.repository.MasterDataRepo;
 import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
 import com.nrlm.lakhpatikisaan.repository.SyncDataRepo;
@@ -41,6 +42,7 @@ import java.util.stream.Collectors;
 
 public class HomeViewModel extends ViewModel {
     private MasterDataRepo masterDataRepo;
+    private LoginRepo loginRepo;
     private SyncDataRepo syncDataRepo;
     private String syncApiStatus;
 
@@ -50,6 +52,7 @@ public class HomeViewModel extends ViewModel {
 
     public void getHomeViewModelRepos(Context context) {
         masterDataRepo = MasterDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
+        loginRepo=LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(),context);
 
     }
 
@@ -120,6 +123,7 @@ public class HomeViewModel extends ViewModel {
 
 
     }
+
 
 
     private void makeSyncMemberEntry(String loginId, String stateShortName, String imeiNo
@@ -254,6 +258,9 @@ public class HomeViewModel extends ViewModel {
         return location;
     }
 
+    public String getLanguageCode() throws ExecutionException, InterruptedException {
+        return loginRepo.getLanguageCodeDB();
+    }
     public List<String> loadBlockName() {
         return masterDataRepo.getBlockName();
     }

@@ -72,7 +72,7 @@
                             android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_regular"
-                            android:text="Select Entry Date"
+                            android:text="@string/select_entry_date"
                             android:textColor="@color/black" />
 
 
@@ -98,7 +98,7 @@
                             <TextView
                                 android:id="@+id/tv_click"
                                 style="@style/TitleTextViewTheme"
-                                android:text="Income (Before coming into NRLM Fold)" />
+                                android:text="@string/income_before_coming_nrlm" />
 
                         </LinearLayout>
 
@@ -274,7 +274,7 @@
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Add Acivity"
+                                        android:text="@string/add_activity"
                                         android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                         android:textColor="@color/orange_500"
                                         app:icon="@drawable/ic_baseline_add_circle_outline_24"
@@ -334,7 +334,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select Secc"
+                            android:hint="@string/select_secc"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -361,7 +361,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select Sector"
+                            android:hint="@string/select_sector"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -385,7 +385,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select Activity"
+                            android:hint="@string/select_activity"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -409,7 +409,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="Income Frequency"
+                            android:hint="@string/income_frquency"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -433,7 +433,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="Income Range"
+                            android:hint="@string/income_range"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -467,7 +467,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="@dimen/space_10dp"
                                 android:fontFamily="@font/manrope_semi_bold"
-                                android:text="Add"
+                                android:text="@string/add"
                                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                 android:textSize="16sp"
                                 app:cornerRadius="@dimen/text_20sp" />
@@ -478,7 +478,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_semi_bold"
-                                android:text="Reset"
+                                android:text="@string/reset"
                                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                 android:textSize="16sp"
                                 app:cornerRadius="@dimen/text_20sp" />
@@ -512,7 +512,7 @@
                         <TextView
 
                             style="@style/TitleTextViewTheme"
-                            android:text="Selected Activity" />
+                            android:text="@string/selected_activity" />
 
                         <LinearLayout
                             android:layout_marginTop="@dimen/space_3dp"
@@ -547,7 +547,7 @@
             android:fontFamily="@font/manrope_semi_bold"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="Submit Detail's"
+            android:text="@string/submit_details"
             android:textSize="16sp" />
 
     </RelativeLayout>

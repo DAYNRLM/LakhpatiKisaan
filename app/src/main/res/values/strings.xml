@@ -33,7 +33,7 @@
 
     <string name="menu_setting">Settings</string>
     <string name="menu_notification">Notification</string>
-    <string name="menu_language">Language</string>
+    <string name="menu_language">Change language</string>
     <string name="menu_info">info</string>
 
 
@@ -134,6 +134,9 @@
     <string name="frequency_not_fill">Please select income frequency  first</string>
     <string name="range_not_fill">Please select income range</string>
     <string name="wrong_mpin">Entered M-PIN is wrong.</string>
+    //new strings
+<string name="cancel">Cancel</string>
+    <string name="do_you_want_to_change_the_language">Do you want to change the language?</string>
 
 
     //new strings by lincon
@@ -143,6 +146,21 @@
     <string name="dialog_btn_signout">sign out</string>
     <string name="toast_success_sign_out">Successfully SignOut</string>
     <string name="dialog_cancel_btn">cancel</string>
+    <string name="select_clf">Select CLF</string>
+    <string name="select_vo">Select VO</string>
+    <string name="select_block">Select Block</string>
+    <string name="select_grampanchayat">Select Grampanchayat:</string>
+    <string name="select_village">Select Village</string>
+    <string name="members_before_nrlm_entry">"Member's completed before nrlm entry"</string>
+    <string name="members_complete_after_nrlm_entry">Members completed after nrlm entry</string>
+    <string name="verify_otp">Verify Otp</string>
+    <string name="select_entry_date">Select Entry Date</string>
+    <string name="add_activity">Add activity</string>
+    <string name="select_secc">Select Secc</string>
+    <string name="selected_activity">Selected Activity</string>
+    <string name="livlihood_income_at_present">Livelihoods and Income at present</string>
+    <string name="enter_your_mpin">Enter your PIN</string>
+    <string name="for_secure_access">For secure access</string>
 
 
 

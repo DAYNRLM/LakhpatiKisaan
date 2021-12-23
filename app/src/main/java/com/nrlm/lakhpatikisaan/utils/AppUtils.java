@@ -150,7 +150,29 @@ public class AppUtils {
         return String.valueOf(version);
     }
 
+    public void setLocale(@NonNull String localeName, @NonNull Resources res, Context context) {
 
+        Locale myLocale = new Locale(localeName);
+        // Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+
+       /* if (!localeName.equals(localeName)) {
+            Locale  myLocale = new Locale(localeName);
+           // Resources res = context.getResources();
+            DisplayMetrics dm = res.getDisplayMetrics();
+            Configuration conf = res.getConfiguration();
+            conf.locale = myLocale;
+            res.updateConfiguration(conf, dm);
+            *//*Intent refresh = new Intent(context, HomeActivity.class);
+            refresh.putExtra(currentLang, localeName);
+            context.startActivity(refresh);*//*
+        } else {
+            Toast.makeText(context, "Language already selected!", Toast.LENGTH_SHORT).show();
+        }*/
+    }
 
 
 }

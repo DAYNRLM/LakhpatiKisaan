@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/space_10dp">
+
+            <TextView
+                android:id="@+id/english_languageTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="English "
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/text_16sp" />
+            <View
+                android:id="@+id/view_seperator"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/space_5dp"
+                android:layout_marginBottom="@dimen/space_5dp"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/english_languageTv"
+                android:background="@color/colorViewLine" />
+            <TextView
+                android:id="@+id/Local_LanguageTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:text="Local language"
+                android:layout_below="@id/view_seperator"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/text_18sp" />
+
+
+        </RelativeLayout>
+       <!-- <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/space10dp">
+            <ImageView
+                android:id="@+id/chklanguage"
+                android:layout_width="@dimen/dimen_50"
+                android:layout_height="@dimen/dimen_50"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ok"
+                android:tint="@color/colorTitleText" />
+
+        </RelativeLayout>-->
+
+    </LinearLayout>
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.nrlm.lakhpatikisaan.view.auth;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
+import com.nrlm.lakhpatikisaan.view.home.HomeActivity;
 
 import org.json.JSONException;
 
@@ -58,7 +60,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
         super.onViewCreated(view, savedInstanceState);
         linearLayoutFurtherView=(LinearLayout) view.findViewById(R.id.llfurther_view);
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-        binding.btnUpdatePw.setOnClickListener(view1 -> {
+        binding.verifyOtpbtn.setOnClickListener(view1 -> {
             etrOpt=binding.etOtp.getText().toString();
             checkingOtp(etrOpt);
         /*    userId=binding.etUserId.getText().toString();
@@ -66,56 +68,56 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
             confirmPassword=binding.etConfirmPassword.getText().toString();*/
 
                 });
+        binding.btnUpdatePw.setOnClickListener(view1 -> {
 
-    }
+                    userId=binding.etUserId.getText().toString().toUpperCase().trim();
+            password=binding.etPassword.getText().toString();
+            confirmPassword=binding.etConfirmPassword.getText().toString();
+        //  String prefLoginId= ;
+            if (!userId.equalsIgnoreCase("") && userId.equalsIgnoreCase(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext()))) {
+                if (password.equalsIgnoreCase(confirmPassword) && !password.equalsIgnoreCase("") && !confirmPassword.equalsIgnoreCase("")) {
+                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefFrgtPass(),confirmPassword,getCurrentContext());
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage(getString(R.string.loading_heavy));
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                    authViewModel.ResetPasswordRequestData(getContext());
 
-    private void checkingOtp(String etrOpt) {
-      String genratedOtp=  PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getRandomOtp(),getCurrentContext());
-
-        if (!genratedOtp.equalsIgnoreCase(etrOpt))
-        {
-            DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), getContext().getResources().getString(R.string.invalid_otp_msg)
-                    , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
-            );
-            return;
-        }
-        else
-        {
-
-              /*  linearLayoutFurtherView.setVisibility(LinearLayout.VISIBLE);
-                if(userId.equalsIgnoreCase("xyz")&&userId.equalsIgnoreCase(""))
-                {
-                    if (password.equalsIgnoreCase(confirmPassword) && !password.equalsIgnoreCase("")&& !confirmPassword.equalsIgnoreCase(""))
-                    {*/
-            progressDialog = new ProgressDialog(getContext());
-            progressDialog.setMessage(getString(R.string.loading_heavy));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-            authViewModel.ResetPasswordRequestData(getContext());
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                       progressDialog.dismiss();
-                    if(authViewModel.resetPasswordApiStatuss.equalsIgnoreCase("E200"))
-                    {
-                        DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert),  authViewModel.simpleResponseBean.getError().getMessage()
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            if (authViewModel.resetPasswordApiStatuss.equalsIgnoreCase("E200")) {
+                       /* DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert),  authViewModel.simpleResponseBean.getError().getMessage()
                                 , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
-                        );
+                        );*/
+
+                                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), R.drawable.ic_launcher_background, getString(R.string.alert), authViewModel.simpleResponseBean.getError().getMessage(), getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Intent refresh = new Intent(getCurrentContext(), AuthActivity.class);
+                                        getCurrentContext().startActivity(refresh);
+
+                                    }
+                                }, false);
 
 
-                    }else {
-                        DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), getContext().getResources().getString(R.string.oops_smthng_wrong)
-                                , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false);
+                            } else {
+                                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), getContext().getResources().getString(R.string.oops_smthng_wrong)
+                                        , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false);
 
 
-                    }
+                            }
+                        }
+                    }, 2000);
+
                 }
-            },2000);
+                else {
+                    DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert),  getString(R.string.invalid_password)
+                            , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
+                    );
 
-          }
-
-
+                }
               /*      }else {
                         //dialog
                     }
@@ -124,10 +126,29 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
                 }*/
 
 
-
-        }
-
-
+            }else {
+                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert),  getString(R.string.invalid_userid)
+                        , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
+                );
+            }
+        });
 
     }
 
+    private void checkingOtp(String etrOpt) {
+
+
+        String genratedOtp = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getRandomOtp(), getCurrentContext());
+
+        if (!genratedOtp.equalsIgnoreCase(etrOpt)) {
+            DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), getContext().getResources().getString(R.string.invalid_otp_msg)
+                    , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
+            );
+            return;
+        } else {
+
+            linearLayoutFurtherView.setVisibility(LinearLayout.VISIBLE);
+            binding.verifyOtpbtn.setVisibility(View.GONE);
+        }
+    }
+}

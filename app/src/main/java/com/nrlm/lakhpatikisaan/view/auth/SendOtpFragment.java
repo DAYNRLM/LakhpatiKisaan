@@ -1,17 +1,22 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.databinding.FragmentAuthLoginBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentOtpSendBinding;
@@ -23,6 +28,7 @@ import com.nrlm.lakhpatikisaan.view.BaseFragment;
 public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendBinding>  {
     private AuthViewModel authViewModel;
     String mobileNumber;
+    ProgressDialog progressDialog;
 
     @Override
     public Class<AuthViewModel> getViewModel() {
@@ -62,8 +68,41 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
                );
            }else {
                authViewModel.makeOtpRequest(getCurrentContext());
-               NavDirections action = SendOtpFragmentDirections.actionSendOtpFragmentToForgetPasswordFragment();
-               navController.navigate(action);
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage(getString(R.string.loading_heavy));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+               new Handler().postDelayed(new Runnable() {
+                   @Override
+                   public void run() {
+                       progressDialog.dismiss();
+                       String msg=authViewModel.otpResponseBean.getMessage();
+                       if(msg.equalsIgnoreCase("message send successfully"))
+                       {
+                           NavDirections action = SendOtpFragmentDirections.actionSendOtpFragmentToForgetPasswordFragment();
+                           navController.navigate(action);
+                       }else
+                       {
+                           MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(getCurrentContext());
+                           materialAlertDialogBuilder.setCancelable(false);
+                           materialAlertDialogBuilder.setMessage(msg);
+                           materialAlertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                   dialog.dismiss();
+                                   Intent intent = new Intent(getContext(), AuthActivity.class);
+                                   startActivity(intent);
+
+                               }
+                           });
+                           materialAlertDialogBuilder.show();
+
+                       }
+
+
+                   }
+               },2000);
+
            }
 
         });

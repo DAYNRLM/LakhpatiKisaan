@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">લખપતિ મહિલા કિસાન</string>
+    <string name="title_activity_splash">સ્પ્લેશ પ્રવૃત્તિ</string>
+    <string name="dummy_button">પ્રતિરૂપ બટન</string>
+    <string name="dummy_content">પ્રતિરૂપ પ્રકરણ\nCONTENT</string>
+    <string name="mord"><b>ગ્રામીણ મંત્રાલય</b></string>
+    <string name="govtindia">ભારત સરકાર</string>
+    <string name="mord_hindi"><b>ग्रामीण विकास मंत्रालय</b></string>
+    <string name="govtindia_hindi">भारत सरकार</string>
+    <string name="et_enter_userId">યુજર આઇ  ડી દાખલ કરો</string>
+    <string name="et_enter_password">પાસવર્ડ દાખલ કરો</string>
+    <string name="et_enter_mobile_number">મોબાઇલ નંબર</string>
+    <string name="et_enter_new_password">નવા પાસવર્ડ</string>
+    <string name="et_enter_Confirm_password">નવા પાસવર્ડ ની પુષ્ટિ કરો</string>
+    <string name="et_enter_OTP">OTP દાખલ કરો</string>
+    <!--all button text-->
+    <string name="btn_login">લોગ ઇન કરો</string>
+    <string name="btn_send_otp">OTP મોકલો</string>
+    <string name="btn_update_password"> પાસવર્ડ અપડેટ કરો</string>
+    <!--all textview strings starting with tv initials-->
+    <string name="tv_forget_pw"> પાસવર્ડ ભૂલી ગયા?</string>
+    <string name="tv_logout">લોગ આઉટ</string>
+    <string name="menu_setting">સેટિંગ્સ</string>
+    <string name="menu_notification">સૂચના</string>
+    <string name="menu_language">ભાષા</string>
+    <string name="menu_info">જાણકારી</string>
+    <string name="info">જાણકારી</string>
+    <string name="error_code_not_found">એરર કોડ  મળેલ નથી</string>
+    <string name="not_getting_data_from_server">સર્વરમાંથી ડેટા મેળવતી વખતે ભૂલ.</string>
+    <string name="invalid_fields">આવશ્યક ફાઇલ માન્ય નથી</string>
+    <string name="error_security_validation">સુરક્ષા સત્યાપન નિષ્ફળ</string>
+    <string name="error_validation">માન્યતા નિષ્ફળ છે</string>
+    <string name="error_session_exist">સત્ર પહેલેથી જ અસ્તિત્વમાં છે.</string>
+    <string name="NO_INTERNET_TITLE">ઇન્ટરનેટ નથી</string>
+    <string name="SERVER_ERROR_TITLE">સર્વર માં એરર!</string>
+    <string name="INTERNET_MESSAGE">કૃપા કરીને તમારું ઇન્ટરનેટ કનેક્શન ખોલો.</string>
+    <string name="server_error_dialog">સર્વર માં એરર!</string>
+    <string name="no_internet_dialog">ઇન્ટરનેટ નથી !</string>
+    <string name="loading_heavy">લોડ કરી રહ્યું છે...</string>
+    <string name="not_filled">ભરેલ નથી</string>
+    //new strings 7/12/2021
+    <string name="invalid_userid">અમાન્ય યુજર આઈ ડી</string>
+    <string name="invalid_password">અમાન્ય પાસવર્ડ</string>
+    <string name="sector">વ્યાવસાયિક ક્ષેત્ર</string>
+    <string name="activity">પ્રવૃતિ</string>
+    <string name="frequency_range">આવૃતિ સીમા</string>
+    <string name="delete">હટાઓ</string>
+    <string name="range_value">10000 and 2000 Rs. Rang</string> //this string can be deleted
+    <string name="last_entry_before_nrlm">NRLM ના પહેલાં છેલ્લી એન્ટ્રી</string>
+    <string name="last_entry_after_nrlm">NRLM ના પછી ની છેલ્લી એન્ટ્રી</string>
+    <string name="no_field_date">તારીખ ભરેલ નથી</string>
+    <string name="go_to_member_entry">સભ્ય પ્રવેશ પર જાઓ</string>
+    <string name="select_shg">સ્વ સહાય જુથ પસંદ કરો</string>
+    <string name="select_member_from">સભ્ય પસંદ કરો</string>
+    <string name="shg_detail">સ્વ સહાય જુથ વિવરણ</string>
+    <string name="total_member">કુલ સભ્ય</string>
+    <string name="go_to_shg_members">SHG સભ્યો પર જાઓ</string>
+    <string name="income_before_coming_nrlm">આવક(NRLM માં જોડાતા પેહલા)</string>
+    <string name="select_month_and_year_before_your_date_of_joining">NRLM માં જોડાવાની તમારી તારીખ પહેલાનો મહિનો અને વર્ષ પસંદ કરો.</string>
+    <string name="select_month_and_year">મહિના/વર્ષ પસંદ કરો</string>
+    <string name="select_sector">વ્યાવસાયિક ક્ષેત્ર પસંદ કરો</string>
+    <string name="select_activity">ગતિવિધિ પસંદ કરો</string>
+    <string name="income_frquency">આવકની આવર્તન</string>
+    <string name="income_range">આવક સીમા</string>
+    <string name="add">જોડો</string>
+    <string name="reset">રીસેટ</string>
+    <string name="submit_details">વિગતો સબમિટ કરો</string>
+    <string name="shg_members">SHG સભ્યો</string>
+    <string name="home">મુખ્ય પૃષ્ઠ</string>
+    <string name="alert">ચેતવણી</string>
+    <string name="number_cant_be_empty">સૌથી પહેલા તમારો મોબાઈલ નંબર એન્ટર કરો</string>
+    <string name="tv_mpin_title">અમે સુરક્ષાને મહત્વ આપીએ છીએ</string>
+    <string name="tv_mpin_msg">તમારી એપ્લિકેશનને સુરક્ષિત અને સુરક્ષિત રાખવા માટે નવો MPIN સેટ કરો</string>
+    <string name="tv_mpin_confirm">Mpin કન્ફર્મ કરો</string>
+    <string name="tv_mpin_set_mpin">Mpin સેટ કરો</string>
+    <string name="tv_mpin_user_msg">Hi, Lakhpati User</string>
+    <string name="tv_mpin_userId">User ID</string>
+    <string name="btn_verify_mpin">Mpin ચકાસો</string>
+    <string name="enter_mpin_first">પહેલા Mpin દાખલ કરો</string>
+    <string name="enter_confirm_first">પહેલા Mpin કન્ફર્મ કરો</string>
+    <string name="mpin_can_not_empty">Mpin ખાલી ન હોઈ શકે</string>
+    <!--Strings added after labels sent to Atul Sir-->
+    <string name="no_block_found">સોંપાયેલ બ્લોક મળ્યો નથી</string>
+    <string name="no_gp_found">સોંપાયેલ ગ્રામપંચાયત મળી નથી</string>
+    <string name="no_village_found">સોંપાયેલ ગામ મળ્યું નથી</string>
+    <string name="no_shg_found">સોંપેલ shg મળ્યું નથી</string>
+    <string name="no_member_found">સોંપાયેલ સભ્ય મળ્યો નથી</string>
+    <string name="no_clf_found">સોંપેલ CLF મળ્યું નથી</string>
+    <string name="no_vo_found">સોંપેલ VO મળ્યો નથી</string>
+    <string name="authenticating">પ્રમાણીકરણ કરી રહ્યું છે...</string>
+    <string name="before_income_title">આવક ભરો (NRLM ફોલ્ડમાં આવતા પહેલા)</string>
+    <string name="after_income_title">હાલમાં આવક ભરો</string>
+    <string name="income_selection">આવકની પસંદગી</string>
+    <string name="login_attempt_exceded">કૃપા કરીને 15 મિનિટ રાહ જુઓ, તમે 5 કરતાં વધુની મર્યાદા ઓળંગી ગયા છો</string>
+    <string name="invalid_id_or_pass">અમાન્ય યુઝર આઈડી અથવા પાસવર્ડ</string>
+    <string name="invalid_login_time">અમાન્ય APP લૉગિન સમય</string>
+    <string name="invalid_device">અમાન્ય ઉપકરણ</string>
+    <string name="syncing_data">સમન્વય કરી રહ્યું છે..</string>
+    <string name="synced_msg">ડેટા સફળતાપૂર્વક સમન્વયિત થયો</string>
+    <string name="yearly_income">વાર્ષિક આવક</string>
+    <string name="invalid_otp_msg">દાખલ કરેલ Otp અમાન્ય છે</string>
+    <string name="oops_smthng_wrong">અરેરે કંઈક ખોટું થયું</string>
+    <string name="add_activity_msg">બીજી પ્રવૃત્તિ ઉમેરો</string>
+    <string name="total_activity">કુલ પ્રવૃત્તિઓ છે</string>
+
+    <string name="secc_not_fill">કૃપા કરીને પહેલા SECC પસંદ કરો</string>
+    <string name="sector_not_fill">કૃપા કરીને પહેલા સેક્ટર પસંદ કરો</string>
+    <string name="activity_not_fill">કૃપા કરીને પહેલા પ્રવૃત્તિ પસંદ કરો</string>
+    <string name="frequency_not_fill">કૃપા કરીને પહેલા આવકની આવર્તન પસંદ કરો</string>
+    <string name="range_not_fill">કૃપા કરીને આવક શ્રેણી પસંદ કરો</string>
+    <string name="wrong_mpin">દાખલ કરેલ M-PIN ખોટો છે.
+
+    </string>
+    //new strings
+    <string name="cancel">Cancel</string>
+    <string name="do_you_want_to_change_the_language">Do you want to change the language?</string>
+
+
+    //new strings by lincon
+
+    <string name="dialog_sign_out_title">Confirm Sign Out</string>
+    <string name="dialog_sign_out_msg">You are signing out of your app on this device.</string>
+    <string name="dialog_btn_signout">sign out</string>
+    <string name="toast_success_sign_out">Successfully SignOut</string>
+    <string name="dialog_cancel_btn">cancel</string>
+    <string name="select_clf">Select CLF</string>
+    <string name="select_vo">Select VO</string>
+    <string name="select_block">Select Block</string>
+    <string name="select_grampanchayat">Select Grampanchayat:</string>
+    <string name="select_village">Select Village</string>
+    <string name="members_before_nrlm_entry">"Member's completed before nrlm entry"</string>
+    <string name="members_complete_after_nrlm_entry">Members completed after nrlm entry</string>
+    <string name="verify_otp">Verify Otp</string>
+    <string name="select_entry_date">Select Entry Date</string>
+    <string name="add_activity">Add activity</string>
+    <string name="select_secc">Select Secc</string>
+    <string name="selected_activity">Selected Activity</string>
+    <string name="livlihood_income_at_present">Livelihoods and Income at present</string>
+    <string name="enter_your_mpin">Enter your PIN</string>
+    <string name="for_secure_access">For secure access</string>
+
+</resources>

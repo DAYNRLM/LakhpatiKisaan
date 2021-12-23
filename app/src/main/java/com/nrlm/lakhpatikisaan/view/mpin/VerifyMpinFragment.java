@@ -60,7 +60,7 @@ public class VerifyMpinFragment extends BaseFragment<MpinViewModel, FragmentVeri
             progressDialog.setCancelable(false);
             progressDialog.show();
             String vrfMpin = binding.pinviewGetMpin.getText().toString();
-            if (vrfMpin.isEmpty()) {
+            if (vrfMpin.isEmpty() ) {
                 ViewUtilsKt.toast(getCurrentContext(), getCurrentContext().getResources().getString(R.string.mpin_can_not_empty));
             } else {
                 if (vrfMpin.equalsIgnoreCase(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyMpin(), getCurrentContext()))) {
@@ -103,6 +103,7 @@ public class VerifyMpinFragment extends BaseFragment<MpinViewModel, FragmentVeri
                         startActivity(intentToHomeActy);
                     }
                 } else {
+                    progressDialog.dismiss();
                     DialogFactory.getInstance().showAlert(getCurrentContext(), getCurrentContext().getResources().getString(R.string.wrong_mpin), "Ok");
                 }
             }
@@ -111,9 +112,9 @@ public class VerifyMpinFragment extends BaseFragment<MpinViewModel, FragmentVeri
 
     private void status(String apiStatus) {
         if (apiStatus != null && apiStatus.equalsIgnoreCase("E200")) {
-            Toast.makeText(getContext(), "Shg data deletion and syncronization successful.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Shg data deletion and synchronization successful.", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Shg data deletion and syncronization failed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Shg data deletion and synchronization failed.", Toast.LENGTH_SHORT).show();
         }
     }
 }

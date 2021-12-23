@@ -73,12 +73,25 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         authViewModel.init(getContext());
 
+        String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getCurrentContext());
+        String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getCurrentContext());
+        String imei=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getCurrentContext());
+        String deviceInfoSaved=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(),getContext());
+        if (!(loginId.equalsIgnoreCase(""))&& !(stateShortName.equalsIgnoreCase(""))){
+
+            authViewModel.syncAllData(getContext(),loginId,stateShortName,imei,deviceInfoSaved,".2719545,.3145555");
+
+        }
+
+
+
         binding.tvForgetPassword.setOnClickListener(v -> {
             NavDirections action = AuthFragmentDirections.actionAuthFragmentToSendOtpFragment();
             navController.navigate(action);
         });
 
         binding.btnLogin.setOnClickListener(v -> {
+
             String password = binding.etPassword.getText().toString();
             String userId = binding.etUserId.getText().toString().trim().toUpperCase();
             if (userId.equalsIgnoreCase("")) {
@@ -86,6 +99,9 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             } else if (password.equalsIgnoreCase("")) {
                 binding.etPassword.setError(getString(R.string.invalid_password));
             } else {
+                if (!(loginId.equalsIgnoreCase(""))&& !(stateShortName.equalsIgnoreCase(""))){
+                    authViewModel.deleteAllMasterDataLg();
+                }
                 AppUtils.getInstance().showLog("sha256Pass" + AppUtils.getInstance().getSha256(password), AuthFragment.class);
                 progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage(getString(R.string.loading_heavy));
@@ -100,18 +116,15 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefDeviceinfo(),deviceInfo,getContext());
 
                 if (NetworkFactory.isInternetOn(getContext())) {
-
                     final LoginRequestBean loginRequestBean = new LoginRequestBean();
                     /*  -------------lOCAL-----------------*/
-                   /* loginRequestBean.setLogin_id("UPAGASSDAD");
+                    loginRequestBean.setLogin_id("UPAGASSDAD");
                     loginRequestBean.setPassword("8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92");
-                    loginRequestBean.setImei_no("5d7eaa5ef9d3ebed");*/
-
+                    loginRequestBean.setImei_no("5d7eaa5ef9d3ebed");
                     /*---------------LIVE------------------*/
-                    loginRequestBean.setLogin_id(userId);
+                 /*   loginRequestBean.setLogin_id(userId);
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
-                    loginRequestBean.setImei_no("5d7eaa5ef9d3ebe");
-
+                    loginRequestBean.setImei_no("5d7eaa5ef9d3ebe");*/
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("10");
                     loginRequestBean.setApp_login_time(AppDateFactory.getInstance().getCurrentDateAndTime());

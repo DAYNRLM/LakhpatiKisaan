@@ -17,6 +17,26 @@ public class PreferenceKeyManager {
     private static final String RandomOtp="genratedOtp";
     private static final String PREF_KEY_MPIN= "prfMPIN";
     private static final String PREF_KEY_LOGIN_DONE = "Longin";
+    private static final String PREF_LANGUAGE_CODE="langCode";
+    private static final String PREF_LANGUAGE_ID="langId";
+    private static final String PREF_FRGT_PASS="frgtpassword";
+
+    public static String getPrefFrgtPass() {
+        return PREF_FRGT_PASS;
+    }
+
+
+
+    public static String getPrefLanguageCode() {
+        return PREF_LANGUAGE_CODE;
+    }
+
+    public static String getPrefLanguageId() {
+        return PREF_LANGUAGE_ID;
+    }
+
+
+
     public static String getPrefImeiNo() {
         return PrefImeiNo;
     }

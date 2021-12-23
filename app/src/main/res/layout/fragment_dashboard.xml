@@ -51,7 +51,7 @@
                         <TextView
                             android:id="@+id/tv_click"
                             style="@style/TitleTextViewTheme"
-                            android:text="Select SHG" />
+                            android:text="@string/select_shg" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/ttl_assignVehicle"
@@ -60,7 +60,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/space_3dp"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="Select Member from"
+                            android:hint="@string/select_member_from"
                             android:padding="3dp"
                             app:boxStrokeColor="@color/out_line_strok">
 
@@ -91,7 +91,7 @@
                                 android:layout_marginLeft="@dimen/space_3dp"
                                 android:layout_marginRight="@dimen/space_3dp"
                                 android:fontFamily="@font/montserrat_regular"
-                                android:hint="Select CLF"
+                                android:hint="@string/select_clf"
                                 android:padding="3dp"
                                 app:boxStrokeColor="@color/out_line_strok">
 
@@ -115,7 +115,7 @@
                                 android:layout_marginLeft="@dimen/space_3dp"
                                 android:layout_marginRight="@dimen/space_3dp"
                                 android:fontFamily="@font/montserrat_regular"
-                                android:hint="Select VO"
+                                android:hint="@string/select_vo"
                                 android:padding="3dp"
                                 app:boxStrokeColor="@color/out_line_strok">
 
@@ -139,7 +139,7 @@
                                 android:layout_marginLeft="@dimen/space_3dp"
                                 android:layout_marginRight="@dimen/space_3dp"
                                 android:fontFamily="@font/montserrat_regular"
-                                android:hint="Select SHG"
+                                android:hint="@string/select_shg"
                                 android:padding="3dp"
                                 app:boxStrokeColor="@color/out_line_strok">
 
@@ -172,7 +172,7 @@
                                 android:layout_marginLeft="@dimen/space_3dp"
                                 android:layout_marginRight="@dimen/space_3dp"
                                 android:fontFamily="@font/montserrat_regular"
-                                android:hint="Select Block"
+                                android:hint="@string/select_block"
                                 android:padding="3dp"
                                 app:boxStrokeColor="@color/out_line_strok">
 
@@ -196,7 +196,7 @@
                                 android:layout_marginLeft="@dimen/space_3dp"
                                 android:layout_marginRight="@dimen/space_3dp"
                                 android:fontFamily="@font/montserrat_regular"
-                                android:hint="Select Gram Panchayat:"
+                                android:hint="@string/select_grampanchayat"
                                 android:padding="3dp"
                                 app:boxStrokeColor="@color/out_line_strok">
 
@@ -220,7 +220,7 @@
                                 android:layout_marginLeft="@dimen/space_3dp"
                                 android:layout_marginRight="@dimen/space_3dp"
                                 android:fontFamily="@font/montserrat_regular"
-                                android:hint="Select Village"
+                                android:hint="@string/select_village"
                                 android:padding="3dp"
                                 app:boxStrokeColor="@color/out_line_strok">
 
@@ -244,7 +244,7 @@
                                 android:layout_marginLeft="@dimen/space_3dp"
                                 android:layout_marginRight="@dimen/space_3dp"
                                 android:fontFamily="@font/montserrat_regular"
-                                android:hint="Select SHG"
+                                android:hint="@string/select_shg"
                                 android:padding="3dp"
                                 app:boxStrokeColor="@color/out_line_strok">
 
@@ -284,7 +284,7 @@
 
                         <TextView
                             style="@style/TitleTextViewTheme"
-                            android:text="SHG Detail" />
+                            android:text="@string/shg_detail" />
 
 
                         <com.google.android.material.card.MaterialCardView
@@ -316,7 +316,7 @@
                                         android:layout_margin="@dimen/space_5dp"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/manrope_regular"
-                                        android:text="Total Member" />
+                                        android:text="@string/total_member" />
 
                                     <TextView
                                         android:layout_width="match_parent"
@@ -345,7 +345,7 @@
                                         android:layout_margin="@dimen/space_5dp"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/manrope_regular"
-                                        android:text="Member's completed before nrlm entry" />
+                                        android:text="@string/members_before_nrlm_entry" />
 
                                     <TextView
                                         android:layout_width="match_parent"
@@ -374,7 +374,7 @@
                                         android:layout_margin="@dimen/space_5dp"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/manrope_regular"
-                                        android:text="Member's completed after nrlm entry" />
+                                        android:text="@string/members_complete_after_nrlm_entry" />
 
                                     <TextView
                                         android:layout_width="match_parent"
@@ -421,7 +421,7 @@
             android:fontFamily="@font/manrope_semi_bold"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="Go to SHG Member's"
+            android:text="@string/go_to_shg_members"
             android:textSize="16sp" />
     </RelativeLayout>
 

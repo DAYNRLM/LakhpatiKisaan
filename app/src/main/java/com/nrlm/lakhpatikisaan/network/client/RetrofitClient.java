@@ -18,8 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-   // private static final String server = "local";
-     private static final String server ="demo";
+    private static final String server = "local";
+    // private static final String server ="demo";
     // private static final String server ="live";
 
     private static final int CONNECTION_TIMEOUT = 1000;

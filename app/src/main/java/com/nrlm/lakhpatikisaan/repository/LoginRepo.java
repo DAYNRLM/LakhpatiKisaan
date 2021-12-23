@@ -95,6 +95,31 @@ public class LoginRepo {
             }
         });
     }
+    public void callOtpServices(final OtpRequestBean otpRequestBean, final RepositoryCallback repositoryCallback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                otpService(otpRequestBean, new ServiceCallback<Result>() {
+
+                    @Override
+                    public void success(Result<Result> successResponse) {
+                        if (successResponse instanceof Result.Success) {
+                            OtpRequestBean otpRequestBean1 = (OtpRequestBean) ((Result.Success) successResponse).data;
+                            AppUtils.getInstance().showLog("LoginRepo " + otpRequestBean1.toString(), LoginRepo.class);
+                        }
+
+                        repositoryCallback.onComplete(successResponse);
+                    }
+
+                    @Override
+                    public void error(Result<Result> errorResponse) {
+                        repositoryCallback.onComplete(errorResponse);
+                    }
+                });
+            }
+        });
+
+    }
 
     public void makeLoginRequest(final LoginRequestBean loginRequestObject,
                                  final RepositoryCallback repositoryCallback) {
@@ -192,26 +217,7 @@ public class LoginRepo {
         });
     }
 
-    public void callOtpServices(final OtpRequestBean otpRequestBean, final RepositoryCallback repositoryCallback) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                otpService(otpRequestBean, new ServiceCallback<Result>() {
 
-                    @Override
-                    public void success(Result<Result> successResponse) {
-
-                    }
-
-                    @Override
-                    public void error(Result<Result> errorResponse) {
-
-                    }
-                });
-            }
-        });
-
-    }
 
     private void otpService(final OtpRequestBean otpRequestBean, final ServiceCallback<Result> serviceCallback) {
 
@@ -226,12 +232,9 @@ public class LoginRepo {
 
                     if (response.body() == null || response.code() == 204) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    } else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
-                        /*LoginResponseBean.Error error=  new Gson().fromJson(response.body().getAsJsonObject("error"), LoginResponseBean.Error.class);
-                        serviceCallback.error(new Result.Error(error));*/
                     } else {
-                       /* LoginResponseBean loginResponseBean = new Gson().fromJson(response.body(), LoginResponseBean.class);
-                        serviceCallback.success( new Result.Success(loginResponseBean));*/
+                        OtpRequestBean otpRequestBean1 = new Gson().fromJson(response.body(), OtpRequestBean.class);
+                        serviceCallback.success( new Result.Success(otpRequestBean1));
                         //REsult
                     }
 
@@ -276,6 +279,20 @@ public class LoginRepo {
             @Override
             public String call() throws Exception {
                 return loginInfoDao.getStateNameDB();
+            }
+        };
+
+        Future<String> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+    }
+
+    public String getLanguageCodeDB() throws ExecutionException, InterruptedException
+
+    {
+        Callable<String> callable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return loginInfoDao.getLanguageCode();
             }
         };
 

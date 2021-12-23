@@ -51,4 +51,9 @@
         android:id="@+id/logOutDialogFragment"
         android:name="com.nrlm.lakhpatikisaan.view.dialogFragment.LogOutDialogFragment"
         android:label="LogOutDialogFragment" />
+    <fragment
+        android:id="@+id/changeLanguageFragment2"
+        android:name="com.nrlm.lakhpatikisaan.view.home.ChangeLanguageFragment"
+        android:label="fragment_change_language"
+        tools:layout="@layout/fragment_change_language" />
 </navigation>

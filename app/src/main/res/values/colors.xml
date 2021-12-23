@@ -34,4 +34,6 @@
     <color name="black_overlay">#66000000</color>
     <color name="blue_gray_50">#ECEFF1</color>
     <color name="orange_50">#FFF3E0</color>
+    <color name="colorViewLine">#243F60</color>
+    <color name="colorTextBlack">#263238</color>
 </resources>
