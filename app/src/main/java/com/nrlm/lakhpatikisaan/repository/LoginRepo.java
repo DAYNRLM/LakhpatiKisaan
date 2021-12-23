@@ -230,7 +230,7 @@ public class LoginRepo {
                 AppUtils.getInstance().showLog("Otp Response" + response.toString(), LoginRepo.class);
                 if (response.isSuccessful()) {
 
-                    if (response.body() == null || response.code() == 204) { // 204 is empty response
+                    if (response.body() == null || response.code() == 204||response.code()==404) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
                     } else {
                         OtpRequestBean otpRequestBean1 = new Gson().fromJson(response.body(), OtpRequestBean.class);

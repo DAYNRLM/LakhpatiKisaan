@@ -24,6 +24,7 @@ import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
@@ -235,7 +236,7 @@ public class AuthViewModel extends ViewModel {
         OtpRequestBean otpRequestBean = new OtpRequestBean();
         otpRequestBean.setMobile(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getForgotMobileNumber(), context));
         otpRequestBean.setOtpMessage(otp);
-        ViewUtilsKt.toast(context, otp);
+        //ViewUtilsKt.toast(context, otp);
 
 
         PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getRandomOtp(), otp, context);
@@ -252,7 +253,8 @@ public class AuthViewModel extends ViewModel {
             public void onComplete(Result result) {
                 AppUtils.getInstance().showLog("OtpResult" + result.toString(), AuthViewModel.class);
                 if (result instanceof Result.Success) {
-                    otpResponseBean = (OtpResponseBean) ((Result.Success) result).data;
+                   // otpResponseBean = (OtpResponseBean) ((Result.Success) result).data;
+                    return;
 
                 }
 
