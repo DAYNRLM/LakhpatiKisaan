@@ -236,91 +236,103 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
             /*NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
             navController.navigate(navDirections);*/
+         if (memberEntryDataItem.size()>0){
+             new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
+                     .setItems(AppConstant.ConstantObject.getConfirmation(), new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialogInterface, int i) {
+                             String arr[] = AppConstant.ConstantObject.getStatus();
+                             String str = arr[i];
+                             if (str.equalsIgnoreCase("1")) {
+                                 /****data save in database and
+                                  * sync operation perform and
+                                  * redirect to afternrl screen****/
+                                 dialogInterface.dismiss();
 
 
-            new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
-                    .setItems(AppConstant.ConstantObject.getConfirmation(), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            String arr[] = AppConstant.ConstantObject.getStatus();
-                            String str = arr[i];
-                            if (str.equalsIgnoreCase("1")) {
-                                /****data save in database and
-                                 * sync operation perform and
-                                 * redirect to afternrl screen****/
-                                dialogInterface.dismiss();
+                                 /*** pending update cofirmation status for
+                                  * need to make a coloum for status confirmation  in masterEntryEntity
+                                  * after NRML before syn data*****/
+
+                                 if (NetworkFactory.isInternetOn(getContext())){
+
+                                     ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
+                                     progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
+                                     progressDialog.setCancelable(false);
+                                     progressDialog.show();
+
+                                     viewModel.checkDuplicateAtServer(getContext()
+                                             , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
+                                             ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
+                                             ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getContext())
+                                             , AppUtils.getInstance().getDeviceInfo()
+                                             ,"0.0,0.0"
+                                             ,AppConstant.entryCompleted);
+                                     new Handler().postDelayed(new Runnable() {
+                                         @Override
+                                         public void run() {
+                                             if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
+                                                 progressDialog.dismiss();
+                                                 try {
+                                                     viewModel.updateAfterEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
+                                                 } catch (ExecutionException e) {
+                                                     e.printStackTrace();
+                                                 } catch (InterruptedException e) {
+                                                     e.printStackTrace();
+                                                 }
+                                                 Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+                                                 NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                                                 navController.navigate(navDirections);
+
+                                                 /****this update date code comes after data sync successfully*****/
 
 
-                                /*** pending update cofirmation status for
-                                 * need to make a coloum for status confirmation  in masterEntryEntity
-                                 * after NRML before syn data*****/
+                                             }else {
+                                                 progressDialog.dismiss();
+                                                 Toast.makeText(getContext(), "Data Synchronization failed!!!", Toast.LENGTH_LONG).show();
+                                                 NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                                                 navController.navigate(navDirections);
+                                                 /* ***this update date code comes after data sync sucessfully*****/
+                                                 try {
+                                                     viewModel.updateAfterEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
+                                                 } catch (ExecutionException e) {
+                                                     e.printStackTrace();
+                                                 } catch (InterruptedException e) {
+                                                     e.printStackTrace();
+                                                 }
+                                             }
 
-                                if (NetworkFactory.isInternetOn(getContext())){
-
-                                    ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
-                                    progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
-                                    progressDialog.setCancelable(false);
-                                    progressDialog.show();
-
-                                    viewModel.checkDuplicateAtServer(getContext()
-                                            , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
-                                            ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
-                                            ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getContext())
-                                            , AppUtils.getInstance().getDeviceInfo()
-                                            ,"0.0,0.0"
-                                            ,AppConstant.entryCompleted);
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
-                                                progressDialog.dismiss();
-                                                Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
-                                                NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-                                                navController.navigate(navDirections);
-
-                                                /****this update date code comes after data sync sucessfully*****/
-                                                try {
-                                                    viewModel.updateAfterEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
-                                                } catch (ExecutionException e) {
-                                                    e.printStackTrace();
-                                                } catch (InterruptedException e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                            }else {
-                                                progressDialog.dismiss();
-                                                Toast.makeText(getContext(), "Data Synchronization failed!!!", Toast.LENGTH_LONG).show();
-                                                NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-                                                navController.navigate(navDirections);
-
-                                                /****this update date code comes after data sync sucessfully*****/
-                                                try {
-                                                    viewModel.updateAfterEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
-                                                } catch (ExecutionException e) {
-                                                    e.printStackTrace();
-                                                } catch (InterruptedException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-
-                                        }
-                                    },6000);
-                                }else {
-                                    Toast.makeText(getContext(), "Data saved successfully!!!", Toast.LENGTH_LONG).show();
-                                    NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-                                    navController.navigate(navDirections);
-                                }
+                                         }
+                                     },6000);
+                                 }else {
+                                     try {
+                                         viewModel.updateAfterEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
+                                     } catch (ExecutionException e) {
+                                         e.printStackTrace();
+                                     } catch (InterruptedException e) {
+                                         e.printStackTrace();
+                                     }
+                                     Toast.makeText(getContext(), "Data saved successfully!!!", Toast.LENGTH_LONG).show();
+                                     NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                                     navController.navigate(navDirections);
+                                 }
 
 
-                            } else if (str.equalsIgnoreCase("2")) {
-                                dialogInterface.dismiss();
+                             } else if (str.equalsIgnoreCase("2")) {
+                                 dialogInterface.dismiss();
 
-                                NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-                                navController.navigate(navDirections);
+                                 NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                                 navController.navigate(navDirections);
 
-                            }
-                        }
-                    }).setCancelable(true).show();
+                             }
+                         }
+                     }).setCancelable(true).show();
+
+         }else {
+             Toast.makeText(getContext(),"Activities are not added",Toast.LENGTH_LONG).show();
+         }
+
+
 
         });
 

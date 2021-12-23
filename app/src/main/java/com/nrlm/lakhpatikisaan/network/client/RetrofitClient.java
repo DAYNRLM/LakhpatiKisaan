@@ -18,15 +18,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    //private static final String server = "local";
-    // private static final String server ="demo";
-     private static final String server ="live";
+   //private static final String server = "local";
+  // private static final String server ="demo";
+  private static final String server ="live";
 
     private static final int CONNECTION_TIMEOUT = 1000;
     private static final int READ_TIMEOUT = 1000;
 
 
     private static String getBaseUrl(String server) {
+
 
         String baseURL = "";
         String HTTP_TYPE, IP_ADDRESS, NRLM_STATUS;
@@ -48,7 +49,7 @@ public class RetrofitClient {
             case "live":
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
-                NRLM_STATUS = "nrlmwebservice";
+                NRLM_STATUS = "lakhpatishg";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
                 break;
         }
