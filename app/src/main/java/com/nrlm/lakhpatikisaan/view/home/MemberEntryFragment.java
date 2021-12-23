@@ -127,8 +127,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             binding.tvYear.setText("" + entryYearCode);
 
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
-            binding.tvShgNameCode.setText(memberName + " (" + shgMemberCode + ")");
-            binding.tvMemberNameCode.setText(shgName + " (" + shgCode + ")");
+            binding.tvShgNameCode.setText("Member : "+memberName + " (" + shgMemberCode + ")");
+            binding.tvMemberNameCode.setText("SHG : "+shgName + " (" + shgCode + ")");
             binding.joiningDate.setText("Member's joining date : " +  joiningDate );
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -196,7 +196,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                 binding.cvRecyclerview.setVisibility(View.VISIBLE);
                 binding.cvSelectActivity.setVisibility(View.GONE);
                 binding.btnAddActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
-                binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
+                binding.tvTotalActivityCount.setVisibility(View.GONE);
                 binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity) + count);
 
                 resetFunction(1);
@@ -267,10 +267,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                 if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")) {
                                                     progressDialog.dismiss();
                                                     Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
-                                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
-                                                    navController.navigate(navDirections);
-
-                                                    /****this update date code comes after data sync sucessfully*****/
                                                     try {
                                                         viewModel.updateBeforeEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
                                                     } catch (ExecutionException e) {
@@ -278,20 +274,20 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                     } catch (InterruptedException e) {
                                                         e.printStackTrace();
                                                     }
+                                                    NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                                    navController.navigate(navDirections);
+
+                                                    /****this update date code comes after data sync sucessfully*****/
+
 
                                                 } else {
                                                     progressDialog.dismiss();
+                                                    Toast.makeText(getContext(), "Data Synchronization failed!!!", Toast.LENGTH_LONG).show();
                                                     NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                     navController.navigate(navDirections);
 
                                                     /****this update date code comes after data sync sucessfully*****/
-                                                    try {
-                                                        viewModel.updateBeforeEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
-                                                    } catch (ExecutionException e) {
-                                                        e.printStackTrace();
-                                                    } catch (InterruptedException e) {
-                                                        e.printStackTrace();
-                                                    }
+
 
 
                                                 }
@@ -299,6 +295,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                             }
                                         }, 6000);
                                     } else {
+                                        Toast.makeText(getContext(), "Data saved successfully!!!", Toast.LENGTH_LONG).show();
                                         NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                         navController.navigate(navDirections);
                                     }
@@ -324,7 +321,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
                                 }
                             }
-                        }).setCancelable(false).show();
+                        }).setCancelable(true).show();
             }
         });
 
@@ -374,7 +371,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             }else {
                 seccNumber="0";
                 binding.spinnerSeccNumber.setOnClickListener(view -> {
-                    Toast.makeText(getContext(),"SECC Data not found",Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getContext(),"SECC Data not found",Toast.LENGTH_LONG).show();
                 });
             }
 

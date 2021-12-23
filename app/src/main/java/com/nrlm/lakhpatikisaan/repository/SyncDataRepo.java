@@ -232,52 +232,55 @@ public class SyncDataRepo {
             syncEntriesRequestBean.setImei_no(imeiNo);
             syncEntriesRequestBean.setLocation_coordinate(locationCoordinates);
             syncEntriesRequestBean.setState_short_name(stateShortName);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    for (ShgAndMemberDataBean shgAndMemberDataBean : shgAndMemberDataBeanList) {
-                        List<ActivityDataBean> activityDataBeanList = null ;
-                        try {
-                            activityDataBeanList = getActivityData(shgAndMemberDataBean.getShgCode(), shgAndMemberDataBean.getMemberCode(), entryCompleteConfirmation);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        SyncEntriesRequestBean.SyncEntry syncEntry = new SyncEntriesRequestBean.SyncEntry();
-                        syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
-                        syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
-                        syncEntry.setSecc(shgAndMemberDataBean.getSecc());
 
-                        List<SyncEntriesRequestBean.ActivityData> activityDataList = new ArrayList<>();
-                        for (ActivityDataBean activityDataBean : activityDataBeanList) {
-                            SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
-                            activityData.setActivity_code(activityDataBean.getActivity_code());
-                            activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
-                            activityData.setEntry_month(activityDataBean.getEntry_month());
-                            activityData.setEntry_year(activityDataBean.getEntry_year());
-                            activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
-                            activityData.setFrequency_code(activityDataBean.getFrequency_code());
-                            activityData.setRange_code(activityDataBean.getRange_code());
-                            activityData.setSector_code(activityDataBean.getSector_code());
-                            activityDataList.add(activityData);
-                        }
-                        syncEntry.setActivities_data_sync(activityDataList);
 
-                        syncEntryList.add(syncEntry);
-                    }
+            for (ShgAndMemberDataBean shgAndMemberDataBean : shgAndMemberDataBeanList) {
+                List<ActivityDataBean> activityDataBeanList = null ;
+                try {
+                    activityDataBeanList = getActivityData(shgAndMemberDataBean.getShgCode(), shgAndMemberDataBean.getMemberCode(), entryCompleteConfirmation);
+                }  catch (Exception e) {
+                    AppUtils.getInstance().showLog("ExcpGetActivityDataSync" + e, SyncDataRepo.class);
                 }
-            },1000);
+                SyncEntriesRequestBean.SyncEntry syncEntry = new SyncEntriesRequestBean.SyncEntry();
+                syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
+                syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
+                syncEntry.setSecc(shgAndMemberDataBean.getSecc());
 
+                List<SyncEntriesRequestBean.ActivityData> activityDataList = new ArrayList<>();
+
+                for (ActivityDataBean activityDataBean : activityDataBeanList) {
+                    SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
+                    activityData.setActivity_code(activityDataBean.getActivity_code());
+                    activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
+                    activityData.setEntry_month(activityDataBean.getEntry_month());
+                    activityData.setEntry_year(activityDataBean.getEntry_year());
+                    activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
+                    activityData.setFrequency_code(activityDataBean.getFrequency_code());
+                    activityData.setRange_code(activityDataBean.getRange_code());
+                    activityData.setSector_code(activityDataBean.getSector_code());
+                    activityDataList.add(activityData);
+                }
+                syncEntry.setActivities_data_sync(activityDataList);
+
+                syncEntryList.add(syncEntry);
+            }
+            syncEntriesRequestBean.setNrlm_entry_sync(syncEntryList);
 
         } catch (Exception e) {
             AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + e, SyncDataRepo.class);
         }
+        AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + syncEntriesRequestBean.toString(), SyncDataRepo.class);
         return syncEntriesRequestBean;
     }
 
     public void updateSyncStatus() {
-        memberEntryDao.updateSyncStatus();
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                memberEntryDao.updateSyncStatus();
+            }
+        });
+
     }
 
     public void deleteDuplicateEntries(String shgCode, String memberCode, String sectorCode, String activityCode, String entryType) {

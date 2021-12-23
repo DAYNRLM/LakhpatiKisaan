@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lakhpati SHG</string>
+    <string name="app_name">Lakhpati Didi</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -143,6 +143,7 @@
     <string name="dialog_btn_signout">sign out</string>
     <string name="toast_success_sign_out">Successfully SignOut</string>
     <string name="dialog_cancel_btn">cancel</string>
+    <string name="entry_complete_msg">Entries completed</string>
 
 
 

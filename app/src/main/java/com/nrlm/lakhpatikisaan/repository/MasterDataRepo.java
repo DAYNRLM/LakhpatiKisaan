@@ -817,7 +817,7 @@ public class MasterDataRepo {
             Future<List<SeccEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
             seccData = future.get();
 
-            SeccEntity seccEntity =  new SeccEntity("0","Other","NA","0");
+            SeccEntity seccEntity =  new SeccEntity("0","Match Not Found","MNF","0");
             seccData.add(seccEntity);
 
         } catch (Exception e) {

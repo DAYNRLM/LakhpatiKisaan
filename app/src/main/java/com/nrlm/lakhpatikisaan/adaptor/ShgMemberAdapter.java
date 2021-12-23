@@ -61,7 +61,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             holder.itemBinding.beforeNrlmEntry.setText(context.getResources().getString(R.string.not_filled));
         } else {
             holder.itemBinding.beforeNrlmEntry.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.beforeNrlmEntry.setText(lastFilledBeforeNrlmEntry);
+            holder.itemBinding.beforeNrlmEntry.setText("Filled on "+lastFilledBeforeNrlmEntry);
         }
 
         if (lastFilledAfterNrlmEntry == null) {
@@ -69,11 +69,11 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             holder.itemBinding.afterNrlmEntry.setText(context.getResources().getString(R.string.not_filled));
         } else {
             holder.itemBinding.afterNrlmEntry.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.afterNrlmEntry.setText(lastFilledAfterNrlmEntry);
+            holder.itemBinding.afterNrlmEntry.setText("Filled on "+lastFilledAfterNrlmEntry);
         }
 
 
-        holder.itemBinding.tvGoToEntry.setOnClickListener(view -> {
+        holder.itemBinding.holderView.setOnClickListener(view -> {
             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedMemberCode(), dataItem.get(position).getMemberCode(), context);
 
 
@@ -89,7 +89,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                 NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToIncomeEntryAfterNrlmFragment();
                 navController.navigate(navDirections);
             }else {
-                ViewUtilsKt.toast(context, "Entry Completed");
+                ViewUtilsKt.toast(context, context.getResources().getString(R.string.entry_complete_msg));
             }
 
 

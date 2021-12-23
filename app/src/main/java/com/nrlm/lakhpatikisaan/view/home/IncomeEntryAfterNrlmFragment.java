@@ -102,6 +102,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             shgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
             String memberName = viewModel.getMemberNameDB(shgMemberCode);
             String shgName = viewModel.getShgNameDB(shgCode);
+            String joiningDate = viewModel.getMemberJoiningDate(shgMemberCode);
 
             String memberDOJ =  viewModel.getMemberDOJ(shgMemberCode);
 
@@ -111,8 +112,9 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             binding.tvYear.setText("" + entryYearCode);
 
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
-            binding.tvShgNameCode.setText(memberName+" ("+shgMemberCode+")");
-            binding.tvMemberNameCode.setText(shgName+" ("+shgCode+")");
+            binding.tvShgNameCode.setText("Member : "+memberName+" ("+shgMemberCode+")");
+            binding.tvMemberNameCode.setText("SHG : "+shgName+" ("+shgCode+")");
+            binding.joiningDates.setText("Member's joining date : " +  joiningDate );
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -222,7 +224,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                 binding.cvRecyclerview.setVisibility(View.VISIBLE);
                 binding.cvSelectActivity.setVisibility(View.GONE);
                 binding.btnAddNewActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
-                binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
+                binding.tvTotalActivityCount.setVisibility(View.GONE);
                 binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity) + count);
 
                 resetFunction(1);
@@ -287,6 +289,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
                                             }else {
                                                 progressDialog.dismiss();
+                                                Toast.makeText(getContext(), "Data Synchronization failed!!!", Toast.LENGTH_LONG).show();
                                                 NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
                                                 navController.navigate(navDirections);
 
@@ -303,6 +306,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                                         }
                                     },6000);
                                 }else {
+                                    Toast.makeText(getContext(), "Data saved successfully!!!", Toast.LENGTH_LONG).show();
                                     NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
                                     navController.navigate(navDirections);
                                 }
@@ -316,7 +320,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
                             }
                         }
-                    }).setCancelable(false).show();
+                    }).setCancelable(true).show();
 
         });
 
@@ -334,7 +338,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
     private void loadAllActivity(String memberCode) {
         /****** tis selection based on condition on activity id*****/
-        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getAllSelectedActivityName( memberCode, AppConstant.beforeNrlmStatus));
+        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getAllSelectedActivityName( memberCode, AppConstant.afterNrlmStatus));
         binding.spinnerSelectActivity.setAdapter(activityAdapter);
         activityAdapter.notifyDataSetChanged();
 

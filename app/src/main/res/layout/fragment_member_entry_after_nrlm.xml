@@ -68,7 +68,8 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:visibility="gone"
+                            android:visibility="visible"
+                            android:id="@+id/joining_dates"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_regular"
                             android:text="Select Entry Date"

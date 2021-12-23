@@ -2,6 +2,7 @@ package com.nrlm.lakhpatikisaan.view.home;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -126,45 +127,52 @@ public class HomeViewModel extends ViewModel {
     private void makeSyncMemberEntry(String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
         SyncEntriesRequestBean syncEntriesRequestBean = syncDataRepo.getSyncEntriesRequest(loginId, stateShortName, imeiNo, deviceName, locationCoordinates, entryCompleteConfirmation);
-        if (syncEntriesRequestBean.getNrlm_entry_sync() != null && syncEntriesRequestBean.getNrlm_entry_sync().size() != 0) {
-            syncDataRepo.makeSyncEntriesRequest(syncEntriesRequestBean, new RepositoryCallback() {
-                @Override
-                public void onComplete(Result result) {
-                    try {
-                        if (result instanceof Result.Success) {
-                            SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
 
-                            /*update sync status in member entry table*/
-                            syncApiStatus="E200";
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (syncEntriesRequestBean.getNrlm_entry_sync() != null && syncEntriesRequestBean.getNrlm_entry_sync().size() != 0) {
+                    syncDataRepo.makeSyncEntriesRequest(syncEntriesRequestBean, new RepositoryCallback() {
+                        @Override
+                        public void onComplete(Result result) {
+                            try {
+                                if (result instanceof Result.Success) {
+                                    SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
 
-                            updateSyncStatus();
+                                    /*update sync status in member entry table*/
+                                    syncApiStatus="E200";
 
-                            AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "---" +
-                                    simpleResponseBean.getError().getMessage(), HomeViewModel.class);
-                        } else {
-                            Object errorObject = ((Result.Error) result).exception;
-                            if (errorObject != null) {
-                                if (errorObject instanceof SimpleResponseBean.Error) {
-                                    SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
-                                    syncApiStatus=responseError.getCode();
-                                    AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
-                                            + responseError.getMessage(), AuthViewModel.class);
-                                } else if (errorObject instanceof Throwable) {
-                                    Throwable exception = (Throwable) errorObject;
-                                    syncApiStatus=exception.getMessage();
-                                    AppUtils.getInstance().showLog("SyncEntriesRetrofitErrors:-------" + exception.getMessage()
-                                            , AuthViewModel.class);
+                                    updateSyncStatus();
+
+                                    AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "DataSync and status updated successfully-" +
+                                            simpleResponseBean.getError().getMessage(), HomeViewModel.class);
+                                } else {
+                                    Object errorObject = ((Result.Error) result).exception;
+                                    if (errorObject != null) {
+                                        if (errorObject instanceof SimpleResponseBean.Error) {
+                                            SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
+                                            syncApiStatus=responseError.getCode();
+                                            AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
+                                                    + responseError.getMessage(), AuthViewModel.class);
+                                        } else if (errorObject instanceof Throwable) {
+                                            Throwable exception = (Throwable) errorObject;
+                                            syncApiStatus=exception.getMessage();
+                                            AppUtils.getInstance().showLog("SyncEntriesRetrofitErrors:-------" + exception.getMessage()
+                                                    , AuthViewModel.class);
+                                        }
+                                    }
                                 }
+                            } catch (Exception e) {
+                                syncApiStatus=e.getMessage();
+                                AppUtils.getInstance().showLog("SyncEntriesResultExp" + e.toString(), AuthViewModel.class);
+
                             }
                         }
-                    } catch (Exception e) {
-                        syncApiStatus=e.getMessage();
-                        AppUtils.getInstance().showLog("SyncEntriesResultExp" + e.toString(), AuthViewModel.class);
-
-                    }
+                    });
                 }
-            });
-        }
+            }
+        },1000);
+
 
     }
 

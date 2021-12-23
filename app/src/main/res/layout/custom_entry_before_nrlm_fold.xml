@@ -43,7 +43,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/manrope_semi_bold"
-                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
+                       />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_Activity"
@@ -52,7 +52,7 @@
                         android:text="@string/activity"
                         android:textSize="14sp"
                         android:fontFamily="@font/manrope_semi_bold"
-                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
+                        />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_frequency"
@@ -61,7 +61,7 @@
                         android:text="@string/frequency_range"
                         android:textSize="14sp"
                         android:fontFamily="@font/manrope_semi_bold"
-                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"/>
+                        />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_incomeRange"
@@ -82,7 +82,7 @@
 
 
                 </LinearLayout>
-
+<!--android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"-->
 
                 <LinearLayout
                     android:id="@+id/ll_dateView"
