@@ -125,7 +125,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     /*---------------LIVE------------------*/
                     loginRequestBean.setLogin_id(userId);
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
-                    loginRequestBean.setImei_no("5d7eaa5ef9d3ebe");
+                    loginRequestBean.setImei_no("5d7eaa5ef9d3ebed");
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("10");
                     loginRequestBean.setApp_login_time(AppDateFactory.getInstance().getCurrentDateAndTime());
