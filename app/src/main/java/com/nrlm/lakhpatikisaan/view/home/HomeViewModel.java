@@ -374,6 +374,14 @@ public class HomeViewModel extends ViewModel {
         masterDataRepo.updateAfterEntryDateInLocal(memberCode,date);
     }
 
+    public  String getBeforeDate(String memberCode){
+       return masterDataRepo.getBeforeLastDate(memberCode);
+    }
+
+    public  String getAfterDate(String memberCode){
+        return masterDataRepo.getAfterLastDate(memberCode);
+    }
+
 
 
     String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {

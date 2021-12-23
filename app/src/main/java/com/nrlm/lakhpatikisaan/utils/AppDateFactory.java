@@ -170,4 +170,50 @@ public class AppDateFactory {
 
     }
 
+    public int getMemberClanderYear(String memberDOJ, String nrlmFormationDate){
+
+        int finalYear = 2011;
+
+        if (convertStringToDate(memberDOJ).before(convertStringToDate(nrlmFormationDate))) {
+            Date d = null;
+            try {
+                d = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(nrlmFormationDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
+            String year = new SimpleDateFormat("yyyy").format(cal.getTime());
+            String yearCode = new SimpleDateFormat("MM").format(cal.getTime());
+            appUtils.showLog("***YEAR NAME IN AFTER****" + year, AppDateFactory.class);
+            appUtils.showLog("***MONTH NAME IN AFTER****" + monthName, AppDateFactory.class);
+            appUtils.showLog("***Year Code IN AFTER****" + yearCode, AppDateFactory.class);
+
+            finalYear = Integer.parseInt(year);
+        } else if (convertStringToDate(memberDOJ).after(convertStringToDate(nrlmFormationDate))) {
+
+            Date d = null;
+            try {
+                d = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(memberDOJ);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            cal.add(Calendar.MONTH, -1);
+            String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
+            String year = new SimpleDateFormat("yyyy").format(cal.getTime());
+            String yearCode = new SimpleDateFormat("MM").format(cal.getTime());
+            appUtils.showLog("***YEAR NAME IN AFTER****" + year, AppDateFactory.class);
+            appUtils.showLog("***MONTH NAME IN AFTER****" + monthName, AppDateFactory.class);
+            appUtils.showLog("***Year Code IN AFTER****" + yearCode, AppDateFactory.class);
+            finalYear = Integer.parseInt(year);
+        }
+
+        return finalYear;
+
+
+    }
+
 }

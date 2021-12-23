@@ -99,5 +99,12 @@ public interface MasterDataDao {
     void updateAfterEntryDateInLocal(String memberCode, String date);
 
 
+    @Query("select last_entry_before_nrlm from MasterDataEntity where member_code=:memberCode ")
+    String getBeforeEntryDate(String memberCode);
+
+    @Query("select last_entry_after_nrlm from MasterDataEntity where member_code=:memberCode ")
+    String getAfterEntryDate(String memberCode);
+
+
 }
 

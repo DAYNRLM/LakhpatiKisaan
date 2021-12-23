@@ -70,7 +70,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String incomeFrequencyName;
     String incomeRangName;
     String monthName;
-    String seccNumber = "-";
+    String seccNumber;
     String seccName;
 
 
@@ -220,6 +220,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
         /****** for reset current and all data on this screen*******/
         binding.btnReset.setOnClickListener(view1 -> {
+            ViewUtilsKt.toast(getCurrentContext(),"Not working yet");
 
         });
 
@@ -268,10 +269,31 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                     Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
                                                     NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                     navController.navigate(navDirections);
+
+                                                    /****this update date code comes after data sync sucessfully*****/
+                                                    try {
+                                                        viewModel.updateBeforeEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
+                                                    } catch (ExecutionException e) {
+                                                        e.printStackTrace();
+                                                    } catch (InterruptedException e) {
+                                                        e.printStackTrace();
+                                                    }
+
                                                 } else {
                                                     progressDialog.dismiss();
                                                     NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                     navController.navigate(navDirections);
+
+                                                    /****this update date code comes after data sync sucessfully*****/
+                                                    try {
+                                                        viewModel.updateBeforeEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
+                                                    } catch (ExecutionException e) {
+                                                        e.printStackTrace();
+                                                    } catch (InterruptedException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+
                                                 }
 
                                             }
@@ -337,6 +359,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         String seccStatus = viewModel.getSeccStatus(memberCode);
         if (seccStatus.equalsIgnoreCase("Y")) {
             binding.spinnerSeccNumber.setVisibility(View.GONE);
+            seccNumber="0";
         } else {
             List<String> seccname=viewModel.loadSeccNameData(memberCode);
             if (seccname!=null && seccname.size()>0){
@@ -349,10 +372,14 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                     seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
                 });
             }else {
-                Toast.makeText(getContext(),"SECC Data not found",Toast.LENGTH_LONG).show();
+                seccNumber="0";
+                binding.spinnerSeccNumber.setOnClickListener(view -> {
+                    Toast.makeText(getContext(),"SECC Data not found",Toast.LENGTH_LONG).show();
+                });
             }
 
         }
+
     }
 
     private void loadEntryList() {
