@@ -58,7 +58,7 @@ public class ShgMemberFragment extends BaseFragment<HomeViewModel, FragmentShgMe
             List<MemberListDataBean> memberListMasterData = viewModel.memberListMasterData(shgCode);
             AppUtils.getInstance().showLog("selectedShgCode" + shgCode, ShgMemberFragment.class);
             AppUtils.getInstance().showLog("memberListMasterData" + memberListMasterData.size(), ShgMemberFragment.class);
-            shgMemberAdapter = new ShgMemberAdapter(memberListMasterData, getCurrentContext(), navController);
+            shgMemberAdapter = new ShgMemberAdapter(memberListMasterData, getCurrentContext(), navController,viewModel);
             binding.rvShgMembers.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
             binding.rvShgMembers.setAdapter(shgMemberAdapter);
             shgMemberAdapter.notifyDataSetChanged();
