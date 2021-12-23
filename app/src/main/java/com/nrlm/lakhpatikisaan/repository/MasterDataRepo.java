@@ -455,6 +455,81 @@ public class MasterDataRepo {
         return future.get();
     }
 
+    public String getMemberJoiningDate(String memberCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("ShgNameDB" + masterDataDao.getGpListData(memberCode).size(), MasterDataRepo.class);
+                return masterDataDao.getMemberJoiningDate(memberCode);
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+    public void updateBeforeEntryDateInLocal(String memberCode,String date) throws ExecutionException, InterruptedException {
+       AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+           @Override
+           public void run() {
+               masterDataDao.updateBeforeEntryDateInLocal(memberCode,date);
+           }
+       });
+    }
+
+    public void updateAfterEntryDateInLocal(String memberCode,String date) throws ExecutionException, InterruptedException {
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                masterDataDao.updateAfterEntryDateInLocal(memberCode,date);
+            }
+        });
+    }
+
+
+    public String getBeforeLastDate(String memberCode){
+        String str=null;
+
+        try{
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return masterDataDao.getBeforeEntryDate(memberCode);
+                }
+            };
+
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
+
+    public String getAfterLastDate(String memberCode){
+        String str=null;
+
+        try{
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return masterDataDao.getAfterEntryDate(memberCode);
+                }
+            };
+
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
+
+
+
     public String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         Callable<String> listCallable = new Callable<String>() {
             @Override
@@ -569,6 +644,28 @@ public class MasterDataRepo {
         return sectorName;
     }
 
+
+
+    public String SectorName(int id){
+
+        String sectorName=null;
+        try {
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    return sectorDao.SectorName(id);
+                }
+            };
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            sectorName = future.get();
+
+        } catch (Exception e) {
+
+        }
+        return sectorName;
+
+    }
+
     public List<ActivityEntity> getAllActivity(int id) {
         List<ActivityEntity> activityData = null;
         try {
@@ -586,6 +683,25 @@ public class MasterDataRepo {
         }
         return activityData;
     }
+
+    public List<ActivityEntity> getAllActivityWithoutSector() {
+        List<ActivityEntity> activityData = null;
+        try {
+            Callable<List<ActivityEntity>> listCallable = new Callable<List<ActivityEntity>>() {
+                @Override
+                public List<ActivityEntity> call() throws Exception {
+                    return activityDao.getAllActivityWithoutSec();
+                }
+            };
+            Future<List<ActivityEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            activityData = future.get();
+
+        } catch (Exception e) {
+
+        }
+        return activityData;
+    }
+
 
     public List<String> getActivityName(int id,String memberCode) {
         List<String> activityName = null;
@@ -700,6 +816,9 @@ public class MasterDataRepo {
             };
             Future<List<SeccEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
             seccData = future.get();
+
+            SeccEntity seccEntity =  new SeccEntity("0","Match Not Found","MNF","0");
+            seccData.add(seccEntity);
 
         } catch (Exception e) {
 

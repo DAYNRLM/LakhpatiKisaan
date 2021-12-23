@@ -34,6 +34,7 @@ import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
+import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 import com.nrlm.lakhpatikisaan.view.mpin.MpinViewModel;
@@ -50,6 +51,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
     ArrayAdapter<String> clfAdaptor;
     ArrayAdapter<String> voAdaptor;
     String apiStatus;
+    String shgGlobalCode;
 
     @Override
     public Class<HomeViewModel> getViewModel() {
@@ -100,23 +102,32 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
 
 
         binding.btnGoToMember.setOnClickListener(view1 -> {
-            NavDirections navDirections = DashBoardFragmentDirections.actionDashBoardFragmentToShgMemberFragment();
-            navController.navigate(navDirections);
+
+            if(shgGlobalCode==null||shgGlobalCode.isEmpty()){
+                ViewUtilsKt.toast(getCurrentContext(),"Select SHG first!!");
+            }else {
+                NavDirections navDirections = DashBoardFragmentDirections.actionDashBoardFragmentToShgMemberFragment();
+                navController.navigate(navDirections);
+            }
         });
     }
 
     private void loadClfData() {
         try {
             List<ClfDataBean> clfDataBeanList = viewModel.getUniqueClf();
-            if (clfDataBeanList.size() == 0) {
-
+            if (clfDataBeanList==null||clfDataBeanList.size()==0) {
                 Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_clf_found), Toast.LENGTH_LONG).show();
-
             } else {
-                clfAdaptor = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getUniqueClfName());
-                binding.spinnerSelectClf.setAdapter(clfAdaptor);
-                clfAdaptor.notifyDataSetChanged();
 
+                if(viewModel.getUniqueClfName().isEmpty()){
+                    Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_clf_found), Toast.LENGTH_LONG).show();
+                    binding.spinnerSelectClf.setOnClickListener(view -> {
+                        Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_clf_found), Toast.LENGTH_LONG).show();
+                    });
+                }else{
+                    clfAdaptor = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getUniqueClfName());
+                    binding.spinnerSelectClf.setAdapter(clfAdaptor);
+                    clfAdaptor.notifyDataSetChanged();
                 binding.spinnerSelectClf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -127,6 +138,9 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
 
                     }
                 });
+
+                }
+
             }
 
         } catch (Exception e) {
@@ -143,21 +157,30 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                 Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_vo_found), Toast.LENGTH_LONG).show();
 
             } else {
-                voAdaptor = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getUniqueVoName(clfCode));
-                binding.spinnerSelectVO.setAdapter(voAdaptor);
-                voAdaptor.notifyDataSetChanged();
+                if(viewModel.getUniqueVoName(clfCode).isEmpty()){
+                    Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_vo_found), Toast.LENGTH_LONG).show();
+                    binding.spinnerSelectVO.setOnClickListener(view -> {
+                        Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_vo_found), Toast.LENGTH_LONG).show();
+                    });
 
-                binding.spinnerSelectVO.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String voCode = voDataBeanList.get(position).getVo_code();
-                        AppUtils.getInstance().showLog("voCode" + voCode, DashBoardFragment.class);
+                }else {
+                    voAdaptor = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getUniqueVoName(clfCode));
+                    binding.spinnerSelectVO.setAdapter(voAdaptor);
+                    voAdaptor.notifyDataSetChanged();
 
-                        PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedVoCode(), voCode, getContext());
-                        loadShgDataWithVo(voCode);
+                    binding.spinnerSelectVO.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String voCode = voDataBeanList.get(position).getVo_code();
+                            AppUtils.getInstance().showLog("voCode" + voCode, DashBoardFragment.class);
 
-                    }
-                });
+                            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedVoCode(), voCode, getContext());
+                            loadShgDataWithVo(voCode);
+
+                        }
+                    });
+                }
+
 
             }
         } catch (Exception e) {
@@ -193,6 +216,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                             afterEntryMemberCount = viewModel.getAfterEntryMemberCount(shgCode);
                             AppUtils.getInstance().showLog("shgCodeee" + shgCode, DashBoardFragment.class);
                             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedShgCode(), shgCode, getContext());
+                            shgGlobalCode=shgCode;
                             binding.tvMemberCount.setText(memberCount);
                             binding.completedBeforeEntryCount.setText(beforeEntryMemberCount);
                             binding.completedAfterEntryCount.setText(afterEntryMemberCount);
@@ -340,6 +364,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                             afterEntryMemberCount = viewModel.getAfterEntryMemberCount(shgCode);
                             AppUtils.getInstance().showLog("shgCodeee" + shgCode, DashBoardFragment.class);
                             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedShgCode(), shgCode, getContext());
+                            shgGlobalCode=shgCode;
                             binding.tvMemberCount.setText(memberCount);
                             binding.completedBeforeEntryCount.setText(beforeEntryMemberCount);
                             binding.completedAfterEntryCount.setText(afterEntryMemberCount);

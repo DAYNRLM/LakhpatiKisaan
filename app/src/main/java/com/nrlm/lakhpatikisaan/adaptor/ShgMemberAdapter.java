@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
@@ -18,6 +20,8 @@ import com.nrlm.lakhpatikisaan.databinding.CustomShgMemberLayoutBinding;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
+import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
+import com.nrlm.lakhpatikisaan.view.home.HomeViewModel;
 import com.nrlm.lakhpatikisaan.view.home.ShgMemberFragmentDirections;
 
 import java.util.List;
@@ -27,18 +31,20 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
     List<MemberListDataBean> dataItem;
     Context context;
     NavController navController;
+    HomeViewModel homeViewModel;
 
-    public ShgMemberAdapter(List<MemberListDataBean> dataItem, Context context, NavController navController) {
+    public ShgMemberAdapter(List<MemberListDataBean> dataItem, Context context, NavController navController, HomeViewModel homeViewModel) {
         this.dataItem = dataItem;
         this.context = context;
         this.navController = navController;
+        this.homeViewModel = homeViewModel;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        CustomShgMemberLayoutBinding rootView = CustomShgMemberLayoutBinding.inflate(LayoutInflater.from(context),parent,false);
+        CustomShgMemberLayoutBinding rootView = CustomShgMemberLayoutBinding.inflate(LayoutInflater.from(context), parent, false);
         return new MyViewHolder(rootView);
 
     }
@@ -46,31 +52,52 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.itemBinding.tvMemberNameCode.setTextColor(context.getResources().getColor(R.color.green_500));
-        holder.itemBinding.tvMemberNameCode.setText(dataItem.get(position).getMemberName()+"("+dataItem.get(position).getMemberCode()+")");
-        String lastFilledBeforeNrlmEntry=dataItem.get(position).getLastFilledBeforeNrlmEntry();
-        String lastFilledAfterNrlmEntry=dataItem.get(position).getLastFilledAfterNrlmEntry();
+        holder.itemBinding.tvMemberNameCode.setText(dataItem.get(position).getMemberName() + "(" + dataItem.get(position).getMemberCode() + ")");
+        String lastFilledBeforeNrlmEntry = dataItem.get(position).getLastFilledBeforeNrlmEntry();
+        String lastFilledAfterNrlmEntry = dataItem.get(position).getLastFilledAfterNrlmEntry();
 
-        if (lastFilledBeforeNrlmEntry==null){
+        if (lastFilledBeforeNrlmEntry == null) {
             holder.itemBinding.beforeNrlmEntry.setTextColor(context.getResources().getColor(R.color.red_500));
             holder.itemBinding.beforeNrlmEntry.setText(context.getResources().getString(R.string.not_filled));
-        }else {
+        } else {
             holder.itemBinding.beforeNrlmEntry.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.beforeNrlmEntry.setText(lastFilledBeforeNrlmEntry);
+            holder.itemBinding.beforeNrlmEntry.setText("Filled on "+lastFilledBeforeNrlmEntry);
         }
 
-        if (lastFilledAfterNrlmEntry==null){
+        if (lastFilledAfterNrlmEntry == null) {
             holder.itemBinding.afterNrlmEntry.setTextColor(context.getResources().getColor(R.color.red_500));
             holder.itemBinding.afterNrlmEntry.setText(context.getResources().getString(R.string.not_filled));
-        }else {
+        } else {
             holder.itemBinding.afterNrlmEntry.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.afterNrlmEntry.setText(lastFilledBeforeNrlmEntry);
+            holder.itemBinding.afterNrlmEntry.setText("Filled on "+lastFilledAfterNrlmEntry);
         }
 
 
-        holder.itemBinding.tvGoToEntry.setOnClickListener(view -> {
-            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedMemberCode(),dataItem.get(position).getMemberCode(),context);
-            NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToMemberEntryFragment();
-            navController.navigate(navDirections);
+        holder.itemBinding.holderView.setOnClickListener(view -> {
+            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedMemberCode(), dataItem.get(position).getMemberCode(), context);
+
+
+            String beforeDate = homeViewModel.getBeforeDate(dataItem.get(position).getMemberCode());
+            String afterDate = homeViewModel.getAfterDate(dataItem.get(position).getMemberCode());
+
+           // ViewUtilsKt.toast(context, "DATE IS " + beforeDate);
+
+            if (beforeDate == null) {
+                NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToMemberEntryFragment();
+                navController.navigate(navDirections);
+            }else if(afterDate ==null){
+                NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToIncomeEntryAfterNrlmFragment();
+                navController.navigate(navDirections);
+            }else {
+                ViewUtilsKt.toast(context, context.getResources().getString(R.string.entry_complete_msg));
+            }
+
+
+
+            /*NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToMemberEntryFragment();
+            navController.navigate(navDirections);*/
+
+
            /* new MaterialAlertDialogBuilder(context).setTitle(context.getResources().getString(R.string.income_selection)).setIcon(R.drawable.ic_baseline_add_circle_outline_24)
                     .setItems(AppConstant.ConstantObject.getItems(), new DialogInterface.OnClickListener() {
                         @Override

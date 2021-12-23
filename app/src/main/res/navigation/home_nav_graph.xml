@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/dashBoardFragment"
         android:name="com.nrlm.lakhpatikisaan.view.home.DashBoardFragment"
-        android:label="fragment_dashboard"
+        android:label="Home"
         tools:layout="@layout/fragment_dashboard" >
         <action
             android:id="@+id/action_dashBoardFragment_to_shgMemberFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/shgMemberFragment"
         android:name="com.nrlm.lakhpatikisaan.view.home.ShgMemberFragment"
-        android:label="fragment_shg_member"
+        android:label="SHG Member's"
         tools:layout="@layout/fragment_shg_member" >
         <action
             android:id="@+id/action_shgMemberFragment_to_memberEntryFragment"
@@ -29,23 +29,26 @@
     <fragment
         android:id="@+id/memberEntryFragment"
         android:name="com.nrlm.lakhpatikisaan.view.home.MemberEntryFragment"
-        android:label="Income Entry"
+        android:label="Entry Before NRLM"
         tools:layout="@layout/fragment_member_entry" >
         <action
             android:id="@+id/action_memberEntryFragment_to_shgMemberFragment"
-            app:destination="@id/shgMemberFragment" />
+            app:destination="@id/shgMemberFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_memberEntryFragment_to_incomeEntryAfterNrlmFragment"
-            app:destination="@id/incomeEntryAfterNrlmFragment" />
+            app:destination="@id/incomeEntryAfterNrlmFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/incomeEntryAfterNrlmFragment"
         android:name="com.nrlm.lakhpatikisaan.view.home.IncomeEntryAfterNrlmFragment"
-        android:label="fragment_member_entry_after_nrlm"
+        android:label="Entry After NRLM"
         tools:layout="@layout/fragment_member_entry_after_nrlm" >
         <action
             android:id="@+id/action_incomeEntryAfterNrlmFragment_to_shgMemberFragment"
-            app:destination="@id/shgMemberFragment" />
+            app:destination="@id/shgMemberFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <dialog
         android:id="@+id/logOutDialogFragment"

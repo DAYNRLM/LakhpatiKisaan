@@ -69,10 +69,11 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:visibility="gone"
+                            android:id="@+id/joining_date"
+                            android:visibility="visible"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_regular"
-                            android:text="@string/select_entry_date"
+                            android:text="Select Entry Date"
                             android:textColor="@color/black" />
 
 
@@ -98,7 +99,7 @@
                             <TextView
                                 android:id="@+id/tv_click"
                                 style="@style/TitleTextViewTheme"
-                                android:text="@string/income_before_coming_nrlm" />
+                                android:text="Income (Before coming into NRLM Fold)" />
 
                         </LinearLayout>
 
@@ -274,7 +275,7 @@
                                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/add_activity"
+                                        android:text="Add Acivity"
                                         android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                         android:textColor="@color/orange_500"
                                         app:icon="@drawable/ic_baseline_add_circle_outline_24"
@@ -327,41 +328,20 @@
                         android:layout_margin="@dimen/space_3dp"
                         android:orientation="vertical">
 
+<!--secc-->
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/ttl_seccc"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:hint="@string/select_secc"
-                            android:padding="3dp"
-                            app:boxBackgroundColor="@color/white"
-                            app:boxStrokeColor="@color/out_line_strok">
-
-                            <AutoCompleteTextView
-                                android:id="@+id/spinner_seccNumber"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:inputType="none"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
 
 
 
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/ttl_sector"
+                            android:visibility="gone"
                             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="@string/select_sector"
+                            android:hint="Select Sector"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -385,7 +365,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="@string/select_activity"
+                            android:hint="Select Activity"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -409,7 +389,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="@string/income_frquency"
+                            android:hint="Income Frequency"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
@@ -433,13 +413,37 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
-                            android:hint="@string/income_range"
+                            android:hint="Income Range"
                             android:padding="3dp"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
 
                             <AutoCompleteTextView
                                 android:id="@+id/spinner_selectIncome"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:inputType="none"
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ttl_seccc"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Seed SECC TIN Number by selecting the name"
+                            android:padding="3dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/out_line_strok">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/spinner_seccNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:focusable="false"
@@ -467,7 +471,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="@dimen/space_10dp"
                                 android:fontFamily="@font/manrope_semi_bold"
-                                android:text="@string/add"
+                                android:text="Add"
                                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                 android:textSize="16sp"
                                 app:cornerRadius="@dimen/text_20sp" />
@@ -478,7 +482,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_semi_bold"
-                                android:text="@string/reset"
+                                android:text="Reset"
                                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                 android:textSize="16sp"
                                 app:cornerRadius="@dimen/text_20sp" />
@@ -512,7 +516,7 @@
                         <TextView
 
                             style="@style/TitleTextViewTheme"
-                            android:text="@string/selected_activity" />
+                            android:text="Selected Activity" />
 
                         <LinearLayout
                             android:layout_marginTop="@dimen/space_3dp"
@@ -547,7 +551,7 @@
             android:fontFamily="@font/manrope_semi_bold"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="@string/submit_details"
+            android:text="Submit Detail's"
             android:textSize="16sp" />
 
     </RelativeLayout>

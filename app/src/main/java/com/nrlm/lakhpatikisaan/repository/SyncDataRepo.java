@@ -1,6 +1,7 @@
 package com.nrlm.lakhpatikisaan.repository;
 
 import android.content.Context;
+import android.os.Handler;
 
 import androidx.lifecycle.LiveData;
 
@@ -190,12 +191,12 @@ public class SyncDataRepo {
 
     }
 
-    public List<ActivityDataBean> getActivityData (String shgCode, String memberCode, String entryCompleteConfirmation) throws ExecutionException, InterruptedException {
+    public List<ActivityDataBean> getActivityData(String shgCode, String memberCode, String entryCompleteConfirmation) throws ExecutionException, InterruptedException {
 
         Callable<List<ActivityDataBean>> callable = new Callable<List<ActivityDataBean>>() {
             @Override
             public List<ActivityDataBean> call() throws Exception {
-                return memberEntryDao.getActivityData(shgCode,memberCode, entryCompleteConfirmation, "0");
+                return memberEntryDao.getActivityData(shgCode, memberCode, entryCompleteConfirmation, "0");
             }
         };
         Future<List<ActivityDataBean>> future = Executors.newSingleThreadExecutor().submit(callable);
@@ -210,61 +211,80 @@ public class SyncDataRepo {
             List<MemberDataToCheckDup> memberDataToCheckDupList = getDataToCheckDuplicate(entryCompleteConfirmation);
             for (MemberDataToCheckDup memberDataToCheckDup : memberDataToCheckDupList) {
                 memberData += memberDataToCheckDup.getShgCode() + "|" + memberDataToCheckDup.getMemberCode() +
-                        "|" + memberDataToCheckDup.getSectorCode() + "|" + memberDataToCheckDup.getActivityCode() +"|"+memberDataToCheckDup.getFlagBeforeAfterNrlm()+ ",";
+                        "|" + memberDataToCheckDup.getSectorCode() + "|" + memberDataToCheckDup.getActivityCode() + "|" + memberDataToCheckDup.getFlagBeforeAfterNrlm() + ",";
             }
         } catch (Exception e) {
-                AppUtils.getInstance().showLog("Exception while getting duplicate data from db ::"+e,SyncDataRepo.class);
+            AppUtils.getInstance().showLog("Exception while getting duplicate data from db ::" + e, SyncDataRepo.class);
         }
         return new CheckDuplicateRequestBean(stateShortName, loginId, imeiNo, deviceName
-                , locationCoordinates, AppUtils.getInstance().removeComma(memberData),"B");
+                , locationCoordinates, AppUtils.getInstance().removeComma(memberData), "B");
     }
 
     public SyncEntriesRequestBean getSyncEntriesRequest(String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
         SyncEntriesRequestBean syncEntriesRequestBean = new SyncEntriesRequestBean();
         try {
-        List<SyncEntriesRequestBean.SyncEntry> syncEntryList = new ArrayList<>();
+            List<ShgAndMemberDataBean> shgAndMemberDataBeanList = getDistinctShgAndMemberToSync(entryCompleteConfirmation);
+            List<SyncEntriesRequestBean.SyncEntry> syncEntryList = new ArrayList<>();
 
-        syncEntriesRequestBean.setLogin_id(loginId);
-        syncEntriesRequestBean.setDevice_name(deviceName);
-        syncEntriesRequestBean.setImei_no(imeiNo);
-        syncEntriesRequestBean.setLocation_coordinate(locationCoordinates);
-        syncEntriesRequestBean.setState_short_name(stateShortName);
+            syncEntriesRequestBean.setLogin_id(loginId);
+            syncEntriesRequestBean.setDevice_name(deviceName);
+            syncEntriesRequestBean.setImei_no(imeiNo);
+            syncEntriesRequestBean.setLocation_coordinate(locationCoordinates);
+            syncEntriesRequestBean.setState_short_name(stateShortName);
 
-        for (ShgAndMemberDataBean shgAndMemberDataBean : getDistinctShgAndMemberToSync(entryCompleteConfirmation)) {
-            SyncEntriesRequestBean.SyncEntry syncEntry = new SyncEntriesRequestBean.SyncEntry();
-            syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
-            syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
-            syncEntry.setSecc(shgAndMemberDataBean.getSecc());
-            List<ActivityDataBean> activityDataBeanList = getActivityData(shgAndMemberDataBean.getShgCode(),shgAndMemberDataBean.getMemberCode(),entryCompleteConfirmation);
-            List<SyncEntriesRequestBean.ActivityData> activityDataList = new ArrayList<>();
-            for (ActivityDataBean activityDataBean : activityDataBeanList) {
-                SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
-                activityData.setActivity_code(activityDataBean.getActivity_code());
-                activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
-                activityData.setEntry_month(activityDataBean.getEntry_month());
-                activityData.setEntry_year(activityDataBean.getEntry_year());
-                activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
-                activityData.setFrequency_code(activityDataBean.getFrequency_code());
-                activityData.setRange_code(activityDataBean.getRange_code());
-                activityData.setSector_code(activityDataBean.getSector_code());
-                activityDataList.add(activityData);
+
+            for (ShgAndMemberDataBean shgAndMemberDataBean : shgAndMemberDataBeanList) {
+                List<ActivityDataBean> activityDataBeanList = null ;
+                try {
+                    activityDataBeanList = getActivityData(shgAndMemberDataBean.getShgCode(), shgAndMemberDataBean.getMemberCode(), entryCompleteConfirmation);
+                }  catch (Exception e) {
+                    AppUtils.getInstance().showLog("ExcpGetActivityDataSync" + e, SyncDataRepo.class);
+                }
+                SyncEntriesRequestBean.SyncEntry syncEntry = new SyncEntriesRequestBean.SyncEntry();
+                syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
+                syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
+                syncEntry.setSecc(shgAndMemberDataBean.getSecc());
+
+                List<SyncEntriesRequestBean.ActivityData> activityDataList = new ArrayList<>();
+
+                for (ActivityDataBean activityDataBean : activityDataBeanList) {
+                    SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
+                    activityData.setActivity_code(activityDataBean.getActivity_code());
+                    activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
+                    activityData.setEntry_month(activityDataBean.getEntry_month());
+                    activityData.setEntry_year(activityDataBean.getEntry_year());
+                    activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
+                    activityData.setFrequency_code(activityDataBean.getFrequency_code());
+                    activityData.setRange_code(activityDataBean.getRange_code());
+                    activityData.setSector_code(activityDataBean.getSector_code());
+                    activityDataList.add(activityData);
+                }
+                syncEntry.setActivities_data_sync(activityDataList);
+
+                syncEntryList.add(syncEntry);
             }
-            syncEntry.setActivities_data_sync(activityDataList);
+            syncEntriesRequestBean.setNrlm_entry_sync(syncEntryList);
 
-            syncEntryList.add(syncEntry);
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + e, SyncDataRepo.class);
         }
-        }catch (Exception e){
-            AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync"+e,SyncDataRepo.class);
-        }
+        AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + syncEntriesRequestBean.toString(), SyncDataRepo.class);
         return syncEntriesRequestBean;
     }
-    public void updateSyncStatus(){
-        memberEntryDao.updateSyncStatus();
+
+    public void updateSyncStatus() {
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                memberEntryDao.updateSyncStatus();
+            }
+        });
+
     }
 
-    public void deleteDuplicateEntries(String shgCode,String memberCode,String sectorCode,String activityCode,String entryType){
-        memberEntryDao.deleteDuplicateEntries(shgCode,memberCode,sectorCode,activityCode,entryType);
+    public void deleteDuplicateEntries(String shgCode, String memberCode, String sectorCode, String activityCode, String entryType) {
+        memberEntryDao.deleteDuplicateEntries(shgCode, memberCode, sectorCode, activityCode, entryType);
     }
 
 }

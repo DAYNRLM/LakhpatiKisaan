@@ -112,9 +112,10 @@ public class VerifyMpinFragment extends BaseFragment<MpinViewModel, FragmentVeri
 
     private void status(String apiStatus) {
         if (apiStatus != null && apiStatus.equalsIgnoreCase("E200")) {
-            Toast.makeText(getContext(), "Shg data deletion and synchronization successful.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Data synchronized successfully.", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Shg data deletion and synchronization failed.", Toast.LENGTH_SHORT).show();
+            return;
+          //  Toast.makeText(getContext(), "Shg data deletion and synchronization failed.", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -15,6 +15,9 @@ public interface SectorDao {
     @Query("select * from SectorEntity ")
     List<SectorEntity> getAllSector();
 
+    @Query("select sector_name from SectorEntity where SectorEntity.sector_code=:id ")
+    String SectorName(int id);
+
     @Query("delete from sectorentity")
     void deleteAll();
 

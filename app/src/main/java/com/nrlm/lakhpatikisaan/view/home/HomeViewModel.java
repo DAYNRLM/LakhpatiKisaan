@@ -2,6 +2,7 @@ package com.nrlm.lakhpatikisaan.view.home;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -37,6 +38,7 @@ import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -129,45 +131,52 @@ public class HomeViewModel extends ViewModel {
     private void makeSyncMemberEntry(String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
         SyncEntriesRequestBean syncEntriesRequestBean = syncDataRepo.getSyncEntriesRequest(loginId, stateShortName, imeiNo, deviceName, locationCoordinates, entryCompleteConfirmation);
-        if (syncEntriesRequestBean.getNrlm_entry_sync() != null && syncEntriesRequestBean.getNrlm_entry_sync().size() != 0) {
-            syncDataRepo.makeSyncEntriesRequest(syncEntriesRequestBean, new RepositoryCallback() {
-                @Override
-                public void onComplete(Result result) {
-                    try {
-                        if (result instanceof Result.Success) {
-                            SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
 
-                            /*update sync status in member entry table*/
-                            syncApiStatus="E200";
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (syncEntriesRequestBean.getNrlm_entry_sync() != null && syncEntriesRequestBean.getNrlm_entry_sync().size() != 0) {
+                    syncDataRepo.makeSyncEntriesRequest(syncEntriesRequestBean, new RepositoryCallback() {
+                        @Override
+                        public void onComplete(Result result) {
+                            try {
+                                if (result instanceof Result.Success) {
+                                    SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
 
-                            updateSyncStatus();
+                                    /*update sync status in member entry table*/
+                                    syncApiStatus="E200";
 
-                            AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "---" +
-                                    simpleResponseBean.getError().getMessage(), HomeViewModel.class);
-                        } else {
-                            Object errorObject = ((Result.Error) result).exception;
-                            if (errorObject != null) {
-                                if (errorObject instanceof SimpleResponseBean.Error) {
-                                    SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
-                                    syncApiStatus=responseError.getCode();
-                                    AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
-                                            + responseError.getMessage(), AuthViewModel.class);
-                                } else if (errorObject instanceof Throwable) {
-                                    Throwable exception = (Throwable) errorObject;
-                                    syncApiStatus=exception.getMessage();
-                                    AppUtils.getInstance().showLog("SyncEntriesRetrofitErrors:-------" + exception.getMessage()
-                                            , AuthViewModel.class);
+                                    updateSyncStatus();
+
+                                    AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "DataSync and status updated successfully-" +
+                                            simpleResponseBean.getError().getMessage(), HomeViewModel.class);
+                                } else {
+                                    Object errorObject = ((Result.Error) result).exception;
+                                    if (errorObject != null) {
+                                        if (errorObject instanceof SimpleResponseBean.Error) {
+                                            SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
+                                            syncApiStatus=responseError.getCode();
+                                            AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
+                                                    + responseError.getMessage(), AuthViewModel.class);
+                                        } else if (errorObject instanceof Throwable) {
+                                            Throwable exception = (Throwable) errorObject;
+                                            syncApiStatus=exception.getMessage();
+                                            AppUtils.getInstance().showLog("SyncEntriesRetrofitErrors:-------" + exception.getMessage()
+                                                    , AuthViewModel.class);
+                                        }
+                                    }
                                 }
+                            } catch (Exception e) {
+                                syncApiStatus=e.getMessage();
+                                AppUtils.getInstance().showLog("SyncEntriesResultExp" + e.toString(), AuthViewModel.class);
+
                             }
                         }
-                    } catch (Exception e) {
-                        syncApiStatus=e.getMessage();
-                        AppUtils.getInstance().showLog("SyncEntriesResultExp" + e.toString(), AuthViewModel.class);
-
-                    }
+                    });
                 }
-            });
-        }
+            }
+        },1000);
+
 
     }
 
@@ -186,6 +195,10 @@ public class HomeViewModel extends ViewModel {
 
     public List<String> loadSectorData() {
         return masterDataRepo.getSectorName();
+    }
+
+    public String SectorName(int id) {
+        return masterDataRepo.SectorName(id);
     }
 
     public List<SectorEntity> getAllSectorData() {
@@ -227,10 +240,45 @@ public class HomeViewModel extends ViewModel {
         return activityData;
     }
 
+    public List<ActivityEntity> getAllSelectedActivity(String memberCode,String entryFlag){
+        List<ActivityEntity> activityData =masterDataRepo.getAllActivityWithoutSector();
+        List<MemberEntryEntity> entryData = masterDataRepo.getAllMemberForActivity(memberCode,entryFlag);
+
+        if(!entryData.isEmpty()){
+
+            for(int i=0; i<entryData.size();i++){
+                for(int j=0;j<activityData.size();j++){
+                    if(entryData.get(i).getActivityCode().equalsIgnoreCase(String.valueOf(activityData.get(j).getActivity_code()))){
+                        activityData.remove(j);
+                    }
+                }
+            }
+           /* for(MemberEntryEntity entryObject:entryData){
+                for(ActivityEntity activityObject:activityData){
+                    if(entryObject.getActivityCode().equalsIgnoreCase(String.valueOf(activityObject.getActivity_code()))){
+                        activityData.remove(activityObject);
+                    }
+                }
+            }*/
+
+        }else {
+            activityData =masterDataRepo.getAllActivityWithoutSector();
+        }
+        return activityData;
+    }
+
     public List<String> getSelectedActivityName(int id,String memberCode,String entryFlag){
         List<String> activityName = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             activityName = getSelectedActivity(id,memberCode,entryFlag).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
+        }
+        return activityName;
+    }
+
+    public List<String> getAllSelectedActivityName(String memberCode,String entryFlag){
+        List<String> activityName = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            activityName = getAllSelectedActivity(memberCode,entryFlag).stream().map(ActivityEntity::getActivity_name).collect(Collectors.toList());
         }
         return activityName;
     }
@@ -329,6 +377,30 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getShgNameDB(memberCode);
     }
 
+    String getMemberJoiningDate(String memberCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getMemberJoiningDate(memberCode);
+    }
+
+    void updateBeforeEntryDateInLocal(String memberCode,String date) throws ExecutionException, InterruptedException {
+         masterDataRepo.updateBeforeEntryDateInLocal(memberCode,date);
+    }
+
+    void updateAfterEntryDateInLocal(String memberCode,String date) throws ExecutionException, InterruptedException {
+        masterDataRepo.updateAfterEntryDateInLocal(memberCode,date);
+    }
+
+    public  String getBeforeDate(String memberCode){
+       return masterDataRepo.getBeforeLastDate(memberCode);
+    }
+
+    public  String getAfterDate(String memberCode){
+        return masterDataRepo.getAfterLastDate(memberCode);
+    }
+
+
+
+
+
     String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getMemberCount(shgCode);
     }
@@ -344,10 +416,18 @@ public class HomeViewModel extends ViewModel {
 
     public List<String> getUniqueClfName() throws ExecutionException, InterruptedException {
         List<String> incomeName = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            incomeName = getUniqueClf().stream().map(ClfDataBean::getClf_name).collect(Collectors.toList());
+        try{
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                incomeName = getUniqueClf().stream().map(ClfDataBean::getClf_name).collect(Collectors.toList());
+                incomeName.removeIf(Objects::isNull);
+            }
+            AppUtils.getInstance().showLog("getClf_name" + incomeName.size(), MasterDataDao.class);
+
+        }catch (Exception e){
+
         }
-        AppUtils.getInstance().showLog("getClf_name" + incomeName.size(), MasterDataDao.class);
+
         return incomeName;
     }
 
@@ -363,6 +443,7 @@ public class HomeViewModel extends ViewModel {
         List<String> incomeName = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             incomeName = getUniqueVo(clfCode).stream().map(VoDataBean::getVo_name).collect(Collectors.toList());
+            incomeName.removeIf(Objects::isNull);
         }
         AppUtils.getInstance().showLog("getUniqueVoName" + incomeName.size(), MasterDataDao.class);
         return incomeName;

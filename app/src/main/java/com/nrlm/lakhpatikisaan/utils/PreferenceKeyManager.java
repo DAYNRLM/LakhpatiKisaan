@@ -13,6 +13,9 @@ public class PreferenceKeyManager {
     private static final String PrefStateShortName="PrefStateShortName";
     private static final String PrefImeiNo="PrefImeiNo";
     private static final String PrefDeviceinfo="PrefDeviceInfo";
+    private static final String PrefLogoutTime="PrefLogoutTime";
+
+
     private static final String ForgotMobileNumber="forgotmobile";
     private static final String RandomOtp="genratedOtp";
     private static final String PREF_KEY_MPIN= "prfMPIN";
@@ -108,5 +111,10 @@ public class PreferenceKeyManager {
 
     public static String getPrefLoginSessionKey() {
         return PrefLoginSessionKey;
+    }
+
+
+    public static String getPrefLogoutTime() {
+        return PrefLogoutTime;
     }
 }

@@ -56,6 +56,11 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

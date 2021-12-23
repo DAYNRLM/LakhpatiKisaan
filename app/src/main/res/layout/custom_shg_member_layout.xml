@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_5dp"
             app:cardCornerRadius="0dp"
+            android:id="@+id/holder_view"
             app:cardElevation="8dp"
             app:strokeColor="@color/light_green_50"
             android:outlineAmbientShadowColor="@color/green_500"
@@ -130,7 +131,7 @@
                         <TextView
                             android:layout_weight=".8"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:padding="@dimen/space_2dp"
                             android:text="@string/last_entry_after_nrlm"
                             android:textSize="@dimen/text_16sp"
@@ -149,7 +150,7 @@
                             android:textStyle="bold"
                             android:textColor="@color/red_500"
                             android:textSize="@dimen/text_16sp"
-                            android:textAppearance="?android:textAppearanceLarge" />
+                           />
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -172,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/blue_gray_50"
                     android:gravity="center_vertical"
-                    android:drawableEnd="@drawable/ic_baseline_keyboard_double_arrow_right_24"
+
                     android:textSize="13sp"
                     android:text="@string/go_to_member_entry"/>
 
@@ -185,3 +186,5 @@
 
     </LinearLayout>
 </layout>
+
+<!--android:drawableEnd="@drawable/ic_baseline_keyboard_double_arrow_right_24"-->

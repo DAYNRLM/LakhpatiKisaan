@@ -54,7 +54,7 @@ public class AuthViewModel extends ViewModel {
 
     }
 
-    public void makeLogin(LoginRequestBean loginRequestBean, Context context) {
+    public void makeLogin(LoginRequestBean loginRequestBean,Context context) {
         loginRepo.makeLoginRequest(loginRequestBean, new RepositoryCallback() {
             @Override
             public void onComplete(Result result) {
@@ -66,12 +66,12 @@ public class AuthViewModel extends ViewModel {
                         AppUtils.getInstance().showLog("loginDataResponseBean" + loginResponseBean.getError().getCode() + "---" +
                                 loginResponseBean.getError().getMessage(), AuthViewModel.class);
 
-                        //  String stateShortName=loginRepo.getStateNameDB();
-                        if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200") && loginResponseBean.getState_short_name() != null) {
+                      //  String stateShortName=loginRepo.getStateNameDB();
+                        if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200") && loginResponseBean.getState_short_name()!=null) {
                             loginApiStatus = loginResponseBean.getError().getCode();
-                            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(), loginResponseBean.getState_short_name(), context);
+                          PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(),loginResponseBean.getState_short_name(),context);
                             LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), loginResponseBean.getState_short_name()
-                                    , loginRequestBean.getImei_no(), loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
+                                    ,loginRequestBean.getImei_no() , loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
 
 
                             masterDataRepo.makeMasterDataRequest(logRequestBean, new RepositoryCallback() {
@@ -89,7 +89,7 @@ public class AuthViewModel extends ViewModel {
                                                 try {
                                                     List<LgdVillageCode> lgdVillageCodeList = getLgdVillageCodes();
 
-                                                    AppUtils.getInstance().showLog("lgdCodesListSize:- " + lgdVillageCodeList.size(), AuthViewModel.class);
+                                                    AppUtils.getInstance().showLog("lgdCodesListSize:- "+lgdVillageCodeList.size(),AuthViewModel.class);
                                                     SeccRequestBean seccRequestBean = new SeccRequestBean();
 
                                                     seccRequestBean.setDevice_name(logRequestBean.getDevice_name());
@@ -98,13 +98,13 @@ public class AuthViewModel extends ViewModel {
                                                     seccRequestBean.setLogin_id(logRequestBean.getLogin_id());
                                                     seccRequestBean.setState_short_name(logRequestBean.getState_short_name());
 
-                                                    String lgdVillageCodes = "";
+                                                    String lgdVillageCodes="";
 
-                                                    for (LgdVillageCode lgdVillageCode : lgdVillageCodeList) {
-                                                        lgdVillageCodes += lgdVillageCode.getLgd_village_code() + ",";
+                                                    for (LgdVillageCode lgdVillageCode:lgdVillageCodeList){
+                                                        lgdVillageCodes+=lgdVillageCode.getLgd_village_code()+",";
                                                     }
 
-                                                    AppUtils.getInstance().showLog("lgdCodesFromDb" + AppUtils.getInstance().removeComma(lgdVillageCodes), AuthViewModel.class);
+                                                    AppUtils.getInstance().showLog("lgdCodesFromDb"+AppUtils.getInstance().removeComma(lgdVillageCodes),AuthViewModel.class);
 
                                                     seccRequestBean.setLgd_village_code(AppUtils.getInstance().removeComma(lgdVillageCodes));
 
@@ -136,12 +136,12 @@ public class AuthViewModel extends ViewModel {
                                                     });
 
                                                 } catch (ExecutionException e) {
-                                                    AppUtils.getInstance().showLog("makeSeccDataRequestExp:- " + e.getMessage(), AuthViewModel.class);
+                                                    AppUtils.getInstance().showLog("makeSeccDataRequestExp:- "+e.getMessage(),AuthViewModel.class);
                                                 } catch (InterruptedException e) {
-                                                    AppUtils.getInstance().showLog("makeSeccDataRequestExp:- " + e.getMessage(), AuthViewModel.class);
+                                                    AppUtils.getInstance().showLog("makeSeccDataRequestExp:- "+e.getMessage(),AuthViewModel.class);
                                                 }
                                             }
-                                        }, 6000);
+                                        },6000);
 
                                     } else {
                                         Object errorObject = ((Result.Error) result).exception;
@@ -171,6 +171,8 @@ public class AuthViewModel extends ViewModel {
                                                 + supportiveMastersResponseBean.getError().getMessage(), AuthViewModel.class);
 
 
+
+
                                     } else {
                                         Object errorObject = ((Result.Error) result).exception;
                                         if (errorObject != null) {
@@ -192,6 +194,8 @@ public class AuthViewModel extends ViewModel {
 
 
                         }
+
+                        }else loginApiStatus = "";
 
                     } else {
                         //Object errorObject = ;
@@ -258,6 +262,7 @@ public class AuthViewModel extends ViewModel {
             }
         });
 
+
     }
 
     public void ResetPasswordRequestData(Context context) {
@@ -292,7 +297,16 @@ public class AuthViewModel extends ViewModel {
 
     public String loginApiResult() {
         return loginApiStatus;
+
     }
+
+
+    public void deleteAllMaster(){
+        loginRepo.deleteAllMaster();
+    }
+
+
+
 
 
 }
