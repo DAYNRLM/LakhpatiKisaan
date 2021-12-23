@@ -193,11 +193,9 @@ public class AuthViewModel extends ViewModel {
                             });
 
 
-                        }
-
                         }else loginApiStatus = "";
 
-                    } else {
+                        } else {
                         //Object errorObject = ;
                         AppUtils.getInstance().showLog("ClassTypeError" + ((Result.Error) result).exception.getClass(), AuthViewModel.class);
                         if (((Result.Error) result).exception != null) {

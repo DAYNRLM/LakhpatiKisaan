@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +44,8 @@ public class DialogFactory {
         alert = builder.create();
         alert.getWindow().getAttributes().windowAnimations=R.style.DialogAnimationTheme;
         alert.show();
+        Button buttonbackground1 = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setTextColor(context.getResources().getColor(R.color.green_500));
         return alert;
     }
 

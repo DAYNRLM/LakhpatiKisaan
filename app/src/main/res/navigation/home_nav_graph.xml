@@ -57,6 +57,6 @@
     <fragment
         android:id="@+id/changeLanguageFragment2"
         android:name="com.nrlm.lakhpatikisaan.view.home.ChangeLanguageFragment"
-        android:label="fragment_change_language"
+        android:label="Change Language"
         tools:layout="@layout/fragment_change_language" />
 </navigation>
