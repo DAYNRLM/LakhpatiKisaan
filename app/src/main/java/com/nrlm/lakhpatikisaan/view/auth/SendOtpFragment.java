@@ -76,8 +76,8 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
                    @Override
                    public void run() {
                        progressDialog.dismiss();
-                      // String msg=authViewModel.otpResponseBean.getMessage();
-                      String msg="error";
+                      String msg=authViewModel.otpResponseBean.getMessage();
+                    //  String msg="error";
                        if(msg.equalsIgnoreCase("message send successfully"))
                        {
                            NavDirections action = SendOtpFragmentDirections.actionSendOtpFragmentToForgetPasswordFragment();

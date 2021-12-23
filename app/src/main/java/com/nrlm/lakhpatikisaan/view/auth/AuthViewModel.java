@@ -253,7 +253,7 @@ public class AuthViewModel extends ViewModel {
             public void onComplete(Result result) {
                 AppUtils.getInstance().showLog("OtpResult" + result.toString(), AuthViewModel.class);
                 if (result instanceof Result.Success) {
-                   // otpResponseBean = (OtpResponseBean) ((Result.Success) result).data;
+                   otpResponseBean = (OtpResponseBean) ((Result.Success) result).data;
                     return;
 
                 }
