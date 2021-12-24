@@ -1,32 +1,53 @@
 package com.nrlm.lakhpatikisaan.network.model.response;
 
 public class OtpResponseBean {
-    String data;
-
-    public String getData() {
-        return data;
+    /*{
+    "status": 0,
+    "error": {
+        "code": "E202",
+        "message": "Message is null"
     }
+}*/
 
-    public void setData(String data) {
-        this.data = data;
-    }
+    private  int status;
+    private Error error;
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    String message;
-    String status;
+    public Error getError() {
+        return error;
+    }
+
+    public void setError(Error error) {
+        this.error = error;
+    }
+
+    public static class Error{
+
+        private String code;
+        private String message;
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
+
 }

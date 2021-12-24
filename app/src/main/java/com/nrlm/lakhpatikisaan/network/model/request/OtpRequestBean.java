@@ -1,22 +1,27 @@
 package com.nrlm.lakhpatikisaan.network.model.request;
 
 public class OtpRequestBean {
-    private String mobile;
-    private String otpMessage;
+   /*{
+    "mobileno":"9319369737",
+    "message":"1234 (Lakhpati Didi)"
+}*/
 
-    public String getMobile() {
-        return mobile;
+    private String mobileno;
+    private String message;
+
+    public String getMobileno() {
+        return mobileno;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setMobileno(String mobileno) {
+        this.mobileno = mobileno;
     }
 
-    public String getOtpMessage() {
-        return otpMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setOtpMessage(String otpMessage) {
-        this.otpMessage = otpMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

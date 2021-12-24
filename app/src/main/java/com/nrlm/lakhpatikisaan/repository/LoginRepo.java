@@ -24,6 +24,7 @@ import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.OtpRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.ResetPasswordBean;
 import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
+import com.nrlm.lakhpatikisaan.network.model.response.OtpResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
@@ -104,7 +105,7 @@ public class LoginRepo {
                     @Override
                     public void success(Result<Result> successResponse) {
                         if (successResponse instanceof Result.Success) {
-                            OtpRequestBean otpRequestBean1 = (OtpRequestBean) ((Result.Success) successResponse).data;
+                            OtpResponseBean otpRequestBean1 = (OtpResponseBean) ((Result.Success) successResponse).data;
                             AppUtils.getInstance().showLog("LoginRepo " + otpRequestBean1.toString(), LoginRepo.class);
                         }
 
@@ -232,9 +233,12 @@ public class LoginRepo {
 
                     if (response.body() == null || response.code() == 204||response.code()==404) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
+                    }else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
+                        OtpResponseBean.Error error = new Gson().fromJson(response.body().getAsJsonObject("error"), OtpResponseBean.Error.class);
+                        serviceCallback.error(new Result.Error(error));
                     } else {
-                        OtpRequestBean otpRequestBean1 = new Gson().fromJson(response.body(), OtpRequestBean.class);
-                        serviceCallback.success( new Result.Success(otpRequestBean1));
+                        OtpResponseBean otpResponseBean  = new Gson().fromJson(response.body(), OtpResponseBean.class);
+                        serviceCallback.success( new Result.Success(otpResponseBean));
                         //REsult
                     }
 

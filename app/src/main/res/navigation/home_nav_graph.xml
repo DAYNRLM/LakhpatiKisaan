@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/shgMemberFragment"
         android:name="com.nrlm.lakhpatikisaan.view.home.ShgMemberFragment"
-        android:label="SHG Member's"
+        android:label="SHG Members"
         tools:layout="@layout/fragment_shg_member" >
         <action
             android:id="@+id/action_shgMemberFragment_to_memberEntryFragment"

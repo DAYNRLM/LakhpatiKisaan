@@ -73,16 +73,14 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         authViewModel.init(getContext());
 
-        String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getCurrentContext());
-        String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getCurrentContext());
-        String imei=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getCurrentContext());
-        String deviceInfoSaved=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(),getContext());
-        if (!(loginId.equalsIgnoreCase(""))&& !(stateShortName.equalsIgnoreCase(""))){
+        String loginId = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), getCurrentContext());
+        String stateShortName = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getCurrentContext());
+        String imei = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), getCurrentContext());
+        String deviceInfoSaved = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(), getContext());
 
-            authViewModel.syncAllData(getContext(),loginId,stateShortName,imei,deviceInfoSaved,".2719545,.3145555");
-
-        }
-
+        if (NetworkFactory.isInternetOn(getContext()))
+            if (!(loginId.equalsIgnoreCase("")) && !(stateShortName.equalsIgnoreCase("")))
+                authViewModel.syncAllData(getContext(), loginId, stateShortName, imei, deviceInfoSaved, ".2719545,.3145555");
 
 
         binding.tvForgetPassword.setOnClickListener(v -> {
@@ -99,7 +97,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             } else if (password.equalsIgnoreCase("")) {
                 binding.etPassword.setError(getString(R.string.invalid_password));
             } else {
-                if (!(loginId.equalsIgnoreCase(""))&& !(stateShortName.equalsIgnoreCase(""))){
+                if (!(loginId.equalsIgnoreCase("")) && !(stateShortName.equalsIgnoreCase(""))) {
                     authViewModel.deleteAllMasterDataLg();
                 }
                 AppUtils.getInstance().showLog("sha256Pass" + AppUtils.getInstance().getSha256(password), AuthFragment.class);
@@ -108,12 +106,12 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 String imeiNo = getIMEINo1(getContext());
-                String deviceInfo=AppUtils.getInstance().getDeviceInfo();
+                String deviceInfo = AppUtils.getInstance().getDeviceInfo();
                 AppUtils.getInstance().showLog("imeiNoFinal" + imeiNo, AuthFragment.class);
                 if (!imeiNo.equalsIgnoreCase(""))
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(), imeiNo, getContext());
-                if(deviceInfo!=null && !deviceInfo.equalsIgnoreCase(""))
-                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefDeviceinfo(),deviceInfo,getContext());
+                if (deviceInfo != null && !deviceInfo.equalsIgnoreCase(""))
+                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefDeviceinfo(), deviceInfo, getContext());
 
                 if (NetworkFactory.isInternetOn(getContext())) {
 
@@ -134,7 +132,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     loginRequestBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
 
                     loginRequestBean.setLocation_coordinate("28.6771787,77.4923927");
-                    loginRequestBean.setLogout_time(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLogoutTime(),getContext()));
+                    loginRequestBean.setLogout_time(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLogoutTime(), getContext()));
 
 
                     authViewModel.makeLogin(loginRequestBean, getContext());
@@ -157,7 +155,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
 
                                     showServerError(loginApiStatus);
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    AppUtils.getInstance().showLog("loginApiStatus" + loginApiStatus, AuthFragment.class);
                                 }
                             }
                         }
@@ -241,7 +239,6 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 break;
 
 
-
             default:
                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.SERVER_ERROR_TITLE)
                         , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
@@ -268,23 +265,23 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     imeiNo1 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
                     Build.getSerial();
 
-                    AppUtils.getInstance().showLog("BUILD SERIAL "+ Build.getSerial(), AppDeviceInfoUtils.class);
+                    AppUtils.getInstance().showLog("BUILD SERIAL " + Build.getSerial(), AppDeviceInfoUtils.class);
 
-                }else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     imeiNo1 = telephonyManager.getDeviceId(0);
-                    AppUtils.getInstance().showLog("BUILD SERIAL-imeiNo1 "+ imeiNo1,AppDeviceInfoUtils.class);
+                    AppUtils.getInstance().showLog("BUILD SERIAL-imeiNo1 " + imeiNo1, AppDeviceInfoUtils.class);
 
-                }else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-                    imeiNo1 ="dummy_123456789";
-                    AppUtils.getInstance().showLog("BUILD SERIAL-dummy "+ imeiNo1,AppDeviceInfoUtils.class);
+                } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    imeiNo1 = "dummy_123456789";
+                    AppUtils.getInstance().showLog("BUILD SERIAL-dummy " + imeiNo1, AppDeviceInfoUtils.class);
                 }
 
             } else imeiNo1 = telephonyManager.getDeviceId();
-        }catch (Exception e){
-            AppUtils.getInstance().showLog("Expection in imeiiiiii: "+e,AppDeviceInfoUtils.class);
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("Expection in imeiiiiii: " + e, AppDeviceInfoUtils.class);
         }
         //appSharedPreferences.setImeiNumber(imeiNo1);
-        AppUtils.getInstance().showLog("imeiiiiii: "+imeiNo1,AppDeviceInfoUtils.class);
+        AppUtils.getInstance().showLog("imeiiiiii: " + imeiNo1, AppDeviceInfoUtils.class);
         return imeiNo1;
     }
 
@@ -296,10 +293,10 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 getPhoneCount = telephonyManager.getPhoneCount();
             }
-        }catch (Exception e){
-            AppUtils.getInstance().showLog("Expection: "+e,AppDeviceInfoUtils.class);
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("Expection: " + e, AppDeviceInfoUtils.class);
         }
-        AppUtils.getInstance().showLog("getSimSlotCount: "+getPhoneCount,AppDeviceInfoUtils.class);
+        AppUtils.getInstance().showLog("getSimSlotCount: " + getPhoneCount, AppDeviceInfoUtils.class);
         return getPhoneCount;
     }
 

@@ -61,7 +61,7 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
             mobileNumber=binding.etMobileNumber.getText().toString();
             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getForgotMobileNumber(),mobileNumber,getCurrentContext());
 
-            if(mobileNumber.equalsIgnoreCase("") || mobileNumber.equals(null))
+            if(mobileNumber.equals(null) ||mobileNumber.equalsIgnoreCase("") || mobileNumber.length()<10 )
            {
                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), getString(R.string.number_cant_be_empty)
                        , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
@@ -76,9 +76,9 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
                    @Override
                    public void run() {
                        progressDialog.dismiss();
-                      String msg=authViewModel.otpResponseBean.getMessage();
+                      String msg=authViewModel.loginApiResult();
                     //  String msg="error";
-                       if(msg.equalsIgnoreCase("message send successfully"))
+                       if(msg.equalsIgnoreCase("E200"))
                        {
                            NavDirections action = SendOtpFragmentDirections.actionSendOtpFragmentToForgetPasswordFragment();
                            navController.navigate(action);
@@ -91,8 +91,8 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
                                @Override
                                public void onClick(DialogInterface dialog, int which) {
                                    dialog.dismiss();
-                                   Intent intent = new Intent(getContext(), AuthActivity.class);
-                                   startActivity(intent);
+                                  /* Intent intent = new Intent(getContext(), AuthActivity.class);
+                                   startActivity(intent);*/
 
                                }
                            });
@@ -102,7 +102,7 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
 
 
                    }
-               },2000);
+               },4000);
 
            }
 

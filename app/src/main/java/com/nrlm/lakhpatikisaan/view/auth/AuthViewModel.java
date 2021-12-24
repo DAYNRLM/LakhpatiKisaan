@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import androidx.lifecycle.ViewModel;
 
+import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.dbbean.LgdVillageCode;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
@@ -55,7 +56,7 @@ public class AuthViewModel extends ViewModel {
 
     }
 
-    public void makeLogin(LoginRequestBean loginRequestBean,Context context) {
+    public void makeLogin(LoginRequestBean loginRequestBean, Context context) {
         loginRepo.makeLoginRequest(loginRequestBean, new RepositoryCallback() {
             @Override
             public void onComplete(Result result) {
@@ -67,12 +68,12 @@ public class AuthViewModel extends ViewModel {
                         AppUtils.getInstance().showLog("loginDataResponseBean" + loginResponseBean.getError().getCode() + "---" +
                                 loginResponseBean.getError().getMessage(), AuthViewModel.class);
 
-                      //  String stateShortName=loginRepo.getStateNameDB();
-                        if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200") && loginResponseBean.getState_short_name()!=null) {
+                        //  String stateShortName=loginRepo.getStateNameDB();
+                        if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200") && loginResponseBean.getState_short_name() != null) {
                             loginApiStatus = loginResponseBean.getError().getCode();
-                          PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(),loginResponseBean.getState_short_name(),context);
+                            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(), loginResponseBean.getState_short_name(), context);
                             LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), loginResponseBean.getState_short_name()
-                                    ,loginRequestBean.getImei_no() , loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
+                                    , loginRequestBean.getImei_no(), loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
 
 
                             masterDataRepo.makeMasterDataRequest(logRequestBean, new RepositoryCallback() {
@@ -90,7 +91,7 @@ public class AuthViewModel extends ViewModel {
                                                 try {
                                                     List<LgdVillageCode> lgdVillageCodeList = getLgdVillageCodes();
 
-                                                    AppUtils.getInstance().showLog("lgdCodesListSize:- "+lgdVillageCodeList.size(),AuthViewModel.class);
+                                                    AppUtils.getInstance().showLog("lgdCodesListSize:- " + lgdVillageCodeList.size(), AuthViewModel.class);
                                                     SeccRequestBean seccRequestBean = new SeccRequestBean();
 
                                                     seccRequestBean.setDevice_name(logRequestBean.getDevice_name());
@@ -99,13 +100,13 @@ public class AuthViewModel extends ViewModel {
                                                     seccRequestBean.setLogin_id(logRequestBean.getLogin_id());
                                                     seccRequestBean.setState_short_name(logRequestBean.getState_short_name());
 
-                                                    String lgdVillageCodes="";
+                                                    String lgdVillageCodes = "";
 
-                                                    for (LgdVillageCode lgdVillageCode:lgdVillageCodeList){
-                                                        lgdVillageCodes+=lgdVillageCode.getLgd_village_code()+",";
+                                                    for (LgdVillageCode lgdVillageCode : lgdVillageCodeList) {
+                                                        lgdVillageCodes += lgdVillageCode.getLgd_village_code() + ",";
                                                     }
 
-                                                    AppUtils.getInstance().showLog("lgdCodesFromDb"+AppUtils.getInstance().removeComma(lgdVillageCodes),AuthViewModel.class);
+                                                    AppUtils.getInstance().showLog("lgdCodesFromDb" + AppUtils.getInstance().removeComma(lgdVillageCodes), AuthViewModel.class);
 
                                                     seccRequestBean.setLgd_village_code(AppUtils.getInstance().removeComma(lgdVillageCodes));
 
@@ -137,12 +138,12 @@ public class AuthViewModel extends ViewModel {
                                                     });
 
                                                 } catch (ExecutionException e) {
-                                                    AppUtils.getInstance().showLog("makeSeccDataRequestExp:- "+e.getMessage(),AuthViewModel.class);
+                                                    AppUtils.getInstance().showLog("makeSeccDataRequestExp:- " + e.getMessage(), AuthViewModel.class);
                                                 } catch (InterruptedException e) {
-                                                    AppUtils.getInstance().showLog("makeSeccDataRequestExp:- "+e.getMessage(),AuthViewModel.class);
+                                                    AppUtils.getInstance().showLog("makeSeccDataRequestExp:- " + e.getMessage(), AuthViewModel.class);
                                                 }
                                             }
-                                        },6000);
+                                        }, 6000);
 
                                     } else {
                                         Object errorObject = ((Result.Error) result).exception;
@@ -172,8 +173,6 @@ public class AuthViewModel extends ViewModel {
                                                 + supportiveMastersResponseBean.getError().getMessage(), AuthViewModel.class);
 
 
-
-
                                     } else {
                                         Object errorObject = ((Result.Error) result).exception;
                                         if (errorObject != null) {
@@ -194,9 +193,9 @@ public class AuthViewModel extends ViewModel {
                             });
 
 
-                        }else loginApiStatus = "";
+                        } else loginApiStatus = "";
 
-                        } else {
+                    } else {
                         //Object errorObject = ;
                         AppUtils.getInstance().showLog("ClassTypeError" + ((Result.Error) result).exception.getClass(), AuthViewModel.class);
                         if (((Result.Error) result).exception != null) {
@@ -226,16 +225,16 @@ public class AuthViewModel extends ViewModel {
                 deviceName, location, AppConstant.entryCompleted);
     }
 
- public void deleteAllMasterDataLg()
- {
-     loginRepo.deleteAllMaster();
- }
+    public void deleteAllMasterDataLg() {
+        loginRepo.deleteAllMaster();
+    }
+
     public void makeOtpRequest(Context context) {
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         String otp = AppUtils.getInstance().getRandomOtp();
         OtpRequestBean otpRequestBean = new OtpRequestBean();
-        otpRequestBean.setMobile(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getForgotMobileNumber(), context));
-        otpRequestBean.setOtpMessage(otp);
+        otpRequestBean.setMobileno(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getForgotMobileNumber(), context));
+        otpRequestBean.setMessage(otp + " (" + context.getResources().getString(R.string.app_name) + ")");
         //ViewUtilsKt.toast(context, otp);
 
 
@@ -253,8 +252,25 @@ public class AuthViewModel extends ViewModel {
             public void onComplete(Result result) {
                 AppUtils.getInstance().showLog("OtpResult" + result.toString(), AuthViewModel.class);
                 if (result instanceof Result.Success) {
-                   otpResponseBean = (OtpResponseBean) ((Result.Success) result).data;
+                    otpResponseBean = (OtpResponseBean) ((Result.Success) result).data;
+                    AppUtils.getInstance().showLog("Responseotp : -" + otpResponseBean.getError().getCode(), AuthViewModel.class);
+                    loginApiStatus=otpResponseBean.getError().getCode();
                     return;
+
+                }else {
+                    //Object errorObject = ;
+                    AppUtils.getInstance().showLog("OtpResultError" + ((Result.Error) result).exception.getClass(), AuthViewModel.class);
+                    if (((Result.Error) result).exception != null) {
+                        if (((Result.Error) result).exception instanceof OtpResponseBean.Error) {
+                            OtpResponseBean.Error responseError = (OtpResponseBean.Error) ((Result.Error) result).exception;
+                            loginApiStatus = responseError.getMessage();
+                            AppUtils.getInstance().showLog(responseError.getCode() + "OtpApiErrorObj" + responseError.getMessage(), AuthViewModel.class);
+                        } else if (((Result.Error) result).exception instanceof Throwable) {
+                            Throwable exception = (Throwable) ((Result.Error) result).exception;
+                            loginApiStatus = "E500";
+                            AppUtils.getInstance().showLog("RetrofitErrorsOtp:-------" + exception.getMessage(), AuthViewModel.class);
+                        }
+                    }
 
                 }
 
@@ -301,12 +317,9 @@ public class AuthViewModel extends ViewModel {
     }
 
 
-    public void deleteAllMaster(){
+    public void deleteAllMaster() {
         loginRepo.deleteAllMaster();
     }
-
-
-
 
 
 }

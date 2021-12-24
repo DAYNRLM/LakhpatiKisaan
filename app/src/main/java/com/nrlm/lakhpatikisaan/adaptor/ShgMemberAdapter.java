@@ -61,7 +61,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             holder.itemBinding.beforeNrlmEntry.setText(context.getResources().getString(R.string.not_filled));
         } else {
             holder.itemBinding.beforeNrlmEntry.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.beforeNrlmEntry.setText("Filled on "+lastFilledBeforeNrlmEntry);
+            holder.itemBinding.beforeNrlmEntry.setText("Captured for "+lastFilledBeforeNrlmEntry);
         }
 
         if (lastFilledAfterNrlmEntry == null) {
@@ -69,7 +69,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             holder.itemBinding.afterNrlmEntry.setText(context.getResources().getString(R.string.not_filled));
         } else {
             holder.itemBinding.afterNrlmEntry.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.afterNrlmEntry.setText("Filled on "+lastFilledAfterNrlmEntry);
+            holder.itemBinding.afterNrlmEntry.setText("Captured for "+lastFilledAfterNrlmEntry);
         }
 
 
