@@ -89,6 +89,8 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         });
 
         binding.btnLogin.setOnClickListener(v -> {
+            authViewModel.deleteAllMasterDataLg();
+
 
             String password = binding.etPassword.getText().toString();
             String userId = binding.etUserId.getText().toString().trim().toUpperCase();
@@ -108,13 +110,13 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 String imeiNo = getIMEINo1(getContext());
                 String deviceInfo = AppUtils.getInstance().getDeviceInfo();
                 AppUtils.getInstance().showLog("imeiNoFinal" + imeiNo, AuthFragment.class);
-                if (!imeiNo.equalsIgnoreCase(""))
+                if (imeiNo!=null &&!imeiNo.equalsIgnoreCase(""))
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(), imeiNo, getContext());
                 if (deviceInfo != null && !deviceInfo.equalsIgnoreCase(""))
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefDeviceinfo(), deviceInfo, getContext());
 
                 if (NetworkFactory.isInternetOn(getContext())) {
-
+                    authViewModel.deleteAllMasterDataLg();
                     final LoginRequestBean loginRequestBean = new LoginRequestBean();
                     /*  -------------lOCAL-----------------*/
                  /*   loginRequestBean.setLogin_id("UPAGASSDAD");
@@ -123,7 +125,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     /*---------------LIVE------------------*/
                     loginRequestBean.setLogin_id(userId);
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
-                    loginRequestBean.setImei_no("5d7eaa5ef9d3ebed");
+                    loginRequestBean.setImei_no("5d7eaa5ef9d3e");
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("10");
                     loginRequestBean.setApp_login_time(AppDateFactory.getInstance().getCurrentDateAndTime());

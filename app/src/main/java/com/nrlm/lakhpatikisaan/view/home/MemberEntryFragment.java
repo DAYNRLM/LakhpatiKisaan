@@ -319,8 +319,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                     } else if (str.equalsIgnoreCase("2")) {
                                         dialogInterface.dismiss();
 
-                                        NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
-                                        navController.navigate(navDirections);
+                                       /* NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
+                                        navController.navigate(navDirections);*/
 
                   /*                  Observer<String> actionObserver = new Observer<String>() {
                                         @Override

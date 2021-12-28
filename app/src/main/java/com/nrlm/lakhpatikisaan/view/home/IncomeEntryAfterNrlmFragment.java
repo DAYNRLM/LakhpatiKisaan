@@ -321,8 +321,8 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                              } else if (str.equalsIgnoreCase("2")) {
                                  dialogInterface.dismiss();
 
-                                 NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-                                 navController.navigate(navDirections);
+                               /*  NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                                 navController.navigate(navDirections);*/
 
                              }
                          }
