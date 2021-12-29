@@ -3,40 +3,27 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-
     <string name="mord"><b>MINISTRY OF RURAL DEVELOPMENT</b></string>
     <string name="govtindia">GOVERNMENT OF INDIA</string>
     <string name="mord_hindi"><b>ग्रामीण विकास मंत्रालय</b></string>
     <string name="govtindia_hindi">भारत सरकार</string>
-
     <string name="et_enter_userId">Enter user id</string>
     <string name="et_enter_password">Password</string>
     <string name="et_enter_mobile_number">Mobile Number</string>
     <string name="et_enter_new_password">New Password</string>
     <string name="et_enter_Confirm_password">Confirm New Password</string>
     <string name="et_enter_OTP">Enter OTP</string>
-
-
-
     <!--all button text-->
     <string name="btn_login">Login</string>
     <string name="btn_send_otp">Send OTP</string>
     <string name="btn_update_password">Update Password</string>
-
-
-
-
     <!--all textview strings starting with tv initials-->
     <string name="tv_forget_pw">Forgot Password?</string>
     <string name="tv_logout">Logout</string>
-
-
     <string name="menu_setting">Settings</string>
     <string name="menu_notification">Notification</string>
     <string name="menu_language">Change language</string>
     <string name="menu_info">info</string>
-
-
     <string name="info">Info</string>
     <string name="error_code_not_found">Error code not found.</string>
     <string name="not_getting_data_from_server">Error, while getting data from server.</string>
@@ -44,23 +31,13 @@
     <string name="error_security_validation">Security validation failed.</string>
     <string name="error_validation">Validations are failed.</string>
     <string name="error_session_exist">Session already exists.</string>
-
-
     <string name="NO_INTERNET_TITLE">No Internet!</string>
     <string name="SERVER_ERROR_TITLE">Server Error!</string>
     <string name="INTERNET_MESSAGE">Please, open your internet connection.</string>
-
     <string name="server_error_dialog">Server Error!</string>
     <string name="no_internet_dialog">No Internet!</string>
-
     <string name="loading_heavy">Loading...</string>
     <string name="not_filled">Not Captured</string>
-
-
-
-
-
-
 //new strings 7/12/2021
     <string name="invalid_userid">Invalid user id</string>
     <string name="invalid_password">Invalid password</string>
@@ -69,8 +46,8 @@
     <string name="frequency_range">Frequency Range</string>
     <string name="delete">Delete</string>
     <string name="range_value">10000 and 2000 Rs. Rang</string> //this string can be deleted
-    <string name="last_entry_before_nrlm">Status before joining NRLM</string>
-    <string name="last_entry_after_nrlm">Present status</string>
+    <string name="last_entry_before_nrlm">Income status before joining NRLM</string>
+    <string name="last_entry_after_nrlm">Present income status</string>
     <string name="no_field_date">Not filled/ Date</string>
     <string name="go_to_member_entry">Go To Member Entry</string>
     <string name="select_shg">Select SHG</string>
@@ -89,7 +66,7 @@
     <string name="reset">Reset</string>
     <string name="submit_details">Submit Details</string>
     <string name="shg_members">SHG Members</string>
-        <string name="home">Home</string>
+    <string name="home">Home</string>
     <string name="alert">Alert!</string>
     <string name="number_cant_be_empty">Invalid  mobile number.</string>
     <string name="tv_mpin_title">We Value Security</string>
@@ -102,8 +79,6 @@
     <string name="enter_mpin_first">Enter Mpin first</string>
     <string name="enter_confirm_first">Enter confirm Mpin first</string>
     <string name="mpin_can_not_empty">Mpin can not be empty</string>
-
-
     <!--Strings added after labels sent to Atul Sir-->
     <string name="no_block_found">No assigned block found</string>
     <string name="no_gp_found">No assigned gram panchayat found</string>
@@ -127,7 +102,6 @@
     <string name="oops_smthng_wrong">Oops something went Wrong</string>
     <string name="add_activity_msg">Add Another Activity</string>
     <string name="total_activity">Total Activities are : </string>
-
     <string name="secc_not_fill">Please select SECC first</string>
     <string name="sector_not_fill">Please select sector first</string>
     <string name="activity_not_fill">Please select activity first</string>
@@ -137,10 +111,7 @@
     //new strings
 <string name="cancel">Cancel</string>
     <string name="do_you_want_to_change_the_language">Do you want to change the language?</string>
-
-
     //new strings by lincon
-
     <string name="dialog_sign_out_title">Confirm Sign Out</string>
     <string name="dialog_sign_out_msg">You are signing out of your app on this device.</string>
     <string name="dialog_btn_signout">sign out</string>
@@ -162,10 +133,5 @@
     <string name="livlihood_income_at_present">Livelihoods and Income at present</string>
     <string name="enter_your_mpin">Enter your PIN</string>
     <string name="for_secure_access">For secure access</string>
-
     <string name="seed_sec">Seed SECC TIN Number by selecting the name</string>
-
-
-
-
 </resources>

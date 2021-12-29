@@ -42,9 +42,12 @@ public class AppDateFactory {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String getCurrentDateAndTime() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        return dtf.format(now);
+       /* DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();*/
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = simpleDateFormat.format(new Date());
+        AppUtils.getInstance().showLog("CurrentDtaeAndTime"+format,AppUtils.class);
+        return format;
     }
 
     public String getCurrentDate(){

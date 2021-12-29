@@ -74,19 +74,19 @@ public class ChangeLanguageFragment extends BaseFragment<HomeViewModel, Fragment
 
         String index = "0";
 
-        String languageId = viewModel.getLanguageCode();
+       String languageId = viewModel.getLanguageCode();
+
         AppUtils.getInstance().showLog("languageId" + languageId, ChangeLanguageFragment.class);
         /* String languageId = loginInfo.getLanguageId();*/
 
         for (int i = 0; i < LanguageConstant.language_id.length; i++) {
             if (LanguageConstant.language_id[i].equalsIgnoreCase(languageId)) {
                 index = String.valueOf(i);
+
+
             }
         }
-        String languageCode = LanguageConstant.language_code[Integer.parseInt(index)];
-        String localLanguage = LanguageConstant.local_language[Integer.parseInt(index)];
-        String language = LanguageConstant.language_english[Integer.parseInt(index)];
-        String lanId = LanguageConstant.language_id[Integer.parseInt(index)];
+
 
         LanguageEntity englisgLang = new LanguageEntity();
         englisgLang.setLanguagecode(LanguageConstant.language_code[0]);
@@ -95,13 +95,19 @@ public class ChangeLanguageFragment extends BaseFragment<HomeViewModel, Fragment
         englisgLang.setLanguageid(LanguageConstant.language_id[0]);
         languagedata.add(englisgLang);
 
+       if(!index.equalsIgnoreCase("0")) {
+           String languageCode = LanguageConstant.language_code[Integer.parseInt(index)];
+           String localLanguage = LanguageConstant.local_language[Integer.parseInt(index)];
+           String language = LanguageConstant.language_english[Integer.parseInt(index)];
+           String lanId = LanguageConstant.language_id[Integer.parseInt(index)];
 
-        LanguageEntity localLangFromDb = new LanguageEntity();
-        localLangFromDb.setLanguagecode(languageCode);
-        localLangFromDb.setLocalLanguage(localLanguage);
-        localLangFromDb.setEnglishLanguage(language);
-        localLangFromDb.setLanguageid(lanId);
-        languagedata.add(localLangFromDb);
+           LanguageEntity localLangFromDb = new LanguageEntity();
+           localLangFromDb.setLanguagecode(languageCode);
+           localLangFromDb.setLocalLanguage(localLanguage);
+           localLangFromDb.setEnglishLanguage(language);
+           localLangFromDb.setLanguageid(lanId);
+           languagedata.add(localLangFromDb);
+       }
 
 
         LanguageAdapter selectLanguageAdaptor = new LanguageAdapter(getContext(), languagedata);
