@@ -23,6 +23,7 @@ import com.nrlm.lakhpatikisaan.adaptor.EntryBeforeNrlmFoldAdapter;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryAfterNrlmBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
+import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
@@ -98,23 +99,23 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
 
         try {
-            shgMemberCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
-            shgCode=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
+            shgMemberCode = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
+            shgCode = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
             String memberName = viewModel.getMemberNameDB(shgMemberCode);
             String shgName = viewModel.getShgNameDB(shgCode);
             String joiningDate = viewModel.getMemberJoiningDate(shgMemberCode);
 
-            String memberDOJ =  viewModel.getMemberDOJ(shgMemberCode);
+            String memberDOJ = viewModel.getMemberDOJ(shgMemberCode);
 
-            showingYear =appDateFactory.getMemberClanderYear(memberDOJ,AppConstant.nrlm_formation_date);
+            showingYear = appDateFactory.getMemberClanderYear(memberDOJ, AppConstant.nrlm_formation_date);
 
             binding.tvMonth.setText(monthName);
             binding.tvYear.setText("" + entryYearCode);
 
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
-            binding.tvShgNameCode.setText("Member : "+memberName+" ("+shgMemberCode+")");
-            binding.tvMemberNameCode.setText("SHG : "+shgName+" ("+shgCode+")");
-            binding.joiningDates.setText("Member's joining date : " +  joiningDate );
+            binding.tvShgNameCode.setText("Member : " + memberName + " (" + shgMemberCode + ")");
+            binding.tvMemberNameCode.setText("SHG : " + shgName + " (" + shgCode + ")");
+            binding.joiningDates.setText("Member's joining date : " + joiningDate);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -123,7 +124,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
 
         memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode, AppConstant.afterNrlmStatus);
-        if(!memberEntryDataItem.isEmpty()){
+        if (!memberEntryDataItem.isEmpty()) {
 
             count = memberEntryDataItem.size();
 
@@ -135,7 +136,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             binding.cvRecyclerview.setVisibility(View.VISIBLE);
             binding.cvSelectActivity.setVisibility(View.GONE);
             binding.btnAddNewActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
-            binding.tvTotalActivityCount.setVisibility(View.VISIBLE);
+            binding.tvTotalActivityCount.setVisibility(View.GONE);
             binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity) + count);
 
             binding.tvMonth.setText(memberEntryDataItem.get(0).getMonthName());
@@ -147,11 +148,12 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
             entryYearCode = String.valueOf(memberEntryDataItem.get(0).getEntryYearCode());
             entryMonthCode = String.valueOf(memberEntryDataItem.get(0).getMonthName());
+
             monthName = memberEntryDataItem.get(0).getMonthName();
 
             resetFunction(1);
 
-        }else {
+        } else {
 
         }
 
@@ -176,7 +178,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                     binding.ccDisplayDate.setVisibility(View.VISIBLE);
 
                     entryYearCode = String.valueOf(selectedYear);
-                    entryMonthCode = String.valueOf(selectedMonth+1);
+                    entryMonthCode = String.valueOf(selectedMonth + 1);
                     monthName = month_name;
 
                 }
@@ -195,7 +197,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             binding.cvSelectActivity.setVisibility(View.VISIBLE);
             loadSector();
 
-            loadAllActivity( shgMemberCode);
+            loadAllActivity(shgMemberCode);
         });
 
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
@@ -203,7 +205,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                 ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.sector_not_fill));
 
             } else if (activityCode == null || activityCode.isEmpty()) {
-                ViewUtilsKt.toast(getCurrentContext(),getContext().getResources().getString(R.string.activity_not_fill) );
+                ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.activity_not_fill));
             } else if (incomeFrequencyCode == null || incomeFrequencyCode.isEmpty()) {
                 ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.frequency_not_fill));
             } else if (incomeRangCode == null || incomeRangCode.isEmpty()) {
@@ -236,102 +238,101 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
             /*NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
             navController.navigate(navDirections);*/
-         if (memberEntryDataItem.size()>0){
-             new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
-                     .setItems(AppConstant.ConstantObject.getConfirmation(), new DialogInterface.OnClickListener() {
-                         @Override
-                         public void onClick(DialogInterface dialogInterface, int i) {
-                             String arr[] = AppConstant.ConstantObject.getStatus();
-                             String str = arr[i];
-                             if (str.equalsIgnoreCase("1")) {
-                                 /****data save in database and
-                                  * sync operation perform and
-                                  * redirect to afternrl screen****/
-                                 dialogInterface.dismiss();
+            if (memberEntryDataItem.size() > 0) {
+                new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
+                        .setItems(AppConstant.ConstantObject.getConfirmation(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String arr[] = AppConstant.ConstantObject.getStatus();
+                                String str = arr[i];
+                                if (str.equalsIgnoreCase("1")) {
+                                    /****data save in database and
+                                     * sync operation perform and
+                                     * redirect to afternrl screen****/
+                                    dialogInterface.dismiss();
 
 
-                                 /*** pending update cofirmation status for
-                                  * need to make a coloum for status confirmation  in masterEntryEntity
-                                  * after NRML before syn data*****/
+                                    /*** pending update cofirmation status for
+                                     * need to make a coloum for status confirmation  in masterEntryEntity
+                                     * after NRML before syn data*****/
 
-                                 if (NetworkFactory.isInternetOn(getContext())){
+                                    if (NetworkFactory.isInternetOn(getContext())) {
 
-                                     ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
-                                     progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
-                                     progressDialog.setCancelable(false);
-                                     progressDialog.show();
+                                        ProgressDialog progressDialog = new ProgressDialog(getCurrentContext());
+                                        progressDialog.setMessage("" + getCurrentContext().getResources().getString(R.string.loading_heavy));
+                                        progressDialog.setCancelable(false);
+                                        progressDialog.show();
 
-                                     viewModel.checkDuplicateAtServer(getContext()
-                                             , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext())
-                                             ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getContext())
-                                             ,PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getContext())
-                                             , AppUtils.getInstance().getDeviceInfo()
-                                             ,"0.0,0.0"
-                                             ,AppConstant.entryCompleted);
-                                     new Handler().postDelayed(new Runnable() {
-                                         @Override
-                                         public void run() {
-                                             if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")){
-                                                 progressDialog.dismiss();
-                                                 try {
-                                                     viewModel.updateAfterEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
-                                                 } catch (ExecutionException e) {
-                                                     e.printStackTrace();
-                                                 } catch (InterruptedException e) {
-                                                     e.printStackTrace();
-                                                 }
-                                                 Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
-                                                 NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-                                                 navController.navigate(navDirections);
+                                        viewModel.checkDuplicateAtServer(getContext()
+                                                , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), getContext())
+                                                , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getContext())
+                                                , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), getContext())
+                                                , AppUtils.getInstance().getDeviceInfo()
+                                                , "0.0,0.0"
+                                                , AppConstant.entryCompleted);
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (viewModel.getSyncApiStatus() != null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")) {
+                                                    progressDialog.dismiss();
+                                                    try {
+                                                        viewModel.updateAfterEntryDateInLocal(shgMemberCode, monthName + "-" + entryYearCode);
+                                                    } catch (ExecutionException e) {
+                                                        e.printStackTrace();
+                                                    } catch (InterruptedException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
+                                                    NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                                                    navController.navigate(navDirections);
 
-                                                 /****this update date code comes after data sync successfully*****/
-
-
-                                             }else {
-                                                 progressDialog.dismiss();
-                                                 Toast.makeText(getContext(), "Data Synchronization failed!!!", Toast.LENGTH_LONG).show();
-                                                 NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-                                                 navController.navigate(navDirections);
-                                                 /* ***this update date code comes after data sync sucessfully*****/
-                                                 try {
-                                                     viewModel.updateAfterEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
-                                                 } catch (ExecutionException e) {
-                                                     e.printStackTrace();
-                                                 } catch (InterruptedException e) {
-                                                     e.printStackTrace();
-                                                 }
-                                             }
-
-                                         }
-                                     },6000);
-                                 }else {
-                                     try {
-                                         viewModel.updateAfterEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
-                                     } catch (ExecutionException e) {
-                                         e.printStackTrace();
-                                     } catch (InterruptedException e) {
-                                         e.printStackTrace();
-                                     }
-                                     Toast.makeText(getContext(), "Data saved successfully!!!", Toast.LENGTH_LONG).show();
-                                     NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-                                     navController.navigate(navDirections);
-                                 }
+                                                    /****this update date code comes after data sync successfully*****/
 
 
-                             } else if (str.equalsIgnoreCase("2")) {
-                                 dialogInterface.dismiss();
+                                                } else {
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(getContext(), "Data Synchronization failed!!!", Toast.LENGTH_LONG).show();
+                                                    NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                                                    navController.navigate(navDirections);
+                                                    /* ***this update date code comes after data sync sucessfully*****/
+                                                    try {
+                                                        viewModel.updateAfterEntryDateInLocal(shgMemberCode, monthName + "-" + entryYearCode);
+                                                    } catch (ExecutionException e) {
+                                                        e.printStackTrace();
+                                                    } catch (InterruptedException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+
+                                            }
+                                        }, 6000);
+                                    } else {
+                                        try {
+                                            viewModel.updateAfterEntryDateInLocal(shgMemberCode, monthName + "-" + entryYearCode);
+                                        } catch (ExecutionException e) {
+                                            e.printStackTrace();
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                        Toast.makeText(getContext(), "Data saved successfully!!!", Toast.LENGTH_LONG).show();
+                                        NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
+                                        navController.navigate(navDirections);
+                                    }
+
+
+                                } else if (str.equalsIgnoreCase("2")) {
+                                    dialogInterface.dismiss();
 
                                /*  NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
                                  navController.navigate(navDirections);*/
 
-                             }
-                         }
-                     }).setCancelable(true).show();
+                                }
+                            }
+                        }).setCancelable(true).show();
 
-         }else {
-             Toast.makeText(getContext(),"Activities are not added",Toast.LENGTH_LONG).show();
-         }
-
+            } else {
+                Toast.makeText(getContext(), "Activities are not added", Toast.LENGTH_LONG).show();
+            }
 
 
         });
@@ -340,28 +341,36 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             sectorDate = String.valueOf(viewModel.getAllSectorData().get(i).getSector_code());
             sectorName = viewModel.loadSectorData().get(i);
             resetFunction(2);
-            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(),shgMemberCode);
+            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(), shgMemberCode);
 
         });
         binding.btnReset.setOnClickListener(view1 -> {
-            ViewUtilsKt.toast(getCurrentContext(),"Not working yet");
+            ViewUtilsKt.toast(getCurrentContext(), "Not working yet");
         });
     }
 
     private void loadAllActivity(String memberCode) {
         /****** tis selection based on condition on activity id*****/
-        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getAllSelectedActivityName( memberCode, AppConstant.afterNrlmStatus));
+        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getAllSelectedActivityName(memberCode, AppConstant.afterNrlmStatus));
         binding.spinnerSelectActivity.setAdapter(activityAdapter);
         activityAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
-            activityCode = String.valueOf(viewModel.getAllSelectedActivity( memberCode, AppConstant.beforeNrlmStatus).get(i).getActivity_code());
-            activityName = viewModel.getAllSelectedActivityName(memberCode, AppConstant.beforeNrlmStatus).get(i);
+            try{
+                activityCode = String.valueOf(viewModel.getAllSelectedActivity(memberCode, AppConstant.beforeNrlmStatus).get(i).getActivity_code());
+                activityName = viewModel.getAllSelectedActivityName(memberCode, AppConstant.beforeNrlmStatus).get(i);
 
-            sectorDate = String.valueOf(viewModel.getAllSelectedActivity( memberCode, AppConstant.beforeNrlmStatus).get(i).getSector_code());
-            sectorName = viewModel.SectorName(viewModel.getAllSelectedActivity( memberCode, AppConstant.beforeNrlmStatus).get(i).getSector_code());
-            resetFunction(3);
-            loadFreaquency();
+                sectorDate = String.valueOf(viewModel.getAllSelectedActivity(memberCode, AppConstant.beforeNrlmStatus).get(i).getSector_code());
+                sectorName = viewModel.SectorName(viewModel.getAllSelectedActivity(memberCode, AppConstant.beforeNrlmStatus).get(i).getSector_code());
+                resetFunction(3);
+                loadFreaquency();
+
+            }catch (Exception e){
+                if (!RetrofitClient.server.equalsIgnoreCase("live"))
+                    Toast.makeText(getCurrentContext(),"IndexOutOfBoundsException AtIncomeEntryAfterFragment",Toast.LENGTH_LONG).show();
+                AppUtils.getInstance().showLog("IndexOutOfBoundsException",IncomeEntryAfterNrlmFragment.class);
+            }
+
         });
 
     }
@@ -372,6 +381,51 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.shgCode = shgCode;
         memberEntryEntity.shgMemberCode = shgMemberCode;
         memberEntryEntity.entryYearCode = entryYearCode;
+        switch (entryMonthCode) {
+            case "Dec":
+                entryMonthCode = "12";
+                break;
+
+            case "Nov":
+                entryMonthCode = "11";
+                break;
+
+            case "Oct":
+                entryMonthCode = "10";
+                break;
+
+            case "Sep":
+                entryMonthCode = "09";
+                break;
+
+            case "Aug":
+                entryMonthCode = "08";
+                break;
+
+            case "Jul":
+                entryMonthCode = "07";
+                break;
+            case "Jun":
+                entryMonthCode = "06";
+
+
+                break;
+            case "Apr":
+                entryMonthCode = "04";
+                break;
+            case "Mar":
+                entryMonthCode = "03";
+                break;
+            case "Feb":
+                entryMonthCode = "02";
+                break;
+            case "Jan":
+                entryMonthCode = "01";
+                break;
+            default:
+                entryMonthCode="05";
+
+        }
         memberEntryEntity.entryMonthCode = entryMonthCode;
         memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
         memberEntryEntity.sectorDate = sectorDate;
@@ -379,7 +433,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
         memberEntryEntity.incomeRangCode = incomeRangCode;
         memberEntryEntity.flagBeforeAfterNrlm = AppConstant.afterNrlmStatus;
-        memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus ;
+        memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
 
         memberEntryEntity.sectorName = sectorName;
         memberEntryEntity.activityName = activityName;
@@ -403,17 +457,24 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         sectorAdapter.notifyDataSetChanged();
     }
 
-    private void loadActivityData(int id,String memberCode) {
+    private void loadActivityData(int id, String memberCode) {
         /****** tis selection based on condition on activity id*****/
-        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getSelectedActivityName(id,memberCode,AppConstant.afterNrlmStatus));
+        activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getSelectedActivityName(id, memberCode, AppConstant.afterNrlmStatus));
         binding.spinnerSelectActivity.setAdapter(activityAdapter);
         activityAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
-            activityCode = String.valueOf(viewModel.getSelectedActivity(id,memberCode,AppConstant.afterNrlmStatus).get(i).getActivity_code());
-            activityName = viewModel.getSelectedActivityName(id,memberCode,AppConstant.afterNrlmStatus).get(i);
-            resetFunction(3);
-            loadFreaquency();
+            try {
+                activityCode = String.valueOf(viewModel.getSelectedActivity(id, memberCode, AppConstant.afterNrlmStatus).get(i).getActivity_code());
+                activityName = viewModel.getSelectedActivityName(id, memberCode, AppConstant.afterNrlmStatus).get(i);
+                resetFunction(3);
+                loadFreaquency();
+            } catch (Exception e) {
+                if (!RetrofitClient.server.equalsIgnoreCase("live"))
+                    Toast.makeText(getCurrentContext(), "IndexOutOffBond Exception", Toast.LENGTH_LONG).show();
+                AppUtils.getInstance().showLog("Indexoutoffbond Exp", IncomeEntryAfterNrlmFragment.class);
+            }
+
         });
     }
 

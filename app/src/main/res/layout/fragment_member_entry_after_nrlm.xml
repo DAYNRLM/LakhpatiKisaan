@@ -420,6 +420,7 @@
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btn_reset"
+                                android:visibility="gone"
                                 style="@style/IconTextContainedButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

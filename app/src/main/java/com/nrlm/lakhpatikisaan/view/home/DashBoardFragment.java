@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,6 +34,8 @@ import com.nrlm.lakhpatikisaan.repository.MasterDataRepo;
 import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.DialogFactory;
+import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
@@ -77,6 +81,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.getHomeViewModelRepos(getCurrentContext());
+        new AuthViewModel().init(getCurrentContext());
         binding.cvShgDetails.animate().alpha(1f).setDuration(7000).start();
         //  HomeViewModel authViewModel=   new ViewModelProvider(this).get(HomeViewModel.class);
 
@@ -94,6 +99,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
 
             } else {
                 binding.layoutCboLocation.setVisibility(View.VISIBLE);
+
                 binding.layoutGeoLocation.setVisibility(View.GONE);
 
                 loadClfData();
@@ -116,7 +122,32 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         try {
             List<ClfDataBean> clfDataBeanList = viewModel.getUniqueClf();
             if (clfDataBeanList==null||clfDataBeanList.size()==0) {
-                Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_clf_found), Toast.LENGTH_LONG).show();
+                /*show dialog*/
+                if (NetworkFactory.isInternetOn(getCurrentContext())){
+                    viewModel.deleteAllMasterDataLg();
+                    ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
+
+
+                    String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getCurrentContext());
+                    String deviceInfo=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(),getCurrentContext());
+                    String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getCurrentContext());
+
+                    LogRequestBean logRequestBean=new LogRequestBean(loginId,stateShortName,"5d7eaa5ef9d3e",deviceInfo,".3725698,.2985556");
+                    viewModel.getMasterData(logRequestBean);
+                    viewModel.getSupportiveMasters(logRequestBean);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                        }
+                    },10000);
+                }else {
+                    Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_clf_found)+" Please open the internet to get master data", Toast.LENGTH_LONG).show();
+                }
+
             } else {
 
                 if(viewModel.getUniqueClfName().isEmpty()){
@@ -242,9 +273,34 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
 
     private void loadBlockData() {
         List<String> blockNameList = viewModel.loadBlockName();
-        if (blockNameList==null && blockNameList.size() == 0) {
+        if (blockNameList==null || blockNameList.size() == 0) {
 
-            Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_block_found), Toast.LENGTH_LONG).show();
+            if (NetworkFactory.isInternetOn(getCurrentContext())){
+                viewModel.deleteAllMasterDataLg();
+                ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
+
+                String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getCurrentContext());
+                String deviceInfo=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(),getCurrentContext());
+                String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getCurrentContext());
+
+                LogRequestBean logRequestBean=new LogRequestBean(loginId,stateShortName,"5d7eaa5ef9d3e",deviceInfo,".3725698,.2985556");
+                viewModel.getMasterData(logRequestBean);
+                viewModel.getSupportiveMasters(logRequestBean);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                    }
+                },10000);
+            }else {
+                Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_block_found)+" Please open the internet to get master data", Toast.LENGTH_LONG).show();
+            }
+
+
+            /*show  dialog*/
+
 
         } else {
             blockAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, blockNameList);

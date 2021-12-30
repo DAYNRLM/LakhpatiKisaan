@@ -15,7 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -275,8 +277,10 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                         } catch (InterruptedException e) {
                                                             e.printStackTrace();
                                                         }
+
                                                         NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                         navController.navigate(navDirections);
+                                                        Navigation.findNavController(requireView()).popBackStack(R.id.memberEntryFragment, true);
 
                                                         /****this update date code comes after data sync sucessfully*****/
 
@@ -292,7 +296,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                         }
                                                         Toast.makeText(getContext(), "Data Synchronization failed!!!", Toast.LENGTH_LONG).show();
                                                         NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+
                                                         navController.navigate(navDirections);
+                                                        Navigation.findNavController(requireView()).popBackStack(R.id.memberEntryFragment, true);
 
                                                         /****this update date code comes after data sync sucessfully*****/
 
@@ -311,8 +317,10 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                 e.printStackTrace();
                                             }
                                             Toast.makeText(getContext(), "Data saved successfully!!!", Toast.LENGTH_LONG).show();
+
                                             NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                             navController.navigate(navDirections);
+                                            Navigation.findNavController(requireView()).popBackStack(R.id.memberEntryFragment, true);
                                         }
 
 

@@ -18,13 +18,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-   //private static final String server = "local";
+   //public static final String server = "local";
 
-  //   private static final String server ="demo";
-  private static final String server ="live";
+  //   public static final String server ="demo";
+    public static final String server ="live";
 
-    private static final int CONNECTION_TIMEOUT = 6000;
-    private static final int READ_TIMEOUT = 6000;
+    private static final int CONNECTION_TIMEOUT = 40000;
+    private static final int READ_TIMEOUT = 40000;
 
 
     private static String getBaseUrl(String server) {
@@ -85,7 +85,8 @@ public class RetrofitClient {
                         public Response intercept(@NonNull Chain chain) throws IOException {
 
                             return chain.proceed(chain.request().newBuilder()
-                                    .header("securityToken", "n{j5Y[<!Ps*HWCWg").build());
+                                    .header("securityToken", "n{j5Y[<!Ps*HWCWg")
+                                    .addHeader("Connection","close").build());
                         }
                     })
                     .addInterceptor(getHttpLoggingInterceptor()).build();
@@ -115,7 +116,7 @@ public class RetrofitClient {
     private static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(getBaseUrl(RetrofitClient.server))
             .addConverterFactory(GsonConverterFactory.create(getGson()))
-            .client(getOkHttpClient(RetrofitClient.CONNECTION_TIMEOUT,RetrofitClient.READ_TIMEOUT,true))
+            .client(getOkHttpClient(RetrofitClient.CONNECTION_TIMEOUT,RetrofitClient.READ_TIMEOUT,false))
             .build();
 
     private static ApiServices apiServices = retrofit.create(ApiServices.class);
