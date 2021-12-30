@@ -113,32 +113,33 @@
 
     </string>
     //new strings
-    <string name="cancel">Cancel</string>
-    <string name="do_you_want_to_change_the_language">Do you want to change the language?</string>
+    <string name="cancel">રદ કરો</string>
+    <string name="dialog_cancel_btn">રદ કરો</string>
+
+    <string name="do_you_want_to_change_the_language">શું તમે ભાષા બદલવા માંગો છો?</string>
 
 
     //new strings by lincon
 
-    <string name="dialog_sign_out_title">Confirm Sign Out</string>
-    <string name="dialog_sign_out_msg">You are signing out of your app on this device.</string>
-    <string name="dialog_btn_signout">sign out</string>
-    <string name="toast_success_sign_out">Successfully SignOut</string>
-    <string name="dialog_cancel_btn">cancel</string>
-    <string name="select_clf">Select CLF</string>
-    <string name="select_vo">Select VO</string>
-    <string name="select_block">Select Block</string>
-    <string name="select_grampanchayat">Select Grampanchayat:</string>
-    <string name="select_village">Select Village</string>
-    <string name="members_before_nrlm_entry">"Member's completed before nrlm entry"</string>
-    <string name="members_complete_after_nrlm_entry">Members completed after nrlm entry</string>
-    <string name="verify_otp">Verify Otp</string>
-    <string name="select_entry_date">Select Entry Date</string>
-    <string name="add_activity">Add activity</string>
-    <string name="select_secc">Select Secc</string>
-    <string name="selected_activity">Selected Activity</string>
-    <string name="livlihood_income_at_present">Livelihoods and Income at present</string>
-    <string name="enter_your_mpin">Enter your PIN</string>
-    <string name="for_secure_access">For secure access</string>
-    <string name="entry_complete_msg">Entries completed</string>
-    <string name="seed_sec">Seed SECC TIN Number by selecting the name</string>
+    <string name="dialog_sign_out_title">સાઇન આઉટની પુષ્ટિ કરો</string>
+    <string name="dialog_sign_out_msg">તમે આ ઉપકરણ પર તમારી એપ્લિકેશનમાંથી સાઇન આઉટ કરી રહ્યાં છો.</string>
+    <string name="dialog_btn_signout">સાઇન આઉટ કરો</string>
+    <string name="toast_success_sign_out">સફળતાપૂર્વક સાઇનઆઉટ</string>
+    <string name="select_clf">CLF પસંદ કરો</string>
+    <string name="select_vo">VO પસંદ કરો</string>
+    <string name="select_block">બ્લોક પસંદ કરો</string>
+    <string name="select_grampanchayat">ગ્રામ પંચાયત પસંદ કરો:</string>
+    <string name="select_village">ગામ પસંદ કરો</string>
+    <string name="members_before_nrlm_entry">સભ્યોએ એનઆરએલએમ પ્રવેશ પહેલાં પૂર્ણ કર્યું</string>
+    <string name="members_complete_after_nrlm_entry">એનઆરએલએમ પ્રવેશ પછી પૂર્ણ થયેલા સભ્યો</string>
+    <string name="verify_otp">ઓટીપી ચકાસો</string>
+    <string name="select_entry_date">પ્રવેશ તારીખ પસંદ કરો</string>
+    <string name="add_activity">પ્રવૃત્તિ ઉમેરો</string>
+    <string name="select_secc">Secc પસંદ કરો</string>
+    <string name="selected_activity">પસંદ કરેલ પ્રવૃત્તિ</string>
+    <string name="livlihood_income_at_present">વર્તમાનમાં આજીવિકા અને આવક</string>
+    <string name="enter_your_mpin">તમારો PIN દાખલ કરો</string>
+    <string name="for_secure_access">સુરક્ષિત ઍક્સેસ માટે</string>
+    <string name="entry_complete_msg">એન્ટ્રીઓ પૂર્ણ થઈ</string>
+    <string name="seed_sec">નામ પસંદ કરીને સીડ SECC TIN નંબર</string>
 </resources>
