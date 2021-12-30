@@ -222,7 +222,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
         /****** for reset current and all data on this screen*******/
         binding.btnReset.setOnClickListener(view1 -> {
-            ViewUtilsKt.toast(getCurrentContext(),"Not working yet");
+           // ViewUtilsKt.toast(getCurrentContext(),"Not working yet");
 
         });
 

@@ -345,7 +345,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
         });
         binding.btnReset.setOnClickListener(view1 -> {
-            ViewUtilsKt.toast(getCurrentContext(), "Not working yet");
+          //  ViewUtilsKt.toast(getCurrentContext(), "Not working yet");
         });
     }
 
