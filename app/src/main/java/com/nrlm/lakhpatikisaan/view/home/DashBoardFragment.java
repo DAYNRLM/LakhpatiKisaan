@@ -128,6 +128,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                     ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
                     progressDialog.setCancelable(false);
                     progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
+                    progressDialog.show();
 
 
                     String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getCurrentContext());
@@ -143,10 +144,11 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                         public void run() {
                             progressDialog.dismiss();
                         }
-                    },10000);
+                    },30000);
                 }else {
                     Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_clf_found)+" Please open the internet to get master data", Toast.LENGTH_LONG).show();
                 }
+
 
             } else {
 
@@ -280,6 +282,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                 ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
+                progressDialog.show();
 
                 String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getCurrentContext());
                 String deviceInfo=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(),getCurrentContext());
