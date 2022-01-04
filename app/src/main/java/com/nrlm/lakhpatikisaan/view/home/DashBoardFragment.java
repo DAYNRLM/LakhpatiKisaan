@@ -220,7 +220,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
             AppUtils.getInstance().showLog("" + e.toString(), DashBoardFragment.class);
         }
     }
-
+        
     private void loadShgDataWithVo(String voCode) {
         try {
             List<ShgDataBean> shgDataBeanListWithVo = viewModel.getShgDataWithVo(voCode);
