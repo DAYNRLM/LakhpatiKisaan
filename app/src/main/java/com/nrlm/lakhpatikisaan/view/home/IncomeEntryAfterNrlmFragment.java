@@ -195,7 +195,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
         binding.btnAddNewActivity.setOnClickListener(view1 -> {
             binding.cvSelectActivity.setVisibility(View.VISIBLE);
-            loadSector();
+           // loadSector();
 
             loadAllActivity(shgMemberCode);
         });
@@ -341,7 +341,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             sectorDate = String.valueOf(viewModel.getAllSectorData().get(i).getSector_code());
             sectorName = viewModel.loadSectorData().get(i);
             resetFunction(2);
-            loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(), shgMemberCode);
+            //loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(), shgMemberCode);
 
         });
         binding.btnReset.setOnClickListener(view1 -> {
@@ -357,11 +357,11 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
         binding.spinnerSelectActivity.setOnItemClickListener((adapterView, view1, i, l) -> {
             try{
-                activityCode = String.valueOf(viewModel.getAllSelectedActivity(memberCode, AppConstant.beforeNrlmStatus).get(i).getActivity_code());
-                activityName = viewModel.getAllSelectedActivityName(memberCode, AppConstant.beforeNrlmStatus).get(i);
+                activityCode = String.valueOf(viewModel.getAllSelectedActivity(memberCode, AppConstant.afterNrlmStatus).get(i).getActivity_code());
+                activityName = viewModel.getAllSelectedActivityName(memberCode, AppConstant.afterNrlmStatus).get(i);
 
-                sectorDate = String.valueOf(viewModel.getAllSelectedActivity(memberCode, AppConstant.beforeNrlmStatus).get(i).getSector_code());
-                sectorName = viewModel.SectorName(viewModel.getAllSelectedActivity(memberCode, AppConstant.beforeNrlmStatus).get(i).getSector_code());
+                sectorDate = String.valueOf(viewModel.getAllSelectedActivity(memberCode, AppConstant.afterNrlmStatus).get(i).getSector_code());
+                sectorName = viewModel.SectorName(viewModel.getAllSelectedActivity(memberCode, AppConstant.afterNrlmStatus).get(i).getSector_code());
                 resetFunction(3);
                 loadFreaquency();
 
