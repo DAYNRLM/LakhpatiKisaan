@@ -135,4 +135,11 @@
     <string name="for_secure_access">సురక్షిత యాక్సెస్ కోసం</string>
     <string name="entry_complete_msg">ఎంట్రీలు పూర్తయ్యాయి</string>
     <string name="seed_sec">పేరును ఎంచుకోవడం ద్వారా SECC టిన్ నంబర్‌ను సీడ్ చేయండి</string>
+
+    <string name="sign_up">Sign up</string>
+    <string name="select_state">Select your state</string>
+    <string name="selete_district">Select your district</string>
+    <string name="enter_user_name">Enter your name</string>
+    <string name="enter_mobile">Enter mobile number</string>
+    <string name="enter_email">Enter email</string>
 </resources>

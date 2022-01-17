@@ -135,4 +135,11 @@
     <string name="for_secure_access">For secure access</string>
     <string name="entry_complete_msg">Entries a zo e</string>
     <string name="seed_sec">Hming thlang chungin secc tin seed rawh</string>
+
+    <string name="sign_up">Sign up</string>
+    <string name="select_state">Select your state</string>
+    <string name="selete_district">Select your district</string>
+    <string name="enter_user_name">Enter your name</string>
+    <string name="enter_mobile">Enter mobile number</string>
+    <string name="enter_email">Enter email</string>
 </resources>
