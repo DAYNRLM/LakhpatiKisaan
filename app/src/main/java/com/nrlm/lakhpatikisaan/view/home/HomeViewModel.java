@@ -18,6 +18,7 @@ import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.VoDataBean;
+import com.nrlm.lakhpatikisaan.database.entity.AadhaarEntity;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
@@ -649,6 +650,23 @@ public class HomeViewModel extends ViewModel {
 
     private List<LgdVillageCode> getLgdVillageCodes() throws ExecutionException, InterruptedException {
         return loginRepo.getLgdVillageCodes();
+    }
+
+
+    public boolean isAadharExistInLocal(String aadharNumber){
+        boolean status =false;
+
+        List<AadhaarEntity> aadharListItem = masterDataRepo.getAadharData(aadharNumber);
+        if(!aadharListItem.isEmpty()){
+            status =true;
+        }else {
+
+        }
+        return status;
+    }
+
+    public void insertAadhar(AadhaarEntity aadhaarEntity){
+        masterDataRepo.insertAadharData(aadhaarEntity);
     }
 
 
