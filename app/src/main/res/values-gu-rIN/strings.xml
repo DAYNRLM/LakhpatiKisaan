@@ -142,4 +142,10 @@
     <string name="for_secure_access">સુરક્ષિત ઍક્સેસ માટે</string>
     <string name="entry_complete_msg">એન્ટ્રીઓ પૂર્ણ થઈ</string>
     <string name="seed_sec">નામ પસંદ કરીને સીડ SECC TIN નંબર</string>
+    <string name="sign_up">Sign up</string>
+    <string name="select_state">Select your state</string>
+    <string name="selete_district">Select your district</string>
+    <string name="enter_user_name">Enter your name</string>
+    <string name="enter_mobile">Enter mobile number</string>
+    <string name="enter_email">Enter email</string>
 </resources>

@@ -213,7 +213,17 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             }
 
         });
+
+        binding.tvSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections action = AuthFragmentDirections.actionAuthFragmentToSignUpFragment();
+                navController.navigate(action);
+            }
+        });
     }
+
+
 
     public void showServerError(String error_code) throws JSONException {
         switch (error_code) {

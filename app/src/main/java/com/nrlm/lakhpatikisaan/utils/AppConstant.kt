@@ -2,7 +2,7 @@ package com.nrlm.lakhpatikisaan.utils
 
 class AppConstant {
     companion object ConstantObject {
-        const val wantToShow: Boolean = true
+        const val wantToShow: Boolean = false
         const val dummyImei: String = "dummy_123456789"
         const val noInternetCode: String = "12163"
         const val unsyncStatus: String = "0"
