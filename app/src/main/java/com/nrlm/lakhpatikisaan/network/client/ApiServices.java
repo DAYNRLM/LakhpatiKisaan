@@ -16,7 +16,7 @@ import retrofit2.http.POST;
 
 public interface ApiServices {
 
-     @POST("login")
+    @POST("login")
     Call<JsonObject> loginApi(@Body LoginRequestBean loginRequestBean);
 
     @POST("masterdata")

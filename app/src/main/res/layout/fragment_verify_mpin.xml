@@ -77,6 +77,16 @@
                 app:lineColor="@color/green_500"
                 app:lineWidth="2dp"
                 app:viewType="rectangle" />
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tv_mpie_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10dp"
+                android:text="Wrong PIN 1 attempt remaining."
+                android:gravity="center"
+                android:fontFamily="@font/manrope_regular"
+                android:textColor="@color/red_500"/>
         </LinearLayout>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_verify"

@@ -39,7 +39,7 @@ public class PreferenceFactory {
         int value = 0;
         try {
             SharedPreferences sharedPreferences = context.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE);
-            value = sharedPreferences.getInt(key, 0);
+            value = sharedPreferences.getInt(key,3 );
             return value;
 
         } catch (ClassCastException cce) {
