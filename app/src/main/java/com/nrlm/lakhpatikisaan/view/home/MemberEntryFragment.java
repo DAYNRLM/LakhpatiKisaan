@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -21,10 +24,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.adaptor.EntryBeforeNrlmFoldAdapter;
 import com.nrlm.lakhpatikisaan.adaptor.ShgMemberAdapter;
+import com.nrlm.lakhpatikisaan.database.entity.AadhaarEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
+import com.nrlm.lakhpatikisaan.databinding.CustomAadharVerifyDialogBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
@@ -79,6 +85,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     int count = 0;
     private HomeViewModel homeViewModel;
 
+    LayoutInflater inflate;
+
 
     @Override
     public Class<HomeViewModel> getViewModel() {
@@ -87,6 +95,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
     @Override
     public FragmentMemberEntryBinding getFragmentBinding(LayoutInflater inflater, @Nullable ViewGroup container) {
+        inflate =inflater;
         return FragmentMemberEntryBinding.inflate(inflater, container, false);
     }
 
@@ -137,6 +146,109 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+
+        /*****for aadhar layout*****/
+
+        binding.ivAadhrScanner.setOnClickListener(view1 -> {
+            IntentIntegrator integrator = new IntentIntegrator(getActivity());
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+            integrator.setPrompt("scan QR code");
+            integrator.setCameraId(0);
+            integrator.setBeepEnabled(true);
+            integrator.setBarcodeImageEnabled(true);
+            integrator.initiateScan();
+
+        });
+
+
+
+        binding.btnSaveAadhar.setOnClickListener(view1 -> {
+            if(binding.etAadharNumber.getText().toString().isEmpty()){
+                ViewUtilsKt.toast(getCurrentContext(),"Enter 12 Digit aadhar number first.");
+            }else if (binding.etAadharName.getText().toString().isEmpty()){
+                ViewUtilsKt.toast(getCurrentContext(),"Enter Name as per aadhar.");
+            }else {
+
+                MaterialAlertDialogBuilder materialAlertDialogBuilder =
+                        new MaterialAlertDialogBuilder(getCurrentContext());
+
+                CustomAadharVerifyDialogBinding customAadharVerifyDialogBinding =CustomAadharVerifyDialogBinding.inflate(inflate);
+
+                materialAlertDialogBuilder.setView(customAadharVerifyDialogBinding.getRoot());
+                materialAlertDialogBuilder.setCancelable(false);
+                AlertDialog cusDialog = materialAlertDialogBuilder.show();
+                customAadharVerifyDialogBinding.tvVerifiedAadharNumber.setText(binding.etAadharNumber.getText().toString());
+                customAadharVerifyDialogBinding.tvVerifiedAadharName.setText(binding.etAadharName.getText().toString());
+
+
+                customAadharVerifyDialogBinding.btnConfirmAadhar.setOnClickListener(view2 -> {
+                    AadhaarEntity aadhaarEntity =  new AadhaarEntity();
+                    aadhaarEntity.setAadharNumber(binding.etAadharNumber.getText().toString());
+                    aadhaarEntity.setAadharName(binding.etAadharName.getText().toString());
+                    aadhaarEntity.setAadharSyncStatus("0");
+                    aadhaarEntity.setShgMemberCode(shgMemberCode);
+                    aadhaarEntity.setAadharVerifiedStatus("0");
+                    viewModel.insertAadhar(aadhaarEntity);
+
+                    ViewUtilsKt.toast(getCurrentContext(),"Aadhar Saved successfully");
+
+                    binding.tvAadharNumber.setText(binding.etAadharNumber.getText().toString());
+                    binding.tvaadharName.setText(binding.etAadharName.getText().toString());
+                    binding.llBtnLayout.setVisibility(View.GONE);
+                    binding.llEnterAadharData.setVisibility(View.GONE);
+                    binding.llDisplayAadharData.setVisibility(View.VISIBLE);
+                    cusDialog.dismiss();
+
+                });
+
+                customAadharVerifyDialogBinding.btnUpdateAadhar.setOnClickListener(view2 -> {
+
+                    binding.llBtnLayout.setVisibility(View.VISIBLE);
+                    binding.llEnterAadharData.setVisibility(View.GONE);
+                    binding.llDisplayAadharData.setVisibility(View.VISIBLE);
+                    cusDialog.dismiss();
+
+                });
+
+            }
+
+        });
+
+        binding.btnUpdateAadhar.setOnClickListener(view1 -> {
+            binding.llDisplayAadharData.setVisibility(View.GONE);
+            binding.llEnterAadharData.setVisibility(View.VISIBLE);
+            binding.etAadharName.setText("");
+            binding.etAadharNumber.setText("");
+        });
+
+        binding.etAadharNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() == 12) {
+                    /**check enter aadhar card exist in our local database or not**/
+                    if (viewModel.isAadharExistInLocal(editable.toString())) {
+                        binding.etAadharNumber.setText("");
+                        ViewUtilsKt.toast(getCurrentContext(),"Aadhar Card already Exist.");
+                    } else {
+                        binding.ivAadhrScanner.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    binding.ivAadhrScanner.setVisibility(View.GONE);
+                }
+            }
+        });
+
 
         /*** check if data exist in member entry table or not******/
         memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode, AppConstant.beforeNrlmStatus);

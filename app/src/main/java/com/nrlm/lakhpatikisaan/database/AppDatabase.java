@@ -10,6 +10,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
+import com.nrlm.lakhpatikisaan.database.dao.AadharDao;
 import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
 import com.nrlm.lakhpatikisaan.database.dao.CheckDeleteShgDao;
 import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
@@ -19,6 +20,7 @@ import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
 import com.nrlm.lakhpatikisaan.database.dao.SeccDao;
 import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
+import com.nrlm.lakhpatikisaan.database.entity.AadhaarEntity;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.CheckDeleteShgEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
@@ -36,7 +38,7 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {MemberEntryEntity.class,
         TempEntryBeforeNrlmEntity.class, LoginInfoEntity.class, MasterDataEntity.class, SectorEntity.class,
-        ActivityEntity.class, FrequencyEntity.class, IncomeRangeEntity.class, CheckDeleteShgEntity.class, SeccEntity.class}
+        ActivityEntity.class, FrequencyEntity.class, IncomeRangeEntity.class, CheckDeleteShgEntity.class, SeccEntity.class, AadhaarEntity.class}
         , version = 6, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -56,6 +58,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract IncomeRangeDao getIncomeRangeDao();
     public abstract CheckDeleteShgDao getCheckDeleteShgDao();
     public abstract SeccDao getSeccDao();
+    public abstract AadharDao getAadharDao();
 
     public static AppDatabase getDatabase(final Context context) {
         if (instance == null) {

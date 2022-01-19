@@ -6,6 +6,7 @@ import android.os.Build;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
+import com.nrlm.lakhpatikisaan.database.dao.AadharDao;
 import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
 import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
 import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
@@ -21,6 +22,7 @@ import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.VoDataBean;
+import com.nrlm.lakhpatikisaan.database.entity.AadhaarEntity;
 import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
@@ -66,6 +68,7 @@ public class MasterDataRepo {
     private IncomeRangeDao incomeRangeDao;
     private MemberEntryDao memberEntryDao;
     private SeccDao seccDao;
+    private AadharDao aadharDao;
 
     private MasterDataRepo(ExecutorService executor, Context context) {
         this.executor = executor;
@@ -78,6 +81,7 @@ public class MasterDataRepo {
         incomeRangeDao = appDatabase.getIncomeRangeDao();
         memberEntryDao = appDatabase.memberEntryDao();
         seccDao = appDatabase.getSeccDao();
+        aadharDao =appDatabase.getAadharDao();
     }
 
     public static MasterDataRepo getInstance(ExecutorService executor, Context context) {
@@ -926,4 +930,37 @@ public class MasterDataRepo {
         });
 
     }
+
+    /*****  for aadhar curd operarions************/
+    public void insertAadharData(AadhaarEntity aadhaarEntity){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                aadharDao.insert(aadhaarEntity);
+            }
+        });
+    }
+
+
+    public List<AadhaarEntity> getAadharData(String aadharNumber){
+        List<AadhaarEntity> aadharDataItem = null;
+        try {
+            Callable<List<AadhaarEntity>> listCallable = new Callable<List<AadhaarEntity>>() {
+                @Override
+                public List<AadhaarEntity> call() throws Exception {
+                    return aadharDao.getAadharData(aadharNumber);
+                }
+            };
+            Future<List<AadhaarEntity>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            aadharDataItem = future.get();
+
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("GET AADHAR EXPECTION" + e.toString(), MasterDataRepo.class);
+        }
+        return aadharDataItem;
+
+    }
+
+
+
 }
