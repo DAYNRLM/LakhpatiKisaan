@@ -8,7 +8,9 @@ import androidx.lifecycle.LiveData;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
+import com.nrlm.lakhpatikisaan.database.dao.AadharDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
+import com.nrlm.lakhpatikisaan.database.dbbean.AadharDbBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ActivityDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberDataToCheckDup;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgAndMemberDataBean;
@@ -39,11 +41,13 @@ public class SyncDataRepo {
     private final ExecutorService executor;
     private static SyncDataRepo instance = null;
     private MemberEntryDao memberEntryDao;
+    private AadharDao aadharDao;
 
     private SyncDataRepo(ExecutorService executor, Context context) {
         this.executor = executor;
         AppDatabase appDatabase = AppDatabase.getDatabase(context);
         memberEntryDao = appDatabase.memberEntryDao();
+        aadharDao= appDatabase.getAadharDao();
 
     }
 
@@ -236,8 +240,12 @@ public class SyncDataRepo {
 
             for (ShgAndMemberDataBean shgAndMemberDataBean : shgAndMemberDataBeanList) {
                 List<ActivityDataBean> activityDataBeanList = null ;
+                AadharDbBean aadharDbBean=null;
+
                 try {
                     activityDataBeanList = getActivityData(shgAndMemberDataBean.getShgCode(), shgAndMemberDataBean.getMemberCode(), entryCompleteConfirmation);
+                    aadharDbBean=getAadharDetails(shgAndMemberDataBean.getMemberCode());
+
                 }  catch (Exception e) {
                     AppUtils.getInstance().showLog("ExcpGetActivityDataSync" + e, SyncDataRepo.class);
                 }
@@ -245,6 +253,9 @@ public class SyncDataRepo {
                 syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
                 syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
                 syncEntry.setSecc(shgAndMemberDataBean.getSecc());
+                syncEntry.setName_as_per_aadhaar(aadharDbBean.getAadharName());
+                syncEntry.setEncrypted_aadhaar(aadharDbBean.getAadharNumber());
+                syncEntry.setAadhaar_verified_status(aadharDbBean.getAadharVerifiedStatus());
 
                 List<SyncEntriesRequestBean.ActivityData> activityDataList = new ArrayList<>();
 
@@ -278,6 +289,17 @@ public class SyncDataRepo {
             @Override
             public void run() {
                 memberEntryDao.updateSyncStatus();
+
+            }
+        });
+
+    }
+    public void updateAadharSyncStatus() {
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                aadharDao.updateAadharSyncStatus();
+
             }
         });
 
@@ -285,6 +307,19 @@ public class SyncDataRepo {
 
     public void deleteDuplicateEntries(String shgCode, String memberCode, String sectorCode, String activityCode, String entryType) {
         memberEntryDao.deleteDuplicateEntries(shgCode, memberCode, sectorCode, activityCode, entryType);
+    }
+
+    private AadharDbBean getAadharDetails(String memberCode) throws ExecutionException, InterruptedException {
+
+        Callable<AadharDbBean> callable = new Callable<AadharDbBean>() {
+            @Override
+            public AadharDbBean call() throws Exception {
+                return aadharDao.getAadharDetails(memberCode);
+            }
+        };
+        Future<AadharDbBean> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+
     }
 
 }

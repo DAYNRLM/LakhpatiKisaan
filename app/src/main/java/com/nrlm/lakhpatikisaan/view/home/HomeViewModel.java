@@ -154,6 +154,7 @@ public class HomeViewModel extends ViewModel {
                                     syncApiStatus="E200";
 
                                     updateSyncStatus();
+                                    updateAadharSyncStatus();
 
                                     AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "DataSync and status updated successfully-" +
                                             simpleResponseBean.getError().getMessage(), HomeViewModel.class);
@@ -195,6 +196,11 @@ public class HomeViewModel extends ViewModel {
     private void updateSyncStatus() {
         syncDataRepo.updateSyncStatus();
     }
+
+    private void updateAadharSyncStatus() {
+        syncDataRepo.updateAadharSyncStatus();
+    }
+
 
 
     /********* add method by lincon**********/
