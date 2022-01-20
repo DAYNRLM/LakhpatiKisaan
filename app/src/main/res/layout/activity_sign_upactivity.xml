@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.auth.SignUpFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.auth.SignUPActivity"
+    >
 
+    <data>
 
-  <data>
-
-
-  </data>
-    <!--android:layout_above="@+id/btn_goToMember"-->
-
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -113,30 +110,6 @@
                         android:textSize="15dp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_10dp"
-                    android:layout_marginLeft="@dimen/space_3dp"
-                    android:layout_marginRight="@dimen/space_3dp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:hint="Select Language"
-                    android:padding="3dp"
-                    app:boxStrokeColor="@color/out_line_strok">
-
-                    <AutoCompleteTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/select_language"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:inputType="none"
-                        android:textColor="@color/black"
-                        android:textSize="15dp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -150,15 +123,7 @@
                     app:boxStrokeColor="@color/out_line_strok"
                     android:fontFamily="@font/manrope_regular"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/mobiverify"
-                        android:visibility="gone"
-                        android:text="Mobile no is verified."
-                        android:textColor="@color/green_500"
-                        android:fontFamily="@font/montserrat_regular"
-                        />
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_userName"
                         android:layout_width="match_parent"
@@ -191,49 +156,7 @@
                         android:fontFamily="@font/manrope_regular"
                         android:inputType="number" />
 
-
                 </com.google.android.material.textfield.TextInputLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/otpLiner"
-                    android:visibility="gone"
-                    >
-                <TextView
-                    android:id="@+id/tv_usermsg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/manrope_extra_bold"
-                    android:gravity="center_horizontal"
-                    android:text="@string/et_enter_OTP"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-                <com.chaos.view.PinView
-                    android:id="@+id/et_otp"
-                    android:layout_gravity="center_horizontal"
-                    style="@style/PinWidget.PinView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:cursorVisible="true"
-                    android:inputType="numberPassword"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/montserrat_regular"
-                    app:cursorColor="@color/green_500"
-                    app:cursorWidth="2dp"
-                    app:itemCount="4"
-                    app:itemHeight="48dp"
-                    app:itemRadius="4dp"
-                    app:itemSpacing="0dp"
-                    app:itemWidth="48dp"
-                    app:lineColor="@color/green_500"
-                    app:lineWidth="2dp"
-                    app:viewType="rectangle" />
-                </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
 
@@ -258,12 +181,14 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
-                    android:id="@+id/submit"
+                <TextView
+                    android:id="@+id/tv_signUp"
                     android:layout_margin="15sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Submit"
+                    android:gravity="right"
+                    android:text="@string/sign_up"
+                    android:textColor="@color/green_500"
                     android:layout_marginTop="@dimen/space_10dp"
                     android:fontFamily="@font/manrope_semi_bold" />
 
@@ -272,9 +197,5 @@
         </ScrollView>
 
     </LinearLayout>
-
-
-
-
 
 </layout>
