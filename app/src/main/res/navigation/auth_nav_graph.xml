@@ -35,5 +35,9 @@
         android:id="@+id/signUpFragment"
         android:name="com.nrlm.lakhpatikisaan.view.auth.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+    </fragment>
 </navigation>

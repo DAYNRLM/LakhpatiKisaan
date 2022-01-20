@@ -23,6 +23,22 @@ public class PreferenceKeyManager {
     private static final String PREF_LANGUAGE_CODE="langCode";
     private static final String PREF_LANGUAGE_ID="langId";
     private static final String PREF_FRGT_PASS="frgtpassword";
+    private  static final String PREF_KEY_COUNTDOWN_TIME = "countDownTime";
+    private static final String PREF_KEY_MPIN_COUNTER = "mpinCounter";
+
+
+    public static String getPrefKeyMpinCounter() {
+        return PREF_KEY_MPIN_COUNTER;
+    }
+
+
+
+
+    public static String getPrefKeyCountdownTime() {
+        return PREF_KEY_COUNTDOWN_TIME;
+    }
+
+
 
     public static String getPrefFrgtPass() {
         return PREF_FRGT_PASS;

@@ -85,6 +85,8 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         binding.cvShgDetails.animate().alpha(1f).setDuration(7000).start();
         //  HomeViewModel authViewModel=   new ViewModelProvider(this).get(HomeViewModel.class);
 
+        PreferenceFactory.getInstance().saveSharedPreferenceData(PreferenceKeyManager.getPrefKeyMpinCounter(),3,getCurrentContext());
+        PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyCountdownTime(),"",getCurrentContext());
         locationFromAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getLocationFrom());
         binding.spinnerSelectLocationFrom.setAdapter(locationFromAdapter);
         locationFromAdapter.notifyDataSetChanged();

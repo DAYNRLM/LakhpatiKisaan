@@ -310,53 +310,34 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                 ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.range_not_fill));
             } else {
                 loadEntryList();
-
-
                 memberEntryDataItem = viewModel.getAllEntryData(shgMemberCode, AppConstant.beforeNrlmStatus);
-
                 count = memberEntryDataItem.size();
-
                 entryBeforeNrlmFoldAdapter = new EntryBeforeNrlmFoldAdapter(memberEntryDataItem, getCurrentContext(), viewModel);
                 binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
                 binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
                 entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
-
-
                 binding.cvRecyclerview.setVisibility(View.VISIBLE);
                 binding.cvSelectActivity.setVisibility(View.GONE);
                 binding.btnAddActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
                 binding.tvTotalActivityCount.setVisibility(View.GONE);
                 binding.tvTotalActivityCount.setText(getCurrentContext().getResources().getString(R.string.total_activity) + count);
-
                 resetFunction(1);
             }
-
         });
-
-
-        /****** Start add activity btn
+       /****** Start add activity btn
          * user can add multiple activity*****/
         binding.btnAddActivity.setOnClickListener(view1 -> {
-
             binding.cvSelectActivity.setVisibility(View.VISIBLE);
             //loadSector();
-
             loadAllActivity( shgMemberCode);
-
-
         });
-
-
         /****** for reset current and all data on this screen*******/
         binding.btnReset.setOnClickListener(view1 -> {
            // ViewUtilsKt.toast(getCurrentContext(),"Not working yet");
-
         });
-
         binding.btnSaveEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (memberEntryDataItem.size()>0){
                     new MaterialAlertDialogBuilder(getCurrentContext()).setTitle("User Confirmation").setIcon(R.drawable.ic_baseline_check_circle_outline_24)
                             .setItems(AppConstant.ConstantObject.getConfirmation(), new DialogInterface.OnClickListener() {
@@ -369,21 +350,15 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                          * sync operation perform and
                                          * redirect to afternrl screen****/
                                         dialogInterface.dismiss();
-
-
                                         /***update confirmation status based on member code and entry flag**/
                                         viewModel.updateConfirmationStatus(shgMemberCode, AppConstant.beforeNrlmStatus);
-
                                   /*  NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                     navController.navigate(navDirections);*/
-
                                         if (NetworkFactory.isInternetOn(getContext())) {
-
                                             ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
                                             progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
                                             progressDialog.setCancelable(false);
                                             progressDialog.show();
-
                                             viewModel.checkDuplicateAtServer(getContext()
                                                     , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), getContext())
                                                     , PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getContext())
@@ -403,15 +378,11 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                             e.printStackTrace();
                                                         } catch (InterruptedException e) {
                                                             e.printStackTrace();
-                                                        }
-
+                                                       }
                                                         NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                         navController.navigate(navDirections);
-                                                        Navigation.findNavController(requireView()).popBackStack(R.id.memberEntryFragment, true);
-
+                                                       Navigation.findNavController(requireView()).popBackStack(R.id.memberEntryFragment, true);
                                                         /****this update date code comes after data sync sucessfully*****/
-
-
                                                     } else {
                                                         progressDialog.dismiss();
                                                         try {
@@ -423,16 +394,10 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                         }
                                                         Toast.makeText(getContext(), "Data Synchronization failed!!!", Toast.LENGTH_LONG).show();
                                                         NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
-
                                                         navController.navigate(navDirections);
                                                         Navigation.findNavController(requireView()).popBackStack(R.id.memberEntryFragment, true);
-
                                                         /****this update date code comes after data sync sucessfully*****/
-
-
-
                                                     }
-
                                                 }
                                             }, 6000);
                                         } else {
@@ -444,29 +409,21 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                 e.printStackTrace();
                                             }
                                             Toast.makeText(getContext(), "Data saved successfully!!!", Toast.LENGTH_LONG).show();
-
                                             NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                             navController.navigate(navDirections);
                                             Navigation.findNavController(requireView()).popBackStack(R.id.memberEntryFragment, true);
                                         }
-
-
                                     } else if (str.equalsIgnoreCase("2")) {
                                         dialogInterface.dismiss();
-
                                        /* NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
                                         navController.navigate(navDirections);*/
-
                   /*                  Observer<String> actionObserver = new Observer<String>() {
                                         @Override
                                         public void onChanged(String s) {
-
                                             NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToShgMemberFragment();
                                             navController.navigate(navDirections);
-
                                         }
                                     };
-
                                   viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);*/
 
                                     }
@@ -501,7 +458,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
             sectorDate = String.valueOf(viewModel.getAllSelectedActivity( memberCode, AppConstant.beforeNrlmStatus).get(i).getSector_code());
             sectorName = viewModel.SectorName(viewModel.getAllSelectedActivity( memberCode, AppConstant.beforeNrlmStatus).get(i).getSector_code());
-            resetFunction(3);
+             resetFunction(3);
             loadFreaquency();
         });
 
@@ -557,12 +514,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryEntity.seccNumber = seccNumber;
         memberEntryEntity.seccName = seccName;
         memberEntryEntity.entryCompleteConfirmation = "0";
-
         viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
-
     }
-
-
     private void loadActivityData(int id, String memberCode) {
         /****** tis selection based on condition on activity id*****/
         activityAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, viewModel.getSelectedActivityName(id, memberCode, AppConstant.beforeNrlmStatus));
@@ -644,92 +597,62 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                 activityName = null;
                 incomeFrequencyName = null;
                 incomeRangName = null;
-
-
                 break;
-
             case 2:
-
                 activityAdapter = null;
                 frequencyAdapter = null;
                 incomeAdapter = null;
-
                 binding.spinnerSelectActivity.setText("");
                 binding.spinnerSelectFrequency.setText("");
                 binding.spinnerSelectIncome.setText("");
-
                 activityCode = null;
                 incomeFrequencyCode = null;
                 incomeRangCode = null;
-
                 activityName = null;
                 incomeFrequencyName = null;
                 incomeRangName = null;
-
                 break;
-
             case 3:
-
-
                 frequencyAdapter = null;
                 incomeAdapter = null;
-
                 binding.spinnerSelectFrequency.setText("");
                 binding.spinnerSelectIncome.setText("");
-
-
                 incomeFrequencyCode = null;
                 incomeRangCode = null;
-
                 incomeFrequencyName = null;
                 incomeRangName = null;
-
                 break;
-
             case 4:
                 incomeAdapter = null;
-
                 binding.spinnerSelectIncome.setText("");
-
                 incomeRangCode = null;
-
-                incomeRangName = null;
-
-                break;
+               incomeRangName = null;
+               break;
 
             case 5:
                 binding.cvSelectActivity.setVisibility(View.GONE);
-
                 sectorAdapter = null;
                 activityAdapter = null;
                 frequencyAdapter = null;
                 incomeAdapter = null;
-
                 binding.spinnerSelectSector.setText("");
                 binding.spinnerSelectActivity.setText("");
                 binding.spinnerSelectFrequency.setText("");
                 binding.spinnerSelectIncome.setText("");
-
                 activityCode = null;
                 incomeFrequencyCode = null;
                 incomeRangCode = null;
                 sectorDate = null;
-
                 sectorName = null;
                 activityName = null;
                 incomeFrequencyName = null;
                 incomeRangName = null;
-
                 break;
-
         }
-
-
     }
 
     public boolean isDataValidate() {
         boolean status = true;
-
         if (sectorDate.isEmpty()) {
             ViewUtilsKt.toast(getCurrentContext(), "Select Sector first");
             status = false;

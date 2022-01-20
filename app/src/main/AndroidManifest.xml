@@ -27,28 +27,31 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/app_icon_didi"
-        tools:replace="android:icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_icon_lakhpati"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.LakhpatiKisaan">
-
-        <activity android:name=".view.auth.AuthActivity"
-            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar"/>
-
-        <activity android:name=".view.mpin.MpinActivity"
-            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar"/>
-
-        <activity android:name=".view.home.HomeActivity"
-            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar"/>
-
-        <activity android:name=".MainActivity"
-            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar"/>
-
-        <activity android:name=".view.SplashScreenActivity"
+        android:theme="@style/Theme.LakhpatiKisaan"
+        android:usesCleartextTraffic="false"
+        tools:replace="android:icon,android:allowBackup">
+        <activity
+            android:name=".view.auth.SignUPActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.auth.AuthActivity"
+            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar" />
+        <activity
+            android:name=".view.mpin.MpinActivity"
+            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar" />
+        <activity
+            android:name=".view.home.HomeActivity"
+            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.LakhpatiKisaan.NoActionBar" />
+        <activity
+            android:name=".view.SplashScreenActivity"
             android:theme="@style/Theme.LakhpatiKisaan.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

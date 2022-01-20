@@ -11,7 +11,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.view.ActionMode;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -87,7 +91,41 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             NavDirections action = AuthFragmentDirections.actionAuthFragmentToSendOtpFragment();
             navController.navigate(action);
         });
+        if (android.os.Build.VERSION.SDK_INT < 11) {
+            binding.etPassword.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
 
+                @Override
+                public void onCreateContextMenu(ContextMenu menu, View v,
+                                                ContextMenu.ContextMenuInfo menuInfo) {
+                    // TODO Auto-generated method stub
+                    menu.clear();
+                }
+            });
+        } else {
+            binding.etPassword.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+
+                public void onDestroyActionMode(ActionMode mode) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+
+                public boolean onActionItemClicked(ActionMode mode,
+                                                   MenuItem item) {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+            });
+        }
         binding.btnLogin.setOnClickListener(v -> {
             authViewModel.deleteAllMasterDataLg();
 
