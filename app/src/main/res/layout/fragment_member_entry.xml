@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -169,7 +166,7 @@
                 </com.google.android.material.card.MaterialCardView>-->
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/cv_aadharCardEntry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -189,6 +186,7 @@
 
 
                         <LinearLayout
+
                             android:id="@+id/ll_enterAadharData"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -318,7 +316,7 @@
                                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Update"
+                                android:text="Reset"
                                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                 android:textColor="@color/orange_500"
                                 android:layout_marginLeft="@dimen/text_20sp"
@@ -326,15 +324,13 @@
 
                         </LinearLayout>
 
-
-
                     </LinearLayout>
 
 
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/cv_changeMonthYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

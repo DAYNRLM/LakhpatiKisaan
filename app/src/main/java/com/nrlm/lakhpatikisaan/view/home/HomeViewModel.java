@@ -154,6 +154,7 @@ public class HomeViewModel extends ViewModel {
                                     syncApiStatus="E200";
 
                                     updateSyncStatus();
+                                    updateAadharSyncStatus();
 
                                     AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "DataSync and status updated successfully-" +
                                             simpleResponseBean.getError().getMessage(), HomeViewModel.class);
@@ -195,6 +196,11 @@ public class HomeViewModel extends ViewModel {
     private void updateSyncStatus() {
         syncDataRepo.updateSyncStatus();
     }
+
+    private void updateAadharSyncStatus() {
+        syncDataRepo.updateAadharSyncStatus();
+    }
+
 
 
     /********* add method by lincon**********/
@@ -667,6 +673,14 @@ public class HomeViewModel extends ViewModel {
 
     public void insertAadhar(AadhaarEntity aadhaarEntity){
         masterDataRepo.insertAadharData(aadhaarEntity);
+    }
+
+    public String getAadharStatusFromMaster(String memberCode) throws ExecutionException, InterruptedException{
+        return masterDataRepo.getAadharStatus(memberCode);
+    }
+
+    public void updateAadharStatus(String membercode, String status){
+        masterDataRepo.updateAadharStatus(membercode,status);
     }
 
 

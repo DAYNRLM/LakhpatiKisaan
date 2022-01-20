@@ -106,5 +106,12 @@ public interface MasterDataDao {
     String getAfterEntryDate(String memberCode);
 
 
+    @Query("select distinct aadhaar_verified_status from MasterDataEntity where member_code=:memberCode")
+    String getAadharStatus(String memberCode);
+
+    @Query("UPDATE masterdataentity SET aadhaar_verified_status = :status WHERE member_code =:memberCode ")
+    void updateAadharStatus(String memberCode, String status);
+
+
 }
 
