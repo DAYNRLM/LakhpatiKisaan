@@ -55,6 +55,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
         holder.itemBinding.tvMemberNameCode.setText(dataItem.get(position).getMemberName() + "(" + dataItem.get(position).getMemberCode() + ")");
         String lastFilledBeforeNrlmEntry = dataItem.get(position).getLastFilledBeforeNrlmEntry();
         String lastFilledAfterNrlmEntry = dataItem.get(position).getLastFilledAfterNrlmEntry();
+        String aadharStatus = dataItem.get(position).getAadhaar_verified_status();
 
         if (lastFilledBeforeNrlmEntry == null) {
             holder.itemBinding.beforeNrlmEntry.setTextColor(context.getResources().getColor(R.color.red_500));
@@ -73,6 +74,23 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
         }
 
 
+        if (aadharStatus.equalsIgnoreCase("0")) {
+            holder.itemBinding.aadharDetails.setTextColor(context.getResources().getColor(R.color.red_500));
+            holder.itemBinding.aadharDetails.setText(context.getResources().getString(R.string.not_filled));
+        } else if (aadharStatus.equalsIgnoreCase("1")){
+            holder.itemBinding.aadharDetails.setTextColor(context.getResources().getColor(R.color.green_500));
+            holder.itemBinding.aadharDetails.setText("Captured");
+        }else if (aadharStatus.equalsIgnoreCase("2")){
+            holder.itemBinding.aadharDetails.setTextColor(context.getResources().getColor(R.color.green_500));
+            holder.itemBinding.aadharDetails.setText("Requested for verification");
+        }else if (aadharStatus.equalsIgnoreCase("3")){
+            holder.itemBinding.aadharDetails.setTextColor(context.getResources().getColor(R.color.red_500));
+            holder.itemBinding.aadharDetails.setText("Rejected");
+        }
+
+
+
+
         holder.itemBinding.holderView.setOnClickListener(view -> {
             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedMemberCode(), dataItem.get(position).getMemberCode(), context);
 
@@ -88,9 +106,11 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             }else if(afterDate ==null){
                 NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToIncomeEntryAfterNrlmFragment();
                 navController.navigate(navDirections);
-            }else {
-                ViewUtilsKt.toast(context, context.getResources().getString(R.string.entry_complete_msg));
-            }
+            }else if (aadharStatus.equalsIgnoreCase("0") ||aadharStatus.equalsIgnoreCase("3") ){
+                NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToMemberEntryFragment();
+                navController.navigate(navDirections);
+
+            }else  ViewUtilsKt.toast(context, context.getResources().getString(R.string.entry_complete_msg));
 
 
 

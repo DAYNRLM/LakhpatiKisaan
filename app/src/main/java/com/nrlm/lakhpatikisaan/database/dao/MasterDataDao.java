@@ -29,7 +29,7 @@ public interface MasterDataDao {
 
     /*322249*/
 
-    @Query("select shg_code,member_code,member_name,last_entry_before_nrlm,last_entry_after_nrlm from MasterDataEntity where shg_code=:shgCode")
+    @Query("select shg_code,member_code,member_name,last_entry_before_nrlm,last_entry_after_nrlm,aadhaar_verified_status from MasterDataEntity where shg_code=:shgCode")
     List<MemberListDataBean> getMemberListData(String shgCode);
 
     /*3120002*/
