@@ -7,14 +7,16 @@ import androidx.room.PrimaryKey;
 public class MasterDataEntity {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
     private String block_name,block_code,gp_code,gp_name,village_code,village_name,shg_name,shg_code,member_code,member_name
             ,clf_code,clf_name,vo_code,vo_name,member_joining_date,last_entry_after_nrlm,last_entry_before_nrlm,secc_no_flag,lgd_village_code,aadhaar_verified_status,gender;
 
     public MasterDataEntity(String block_name, String block_code, String gp_code, String gp_name,
-                            String village_code, String village_name, String shg_name, String shg_code, String member_code,
-                            String member_name, String clf_code, String clf_name, String vo_code, String vo_name, String member_joining_date,
-                            String last_entry_after_nrlm, String last_entry_before_nrlm, String secc_no_flag, String lgd_village_code,String aadharStatus,String gender) {
+                            String village_code, String village_name, String shg_name, String shg_code,
+                            String member_code, String member_name, String clf_code, String clf_name,
+                            String vo_code, String vo_name, String member_joining_date, String last_entry_after_nrlm,
+                            String last_entry_before_nrlm, String secc_no_flag, String lgd_village_code,
+                            String aadhaar_verified_status, String gender) {
         this.block_name = block_name;
         this.block_code = block_code;
         this.gp_code = gp_code;
@@ -33,25 +35,8 @@ public class MasterDataEntity {
         this.last_entry_after_nrlm = last_entry_after_nrlm;
         this.last_entry_before_nrlm = last_entry_before_nrlm;
         this.secc_no_flag = secc_no_flag;
-         
         this.lgd_village_code = lgd_village_code;
-        this.gender=gender;
-        this.aadhaar_verified_status=aadharStatus;
-    }
-
-    public String getAadhaar_verified_status() {
-        return aadhaar_verified_status;
-    }
-
-    public void setAadhaar_verified_status(String aadhaar_verified_status) {
         this.aadhaar_verified_status = aadhaar_verified_status;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -213,5 +198,21 @@ public class MasterDataEntity {
 
     public void setLgd_village_code(String lgd_village_code) {
         this.lgd_village_code = lgd_village_code;
+    }
+
+    public String getAadhaar_verified_status() {
+        return aadhaar_verified_status;
+    }
+
+    public void setAadhaar_verified_status(String aadhaar_verified_status) {
+        this.aadhaar_verified_status = aadhaar_verified_status;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
