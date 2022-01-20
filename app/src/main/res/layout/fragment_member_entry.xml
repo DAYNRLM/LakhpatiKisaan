@@ -201,7 +201,7 @@
                                     android:layout_weight="0.5"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Enter 12 Digit Aadhar Number"
+                                    android:hint="Enter 12 Digit Aadhaar Number"
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginRight="10dp"
                                     app:boxStrokeColor="@color/out_line_strok"
@@ -235,7 +235,7 @@
                                 android:layout_weight="0.5"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Enter Name as per Aadhar"
+                                android:hint="Enter Name as per Aadhaar"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="5dp"
@@ -267,6 +267,12 @@
                             android:layout_margin="@dimen/space_10dp">
 
                             <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Aadhaar Number"
+                                android:fontFamily="@font/manrope_regular"/>
+
+                            <TextView
                                 android:id="@+id/tv_aadharNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -278,6 +284,11 @@
                                 android:textSize="@dimen/text_20sp"
                                 android:textColor="@color/black"/>
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Name as per Aadhaar"
+                                android:fontFamily="@font/manrope_regular"/>
 
                             <TextView
                                 android:id="@+id/tvaadharName"
