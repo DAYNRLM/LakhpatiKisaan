@@ -80,6 +80,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String monthName;
     String seccNumber;
     String seccName;
+    String aadharStatus;
 
 
     int count = 0;
@@ -123,6 +124,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             String memberName = viewModel.getMemberNameDB(shgMemberCode);
             String shgName = viewModel.getShgNameDB(shgCode);
             String joiningDate = viewModel.getMemberJoiningDate(shgMemberCode);
+            aadharStatus = viewModel.getAadharStatusFromMaster(shgMemberCode);
 
             String memberDOJ = viewModel.getMemberDOJ(shgMemberCode);
 
@@ -149,6 +151,14 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
 
         /*****for aadhar layout*****/
+
+        if(aadharStatus.equalsIgnoreCase("0")){
+            binding.cvAadharCardEntry.setVisibility(View.VISIBLE);
+        }else {
+            binding.cvAadharCardEntry.setVisibility(View.GONE);
+            binding.cvChangeMonthYear.setVisibility(View.VISIBLE);
+
+        }
 
         binding.ivAadhrScanner.setOnClickListener(view1 -> {
             IntentIntegrator integrator = new IntentIntegrator(getActivity());
@@ -191,14 +201,19 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                     aadhaarEntity.setAadharVerifiedStatus("0");
                     viewModel.insertAadhar(aadhaarEntity);
 
-                    ViewUtilsKt.toast(getCurrentContext(),"Aadhar Saved successfully");
+                    viewModel.updateAadharStatus(shgMemberCode,"1");
 
+                    ViewUtilsKt.toast(getCurrentContext(),"Aadhar Saved successfully");
                     binding.tvAadharNumber.setText(binding.etAadharNumber.getText().toString());
                     binding.tvaadharName.setText(binding.etAadharName.getText().toString());
                     binding.llBtnLayout.setVisibility(View.GONE);
                     binding.llEnterAadharData.setVisibility(View.GONE);
                     binding.llDisplayAadharData.setVisibility(View.VISIBLE);
                     cusDialog.dismiss();
+
+                    binding.cvChangeMonthYear.setVisibility(View.VISIBLE);
+
+
 
                 });
 

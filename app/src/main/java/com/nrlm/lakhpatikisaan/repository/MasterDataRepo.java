@@ -112,7 +112,7 @@ public class MasterDataRepo {
                                             , masterData.getGp_name(), masterData.getVillage_code(), masterData.getVillage_name(), masterData.getShg_name(), masterData.getShg_code(),
                                             masterData.getMember_code(), masterData.getMember_name(), masterData.getClf_code(), masterData.getClf_name(), masterData.getVo_code(),
                                             masterData.getVo_name(), masterData.getMember_joining_date(), masterData.getLast_entry_after_nrlm(), masterData.getLast_entry_before_nrlm(),
-                                            masterData.getSecc_no_flag(), masterData.getLgd_village_code());
+                                            masterData.getSecc_no_flag(), masterData.getLgd_village_code(),"0","F");
 
                                     masterDataEntityList.add(masterDataEntity);
                                 }
@@ -960,6 +960,35 @@ public class MasterDataRepo {
         return aadharDataItem;
 
     }
+
+
+    public String getAadharStatus(String memBerCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                AppUtils.getInstance().showLog("ShgListData" + masterDataDao.getGpListData(memBerCode).size(), MasterDataRepo.class);
+                return masterDataDao.getAadharStatus(memBerCode);
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+
+    public void updateAadharStatus(String memberCode,String status)  {
+        try{
+            AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    masterDataDao.updateAadharStatus(memberCode,status);
+                }
+            });
+        }catch (Exception e){
+
+        }
+
+    }
+
 
 
 

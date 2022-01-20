@@ -169,7 +169,7 @@
                 </com.google.android.material.card.MaterialCardView>-->
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/cv_aadharCardEntry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -189,6 +189,7 @@
 
 
                         <LinearLayout
+
                             android:id="@+id/ll_enterAadharData"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -334,7 +335,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/cv_changeMonthYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

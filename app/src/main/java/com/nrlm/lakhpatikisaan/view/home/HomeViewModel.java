@@ -669,5 +669,13 @@ public class HomeViewModel extends ViewModel {
         masterDataRepo.insertAadharData(aadhaarEntity);
     }
 
+    public String getAadharStatusFromMaster(String memberCode) throws ExecutionException, InterruptedException{
+        return masterDataRepo.getAadharStatus(memberCode);
+    }
+
+    public void updateAadharStatus(String membercode, String status){
+        masterDataRepo.updateAadharStatus(membercode,status);
+    }
+
 
 }
