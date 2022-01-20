@@ -48,6 +48,9 @@ public class MasterDataEntity {
         this.id = id;
     }
 
+
+
+
     public String getBlock_name() {
         return block_name;
     }
