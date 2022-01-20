@@ -165,29 +165,47 @@
                             android:orientation="vertical"
                             android:visibility="gone">
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/space_3dp"
-                                android:layout_marginRight="@dimen/space_3dp"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:hint="@string/select_block"
-                                android:padding="3dp"
-                                app:boxStrokeColor="@color/out_line_strok">
-
-                                <AutoCompleteTextView
-                                    android:id="@+id/spinner_selectBlock"
+                                android:layout_height="wrap_content">
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:focusable="false"
-                                    android:focusableInTouchMode="false"
+                                    android:visibility="gone"
+                                    android:gravity="center"
+                                    android:textSize="20dp"
+                                    android:id="@+id/selectedBlockTV"
+                                    android:text="selected block"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/green_500"/>
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:layout_marginLeft="@dimen/space_3dp"
+                                    android:layout_marginRight="@dimen/space_3dp"
                                     android:fontFamily="@font/montserrat_regular"
-                                    android:inputType="none"
-                                    android:textColor="@color/black"
-                                    android:textSize="15dp" />
+                                    android:hint="@string/select_block"
+                                    android:padding="3dp"
+                                    app:boxStrokeColor="@color/out_line_strok">
 
-                            </com.google.android.material.textfield.TextInputLayout>
+                                    <AutoCompleteTextView
+                                        android:id="@+id/spinner_selectBlock"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:focusable="false"
+                                        android:focusableInTouchMode="false"
+                                        android:fontFamily="@font/montserrat_regular"
+                                        android:inputType="none"
+                                        android:textColor="@color/black"
+                                        android:textSize="15dp" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+                            </RelativeLayout>
+
 
                             <com.google.android.material.textfield.TextInputLayout
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
