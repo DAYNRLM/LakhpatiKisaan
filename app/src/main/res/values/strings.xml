@@ -38,14 +38,21 @@
     <string name="no_internet_dialog">No Internet!</string>
     <string name="loading_heavy">Loading...</string>
     <string name="not_filled">Not Captured</string>
-//new strings 7/12/2021
+    //new
+    strings
+    7/12/2021
     <string name="invalid_userid">Invalid user id</string>
     <string name="invalid_password">Invalid password</string>
     <string name="sector">Sector</string>
     <string name="activity">Activity</string>
     <string name="frequency_range">Frequency Range</string>
     <string name="delete">Delete</string>
-    <string name="range_value">10000 and 2000 Rs. Rang</string> //this string can be deleted
+    <string name="range_value">10000 and 2000 Rs. Rang</string>
+    //this
+    string
+    can
+    be
+    deleted
     <string name="last_entry_before_nrlm">Income status before joining NRLM</string>
     <string name="last_entry_after_nrlm">Present income status</string>
     <string name="no_field_date">Not filled/ Date</string>
@@ -108,10 +115,14 @@
     <string name="frequency_not_fill">Please select income frequency  first</string>
     <string name="range_not_fill">Please select income range</string>
     <string name="wrong_mpin">Entered M-PIN is wrong.</string>
-    //new strings
-<string name="cancel">Cancel</string>
+    //new
+    strings
+    <string name="cancel">Cancel</string>
     <string name="do_you_want_to_change_the_language">Do you want to change the language?</string>
-    //new strings by lincon
+    //new
+    strings
+    by
+    lincon
     <string name="dialog_sign_out_title">Confirm Sign Out</string>
     <string name="dialog_sign_out_msg">You are signing out of your app on this device.</string>
     <string name="dialog_btn_signout">sign out</string>
@@ -134,4 +145,15 @@
     <string name="enter_your_mpin">Enter your PIN</string>
     <string name="for_secure_access">For secure access</string>
     <string name="seed_sec">Seed SECC TIN Number by selecting the name</string>
+
+    // newly added string
+    <string name="sign_up">Sign up form ?</string>
+    <string name="select_state">Select your state</string>
+    <string name="selete_district">Select your district</string>
+    <string name="enter_user_name">Enter your name</string>
+    <string name="enter_mobile">Enter mobile number</string>
+    <string name="enter_email">Enter email</string>
+
+
+
 </resources>

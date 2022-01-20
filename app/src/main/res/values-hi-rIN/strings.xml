@@ -134,4 +134,11 @@
     <string name="for_secure_access">Secure Access के लिए</string>
     <string name="entry_complete_msg">प्रविष्टियां पूर्ण</string>
     <string name="seed_sec">नाम का चयन करके SECC TIN नंबर की सीडिंग</string>
+
+    <string name="sign_up">Sign up</string>
+    <string name="select_state">Select your state</string>
+    <string name="selete_district">Select your district</string>
+    <string name="enter_user_name">Enter your name</string>
+    <string name="enter_mobile">Enter mobile number</string>
+    <string name="enter_email">Enter email</string>
 </resources>

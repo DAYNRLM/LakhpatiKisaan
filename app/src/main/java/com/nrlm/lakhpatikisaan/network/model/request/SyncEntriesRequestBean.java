@@ -7,11 +7,11 @@ import java.util.List;
 
 public class SyncEntriesRequestBean implements Serializable {
 
-    private String login_id  ;
+    private String login_id;
     private String imei_no;
-    private String device_name ;
-    private String  location_coordinate;
-    private String state_short_name ;
+    private String device_name;
+    private String location_coordinate;
+    private String state_short_name;
     private List<SyncEntry> nrlm_entry_sync;
 
     public String getLogin_id() {
@@ -62,11 +62,39 @@ public class SyncEntriesRequestBean implements Serializable {
         this.nrlm_entry_sync = nrlm_entry_sync;
     }
 
-    public static class SyncEntry{
-        private String shg_code ;
+    public static class SyncEntry {
+        private String shg_code;
         private String shg_member_code;
         private String secc;
+        private String name_as_per_aadhaar;
+        private String aadhaar_verified_status;
+        private String encrypted_aadhaar;
+
         private List<ActivityData> activities_data_sync;
+
+        public String getName_as_per_aadhaar() {
+            return name_as_per_aadhaar;
+        }
+
+        public void setName_as_per_aadhaar(String name_as_per_aadhaar) {
+            this.name_as_per_aadhaar = name_as_per_aadhaar;
+        }
+
+        public String getAadhaar_verified_status() {
+            return aadhaar_verified_status;
+        }
+
+        public void setAadhaar_verified_status(String aadhaar_verified_status) {
+            this.aadhaar_verified_status = aadhaar_verified_status;
+        }
+
+        public String getEncrypted_aadhaar() {
+            return encrypted_aadhaar;
+        }
+
+        public void setEncrypted_aadhaar(String encrypted_aadhaar) {
+            this.encrypted_aadhaar = encrypted_aadhaar;
+        }
 
         public String getSecc() {
             return secc;
@@ -75,7 +103,6 @@ public class SyncEntriesRequestBean implements Serializable {
         public void setSecc(String secc) {
             this.secc = secc;
         }
-
 
 
         public String getShg_code() {
@@ -103,9 +130,9 @@ public class SyncEntriesRequestBean implements Serializable {
         }
     }
 
-    public static class ActivityData{
+    public static class ActivityData {
         private String entry_year;
-        private String entry_month ;
+        private String entry_month;
         private String created_on_android;
         private String activity_code;
         private String frequency_code;
@@ -186,8 +213,13 @@ public class SyncEntriesRequestBean implements Serializable {
         "state_short_name": "hr",
 
         "nrlm_entry_sync": [{
-                "shg_code": "3344",
-                "shg_member_code": "2334",
+                        "shg_code": "3344",
+                        "shg_member_code": "2334",
+                        "name_as_per_aadhaar":"asdfghjkl",
+                        "aadhaar_verified_status":"Pending",
+                        "encrypted_aadhaar":"12456789012",
+                        "secc":"",
+
                 "activities_data_sync": [{
                         "entry_year": "2021",
                         "entry_month": "12",

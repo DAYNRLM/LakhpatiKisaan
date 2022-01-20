@@ -135,4 +135,11 @@
     <string name="for_secure_access">ಸುರಕ್ಷಿತ ಪ್ರವೇಶಕ್ಕಾಗಿ</string>
     <string name="entry_complete_msg">ನಮೂದುಗಳು ಪೂರ್ಣಗೊಂಡಿವೆ</string>
     <string name="seed_sec">ಹೆಸರನ್ನು ಆಯ್ಕೆ ಮಾಡುವ ಮೂಲಕ SECC ಟಿನ್ ಸಂಖ್ಯೆಯನ್ನು ಸೀಡ್ ಮಾಡಿ</string>
+
+    <string name="sign_up">Sign up</string>
+    <string name="select_state">Select your state</string>
+    <string name="selete_district">Select your district</string>
+    <string name="enter_user_name">Enter your name</string>
+    <string name="enter_mobile">Enter mobile number</string>
+    <string name="enter_email">Enter email</string>
 </resources>

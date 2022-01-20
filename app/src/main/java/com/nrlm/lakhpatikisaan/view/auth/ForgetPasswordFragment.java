@@ -74,7 +74,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
             password=binding.etPassword.getText().toString();
             confirmPassword=binding.etConfirmPassword.getText().toString();
         //  String prefLoginId= ;
-            if (!userId.equalsIgnoreCase("") && userId.equalsIgnoreCase(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getContext()))) {
+            if (!userId.equalsIgnoreCase("")) {
                 if (password.equalsIgnoreCase(confirmPassword) && !password.equalsIgnoreCase("") && !confirmPassword.equalsIgnoreCase("")) {
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefFrgtPass(),confirmPassword,getCurrentContext());
                     progressDialog = new ProgressDialog(getContext());
