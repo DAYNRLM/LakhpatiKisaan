@@ -3,6 +3,7 @@ package com.nrlm.lakhpatikisaan.view.home;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.adaptor.EntryBeforeNrlmFoldAdapter;
 import com.nrlm.lakhpatikisaan.adaptor.ShgMemberAdapter;
@@ -33,6 +35,7 @@ import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.CustomAadharVerifyDialogBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
+import com.nrlm.lakhpatikisaan.network.model.AadharPojo;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
@@ -43,6 +46,10 @@ import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -87,6 +94,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     private HomeViewModel homeViewModel;
 
     LayoutInflater inflate;
+
+
 
 
     @Override
@@ -160,6 +169,15 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
         }
 
+
+        /*viewModel.recieveAadharData().observe(getViewLifecycleOwner(), new Observer<AadharPojo>() {
+            @Override
+            public void onChanged(AadharPojo aadharPojo) {
+                ViewUtilsKt.toast(getCurrentContext(),"DATA CHANGED SUCESSFULLYYYYYYY");
+            }
+        });*/
+
+
         binding.ivAadhrScanner.setOnClickListener(view1 -> {
             IntentIntegrator integrator = new IntentIntegrator(getActivity());
             integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
@@ -168,6 +186,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             integrator.setBeepEnabled(true);
             integrator.setBarcodeImageEnabled(true);
             integrator.initiateScan();
+
+            //viewModel.recieveAadharData().observe(getViewLifecycleOwner(),aadhaarObserver);
 
         });
 
@@ -445,6 +465,10 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
         });
     }
+
+
+
+
 
     private void loadAllActivity(String memberCode) {
         /****** tis selection based on condition on activity id*****/
