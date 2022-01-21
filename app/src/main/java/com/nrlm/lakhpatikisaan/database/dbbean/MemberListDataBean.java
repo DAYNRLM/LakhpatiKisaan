@@ -13,6 +13,17 @@ public class MemberListDataBean {
     private String lastFilledBeforeNrlmEntry;
     @ColumnInfo(name = "last_entry_after_nrlm")
     private String lastFilledAfterNrlmEntry;
+    @ColumnInfo(name = "aadhaar_verified_status")
+    private String aadhaar_verified_status;
+
+
+    public String getAadhaar_verified_status() {
+        return aadhaar_verified_status;
+    }
+
+    public void setAadhaar_verified_status(String aadhaar_verified_status) {
+        this.aadhaar_verified_status = aadhaar_verified_status;
+    }
 
     public String getShgCode() {
         return shgCode;

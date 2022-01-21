@@ -66,6 +66,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
     int selectedLanguageCode;
     String userName;
     NavController navController;
+    boolean otpVerified;
 
 
     @Override
@@ -93,6 +94,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
         super.onCreate(savedInstanceState);
 
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -150,10 +152,16 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+
             }
 
             @Override
             public void afterTextChanged(@NonNull Editable s) {
+                if(s.toString().length()<10)
+                {
+                    binding.otpLiner.setVisibility(View.GONE);
+                    binding.submit.setVisibility(View.GONE);
+                }
                 if (s.toString().length() == 10) {
                     if (AppUtils.isValid(s.toString())) {
                         Toast.makeText(getCurrentContext(), "Valid", Toast.LENGTH_SHORT).show();
@@ -305,6 +313,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                                                 Toast.makeText(getCurrentContext(), "Valid", Toast.LENGTH_SHORT).show();
                                                 binding.otpLiner.setVisibility(View.GONE);
                                                 binding.mobiverify.setVisibility(View.VISIBLE);
+                                                binding.submit.setVisibility(View.VISIBLE);
                                             } else {
                                                 Toast.makeText(getCurrentContext(),"Invalid Otp", Toast.LENGTH_SHORT).show();
                                                 binding.etOtp.setText("");

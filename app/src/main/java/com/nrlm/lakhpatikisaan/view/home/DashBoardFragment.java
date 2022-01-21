@@ -307,7 +307,21 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
             /*show  dialog*/
 
 
-        } else {
+        }
+        else if (blockNameList.size()==1){
+            binding.spinnerSelectBlock.setVisibility(View.GONE);
+            binding.selectedBlockTV.setVisibility(View.VISIBLE);
+            binding.selectedBlockTV.setText("Block :- "+blockNameList.get(0));
+            /*binding.spinnerSelectBlock.setText(blockNameList.get(0), false);*/
+            String blockCode = viewModel.getAllBlockData().get(0).getBlockCode();
+            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefSelectedBlockCode(), blockCode, getContext());
+
+            loadGpData(blockCode);
+        }
+
+        else {
+            binding.spinnerSelectBlock.setVisibility(View.VISIBLE);
+            binding.selectedBlockTV.setVisibility(View.GONE);
             blockAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, blockNameList);
             binding.spinnerSelectBlock.setAdapter(blockAdapter);
             blockAdapter.notifyDataSetChanged();
