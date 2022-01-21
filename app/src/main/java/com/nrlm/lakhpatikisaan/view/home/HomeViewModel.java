@@ -26,6 +26,7 @@ import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SeccEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.Result;
+import com.nrlm.lakhpatikisaan.network.model.AadharPojo;
 import com.nrlm.lakhpatikisaan.network.model.request.CheckDuplicateRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SeccRequestBean;
@@ -55,8 +56,13 @@ public class HomeViewModel extends ViewModel {
     private SyncDataRepo syncDataRepo;
     private String syncApiStatus;
 
+    MutableLiveData<AadharPojo> aadharMutableData=new MutableLiveData<>();
+
+
     public HomeViewModel() {
     }
+
+
 
 
     public void getHomeViewModelRepos(Context context) {
@@ -681,6 +687,23 @@ public class HomeViewModel extends ViewModel {
 
     public void updateAadharStatus(String membercode, String status){
         masterDataRepo.updateAadharStatus(membercode,status);
+    }
+
+
+
+    public void sendAadharPojoData(AadharPojo aadharPojo){
+      //  aadharMutableData =  new MutableLiveData<>();
+        aadharMutableData.setValue(aadharPojo);
+    }
+
+    public MutableLiveData<AadharPojo> recieveAadharData(){
+        AadharPojo aadharPojo = new AadharPojo();
+        aadharPojo.setAadhaarNumber("");
+        aadharPojo.setAadharName("");
+        aadharPojo.setAadharGender("");
+        aadharPojo.setError("");
+        aadharMutableData.setValue(aadharPojo);
+        return aadharMutableData;
     }
 
 

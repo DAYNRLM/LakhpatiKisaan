@@ -115,7 +115,7 @@
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Update"
+                        android:text="Cancel"
                         android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                         android:textColor="@color/orange_500"
                         android:layout_marginLeft="@dimen/text_20sp"
