@@ -278,7 +278,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
             else {
                 String otp = AppUtils.getInstance().getRandomOtp();
                 PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getRandomOtp(), otp, getCurrentContext());
-
+                  AppUtils.getInstance().showLog("otp:-"+otp, SignUpFragment.class);
 
                 mobileVerfication = new JSONObject();
                 try {
