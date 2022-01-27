@@ -179,7 +179,8 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(binding.spinnerState.getText()!=null&&binding.spinnerDistrict.getText()!=null&&binding.spinnerBlock!=null&&binding.etUserName!=null&&binding.etUserEmail!=null&&binding.etUserMobile!=null){
+                if(binding.spinnerState.getText()!=null&&binding.spinnerDistrict.getText()!=null&&binding.spinnerBlock!=null&&binding.etUserName!=null
+                        &&binding.etUserMobile!=null){
                     getSignUpSubmitApiCall();
                 }else
                 {
@@ -277,7 +278,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
             else {
                 String otp = AppUtils.getInstance().getRandomOtp();
                 PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getRandomOtp(), otp, getCurrentContext());
-
+                  AppUtils.getInstance().showLog("otp:-"+otp, SignUpFragment.class);
 
                 mobileVerfication = new JSONObject();
                 try {
