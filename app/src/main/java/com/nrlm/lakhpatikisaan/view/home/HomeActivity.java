@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
 
         setSupportActionBar(tollBar);
 
-       // homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.home_nav_host);
         navController = navHostFragment.getNavController();
@@ -112,7 +112,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+       /* IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result!=null){
 
            // ViewUtilsKt.toast(this,"INSIDE ONACTIVITY RESULT");
@@ -128,7 +128,7 @@ public class HomeActivity extends AppCompatActivity {
                 ViewUtilsKt.toast(this,"This is not right QR code");
             }
 
-        }
+        }*/
     }
 
     private void processParsing(@NonNull XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -151,7 +151,7 @@ public class HomeActivity extends AppCompatActivity {
                    aadharPojo.aadharGender=gender;
                    aadharPojo.error="";
 
-                   //homeViewModel.sendAadharPojoData(aadharPojo);
+                  // homeViewModel.sendAadharPojoData(aadharPojo);
 
                    // ViewUtilsKt.toast(this,""+uid+"--"+name+"--"+gender);
                 }
