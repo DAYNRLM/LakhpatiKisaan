@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.nrlm.lakhpatikisaan.network.model.response.StateApiResponse;
 import com.nrlm.lakhpatikisaan.network.vollyCall.VolleyResult;
 import com.nrlm.lakhpatikisaan.network.vollyCall.VolleyService;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.Cryptography;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
@@ -41,8 +43,16 @@ import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 
 public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBinding> {
@@ -216,12 +226,76 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                /*******make json object is encrypted and *********/
+                JSONObject encryptedObject =new JSONObject();
+                try {
+                    Cryptography cryptography = new Cryptography();
+
+                    encryptedObject.accumulate("data",cryptography.encrypt(submitSignUp.toString()));
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
+                } catch (InvalidAlgorithmParameterException e) {
+                    e.printStackTrace();
+                } catch (IllegalBlockSizeException e) {
+                    e.printStackTrace();
+                } catch (BadPaddingException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                /***********************************************/
+
+                AppUtils.getInstance().showLog(" Encryptrd response*****error" +encryptedObject, SignUpFragment.class);
                 mResultCallBack=new VolleyResult() {
                     @Override
                     public void notifySuccess(String requestType, JSONObject response) {
                         progressDialog.dismiss();
+                        JSONObject jsonObject = null;
+
+                        String objectResponse="";
+                        if(response.has("data")){
+                            try {
+                                objectResponse=response.getString("data");
+
+                            }catch (JSONException e)
+                            {
+                                AppUtils.getInstance().showLog("ExceptionInVerifyMobile" +
+                                        ""+e,SignUpFragment.class);
+                            }
+                        }else {
+                            return;
+                        }
+
                         try {
-                            JSONObject submitRes=response.getJSONObject("error");
+                            JSONObject jsonObject1=new JSONObject(objectResponse);
+                            objectResponse=jsonObject1.getString("data");
+                            AppUtils.getInstance().showLog("dataAtSubmit"+jsonObject1,SignUpFragment.class);
+                        }catch (JSONException e)
+                        {
+                            AppUtils.getInstance().showLog("exceptionAtSubmit"+e,SignUpFragment.class);
+
+                        }
+
+
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            try {
+                                Cryptography cryptography = new Cryptography();
+                                jsonObject = new JSONObject(cryptography.decrypt(objectResponse)); //Main data of state
+                                AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                            } catch (Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getCurrentContext(), "Data not found!", Toast.LENGTH_SHORT).show();
+                                AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                            }
+                        }
+                        try {
+                            JSONObject submitRes=jsonObject.getJSONObject("error");
                             if(submitRes.getString("code").equalsIgnoreCase("E200"))
                             {
                                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), R.drawable.ic_launcher_background, getString(R.string.alert), "We have sent the request to Block for verification, once it get verified you will receive your credentials through SMS.", getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -255,7 +329,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("submitRequest","https://nrlm.gov.in/lakhpatishg/lakhpatishg/usersignup",submitSignUp,mResultCallBack);
+                volleyService.postDataVolley("submitRequest","https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/usersignup",encryptedObject,mResultCallBack);
 
             }else{
 
@@ -264,6 +338,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
     }
     private void getApiCallForMobileVerification(String mobi) {
         JSONObject mobileVerfication=null;
+
         if (NetworkFactory.isInternetOn(getCurrentContext())) {
             progressDialog = new ProgressDialog(getContext());
             progressDialog.setMessage(getString(R.string.loading_heavy));
@@ -271,6 +346,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
             progressDialog.show();
             if(mobi.equals(null) ||mobi.equalsIgnoreCase("") || mobi.length()<10 )
             {
+                progressDialog.dismiss();
                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), getString(R.string.number_cant_be_empty)
                         , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
                 );
@@ -287,13 +363,76 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                /*******make json object is encrypted and *********/
+              JSONObject   encryptedObject =new JSONObject();
+                try {
+                    Cryptography cryptography = new Cryptography();
+
+                    encryptedObject.accumulate("data",cryptography.encrypt(mobileVerfication.toString()));
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
+                } catch (InvalidAlgorithmParameterException e) {
+                    e.printStackTrace();
+                } catch (IllegalBlockSizeException e) {
+                    e.printStackTrace();
+                } catch (BadPaddingException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                /***********************************************/
+
+                AppUtils.getInstance().showLog(" Encryptrd response*****error" +encryptedObject, SignUpFragment.class);
                 mResultCallBack = new VolleyResult() {
                     @Override
                     public void notifySuccess(String requestType, JSONObject response) {
                         progressDialog.dismiss();
-                        JSONObject verifyRes=response;
+                        JSONObject jsonObject = null;
+
+                        String objectResponse="";
+                        if(response.has("data")){
+                            try {
+                                objectResponse=response.getString("data");
+
+                            }catch (JSONException e)
+                            {
+                                AppUtils.getInstance().showLog("ExceptionInVerifyMobile" +
+                                        ""+e,SignUpFragment.class);
+                            }
+                        }else {
+                            return;
+                        }
+
                         try {
-                            JSONObject error=response.getJSONObject("error");
+                            JSONObject jsonObject1=new JSONObject(objectResponse);
+                            objectResponse=jsonObject1.getString("data");
+                            AppUtils.getInstance().showLog("dataMobileNumberVerification"+jsonObject1,SignUpFragment.class);
+                        }catch (JSONException e)
+                        {
+                            AppUtils.getInstance().showLog("exceptionDataOfMobileNumberVerification"+e,SignUpFragment.class);
+
+                        }
+
+
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            try {
+                                Cryptography cryptography = new Cryptography();
+                                jsonObject = new JSONObject(cryptography.decrypt(objectResponse)); //Main data of state
+                                AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                            } catch (Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getCurrentContext(), "Data not found!", Toast.LENGTH_SHORT).show();
+                                AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                            }
+                        }
+                        try {
+                            JSONObject error=jsonObject.getJSONObject("error");
                             if(error.getString("code").equalsIgnoreCase("E200"))
                             {
                                 binding.otpLiner.setVisibility(View.VISIBLE);
@@ -331,6 +470,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            progressDialog.dismiss();
                         }
 
 
@@ -338,11 +478,13 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
 
                     @Override
                     public void notifyError(String requestType, VolleyError error) {
+                               AppUtils.getInstance().showLog(""+error.toString(),SignUpFragment.class);
 
                     }
                 };
+                volleyService.postDataVolley("verifyMobileNumber", "https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/verifymobile", encryptedObject, mResultCallBack);
+
             }
-            volleyService.postDataVolley("verifyMobileNumber", "https://nrlm.gov.in/lakhpatishg/lakhpatishg/verifymobile", mobileVerfication, mResultCallBack);
 
         } else {
 
@@ -363,12 +505,75 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                /*******make json object is encrypted and *********/
+                JSONObject encryptedObject =new JSONObject();
+                try {
+                    Cryptography cryptography = new Cryptography();
+
+                    encryptedObject.accumulate("data",cryptography.encrypt(langReq.toString()));
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
+                } catch (InvalidAlgorithmParameterException e) {
+                    e.printStackTrace();
+                } catch (IllegalBlockSizeException e) {
+                    e.printStackTrace();
+                } catch (BadPaddingException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                /***********************************************/
+
+                AppUtils.getInstance().showLog(" Encryptrd response*****error" +encryptedObject, SignUpFragment.class);
                 mResultCallBack = new VolleyResult() {
                     @Override
                     public void notifySuccess(String requestType, JSONObject response) {
                         progressDialog.dismiss();
+                        JSONObject jsonObject = null;
+
+                        String objectResponse="";
+                        if(response.has("data")){
+                            try {
+                                objectResponse=response.getString("data");
+
+                            }catch (JSONException e)
+                            {
+                                AppUtils.getInstance().showLog("exceptionInLanguageEncryption"+e,SignUpFragment.class);
+                            }
+                        }else {
+                            return;
+                        }
+
+                        try {
+                            JSONObject jsonObject1=new JSONObject(objectResponse);
+                            objectResponse=jsonObject1.getString("data");
+                            AppUtils.getInstance().showLog("dataOfLanguageData"+jsonObject1,SignUpFragment.class);
+                        }catch (JSONException e)
+                        {
+                            AppUtils.getInstance().showLog("exceptionDataOfLanguageData"+e,SignUpFragment.class);
+
+                        }
+
+
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            try {
+                                Cryptography cryptography = new Cryptography();
+                                jsonObject = new JSONObject(cryptography.decrypt(objectResponse)); //Main data of state
+                                AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                            } catch (Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getCurrentContext(), "Data not found!", Toast.LENGTH_SHORT).show();
+                                AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                            }
+                        }
                         language = new ArrayList<>();
-                        languageApiResponse = LanguageApiResponse.jsonToJava(response.toString());
+                        languageApiResponse = LanguageApiResponse.jsonToJava(jsonObject.toString());
                         languageApiResponse.getStatus();
                         for (LanguageApiResponse.LanguageResponse languageResponse : languageApiResponse.getLanguageResponse()) {
                             language.add(languageResponse.getLanguage_name());
@@ -388,7 +593,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("languageData", "https://nrlm.gov.in/lakhpatishg/lakhpatishg/languagemasterdata", langReq, mResultCallBack);
+                volleyService.postDataVolley("languageData", "https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/languagemasterdata", encryptedObject, mResultCallBack);
 
             } else {
 
@@ -408,12 +613,75 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                /*******make json object is encrypted and *********/
+                JSONObject encryptedObject =new JSONObject();
+                try {
+                    Cryptography cryptography = new Cryptography();
+
+                    encryptedObject.accumulate("data",cryptography.encrypt(blockReq.toString()));
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
+                } catch (InvalidAlgorithmParameterException e) {
+                    e.printStackTrace();
+                } catch (IllegalBlockSizeException e) {
+                    e.printStackTrace();
+                } catch (BadPaddingException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                /***********************************************/
+
+                AppUtils.getInstance().showLog(" Encryptrd response*****error" +encryptedObject, SignUpFragment.class);
                 mResultCallBack = new VolleyResult() {
                     @Override
                     public void notifySuccess(String requestType, JSONObject response) {
                         progressDialog.dismiss();
+                        JSONObject jsonObject = null;
+
+                        String objectResponse="";
+                        if(response.has("data")){
+                            try {
+                                objectResponse=response.getString("data");
+
+                            }catch (JSONException e)
+                            {
+                                AppUtils.getInstance().showLog("exceptionInBlockData"+e,SignUpFragment.class);
+                            }
+                        }else {
+                            return;
+                        }
+
+                        try {
+                            JSONObject jsonObject1=new JSONObject(objectResponse);
+                            objectResponse=jsonObject1.getString("data");
+                            AppUtils.getInstance().showLog("dataOfBlock"+jsonObject1,SignUpFragment.class);
+                        }catch (JSONException e)
+                        {
+                            AppUtils.getInstance().showLog("exceptionDataOfBlock"+e,SignUpFragment.class);
+
+                        }
+
+
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            try {
+                                Cryptography cryptography = new Cryptography();
+                                jsonObject = new JSONObject(cryptography.decrypt(objectResponse)); //Main data of state
+                                AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                            } catch (Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getCurrentContext(), "Data not found!", Toast.LENGTH_SHORT).show();
+                                AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                            }
+                        }
                         block = new ArrayList<>();
-                        blockApiResponse = BlockApiResponse.jsonToJava(response.toString());
+                        blockApiResponse = BlockApiResponse.jsonToJava(jsonObject.toString());
                         blockApiResponse.getStatus();
                         for (BlockApiResponse.BlockResponse blockResponse : blockApiResponse.getBlockResponse()) {
                             block.add(blockResponse.getBlock_name());
@@ -431,7 +699,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("blockData", "https://nrlm.gov.in/lakhpatishg/lakhpatishg/blockmasterdata", blockReq, mResultCallBack);
+                volleyService.postDataVolley("blockData", "https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/blockmasterdata", encryptedObject, mResultCallBack);
 
             } else {
 
@@ -449,12 +717,75 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                /*******make json object is encrypted and *********/
+                JSONObject encryptedObject =new JSONObject();
+                try {
+                    Cryptography cryptography = new Cryptography();
+
+                    encryptedObject.accumulate("data",cryptography.encrypt(districtReq.toString()));
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
+                } catch (InvalidAlgorithmParameterException e) {
+                    e.printStackTrace();
+                } catch (IllegalBlockSizeException e) {
+                    e.printStackTrace();
+                } catch (BadPaddingException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                /***********************************************/
+
+                AppUtils.getInstance().showLog(" Encryptrd response*****error" +encryptedObject, SignUpFragment.class);
                 mResultCallBack = new VolleyResult() {
                     @Override
                     public void notifySuccess(String requestType, JSONObject response) {
                         progressDialog.dismiss();
+                        JSONObject jsonObject = null;
+
+                        String objectResponse="";
+                        if(response.has("data")){
+                            try {
+                                objectResponse=response.getString("data");
+
+                            }catch (JSONException e)
+                            {
+                                AppUtils.getInstance().showLog("exceptionInEncryptedData"+e,SignUpFragment.class);
+                            }
+                        }else {
+                            return;
+                        }
+
+                        try {
+                            JSONObject jsonObject1=new JSONObject(objectResponse);
+                            objectResponse=jsonObject1.getString("data");
+                            AppUtils.getInstance().showLog("dataOfDistrict"+jsonObject1,SignUpFragment.class);
+                        }catch (JSONException e)
+                        {
+                            AppUtils.getInstance().showLog("exceptionDataOfDistrict"+e,SignUpFragment.class);
+
+                        }
+
+
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            try {
+                                Cryptography cryptography = new Cryptography();
+                                jsonObject = new JSONObject(cryptography.decrypt(objectResponse)); //Main data of districts
+                                AppUtils.getInstance().showLog("responseJSONDistrict" + jsonObject.toString(), SignUpFragment.class);
+                            } catch (Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getCurrentContext(), "Data not found!", Toast.LENGTH_SHORT).show();
+                                AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                            }
+                        }
                         district = new ArrayList<>();
-                        districtApiResponse = DistrictApiResponse.jsonToJava(response.toString());
+                        districtApiResponse = DistrictApiResponse.jsonToJava(jsonObject.toString());
                         districtApiResponse.getStatus();
                         for (DistrictApiResponse.DistrictResponse districtResponse : districtApiResponse.getDistrictResponse()) {
                             district.add(districtResponse.getDistrict_name());
@@ -474,7 +805,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("districtData", "https://nrlm.gov.in/lakhpatishg/lakhpatishg/districtmasterdata", districtReq, mResultCallBack);
+                volleyService.postDataVolley("districtData", "https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/districtmasterdata", encryptedObject, mResultCallBack);
 
             } else {
 
@@ -494,11 +825,74 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                /*******make json object is encrypted and *********/
+                JSONObject encryptedObject =new JSONObject();
+                try {
+                    Cryptography cryptography = new Cryptography();
+
+                    encryptedObject.accumulate("data",cryptography.encrypt(stateReq.toString()));
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
+                } catch (InvalidAlgorithmParameterException e) {
+                    e.printStackTrace();
+                } catch (IllegalBlockSizeException e) {
+                    e.printStackTrace();
+                } catch (BadPaddingException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                /***********************************************/
+
+                AppUtils.getInstance().showLog(" Encryptrd response*****error" +encryptedObject, SignUpFragment.class);
                 mResultCallBack = new VolleyResult() {
                     @Override
                     public void notifySuccess(String requestType, JSONObject response) {
                         progressDialog.dismiss();
-                        stateApiResponse = StateApiResponse.jsonToJava(response.toString());
+                        JSONObject jsonObject = null;
+
+                        String objectResponse="";
+                        if(response.has("data")){
+                            try {
+                                objectResponse=response.getString("data");
+
+                            }catch (JSONException e)
+                            {
+                                AppUtils.getInstance().showLog("Exception"+e,SignUpFragment.class);
+                            }
+                        }else {
+                            return;
+                        }
+
+                        try {
+                            JSONObject jsonObject1=new JSONObject(objectResponse);
+                            objectResponse=jsonObject1.getString("data");
+                            AppUtils.getInstance().showLog("dataOfState"+jsonObject1,SignUpFragment.class);
+                        }catch (JSONException e)
+                        {
+                            AppUtils.getInstance().showLog("exceptionDataOfSate"+e,SignUpFragment.class);
+
+                        }
+
+
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            try {
+                                Cryptography cryptography = new Cryptography();
+                                jsonObject = new JSONObject(cryptography.decrypt(objectResponse)); //Main data of state
+                                AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                            } catch (Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getCurrentContext(), "Data not found!", Toast.LENGTH_SHORT).show();
+                                AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                            }
+                        }
+                        stateApiResponse = StateApiResponse.jsonToJava(jsonObject.toString());
                         stateApiResponse.getStatus();
                         for (StateApiResponse.StateResponse stateResponse : stateApiResponse.getStateResponse()) {
                             state.add(stateResponse.getState_name());
@@ -518,7 +912,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("stateData", "https://nrlm.gov.in/lakhpatishg/lakhpatishg/statemasterdata", stateReq, mResultCallBack);
+                volleyService.postDataVolley("stateData", "https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/statemasterdata", encryptedObject, mResultCallBack);
 
             } else {
 
