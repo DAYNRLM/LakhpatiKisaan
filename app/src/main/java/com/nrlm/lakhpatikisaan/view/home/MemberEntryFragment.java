@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,8 +48,10 @@ import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,6 +97,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     private HomeViewModel homeViewModel;
 
     LayoutInflater inflate;
+    XmlPullParser parser;
+    ProgressDialog progressDialog;
+
 
 
 
@@ -170,24 +176,15 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         }
 
 
-        /*viewModel.recieveAadharData().observe(getViewLifecycleOwner(), new Observer<AadharPojo>() {
-            @Override
-            public void onChanged(AadharPojo aadharPojo) {
-                ViewUtilsKt.toast(getCurrentContext(),"DATA CHANGED SUCESSFULLYYYYYYY");
-            }
-        });*/
-
-
         binding.ivAadhrScanner.setOnClickListener(view1 -> {
-            IntentIntegrator integrator = new IntentIntegrator(getActivity());
+           // IntentIntegrator integrator = new IntentIntegrator(getActivity());
+            IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
             integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
             integrator.setPrompt("scan QR code");
             integrator.setCameraId(0);
             integrator.setBeepEnabled(true);
             integrator.setBarcodeImageEnabled(true);
             integrator.initiateScan();
-
-            //viewModel.recieveAadharData().observe(getViewLifecycleOwner(),aadhaarObserver);
 
         });
 
@@ -513,6 +510,80 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+       // super.onActivityResult(requestCode, resultCode, data);
+
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result!=null){
+
+            // ViewUtilsKt.toast(this,"INSIDE ONACTIVITY RESULT");
+            XmlPullParserFactory pullParserFactory;
+            try {
+                pullParserFactory = XmlPullParserFactory.newInstance();
+                parser = pullParserFactory.newPullParser();
+                parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+                parser.setInput(new StringReader(result.getContents()));
+                processParsing(parser);
+
+            }catch (Exception e){
+                ViewUtilsKt.toast(getCurrentContext(),"This is not right QR code");
+            }
+
+        }
+    }
+
+    private void processParsing(@NonNull XmlPullParser parser) throws IOException, XmlPullParserException {
+        int eventType = parser.getEventType();
+      //  appUtils.showLog("eventType" + eventType, HomeActivity.class);
+
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_DOCUMENT) {
+                //appUtils.showLog("startDocuments", HomeActivity.class);
+            } else if (eventType == XmlPullParser.START_TAG) {
+               // appUtils.showLog("Start tag " + parser.getName(), HomeActivity.class);
+                if (parser.getName().equalsIgnoreCase("PrintLetterBarcodeData")) {
+                    String uid = parser.getAttributeValue(null, "uid");
+                    String name = parser.getAttributeValue(null, "name");
+                    String  gender = parser.getAttributeValue(null, "gender");
+
+                    progressDialog = new ProgressDialog(getCurrentContext());
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage(getString(R.string.loading_heavy));
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            if(uid.equalsIgnoreCase(binding.etAadharNumber.getText().toString())){
+                                binding.etAadharName.setText(name);
+                            }else {
+                                binding.etAadharNumber.setText("");
+                                binding.etAadharName.setText("");
+                                ViewUtilsKt.toast(getCurrentContext(),"Entered aadhaar number is not valid");
+                            }
+
+                        }
+                    },3000);
+
+
+
+
+                   //  ViewUtilsKt.toast(getCurrentContext(),""+uid+"--"+name+"--"+gender);
+                }
+
+            } else if (eventType == XmlPullParser.END_TAG) {
+               // appUtils.showLog("End tag " + parser.getName(), HomeActivity.class);
+            } else if (eventType == XmlPullParser.TEXT) {
+               // appUtils.showLog("Text" + parser.getText(), HomeActivity.class);
+            }
+            eventType = parser.next();
+        }
+       // appUtils.showLog("EndDocuments", HomeActivity.class);
     }
 
     private void loadEntryList() {

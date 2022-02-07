@@ -56,7 +56,10 @@ public class HomeViewModel extends ViewModel {
     private SyncDataRepo syncDataRepo;
     private String syncApiStatus;
 
-    MutableLiveData<AadharPojo> aadharMutableData=new MutableLiveData<>();
+    public MutableLiveData<AadharPojo> aadharMutableData;
+
+
+   //public  MutableLiveData<AadharPojo> aadharMutableData=new MutableLiveData<>();
 
 
     public HomeViewModel() {
@@ -692,11 +695,14 @@ public class HomeViewModel extends ViewModel {
 
 
     public void sendAadharPojoData(AadharPojo aadharPojo){
-      //  aadharMutableData =  new MutableLiveData<>();
+       // MutableLiveData<AadharPojo> aadharMutableData=new MutableLiveData<>();
         aadharMutableData.setValue(aadharPojo);
+
     }
 
     public MutableLiveData<AadharPojo> recieveAadharData(){
+       //MutableLiveData<AadharPojo> aadharMutableData=new MutableLiveData<>();
+        aadharMutableData=new MutableLiveData<>();
         AadharPojo aadharPojo = new AadharPojo();
         aadharPojo.setAadhaarNumber("");
         aadharPojo.setAadharName("");
@@ -705,6 +711,8 @@ public class HomeViewModel extends ViewModel {
         aadharMutableData.setValue(aadharPojo);
         return aadharMutableData;
     }
+
+
 
 
 }
