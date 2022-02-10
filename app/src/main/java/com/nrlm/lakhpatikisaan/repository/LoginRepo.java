@@ -1,9 +1,12 @@
 package com.nrlm.lakhpatikisaan.repository;
 
 import android.content.Context;
+import android.os.Build;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
@@ -27,13 +30,26 @@ import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.OtpResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.Cryptography;
+import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,12 +91,38 @@ public class LoginRepo {
     }
 
     public void resetPasswordRequestLog(final ResetPasswordBean resetPasswordBean, final RepositoryCallback repositoryCallback) {
+        JsonObject encryptedObject =new JsonObject();
+        try {
+            Cryptography cryptography = new Cryptography();
+            Gson gson=new Gson();
+            String logreq=gson.toJson(resetPasswordBean);
+
+            encryptedObject.addProperty("data",cryptography.encrypt(logreq));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                resetpassRequest(resetPasswordBean, new ServiceCallback<Result>() {
+                resetpassRequest(encryptedObject, new ServiceCallback<Result>() {
                     @Override
                     public void success(Result<Result> successResponse) {
+
                         if (successResponse instanceof Result.Success) {
                             SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) successResponse).data;
                             AppUtils.getInstance().showLog("LoginRepo " + simpleResponseBean.toString(), LoginRepo.class);
@@ -97,10 +139,34 @@ public class LoginRepo {
         });
     }
     public void callOtpServices(final OtpRequestBean otpRequestBean, final RepositoryCallback repositoryCallback) {
+        JsonObject encryptedObject =new JsonObject();
+        try {
+            Cryptography cryptography = new Cryptography();
+            Gson gson=new Gson();
+            String logreq=gson.toJson(otpRequestBean);
+
+            encryptedObject.addProperty("data",cryptography.encrypt(logreq.toString()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                otpService(otpRequestBean, new ServiceCallback<Result>() {
+                otpService(encryptedObject, new ServiceCallback<Result>() {
 
                     @Override
                     public void success(Result<Result> successResponse) {
@@ -122,13 +188,13 @@ public class LoginRepo {
 
     }
 
-    public void makeLoginRequest(final LoginRequestBean loginRequestObject,
+    public void makeLoginRequest(final JsonObject encryptedObject,
                                  final RepositoryCallback repositoryCallback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    callLoginRequest(loginRequestObject, new ServiceCallback<Result>() {
+                    callLoginRequest(encryptedObject, new ServiceCallback<Result>() {
                         @Override
                         public void success(Result<Result> successResponse) {
                             /*fill data into db*/
@@ -156,16 +222,38 @@ public class LoginRepo {
         });
     }
 
-    private void resetpassRequest(final ResetPasswordBean resetPasswordBean, final ServiceCallback<Result> serviceCallback) {
+    private void resetpassRequest(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.resetPasswordApi(resetPasswordBean);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.resetPasswordApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 AppUtils.getInstance().showLog("reset Password response" + response.toString(), LoginRepo.class);
                 if (response.isSuccessful()) {
-                    SimpleResponseBean simpleResponseBean = new Gson().fromJson(response.body(), SimpleResponseBean.class);
+                    JSONObject jsonObject = null;
+
+                    String objectResponse="";
+                    JSONObject encryptedData=null;
+                    String getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+
+
+
+
+
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        try {
+                            Cryptography cryptography = new Cryptography();
+                            jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
+
+                            AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), LoginRepo.class);
+                        } catch (Exception e) {
+
+                            AppUtils.getInstance().showLog("DecryptEx" + e, LoginRepo.class);
+                        }
+                    }
+
+                    SimpleResponseBean simpleResponseBean = new Gson().fromJson(jsonObject.toString(), SimpleResponseBean.class);
                     serviceCallback.success(new Result.Success(simpleResponseBean));
 
                 } else {
@@ -184,24 +272,56 @@ public class LoginRepo {
     }
 
 
-    private void callLoginRequest(final LoginRequestBean loginRequestObject, final ServiceCallback<Result> serviceCallback) {
+    private void callLoginRequest(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.loginApi(loginRequestObject);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.loginApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
                 AppUtils.getInstance().showLog("LoginDataResponse" + response.toString(), MasterDataRepo.class);
                 if (response.isSuccessful()) {
+                    JSONObject jsonObject = null;
 
+                    String objectResponse="";
+                    JSONObject encryptedData=null;
+                    String getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+
+
+
+
+
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        try {
+                            Cryptography cryptography = new Cryptography();
+                            jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
+
+                            AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                        } catch (Exception e) {
+
+                            AppUtils.getInstance().showLog("DecryptEx" + e, LoginRepo.class);
+                        }
+                    }
+                    String code="";
+                    JSONObject errorObj=null;
+                    try {
+                        code = jsonObject.getJSONObject("error").getString("code");
+                        errorObj=jsonObject.getJSONObject("error");
+
+                    }catch (JSONException e)
+                    {
+                        AppUtils.getInstance().showLog(""+e,LoginRepo.class);
+                    }
                     if (response.body() == null || response.code() == 204) { // 204 is empty response
+
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    } else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
-                        LoginResponseBean.Error error = new Gson().fromJson(response.body().getAsJsonObject("error"), LoginResponseBean.Error.class);
+
+                    } else if (!code.equalsIgnoreCase("E200")) {
+                        LoginResponseBean.Error error = new Gson().fromJson(errorObj.toString(), LoginResponseBean.Error.class);
                         serviceCallback.error(new Result.Error(error));
                     } else {
-                        LoginResponseBean loginResponseBean = new Gson().fromJson(response.body(), LoginResponseBean.class);
+                        LoginResponseBean loginResponseBean = new Gson().fromJson(jsonObject.toString(), LoginResponseBean.class);
                         serviceCallback.success(new Result.Success(loginResponseBean));
                     }
 
@@ -220,24 +340,55 @@ public class LoginRepo {
 
 
 
-    private void otpService(final OtpRequestBean otpRequestBean, final ServiceCallback<Result> serviceCallback) {
+    private void otpService(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.otpApi(otpRequestBean);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.otpApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
+
                 AppUtils.getInstance().showLog("Otp Response" + response.toString(), LoginRepo.class);
                 if (response.isSuccessful()) {
+                    JSONObject jsonObject = null;
 
+                    String objectResponse="";
+                    JSONObject encryptedData=null;
+                    String getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+
+
+
+
+
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        try {
+                            Cryptography cryptography = new Cryptography();
+                            jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
+
+                            AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                        } catch (Exception e) {
+
+                            AppUtils.getInstance().showLog("DecryptEx" + e, LoginRepo.class);
+                        }
+                    }
+                    String code="";
+                    JSONObject errorObj=null;
+                    try {
+                        code = jsonObject.getJSONObject("error").getString("code");
+                        errorObj=jsonObject.getJSONObject("error");
+
+                    }catch (JSONException e)
+                    {
+                        AppUtils.getInstance().showLog(""+e,LoginRepo.class);
+                    }
                     if (response.body() == null || response.code() == 204||response.code()==404) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    }else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
-                        OtpResponseBean.Error error = new Gson().fromJson(response.body().getAsJsonObject("error"), OtpResponseBean.Error.class);
+                    }else if (!code.equalsIgnoreCase("E200")) {
+                        OtpResponseBean.Error error = new Gson().fromJson(errorObj.toString(), OtpResponseBean.Error.class);
                         serviceCallback.error(new Result.Error(error));
                     } else {
-                        OtpResponseBean otpResponseBean  = new Gson().fromJson(response.body(), OtpResponseBean.class);
+                        OtpResponseBean otpResponseBean  = new Gson().fromJson(jsonObject.toString(), OtpResponseBean.class);
                         serviceCallback.success( new Result.Success(otpResponseBean));
                         //REsult
                     }

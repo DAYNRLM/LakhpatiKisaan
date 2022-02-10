@@ -1,12 +1,15 @@
 package com.nrlm.lakhpatikisaan.repository;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.dao.AadharDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
@@ -23,7 +26,16 @@ import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.CheckDuplicateResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.Cryptography;
+import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -31,6 +43,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,10 +76,34 @@ public class SyncDataRepo {
 
     public void makeCheckDuplicateRequest(final CheckDuplicateRequestBean checkDuplicateRequestBean,
                                           final RepositoryCallback repositoryCallback) {
+        JsonObject encryptedObject =new JsonObject();
+        try {
+            Cryptography cryptography = new Cryptography();
+            Gson gson=new Gson();
+            String logreq=gson.toJson(checkDuplicateRequestBean);
+
+            encryptedObject.addProperty("data",cryptography.encrypt(logreq));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                callCheckDuplicateDataApi(checkDuplicateRequestBean, new ServiceCallback<Result>() {
+                callCheckDuplicateDataApi(encryptedObject, new ServiceCallback<Result>() {
                     @Override
                     public void success(Result<Result> successResponse) {
 
@@ -82,10 +122,35 @@ public class SyncDataRepo {
 
     public void makeSyncEntriesRequest(final SyncEntriesRequestBean syncEntriesRequestBean,
                                        final RepositoryCallback repositoryCallback) {
+        JsonObject encryptedObject =new JsonObject();
+        try {
+            Cryptography cryptography = new Cryptography();
+            Gson gson=new Gson();
+            String logreq=gson.toJson(syncEntriesRequestBean);
+
+            encryptedObject.addProperty("data",cryptography.encrypt(logreq));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                callSyncEntriesDataApi(syncEntriesRequestBean, new ServiceCallback<Result>() {
+                callSyncEntriesDataApi(encryptedObject, new ServiceCallback<Result>() {
                     @Override
                     public void success(Result<Result> successResponse) {
                         /*update the db*/
@@ -102,23 +167,51 @@ public class SyncDataRepo {
     }
 
 
-    private void callCheckDuplicateDataApi(final CheckDuplicateRequestBean checkDuplicateRequestBean, final ServiceCallback<Result> serviceCallback) {
+    private void callCheckDuplicateDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.checkDuplicateDataApi(checkDuplicateRequestBean);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.checkDuplicateDataApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 AppUtils.getInstance().showLog("checkDuplicateDataResponse" + response.toString(), MasterDataRepo.class);
                 if (response.isSuccessful()) {
+                    JSONObject jsonObject = null;
 
+                    String objectResponse="";
+                    JSONObject encryptedData=null;
+                    String getEncrypted="";
+                    try {
+                        getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+                    }catch (JsonParseException e)
+                    {
+                        AppUtils.getInstance().showLog("errorInSyncDataApi"+e,SyncDataRepo.class);
+                    }
+
+
+
+
+
+
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        try {
+                            Cryptography cryptography = new Cryptography();
+                            jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
+
+                            AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                        } catch (Exception e) {
+                            AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                        }
+                    }
+
+                    AppUtils.getInstance().showLog("SyncEntriesDataResponse" + response.toString(), SyncDataRepo.class);
                     if (response.body() == null || response.code() == 204) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
                     }/*else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")){
                         CheckDuplicateResponseBean.Error error=  new Gson().fromJson(response.body().getAsJsonObject("error"), CheckDuplicateResponseBean.Error.class);
                         serviceCallback.error(new Result.Error(error));
                     }*/ else {
-                        CheckDuplicateResponseBean checkDuplicateResponseBean = new Gson().fromJson(response.body(), CheckDuplicateResponseBean.class);
+                        CheckDuplicateResponseBean checkDuplicateResponseBean = new Gson().fromJson(jsonObject.toString(), CheckDuplicateResponseBean.class);
                         serviceCallback.success(new Result.Success(checkDuplicateResponseBean));
                     }
 
@@ -135,23 +228,61 @@ public class SyncDataRepo {
         });
     }
 
-    private void callSyncEntriesDataApi(final SyncEntriesRequestBean syncEntriesRequestBean, final ServiceCallback<Result> serviceCallback) {
+    private void callSyncEntriesDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.syncEntriesDataApi(syncEntriesRequestBean);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.syncEntriesDataApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                AppUtils.getInstance().showLog("SyncEntriesDataResponse" + response.toString(), MasterDataRepo.class);
+
                 if (response.isSuccessful()) {
+                    JSONObject jsonObject = null;
+
+                    String objectResponse="";
+                    JSONObject encryptedData=null;
+                    String getEncrypted="";
+                    try {
+                        getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+                    }catch (JsonParseException e)
+                    {
+                        AppUtils.getInstance().showLog("errorInSyncDataApi"+e,SyncDataRepo.class);
+                    }
+
+
+
+
+
+
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        try {
+                            Cryptography cryptography = new Cryptography();
+                            jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
+
+                            AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                        } catch (Exception e) {
+                            AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                        }
+                    }
+                    String code="";
+                    JSONObject errorObj=null;
+                    try {
+                        code = jsonObject.getJSONObject("error").getString("code");
+                        errorObj=jsonObject.getJSONObject("error");
+
+                    }catch (JSONException e)
+                    {
+                        AppUtils.getInstance().showLog(""+e,LoginRepo.class);
+                    }
+                    AppUtils.getInstance().showLog("SyncEntriesDataResponse" + response.toString(), SyncDataRepo.class);
 
                     if (response.body() == null || response.code() == 204) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    } else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
-                        SimpleResponseBean.Error error = new Gson().fromJson(response.body().getAsJsonObject("error"), SimpleResponseBean.Error.class);
+                    } else if (!code.equalsIgnoreCase("E200")) {
+                        SimpleResponseBean.Error error = new Gson().fromJson(errorObj.toString(), SimpleResponseBean.Error.class);
                         serviceCallback.error(new Result.Error(error));
                     } else {
-                        SimpleResponseBean simpleResponseBean = new Gson().fromJson(response.body(), SimpleResponseBean.class);
+                        SimpleResponseBean simpleResponseBean = new Gson().fromJson(jsonObject.toString(), SimpleResponseBean.class);
                         serviceCallback.success(new Result.Success(simpleResponseBean));
                     }
 

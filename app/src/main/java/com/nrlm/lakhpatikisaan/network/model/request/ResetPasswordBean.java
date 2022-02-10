@@ -6,6 +6,19 @@ public class ResetPasswordBean {
     private String imei_no;
     private String device_name;
     private String location_coordinate;
+    private String mobileno;
+    public String getMobileno() {
+        return mobileno;
+    }
+
+    public void setMobileno(String mobileno) {
+        this.mobileno = mobileno;
+    }
+
+
+
+
+
 
     public String getLogin_id() {
         return login_id;

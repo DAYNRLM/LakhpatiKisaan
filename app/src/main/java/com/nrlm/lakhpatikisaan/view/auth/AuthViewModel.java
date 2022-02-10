@@ -1,10 +1,15 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
+import android.widget.Toast;
 
 import androidx.lifecycle.ViewModel;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.dbbean.LgdVillageCode;
 import com.nrlm.lakhpatikisaan.network.client.Result;
@@ -25,6 +30,7 @@ import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.Cryptography;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
@@ -32,8 +38,19 @@ import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.home.DashBoardFragment;
 import com.nrlm.lakhpatikisaan.view.home.HomeViewModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class AuthViewModel extends ViewModel {
     private LoginRepo loginRepo;
@@ -57,7 +74,32 @@ public class AuthViewModel extends ViewModel {
     }
 
     public void makeLogin(LoginRequestBean loginRequestBean, Context context) {
-        loginRepo.makeLoginRequest(loginRequestBean, new RepositoryCallback() {
+        /*******make json object is encrypted and *********/
+        JsonObject encryptedObject =new JsonObject();
+        try {
+            Cryptography cryptography = new Cryptography();
+            Gson gson=new Gson();
+            String logreq=gson.toJson(loginRequestBean);
+
+            encryptedObject.addProperty("data",cryptography.encrypt(logreq.toString()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        loginRepo.makeLoginRequest(encryptedObject, new RepositoryCallback() {
             @Override
             public void onComplete(Result result) {
                 try {
@@ -84,32 +126,24 @@ public class AuthViewModel extends ViewModel {
                                         MasterDataResponseBean masterDataResponseBean = (MasterDataResponseBean) ((Result.Success) result).data;
                                         AppUtils.getInstance().showLog("masterDataResponseBean" + masterDataResponseBean.getError().getCode() + "---"
                                                 + masterDataResponseBean.getError().getMessage(), AuthViewModel.class);
-
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
                                                 try {
                                                     List<LgdVillageCode> lgdVillageCodeList = getLgdVillageCodes();
-
                                                     AppUtils.getInstance().showLog("lgdCodesListSize:- " + lgdVillageCodeList.size(), AuthViewModel.class);
                                                     SeccRequestBean seccRequestBean = new SeccRequestBean();
-
                                                     seccRequestBean.setDevice_name(logRequestBean.getDevice_name());
                                                     seccRequestBean.setImei_no(logRequestBean.getImei_no());
                                                     seccRequestBean.setLocation_coordinate(logRequestBean.getLocation_coordinate());
                                                     seccRequestBean.setLogin_id(logRequestBean.getLogin_id());
                                                     seccRequestBean.setState_short_name(logRequestBean.getState_short_name());
-
                                                     String lgdVillageCodes = "";
-
                                                     for (LgdVillageCode lgdVillageCode : lgdVillageCodeList) {
                                                         lgdVillageCodes += lgdVillageCode.getLgd_village_code() + ",";
                                                     }
-
                                                     AppUtils.getInstance().showLog("lgdCodesFromDb" + AppUtils.getInstance().removeComma(lgdVillageCodes), AuthViewModel.class);
-
                                                     seccRequestBean.setLgd_village_code(AppUtils.getInstance().removeComma(lgdVillageCodes));
-
                                                     masterDataRepo.makeSeccDataRequest(seccRequestBean, new RepositoryCallback() {
                                                         @Override
                                                         public void onComplete(Result result) {
@@ -118,7 +152,6 @@ public class AuthViewModel extends ViewModel {
                                                                 SeccResponseBean seccResponseBean = (SeccResponseBean) ((Result.Success) result).data;
                                                                 AppUtils.getInstance().showLog("SeccrDataResponseBean" + seccResponseBean.getError().getCode() + "---"
                                                                         + seccResponseBean.getError().getMessage(), AuthViewModel.class);
-
                                                             } else {
                                                                 Object errorObject = ((Result.Error) result).exception;
                                                                 if (errorObject != null) {
@@ -132,11 +165,9 @@ public class AuthViewModel extends ViewModel {
                                                                                 , AuthViewModel.class);
                                                                     }
                                                                 }
-
                                                             }
                                                         }
                                                     });
-
                                                 } catch (ExecutionException e) {
                                                     AppUtils.getInstance().showLog("makeSeccDataRequestExp:- " + e.getMessage(), AuthViewModel.class);
                                                 } catch (InterruptedException e) {
@@ -144,7 +175,6 @@ public class AuthViewModel extends ViewModel {
                                                 }
                                             }
                                         }, 6000);
-
                                     } else {
                                         Object errorObject = ((Result.Error) result).exception;
                                         if (errorObject != null) {
@@ -158,7 +188,6 @@ public class AuthViewModel extends ViewModel {
                                                         , AuthViewModel.class);
                                             }
                                         }
-
                                     }
                                 }
                             });*/
@@ -173,8 +202,6 @@ public class AuthViewModel extends ViewModel {
                                         SupportiveMastersResponseBean supportiveMastersResponseBean = (SupportiveMastersResponseBean) ((Result.Success) result).data;
                                         AppUtils.getInstance().showLog("supportiveMasterDataResponseBean" + supportiveMastersResponseBean.getError().getCode() + "---"
                                                 + supportiveMastersResponseBean.getError().getMessage(), AuthViewModel.class);
-
-
                                     } else {
                                         Object errorObject = ((Result.Error) result).exception;
                                         if (errorObject != null) {
@@ -188,9 +215,7 @@ public class AuthViewModel extends ViewModel {
                                                         , AuthViewModel.class);
                                             }
                                         }
-
                                     }
-
                                 }
                             });*/
 
@@ -219,8 +244,7 @@ public class AuthViewModel extends ViewModel {
                     AppUtils.getInstance().showLog("Exceptioncall" + e, DashBoardFragment.class);
                 }
             }
-        });
-    }
+        });    }
 
 
     public void syncAllData(Context context, String loginId, String stateShortName, String imei,
@@ -291,6 +315,7 @@ public class AuthViewModel extends ViewModel {
         resetPasswordBean.setPassword(AppUtils.getInstance().getSha256(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefFrgtPass(), context)));
         resetPasswordBean.setDevice_name(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(), context));
         resetPasswordBean.setImei_no(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), context));
+        resetPasswordBean.setMobileno(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getForgotMobileNumber(), context));
         resetPasswordBean.setLocation_coordinate("28.6771787,77.4923927");
         resetPasswordBean.setLogin_id(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), context));
         ResetPassword(resetPasswordBean);
@@ -327,7 +352,31 @@ public class AuthViewModel extends ViewModel {
 
 
     public void getMasterData(LogRequestBean logRequestBean){
-        masterDataRepo.makeMasterDataRequest(logRequestBean, new RepositoryCallback() {
+        JsonObject encryptedObject =new JsonObject();
+        try {
+            Cryptography cryptography = new Cryptography();
+            Gson gson=new Gson();
+            String logreqBean=gson.toJson(logRequestBean);
+            encryptedObject.addProperty("data",cryptography.encrypt(logreqBean.toString()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        masterDataRepo.makeMasterDataRequest(encryptedObject, new RepositoryCallback() {
             @Override
             public void onComplete(Result result) {
                 AppUtils.getInstance().showLog("masterDataResult" + result.toString(), AuthViewModel.class);
@@ -413,10 +462,10 @@ public class AuthViewModel extends ViewModel {
                 }
             }
         });
-
     }
 
     public void getSupportiveMasters(LogRequestBean logRequestBean){
+
         masterDataRepo.makeSupportiveMasterDataRequest(logRequestBean, new RepositoryCallback() {
             @Override
             public void onComplete(Result result) {

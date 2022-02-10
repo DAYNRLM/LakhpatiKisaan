@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
@@ -42,13 +44,25 @@ import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
 import com.nrlm.lakhpatikisaan.repository.SyncDataRepo;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.Cryptography;
 import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class HomeViewModel extends ViewModel {
     private MasterDataRepo masterDataRepo;
@@ -541,7 +555,30 @@ public class HomeViewModel extends ViewModel {
 
 
     public void getMasterData(LogRequestBean logRequestBean){
-        masterDataRepo.makeMasterDataRequest(logRequestBean, new RepositoryCallback() {
+        JsonObject encryptedObject =new JsonObject();
+        try {
+            Cryptography cryptography = new Cryptography();
+
+            encryptedObject.addProperty("data",cryptography.encrypt(logRequestBean.toString()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        masterDataRepo.makeMasterDataRequest(encryptedObject, new RepositoryCallback() {
             @Override
             public void onComplete(Result result) {
                 AppUtils.getInstance().showLog("masterDataResult" + result.toString(), AuthViewModel.class);
