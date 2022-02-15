@@ -898,6 +898,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                             state.add(stateResponse.getState_name());
                         }
 
+
                         stateAdapter = new ArrayAdapter<String>(requireContext(), R.layout.spinner_text, state);
                         stateAdapter.setDropDownViewResource(R.layout.spinner_text);
 

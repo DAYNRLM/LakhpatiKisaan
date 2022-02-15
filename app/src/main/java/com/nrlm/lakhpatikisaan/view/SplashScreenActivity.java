@@ -1,7 +1,9 @@
 package com.nrlm.lakhpatikisaan.view;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +42,34 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             }
         }, SPLASH_SCREEN_TIME_OUT);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(AppUtils.getInstance().isDeviceRooted()){
+            showAlertDialogAndExitApp("This device is rooted. You can't use this app.");
+        }
+    }
+
+    public void showAlertDialogAndExitApp(String message) {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(SplashScreenActivity.this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+
+        alertDialog.show();
     }
 
     private void setLocal() {
