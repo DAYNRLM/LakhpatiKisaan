@@ -2,9 +2,11 @@ package com.nrlm.lakhpatikisaan.repository;
 
 import android.content.Context;
 import android.os.Build;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.dao.AadharDao;
 import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
@@ -41,7 +43,16 @@ import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SeccResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SupportiveMastersResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.Cryptography;
+import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -51,6 +62,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,13 +107,13 @@ public class MasterDataRepo {
     }
 
 
-    public synchronized void makeMasterDataRequest(final LogRequestBean logRequestObject,
+    public synchronized void makeMasterDataRequest(final JsonObject encryptedObject,
                                                    final RepositoryCallback repositoryCallback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    callMasterDataApi(logRequestObject, new ServiceCallback<Result>() {
+                    callMasterDataApi(encryptedObject, new ServiceCallback<Result>() {
                         @Override
 
                         public void success(Result<Result> successResponse) {
@@ -137,13 +152,36 @@ public class MasterDataRepo {
     }
 
 
-    public synchronized void makeSupportiveMasterDataRequest(final LogRequestBean logRequestObject,
+    public synchronized void makeSupportiveMasterDataRequest(final LogRequestBean logRequestBean,
                                                              final RepositoryCallback repositoryCallback) {
+        JsonObject encryptedObject =new JsonObject();
+        try {
+            Cryptography cryptography = new Cryptography();
+            Gson gson=new Gson();
+            String logreqBean=gson.toJson(logRequestBean);
+            encryptedObject.addProperty("data",cryptography.encrypt(logreqBean));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    callSupportiveMasterDataApi(logRequestObject, new ServiceCallback<Result>() {
+                    callSupportiveMasterDataApi(encryptedObject, new ServiceCallback<Result>() {
                         @Override
                         public void success(Result<Result> successResponse) {
                             /*fill data into db*/
@@ -190,11 +228,34 @@ public class MasterDataRepo {
     }
 
     public synchronized void makeSeccDataRequest(final SeccRequestBean seccRequestBean, final RepositoryCallback repositoryCallback) {
+        JsonObject encryptedObject =new JsonObject();
+        try {
+            Cryptography cryptography = new Cryptography();
+            Gson gson=new Gson();
+            String logreqBean=gson.toJson(seccRequestBean);
+            encryptedObject.addProperty("data",cryptography.encrypt(logreqBean.toString()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    callSeccDataApi(seccRequestBean, new ServiceCallback<Result>() {
+                    callSeccDataApi(encryptedObject, new ServiceCallback<Result>() {
                         @Override
                         public void success(Result<Result> successResponse) {
                             if (successResponse instanceof Result.Success) {
@@ -226,23 +287,63 @@ public class MasterDataRepo {
     }
 
 
-    private void callMasterDataApi(final LogRequestBean logRequestObject, final ServiceCallback<Result> serviceCallback) {
+    private void callMasterDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.masterDataApi(logRequestObject);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.masterDataApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                JSONObject jsonObject = null;
+
+                String objectResponse="";
+                JSONObject encryptedData=null;
+                String getEncrypted="";
+                try {
+                   getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+
+                }catch (Exception e)
+                {
+
+                }
+
+
+
+
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    try {
+                        Cryptography cryptography = new Cryptography();
+                        jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
+
+                        AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                    } catch (Exception e) {
+                        Toast.makeText(context, "Data not found!", Toast.LENGTH_SHORT).show();
+                        AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                    }
+                }
+                String code="";
+                JSONObject errorObj=null;
+                try {
+                    code = jsonObject.getJSONObject("error").getString("code");
+                    errorObj=jsonObject.getJSONObject("error");
+
+                }catch (Exception e)
+                {
+                    AppUtils.getInstance().showLog(""+e,MasterDataRepo.class);
+                }
+
                 AppUtils.getInstance().showLog("MasterDataResponse" + response.toString(), MasterDataRepo.class);
                 if (response.isSuccessful()) {
 
                     if (response.body() == null || response.code() == 204) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    } else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
-                        MasterDataResponseBean.Error error = new Gson().fromJson(response.body().getAsJsonObject("error"), MasterDataResponseBean.Error.class);
+                    } else if (!code.equalsIgnoreCase("E200")) {
+                        MasterDataResponseBean.Error error = new Gson().fromJson(errorObj.toString(), MasterDataResponseBean.Error.class);
                         serviceCallback.error(new Result.Error(error));
                     } else {
-                        MasterDataResponseBean masterDataResponseBean = new Gson().fromJson(response.body(), MasterDataResponseBean.class);
+                        MasterDataResponseBean masterDataResponseBean = new Gson().fromJson(jsonObject.toString(), MasterDataResponseBean.class);
                         serviceCallback.success(new Result.Success(masterDataResponseBean));
                     }
 
@@ -259,23 +360,57 @@ public class MasterDataRepo {
         });
     }
 
-    private void callSupportiveMasterDataApi(final LogRequestBean logRequestObject, final ServiceCallback<Result> serviceCallback) {
+    private void callSupportiveMasterDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.supportiveMasterDataApi(logRequestObject);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.supportiveMasterDataApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                AppUtils.getInstance().showLog("SupportiveMasterDataResponse" + response.toString(), MasterDataRepo.class);
+
+                JSONObject jsonObject = null;
+
+                String objectResponse="";
+                JSONObject encryptedData=null;
+                String getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+
+
+
+
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    try {
+                        Cryptography cryptography = new Cryptography();
+                        jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
+
+                        AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                    } catch (Exception e) {
+                        Toast.makeText(context, "Data not found!", Toast.LENGTH_SHORT).show();
+                        AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                    }
+                }
+                String code="";
+                JSONObject errorObj=null;
+                try {
+                    code = jsonObject.getJSONObject("error").getString("code");
+                    errorObj=jsonObject.getJSONObject("error");
+
+                }catch (JSONException e)
+                {
+                    AppUtils.getInstance().showLog(""+e,MasterDataRepo.class);
+                }
+
+                AppUtils.getInstance().showLog("MasterDataResponse" + response.toString(), MasterDataRepo.class);
+
                 if (response.isSuccessful()) {
 
                     if (response.body() == null || response.code() == 204) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    } else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
-                        SupportiveMastersResponseBean.Error error = new Gson().fromJson(response.body().getAsJsonObject("error"), SupportiveMastersResponseBean.Error.class);
+                    } else if (!code.equalsIgnoreCase("E200")) {
+                        SupportiveMastersResponseBean.Error error = new Gson().fromJson(errorObj.toString(), SupportiveMastersResponseBean.Error.class);
                         serviceCallback.error(new Result.Error(error));
                     } else {
-                        SupportiveMastersResponseBean supportiveMastersResponseBean = new Gson().fromJson(response.body(), SupportiveMastersResponseBean.class);
+                        SupportiveMastersResponseBean supportiveMastersResponseBean = new Gson().fromJson(jsonObject.toString(), SupportiveMastersResponseBean.class);
                         serviceCallback.success(new Result.Success(supportiveMastersResponseBean));
                     }
 
@@ -292,23 +427,56 @@ public class MasterDataRepo {
         });
     }
 
-    private void callSeccDataApi(final SeccRequestBean seccRequestBean, final ServiceCallback<Result> serviceCallback) {
+    private void callSeccDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.seccDataApi(seccRequestBean);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.seccDataApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JSONObject jsonObject = null;
+
+                String objectResponse="";
+                JSONObject encryptedData=null;
+                String getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+
+
+
+
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    try {
+                        Cryptography cryptography = new Cryptography();
+                        jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
+
+                        AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                    } catch (Exception e) {
+                        Toast.makeText(context, "Data not found!", Toast.LENGTH_SHORT).show();
+                        AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                    }
+                }
+                String code="";
+                JSONObject errorObj=null;
+                try {
+                    code = jsonObject.getJSONObject("error").getString("code");
+                    errorObj=jsonObject.getJSONObject("error");
+
+                }catch (JSONException e)
+                {
+                    AppUtils.getInstance().showLog(""+e,MasterDataRepo.class);
+                }
+
+
                 AppUtils.getInstance().showLog("SeccDataResponse" + response.toString(), MasterDataRepo.class);
                 if (response.isSuccessful()) {
 
                     if (response.body() == null || response.code() == 204) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    } else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")) {
-                        SeccResponseBean.Error error = new Gson().fromJson(response.body().getAsJsonObject("error"), SeccResponseBean.Error.class);
+                    } else if (!code.equalsIgnoreCase("E200")) {
+                        SeccResponseBean.Error error = new Gson().fromJson(errorObj.toString(), SeccResponseBean.Error.class);
                         serviceCallback.error(new Result.Error(error));
                     } else {
-                        SeccResponseBean seccResponseBean = new Gson().fromJson(response.body(), SeccResponseBean.class);
+                        SeccResponseBean seccResponseBean = new Gson().fromJson(jsonObject.toString(), SeccResponseBean.class);
                         serviceCallback.success(new Result.Success(seccResponseBean));
                     }
 

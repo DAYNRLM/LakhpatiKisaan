@@ -20,7 +20,7 @@ public class RetrofitClient {
 
    //public static final String server = "local";
 
-  //   public static final String server ="demo";
+    //public static final String server ="demo";
     public static final String server ="live";
 
     private static final int CONNECTION_TIMEOUT = 40000;
@@ -77,7 +77,7 @@ public class RetrofitClient {
             okHttpClient= new OkHttpClient.Builder()
                     .connectTimeout(connTimeout, TimeUnit.SECONDS)
                     .readTimeout(readTimeout, TimeUnit.SECONDS)
-
+                    .cache(null)
                     .retryOnConnectionFailure(retryOnFailure)
                     .addInterceptor(new Interceptor() {
                         @NonNull

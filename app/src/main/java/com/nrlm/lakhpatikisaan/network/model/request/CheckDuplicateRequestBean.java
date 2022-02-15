@@ -6,7 +6,8 @@ public class CheckDuplicateRequestBean implements Serializable {
 
 
     private String state_short_name;
-    private String user_id;
+
+    private String login_id;
     private String imei_no;
     private String device_name;
     private String location_coordinate;
@@ -15,7 +16,7 @@ public class CheckDuplicateRequestBean implements Serializable {
 
     public CheckDuplicateRequestBean(String state_short_name, String user_id, String imei_no, String device_name, String location_coordinate, String member_data, String flag) {
         this.state_short_name = state_short_name;
-        this.user_id = user_id;
+        this.login_id = user_id;
         this.imei_no = imei_no;
         this.device_name = device_name;
         this.location_coordinate = location_coordinate;
@@ -32,11 +33,11 @@ public class CheckDuplicateRequestBean implements Serializable {
     }
 
     public String getUser_id() {
-        return user_id;
+        return login_id;
     }
 
     public void setUser_id(String user_id) {
-        this.user_id = user_id;
+        this.login_id = user_id;
     }
 
     public String getImei_no() {

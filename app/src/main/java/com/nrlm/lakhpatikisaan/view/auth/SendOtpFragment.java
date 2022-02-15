@@ -59,7 +59,6 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
 
         binding.btnSendOtp.setOnClickListener(v -> {
             mobileNumber=binding.etMobileNumber.getText().toString();
-            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getForgotMobileNumber(),mobileNumber,getCurrentContext());
 
             if(mobileNumber.equals(null) ||mobileNumber.equalsIgnoreCase("") || mobileNumber.length()<10 )
            {
@@ -67,7 +66,9 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
                        , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
                );
            }else {
-               authViewModel.makeOtpRequest(getCurrentContext());
+                PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getForgotMobileNumber(),mobileNumber,getCurrentContext());
+
+                authViewModel.makeOtpRequest(getCurrentContext());
                 progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage(getString(R.string.loading_heavy));
                 progressDialog.setCancelable(false);

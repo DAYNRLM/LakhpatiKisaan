@@ -10,6 +10,8 @@ import com.nrlm.lakhpatikisaan.network.model.request.ResetPasswordBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SeccRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
 
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -17,35 +19,35 @@ import retrofit2.http.POST;
 public interface ApiServices {
 
     @POST("login")
-    Call<JsonObject> loginApi(@Body LoginRequestBean loginRequestBean);
+    Call<JsonObject> loginApi(@Body JsonObject encryptedObject);
 
     @POST("masterdata")
-    Call<JsonObject> masterDataApi(@Body LogRequestBean logRequestBean);
+    Call<JsonObject> masterDataApi(@Body JsonObject logRequestBean);
 
     @POST("masteractivity")
-    Call<JsonObject> supportiveMasterDataApi(@Body LogRequestBean logRequestBean);
+    Call<JsonObject> supportiveMasterDataApi(@Body JsonObject logRequestBean);
 
     @POST("checkDuplicay")
-    Call<JsonObject> checkDuplicateDataApi(@Body CheckDuplicateRequestBean checkDuplicateRequestBean);
+    Call<JsonObject> checkDuplicateDataApi(@Body JsonObject checkDuplicateRequestBean);
 
 
     @POST("addmemberdata")
-    Call<JsonObject> syncEntriesDataApi(@Body SyncEntriesRequestBean syncEntriesRequestBean);
+    Call<JsonObject> syncEntriesDataApi(@Body JsonObject syncEntriesRequestBean);
     
 
     @POST("forgotPassword")
-    Call<JsonObject> otpApi(@Body OtpRequestBean otpRequestBean);
+    Call<JsonObject> otpApi(@Body JsonObject otpRequestBean);
 
     @POST("resetPassword")
-    Call<JsonObject> resetPasswordApi(@Body ResetPasswordBean resetPasswordBean);
+    Call<JsonObject> resetPasswordApi(@Body JsonObject resetPasswordBean);
 
     @POST("unassignShgWeb")
-    Call<JsonObject> checkDeleteShgApi(@Body LogRequestBean logRequestBean);
+    Call<JsonObject> checkDeleteShgApi(@Body JsonObject logRequestBean);
 
     @POST("deleteShg")
-    Call<JsonObject> deleteShgApi(@Body DeleteShgRequestBean deleteShgRequestBean);
+    Call<JsonObject> deleteShgApi(@Body JsonObject deleteShgRequestBean);
 
     @POST("seccdata")
-    Call<JsonObject> seccDataApi(@Body SeccRequestBean seccRequestBean);
+    Call<JsonObject> seccDataApi(@Body JsonObject seccRequestBean);
 
 }

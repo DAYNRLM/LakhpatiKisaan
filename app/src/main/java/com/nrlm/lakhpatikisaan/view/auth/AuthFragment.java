@@ -217,8 +217,19 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         binding.tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavDirections action = AuthFragmentDirections.actionAuthFragmentToSignUpFragment();
-                navController.navigate(action);
+                if(NetworkFactory.isInternetOn(getCurrentContext())) {
+                    NavDirections action = AuthFragmentDirections.actionAuthFragmentToSignUpFragment();
+                    navController.navigate(action);
+                }else
+                {
+                    try {
+                        progressDialog.dismiss();
+                        showServerError(AppConstant.noInternetCode);
+                    } catch (JSONException e) {
+                        AppUtils.getInstance().showLog("NoInternetElse" + e.getMessage(), AuthFragment.class);
+                    }
+
+                }
             }
         });
     }
