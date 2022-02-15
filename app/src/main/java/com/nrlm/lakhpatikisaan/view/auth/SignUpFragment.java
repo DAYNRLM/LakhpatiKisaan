@@ -329,7 +329,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("submitRequest","https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/usersignup",encryptedObject,mResultCallBack);
+                volleyService.postDataVolley("submitRequest","https://nrlm.gov.in/lakhpatishg/lakhpatishg/usersignup",encryptedObject,mResultCallBack);
 
             }else{
 
@@ -482,7 +482,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
 
                     }
                 };
-                volleyService.postDataVolley("verifyMobileNumber", "https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/verifymobile", encryptedObject, mResultCallBack);
+                volleyService.postDataVolley("verifyMobileNumber", "https://nrlm.gov.in/lakhpatishg/lakhpatishg/verifymobile", encryptedObject, mResultCallBack);
 
             }
 
@@ -593,7 +593,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("languageData", "https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/languagemasterdata", encryptedObject, mResultCallBack);
+                volleyService.postDataVolley("languageData", "https://nrlm.gov.in/lakhpatishg/lakhpatishg/languagemasterdata", encryptedObject, mResultCallBack);
 
             } else {
 
@@ -699,7 +699,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("blockData", "https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/blockmasterdata", encryptedObject, mResultCallBack);
+                volleyService.postDataVolley("blockData", "https://nrlm.gov.in/lakhpatishg/lakhpatishg/blockmasterdata", encryptedObject, mResultCallBack);
 
             } else {
 
@@ -805,7 +805,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("districtData", "https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/districtmasterdata", encryptedObject, mResultCallBack);
+                volleyService.postDataVolley("districtData", "https://nrlm.gov.in/lakhpatishg/lakhpatishg/districtmasterdata", encryptedObject, mResultCallBack);
 
             } else {
 
@@ -912,7 +912,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("stateData", "https://nrlm.gov.in/lakhpatishgDemo/lakhpatishg/statemasterdata", encryptedObject, mResultCallBack);
+                volleyService.postDataVolley("stateData", "https://nrlm.gov.in/lakhpatishg/lakhpatishg/statemasterdata", encryptedObject, mResultCallBack);
 
             } else {
 

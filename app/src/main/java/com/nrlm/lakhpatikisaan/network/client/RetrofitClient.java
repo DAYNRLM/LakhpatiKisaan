@@ -20,8 +20,8 @@ public class RetrofitClient {
 
    //public static final String server = "local";
 
-    public static final String server ="demo";
-   // public static final String server ="live";
+    //public static final String server ="demo";
+    public static final String server ="live";
 
     private static final int CONNECTION_TIMEOUT = 40000;
     private static final int READ_TIMEOUT = 40000;

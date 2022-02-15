@@ -117,7 +117,6 @@
     <string name="dialog_sign_out_msg">আপুনি এই ডিভাইচটোত আপোনাৰ এপৰ পৰা ছাইন আউট কৰিছে।</string>
     <string name="dialog_btn_signout">ছাইন আউট কৰক</string>
     <string name="toast_success_sign_out">সফলতাৰে ছাইন আউট কৰা হৈছে</string>
-
     <string name="select_clf">CLF নিৰ্বাচন কৰক</string>
     <string name="select_vo">VO নিৰ্বাচন কৰক</string>
     <string name="select_block">খণ্ড নিৰ্বাচন কৰক</string>

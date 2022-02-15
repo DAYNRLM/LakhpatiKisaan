@@ -299,7 +299,14 @@ public class MasterDataRepo {
 
                 String objectResponse="";
                 JSONObject encryptedData=null;
-                String getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+                String getEncrypted="";
+                try {
+                   getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+
+                }catch (Exception e)
+                {
+
+                }
 
 
 
@@ -322,7 +329,7 @@ public class MasterDataRepo {
                     code = jsonObject.getJSONObject("error").getString("code");
                     errorObj=jsonObject.getJSONObject("error");
 
-                }catch (JSONException e)
+                }catch (Exception e)
                 {
                     AppUtils.getInstance().showLog(""+e,MasterDataRepo.class);
                 }
