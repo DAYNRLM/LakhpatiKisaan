@@ -95,7 +95,7 @@ public class AppDeviceInfoUtils {
     public String getAppVersion() {
         String appVersion = "";
         try {
-            appVersion =  BuildConfig.VERSION_NAME;;
+            appVersion =  BuildConfig.VERSION_NAME;
         }catch (Exception e){
             mainApplication.appUtils.showLog("Expection: "+e,AppDeviceInfoUtils.class);
         }

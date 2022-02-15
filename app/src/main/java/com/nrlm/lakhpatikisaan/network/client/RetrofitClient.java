@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -19,33 +20,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
    //public static final String server = "local";
+    public static final String server ="demo".trim();
 
-    //public static final String server ="demo";
-    public static final String server ="live";
+    //public static final String server ="live".trim();
 
     private static final int CONNECTION_TIMEOUT = 40000;
     private static final int READ_TIMEOUT = 40000;
 
 
     private static String getBaseUrl(String server) {
-
-
         String baseURL = "";
         String HTTP_TYPE, IP_ADDRESS, NRLM_STATUS;
         switch (server) {
-            case "local":
-                HTTP_TYPE = "http";
-                IP_ADDRESS = "10.197.183.105";
-                NRLM_STATUS = ":8989";
-                baseURL = HTTP_TYPE + "://" + IP_ADDRESS + NRLM_STATUS + "/lakhpatishg/";
-                break;
 
-            case "demo":
+     /*       case "demo":
+
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
                 NRLM_STATUS = "lakhpatishgDemo";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
-                break;
+                break;*/
 
             case "live":
                 HTTP_TYPE = "https";
@@ -53,7 +47,15 @@ public class RetrofitClient {
                 NRLM_STATUS = "lakhpatishg";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
                 break;
+
+           /* case "local":
+                HTTP_TYPE = "http";
+                IP_ADDRESS = "10.197.183.105";
+                NRLM_STATUS = ":8989";
+                baseURL = HTTP_TYPE + "://" + IP_ADDRESS + NRLM_STATUS + "/lakhpatishg/";
+                break;*/
         }
+        AppUtils.getInstance().showLog("BaseURLRetrofitClient"+baseURL, RetrofitClient.class);
         return baseURL;
     }
 
