@@ -166,6 +166,9 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     loginRequestBean.setImei_no("5d7eaa5ef9d3e");
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("10");
+                  // String apploginTime=AppDateFactory.getInstance().getCurrentDateAndTime();
+                  // String apploginTime="2022-02-16 14:50:48";
+
                     loginRequestBean.setApp_login_time(AppDateFactory.getInstance().getCurrentDateAndTime());
                     loginRequestBean.setApp_versions(BuildConfig.VERSION_NAME);
                     loginRequestBean.setDate(AppDateFactory.getInstance().getCurrentDate());
@@ -233,9 +236,6 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             }
         });
     }
-
-
-
     public void showServerError(String error_code) throws JSONException {
         switch (error_code) {
 
@@ -291,8 +291,6 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                         , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
                 );
                 break;
-
-
             case "E23":
                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.invalid_login_time)
                         , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
@@ -312,8 +310,6 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
-
     public String getIMEINo1(Context context) {
         String imeiNo1 = "";
         try {
@@ -345,8 +341,6 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         AppUtils.getInstance().showLog("imeiiiiii: " + imeiNo1, AppDeviceInfoUtils.class);
         return imeiNo1;
     }
-
-
     private int getSIMSlotCount(Context context) {
         int getPhoneCount = 0;
         try {
