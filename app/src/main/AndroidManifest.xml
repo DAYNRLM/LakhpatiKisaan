@@ -37,21 +37,27 @@
         tools:replace="android:icon,android:allowBackup">
         <activity
             android:name=".view.auth.SignUPActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".view.auth.AuthActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.LakhpatiKisaan.NoActionBar" />
         <activity
             android:name=".view.mpin.MpinActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.LakhpatiKisaan.NoActionBar" />
         <activity
             android:name=".view.home.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.LakhpatiKisaan.NoActionBar" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.LakhpatiKisaan.NoActionBar" />
         <activity
             android:name=".view.SplashScreenActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.LakhpatiKisaan.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
