@@ -222,7 +222,8 @@ public class AuthViewModel extends ViewModel {
                             getSupportiveMasters(logRequestBean);
 
 
-                        } else loginApiStatus = "";
+                        }
+                        else loginApiStatus = "";
 
                     } else {
                         //Object errorObject = ;

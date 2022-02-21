@@ -287,6 +287,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             case "E203":
 
             case "E305":
+
                 DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.invalid_id_or_pass)
                         , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
                 );
