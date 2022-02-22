@@ -72,6 +72,24 @@ public class MasterDataResponseBean {
         private String last_entry_before_nrlm  ;
         private String lgd_village_code  ;
         private String secc_no_flag  ;
+        private String aadhaar_verified_status  ;
+        private String gender  ;
+
+        public String getGender() {
+            return gender;
+        }
+
+        public void setGender(String gender) {
+            this.gender = gender;
+        }
+
+        public String getAadhaar_verified_status() {
+            return aadhaar_verified_status;
+        }
+
+        public void setAadhaar_verified_status(String aadhaar_verified_status) {
+            this.aadhaar_verified_status = aadhaar_verified_status;
+        }
 
         public String getLgd_village_code() {
             return lgd_village_code;
