@@ -32,13 +32,13 @@ public class RetrofitClient {
         String HTTP_TYPE, IP_ADDRESS, NRLM_STATUS;
         switch (server) {
 
-            case "demo":
+         /*   case "demo":
 
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
                 NRLM_STATUS = "lakhpatishgDemo";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
-                break;
+                break;*/
 
             case "live":
                 HTTP_TYPE = "https";
@@ -47,12 +47,12 @@ public class RetrofitClient {
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
                 break;
 
-            case "local":
+         /*   case "local":
                 HTTP_TYPE = "http";
                 IP_ADDRESS = "10.197.183.105";
                 NRLM_STATUS = ":8989";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + NRLM_STATUS + "/lakhpatishg/";
-                break;
+                break;*/
         }
         AppUtils.getInstance().showLog("BaseURLRetrofitClient"+baseURL, RetrofitClient.class);
         return baseURL;
