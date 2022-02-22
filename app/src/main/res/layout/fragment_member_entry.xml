@@ -215,7 +215,7 @@
                                         android:lines="1"
                                         android:maxLength="12"
                                         android:fontFamily="@font/manrope_regular"
-                                        android:inputType="number" />
+                                        android:inputType="numberPassword" />
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
