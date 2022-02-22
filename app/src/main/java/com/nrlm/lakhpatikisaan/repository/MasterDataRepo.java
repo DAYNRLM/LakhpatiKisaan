@@ -109,43 +109,40 @@ public class MasterDataRepo {
 
     public synchronized void makeMasterDataRequest(final JsonObject encryptedObject,
                                                    final RepositoryCallback repositoryCallback) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    callMasterDataApi(encryptedObject, new ServiceCallback<Result>() {
-                        @Override
+        executor.execute(() -> {
+            try {
+                callMasterDataApi(encryptedObject, new ServiceCallback<Result>() {
+                    @Override
 
-                        public void success(Result<Result> successResponse) {
-                            /*fill data into db*/
-                            if (successResponse instanceof Result.Success) {
-                                MasterDataResponseBean masterDataResponseBean = (MasterDataResponseBean) ((Result.Success) successResponse).data;
-                                List<MasterDataEntity> masterDataEntityList = new ArrayList<>();
-                                for (MasterDataResponseBean.MasterData masterData : masterDataResponseBean.getLocation_master()) {
+                    public void success(Result<Result> successResponse) {
+                        /*fill data into db*/
+                        if (successResponse instanceof Result.Success) {
+                            MasterDataResponseBean masterDataResponseBean = (MasterDataResponseBean) ((Result.Success) successResponse).data;
+                            List<MasterDataEntity> masterDataEntityList = new ArrayList<>();
+                            for (MasterDataResponseBean.MasterData masterData : masterDataResponseBean.getLocation_master()) {
 
-                                    MasterDataEntity masterDataEntity = new MasterDataEntity(masterData.getBlock_name(), masterData.getBlock_code(), masterData.getGp_code()
-                                            , masterData.getGp_name(), masterData.getVillage_code(), masterData.getVillage_name(), masterData.getShg_name(), masterData.getShg_code(),
-                                            masterData.getMember_code(), masterData.getMember_name(), masterData.getClf_code(), masterData.getClf_name(), masterData.getVo_code(),
-                                            masterData.getVo_name(), masterData.getMember_joining_date(), masterData.getLast_entry_after_nrlm(), masterData.getLast_entry_before_nrlm(),
-                                            masterData.getSecc_no_flag(), masterData.getLgd_village_code(),"0","F");
+                                MasterDataEntity masterDataEntity = new MasterDataEntity(masterData.getBlock_name(), masterData.getBlock_code(), masterData.getGp_code()
+                                        , masterData.getGp_name(), masterData.getVillage_code(), masterData.getVillage_name(), masterData.getShg_name(), masterData.getShg_code(),
+                                        masterData.getMember_code(), masterData.getMember_name(), masterData.getClf_code(), masterData.getClf_name(), masterData.getVo_code(),
+                                        masterData.getVo_name(), masterData.getMember_joining_date(), masterData.getLast_entry_after_nrlm(), masterData.getLast_entry_before_nrlm(),
+                                        masterData.getSecc_no_flag(), masterData.getLgd_village_code(),masterData.getAadhaar_verified_status(),masterData.getGender());
 
-                                    masterDataEntityList.add(masterDataEntity);
-                                }
-                                insertAllMasterData(masterDataEntityList);
+                                masterDataEntityList.add(masterDataEntity);
                             }
-                            repositoryCallback.onComplete(successResponse);
+                            insertAllMasterData(masterDataEntityList);
                         }
+                        repositoryCallback.onComplete(successResponse);
+                    }
 
-                        @Override
-                        public void error(Result<Result> errorResponse) {
-                            repositoryCallback.onComplete(errorResponse);
-                        }
-                    });
+                    @Override
+                    public void error(Result<Result> errorResponse) {
+                        repositoryCallback.onComplete(errorResponse);
+                    }
+                });
 
-                } catch (Exception e) {
-                    Result<Result> errorResult = new Result.Error(e);
-                    repositoryCallback.onComplete(errorResult);
-                }
+            } catch (Exception e) {
+                Result<Result> errorResult = new Result.Error(e);
+                repositoryCallback.onComplete(errorResult);
             }
         });
 
@@ -307,11 +304,6 @@ public class MasterDataRepo {
                 {
 
                 }
-
-
-
-
-
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     try {
                         Cryptography cryptography = new Cryptography();
