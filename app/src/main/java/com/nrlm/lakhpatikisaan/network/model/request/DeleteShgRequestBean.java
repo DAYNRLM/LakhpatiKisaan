@@ -37,6 +37,7 @@ public class DeleteShgRequestBean {
         return device_name;
     }
 
+
     public void setDevice_name(String device_name) {
         this.device_name = device_name;
     }
