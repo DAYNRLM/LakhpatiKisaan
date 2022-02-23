@@ -54,6 +54,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -287,7 +288,10 @@ public class MasterDataRepo {
     private void callMasterDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.masterDataApi(encryptedObject);
+        HashMap<String, String> headers = new HashMap<String, String>();
+
+        headers.put("securityToken", "n{j5Y[<!Ps*HWCWg");
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.masterDataApi(headers,encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -355,7 +359,10 @@ public class MasterDataRepo {
     private void callSupportiveMasterDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.supportiveMasterDataApi(encryptedObject);
+        HashMap<String, String> headers = new HashMap<String, String>();
+
+        headers.put("securityToken", "n{j5Y[<!Ps*HWCWg");
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.supportiveMasterDataApi(headers,encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -422,7 +429,10 @@ public class MasterDataRepo {
     private void callSeccDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.seccDataApi(encryptedObject);
+        HashMap<String, String> headers = new HashMap<String, String>();
+
+        headers.put("securityToken", "n{j5Y[<!Ps*HWCWg");
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.seccDataApi(headers,encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
