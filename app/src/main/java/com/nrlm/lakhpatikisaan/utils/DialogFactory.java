@@ -46,6 +46,8 @@ public class DialogFactory {
         alert.show();
         Button buttonbackground1 = alert.getButton(DialogInterface.BUTTON_POSITIVE);
         buttonbackground1.setTextColor(context.getResources().getColor(R.color.green_500));
+        Button buttonbackground2 = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        buttonbackground2.setTextColor(context.getResources().getColor(R.color.green_500));
         return alert;
     }
 

@@ -231,7 +231,7 @@ public class AuthViewModel extends ViewModel {
                         if (((Result.Error) result).exception != null) {
                             if (((Result.Error) result).exception instanceof LoginResponseBean.Error) {
                                 LoginResponseBean.Error responseError = (LoginResponseBean.Error) ((Result.Error) result).exception;
-                                loginApiStatus = responseError.getCode();
+                                loginApiStatus = responseError.getCode().trim();
                                 AppUtils.getInstance().showLog(responseError.getCode() + " loginApiErrorObj" + responseError.getMessage(), AuthViewModel.class);
                             } else if (((Result.Error) result).exception instanceof Throwable) {
                                 Throwable exception = (Throwable) ((Result.Error) result).exception;
@@ -287,7 +287,7 @@ public class AuthViewModel extends ViewModel {
                     return;
 
                 }else {
-                    //Object errorObject = ;
+
                     AppUtils.getInstance().showLog("OtpResultError" + ((Result.Error) result).exception.getClass(), AuthViewModel.class);
                     if (((Result.Error) result).exception != null) {
                         if (((Result.Error) result).exception instanceof OtpResponseBean.Error) {
@@ -302,12 +302,8 @@ public class AuthViewModel extends ViewModel {
                     }
 
                 }
-
-
             }
         });
-
-
     }
 
     public void ResetPasswordRequestData(Context context) {
@@ -345,12 +341,6 @@ public class AuthViewModel extends ViewModel {
         return loginApiStatus;
 
     }
-
-
-    public void deleteAllMaster() {
-        loginRepo.deleteAllMaster();
-    }
-
 
     public void getMasterData(LogRequestBean logRequestBean){
         JsonObject encryptedObject =new JsonObject();
