@@ -26,16 +26,21 @@ public class SplashScreenActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
-        getLanguageCode();
-        new Handler().postDelayed(this::goToNextScreen, SPLASH_SCREEN_TIME_OUT);
+        if(AppUtils.isDeviceRooted()){
+            showAlertDialogAndExitApp("This device is rooted. You can't use this app.");
+        }
+        else {
+            getLanguageCode();
+            new Handler().postDelayed(this::goToNextScreen, SPLASH_SCREEN_TIME_OUT);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(AppUtils.isDeviceRooted()){
+      /*  if(AppUtils.isDeviceRooted()){
             showAlertDialogAndExitApp("This device is rooted. You can't use this app.");
-        }
+        }*/
     }
 
     public void showAlertDialogAndExitApp(String message) {
@@ -45,10 +50,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 (dialog, which) -> {
                     dialog.dismiss();
-                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                   /* Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.addCategory(Intent.CATEGORY_HOME);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    startActivity(intent);*/
                     finish();
                 });
 
