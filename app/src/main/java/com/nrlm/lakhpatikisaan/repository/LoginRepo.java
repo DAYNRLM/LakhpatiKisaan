@@ -40,6 +40,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -274,8 +275,13 @@ public class LoginRepo {
 
     private void callLoginRequest(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
+            HashMap<String, String> headers = new HashMap<String, String>();
+
+            headers.put("securityToken", "n{j5Y[<!Ps*HWCWg");
+
+
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.loginApi(encryptedObject);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.loginApi(headers,encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

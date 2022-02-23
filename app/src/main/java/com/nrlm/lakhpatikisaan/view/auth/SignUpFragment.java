@@ -77,46 +77,32 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
     String userName;
     NavController navController;
     boolean otpVerified;
-
-
     @Override
     public Class<AuthViewModel> getViewModel() {
         return AuthViewModel.class;
     }
-
     @Override
     public FragmentSignUpBinding getFragmentBinding(LayoutInflater inflater, @Nullable ViewGroup container) {
         return FragmentSignUpBinding.inflate(inflater, container, false);
     }
-
     @Override
     public Context getCurrentContext() {
         return getContext();
     }
-
     @Override
     public void onFragmentReady() {
-
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         state = new ArrayList<>();
         volleyService = VolleyService.getInstance(getCurrentContext());
         navController = NavHostFragment.findNavController(this);
-
-
         callStateApi();
-
-
         binding.spinnerState.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -152,8 +138,6 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 });
             }
         });
-
-
         binding.etUserMobile.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -185,7 +169,6 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 }
             }
        });
-
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,8 +186,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
             }
         });
     }
-
-    private void getSignUpSubmitApiCall() {
+        private void getSignUpSubmitApiCall() {
 
             if (NetworkFactory.isInternetOn(getCurrentContext())) {
                 progressDialog = new ProgressDialog(getContext());
@@ -336,7 +318,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
             }
 
     }
-    private void getApiCallForMobileVerification(String mobi) {
+        private void getApiCallForMobileVerification(String mobi) {
         JSONObject mobileVerfication=null;
 
         if (NetworkFactory.isInternetOn(getCurrentContext())) {
@@ -491,7 +473,6 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
         }
 
     }
-
         private void getLanguageApiCall ()
         {
             if (NetworkFactory.isInternetOn(getCurrentContext())) {
@@ -812,7 +793,6 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
             }
 
         }
-
         private void callStateApi () {
             if (NetworkFactory.isInternetOn(getCurrentContext())) {
                 progressDialog = new ProgressDialog(getContext());
@@ -919,7 +899,6 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
 
             }
         }
-
     }
 
 

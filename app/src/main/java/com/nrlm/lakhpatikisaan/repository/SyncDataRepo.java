@@ -37,6 +37,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -170,7 +171,10 @@ public class SyncDataRepo {
     private void callCheckDuplicateDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.checkDuplicateDataApi(encryptedObject);
+        HashMap<String, String> headers = new HashMap<String, String>();
+
+        headers.put("securityToken", "n{j5Y[<!Ps*HWCWg");
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.checkDuplicateDataApi(headers,encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
