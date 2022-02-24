@@ -1,11 +1,13 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,11 +47,14 @@ import com.nrlm.lakhpatikisaan.view.mpin.MpinActivity;
 
 import org.json.JSONException;
 
+import java.util.Locale;
+
 public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginBinding> {
 
     private ProgressDialog progressDialog;
     private AuthViewModel authViewModel;
     private TelephonyManager telephonyManager;
+    private String loginApiStatus="E2";
 
     @Override
     public Class<AuthViewModel> getViewModel() {
@@ -184,22 +190,22 @@ progressDialog=new ProgressDialog(getContext());
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            String loginApiStatus = authViewModel.loginApiResult();
-                            AppUtils.getInstance().showLog("loginApiStatus" + loginApiStatus, AuthFragment.class);
+                           loginApiStatus = authViewModel.loginApiResult();
+
+                            AppUtils.getInstance().showLog("loginApiStatusTTTTT" + loginApiStatus, AuthFragment.class);
                             progressDialog.dismiss();
                             if (loginApiStatus.equalsIgnoreCase("E200")) {
                                 PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginSessionKey(), "logedin", getContext());
                                 PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginId(), userId, getContext());
                                 intentToMpin();
-                         /*   Intent intent = new Intent(getContext(), HomeActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);*/
+
                             } else {
                                 try {
-
+                                    AppUtils.getInstance().showLog("loginApiStatusdf" + loginApiStatus, AuthFragment.class);
                                     showServerError(loginApiStatus);
-                                } catch (JSONException e) {
-                                    AppUtils.getInstance().showLog("loginApiStatus" + loginApiStatus, AuthFragment.class);
+
+                                } catch (Exception e) {
+                                    AppUtils.getInstance().showLog("loginApiStatusdfdfdfdf" + loginApiStatus, AuthFragment.class);
                                 }
                             }
                         }
@@ -212,8 +218,6 @@ progressDialog=new ProgressDialog(getContext());
                         AppUtils.getInstance().showLog("NoInternetElse" + e.getMessage(), AuthFragment.class);
                     }
                 }
-
-
             }
 
         });
@@ -236,6 +240,20 @@ progressDialog=new ProgressDialog(getContext());
                 }
             }
         });
+    }
+
+    private void updateApplication() {
+       // final String appPackageName = context.getPackageName();
+        try {
+            //context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://drive.google.com/file/d/11ai-E0CY-RshvTO3aHAISREQi74kEhb6/view?usp=sharing")));
+            getCurrentContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.nrlm.lakhpatikisaan")));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            //context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://nrlm.gov.in/outerReportAction.do?methodName=showIndex")));
+            getCurrentContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.nrlm.lakhpatikisaan")));
+
+        }
+        //((Activity) context).finish();
+        ((Activity) getCurrentContext()).finish();
     }
     public void showServerError(String error_code) throws JSONException {
         switch (error_code) {
@@ -298,12 +316,32 @@ progressDialog=new ProgressDialog(getContext());
                         , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
                 );
                 break;
+            case "E2":
+                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, "Info"
+                        , "Invalid App version", "Update", (dialog, which) -> updateApplication(), "Cancel", (dialog, which) -> {
+                            dialog.dismiss();
+                            ((Activity) getCurrentContext()).finish();
+                        },false);
+                break;
 
 
             default:
-                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.SERVER_ERROR_TITLE)
-                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
-                );
+                if (loginApiStatus.trim().equalsIgnoreCase("E2")){
+
+                    DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, "Info"
+                            , "Invalid App version", "Update",
+                            (dialog, which) -> updateApplication(),
+                            "Cancel", (dialog, which) -> {
+                                dialog.dismiss();
+                                ((Activity) getCurrentContext()).finish();
+                            },false);
+                    return;
+                }else {
+                    DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), getString(R.string.SERVER_ERROR_TITLE)
+                            , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                    );
+                }
+              break;
         }
     }
 
