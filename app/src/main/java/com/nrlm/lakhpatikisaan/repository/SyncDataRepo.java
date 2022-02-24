@@ -25,6 +25,7 @@ import com.nrlm.lakhpatikisaan.network.model.request.CheckDuplicateRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.CheckDuplicateResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
+import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.Cryptography;
 import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
@@ -171,10 +172,10 @@ public class SyncDataRepo {
     private void callCheckDuplicateDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        HashMap<String, String> headers = new HashMap<String, String>();
+        /*HashMap<String, String> headers = new HashMap<String, String>();
 
-        headers.put("securityToken", "n{j5Y[<!Ps*HWCWg");
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.checkDuplicateDataApi(headers,encryptedObject);
+        headers.put(AppConstant.st, AppConstant.s);*/
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.checkDuplicateDataApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

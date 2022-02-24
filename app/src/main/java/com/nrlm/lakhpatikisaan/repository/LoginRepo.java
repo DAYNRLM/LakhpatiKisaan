@@ -29,6 +29,7 @@ import com.nrlm.lakhpatikisaan.network.model.request.ResetPasswordBean;
 import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.OtpResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
+import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.Cryptography;
 import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
@@ -275,13 +276,13 @@ public class LoginRepo {
 
     private void callLoginRequest(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
-            HashMap<String, String> headers = new HashMap<String, String>();
+       /*     HashMap<String, String> headers = new HashMap<String, String>();
 
-            headers.put("securityToken", "n{j5Y[<!Ps*HWCWg");
+            headers.put(AppConstant.st, AppConstant.s);*/
 
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.loginApi(headers,encryptedObject);
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.loginApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

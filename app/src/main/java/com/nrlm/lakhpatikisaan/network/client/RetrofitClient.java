@@ -21,8 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
    //public static final String server = "local";
-   public static final String server ="demo".trim();
-  // public static final String server ="live".trim();
+ //  public static final String server ="demo".trim();
+   public static final String server ="live".trim();
 
     private static final int CONNECTION_TIMEOUT = 40000;
     private static final int READ_TIMEOUT = 40000;
@@ -34,13 +34,13 @@ public class RetrofitClient {
         String HTTP_TYPE, IP_ADDRESS, NRLM_STATUS;
         switch (server) {
 
-            case "demo":
+           /* case "demo":
 
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
                 NRLM_STATUS = "lakhpatishgDemo";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
-                break;
+                break;*/
 
             case "live":
                 HTTP_TYPE = "https";
@@ -94,21 +94,7 @@ public class RetrofitClient {
                     })
                     .addInterceptor(getHttpLoggingInterceptor()).build();
         }else {
-          /*  okHttpClient= new OkHttpClient.Builder()
-                    .connectTimeout(connTimeout, TimeUnit.SECONDS)
-                    .readTimeout(readTimeout, TimeUnit.SECONDS)
-                    .retryOnConnectionFailure(retryOnFailure)
-                    .addInterceptor(new Interceptor() {
-                        @NonNull
-                        @Override
-                        public Response intercept(@NonNull Chain chain) throws IOException {
 
-                            return chain.proceed(chain.request().newBuilder()
-                                    .header("securityToken", "n{j5Y[<!Ps*HWCWg")
-                                    .addHeader("Connection","close").build());
-                        }
-                    })
-               .build();*/
             okHttpClient= new OkHttpClient.Builder()
                     .connectTimeout(connTimeout, TimeUnit.SECONDS)
                     .readTimeout(readTimeout, TimeUnit.SECONDS)
@@ -119,8 +105,8 @@ public class RetrofitClient {
                         public Response intercept(@NonNull Chain chain) throws IOException {
 
                             return chain.proceed(chain.request().newBuilder()
-                                   /* .header("securityToken", "n{j5Y[<!Ps*HWCWg")*/
-                                    .addHeader("Connection","close").build());
+                                  .header("securityToken", "n{j5Y[<!Ps*HWCWg")
+                                  .addHeader("Connection","close").build());
                         }
                     })
                     .build();

@@ -21,6 +21,7 @@ import com.nrlm.lakhpatikisaan.network.model.request.LoginRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.CheckDeleteShgResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.LoginResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
+import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.Cryptography;
 import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
@@ -166,10 +167,10 @@ public class CheckAndDeleteShgRepo {
     private void callCheckDeleteShgApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        HashMap<String, String> headers = new HashMap<String, String>();
+      /*  HashMap<String, String> headers = new HashMap<String, String>();
 
-        headers.put("securityToken", "n{j5Y[<!Ps*HWCWg");
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.checkDeleteShgApi(headers,encryptedObject);
+        headers.put(AppConstant.st, AppConstant.s);*/
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.checkDeleteShgApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -235,10 +236,10 @@ public class CheckAndDeleteShgRepo {
     private void callDeleteShgApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
 
         ApiServices apiServices = RetrofitClient.getApiServices();
-        HashMap<String, String> headers = new HashMap<String, String>();
+       /* HashMap<String, String> headers = new HashMap<String, String>();
 
-        headers.put("securityToken", "n{j5Y[<!Ps*HWCWg");
-        Call<JsonObject> call = (Call<JsonObject>) apiServices.deleteShgApi(headers,encryptedObject);
+        headers.put(AppConstant.st, AppConstant.s);*/
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.deleteShgApi(encryptedObject);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

@@ -23,16 +23,16 @@ import retrofit2.http.POST;
 public interface ApiServices {
 
     @POST("login")
-    Call<JsonObject> loginApi(@HeaderMap Map<String, String> header , @Body JsonObject encryptedObject);
+    Call<JsonObject> loginApi(@Body JsonObject encryptedObject);
 
     @POST("masterdata")
-    Call<JsonObject> masterDataApi(@HeaderMap Map<String, String> header ,@Body JsonObject logRequestBean);
+    Call<JsonObject> masterDataApi(@Body JsonObject logRequestBean);
 
     @POST("masteractivity")
-    Call<JsonObject> supportiveMasterDataApi(@HeaderMap Map<String, String> header ,@Body JsonObject logRequestBean);
+    Call<JsonObject> supportiveMasterDataApi(@Body JsonObject logRequestBean);
 
     @POST("checkDuplicay")
-    Call<JsonObject> checkDuplicateDataApi(@HeaderMap Map<String, String> header ,@Body JsonObject checkDuplicateRequestBean);
+    Call<JsonObject> checkDuplicateDataApi(@Body JsonObject checkDuplicateRequestBean);
 
 
     @POST("addmemberdata")
@@ -46,12 +46,12 @@ public interface ApiServices {
     Call<JsonObject> resetPasswordApi(@Body JsonObject resetPasswordBean);
 
     @POST("unassignShgWeb")
-    Call<JsonObject> checkDeleteShgApi(@HeaderMap Map<String, String> header ,@Body JsonObject logRequestBean);
+    Call<JsonObject> checkDeleteShgApi(@Body JsonObject logRequestBean);
 
     @POST("deleteShg")
-    Call<JsonObject> deleteShgApi(@HeaderMap Map<String, String> header ,@Body JsonObject deleteShgRequestBean);
+    Call<JsonObject> deleteShgApi(@Body JsonObject deleteShgRequestBean);
 
     @POST("seccdata")
-    Call<JsonObject> seccDataApi(@HeaderMap Map<String, String> header ,@Body JsonObject seccRequestBean);
+    Call<JsonObject> seccDataApi(@Body JsonObject seccRequestBean);
 
 }
