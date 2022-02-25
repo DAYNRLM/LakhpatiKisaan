@@ -193,7 +193,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 progressDialog.setMessage(getString(R.string.loading_heavy));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                userName=binding.etUserName.getText().toString().trim();
+                userName=binding.etUserName.getText().toString().trim().replaceAll("\\s","");
               String email=binding.etUserEmail.getText().toString().trim();
                 JSONObject submitSignUp=new JSONObject();
                 try {

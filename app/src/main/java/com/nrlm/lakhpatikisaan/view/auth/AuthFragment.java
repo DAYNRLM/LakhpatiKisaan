@@ -138,7 +138,7 @@ progressDialog=new ProgressDialog(getContext());
 
 
             String password = binding.etPassword.getText().toString();
-            String userId = binding.etUserId.getText().toString().trim().toUpperCase();
+            String userId = binding.etUserId.getText().toString().trim().toUpperCase().replaceAll("\\s","");
             if (userId.equalsIgnoreCase("")) {
                 binding.etUserId.setError(getString(R.string.invalid_userid));
             } else if (password.equalsIgnoreCase("")) {

@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+
 import com.nrlm.lakhpatikisaan.BuildConfig;
 
 import java.io.BufferedReader;
@@ -175,17 +176,10 @@ public class AppUtils {
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
     }*/
-
-
-
-
-
-
-
     public String getAppVersion() {
         String appVersion = "";
         try {
-            appVersion =  BuildConfig.VERSION_NAME;;
+            appVersion = BuildConfig.VERSION_NAME;;
         }catch (Exception e){
             AppUtils.getInstance().showLog("Expection: "+e,AppDeviceInfoUtils.class);
         }
