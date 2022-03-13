@@ -389,7 +389,7 @@ public class SyncDataRepo {
                 syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
                 syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
                 syncEntry.setSecc(shgAndMemberDataBean.getSecc());
-                if (aadharDbBean==null && activityDataBeanList!=null &&
+                if (aadharDbBean==null || activityDataBeanList!=null &&
                         activityDataBeanList.get(0).getFlag_before_after_nrlm().equalsIgnoreCase("A") ){
                     syncEntry.setName_as_per_aadhaar("");
                     syncEntry.setEncrypted_aadhaar("");
