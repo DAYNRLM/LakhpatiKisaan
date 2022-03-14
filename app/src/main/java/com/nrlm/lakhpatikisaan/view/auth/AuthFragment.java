@@ -83,7 +83,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         authViewModel.init(getContext());
-progressDialog=new ProgressDialog(getContext());
+        progressDialog=new ProgressDialog(getContext());
         String loginId = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), getCurrentContext());
         String stateShortName = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getCurrentContext());
         String imei = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), getCurrentContext());

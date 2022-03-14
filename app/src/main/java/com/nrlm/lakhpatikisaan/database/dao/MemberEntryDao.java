@@ -51,6 +51,11 @@ public interface MemberEntryDao {
     @Query("update memberentryentity set flagSyncStatus='1' where flagSyncStatus='0'")
      void updateSyncStatus();
 
+    @Query("select seccNumber from memberentryentity where shgMemberCode=:memberCode limit 1")
+    String checkSeccNumberInDb(String memberCode);
+
+
+
     @Query("delete from memberentryentity  where shgCode=:shgCode and (shgMemberCode=:memberCode" +
             " and (flagBeforeAfterNrlm=:entryType and (flagSyncStatus='0'" +
             " and (sectorDate=:sectorCode and activityCode=:activityCode) )))")

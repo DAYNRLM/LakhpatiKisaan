@@ -85,8 +85,12 @@ public class HomeViewModel extends ViewModel {
     public void getHomeViewModelRepos(Context context) {
         masterDataRepo = MasterDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         loginRepo=LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(),context);
+        syncDataRepo = SyncDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
+
 
     }
+
+
 
     // common alert dialog
     public MutableLiveData<String> commonAleartDialog(Context context) {
@@ -108,7 +112,6 @@ public class HomeViewModel extends ViewModel {
     public void checkDuplicateAtServer(Context context, String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
 
-        syncDataRepo = SyncDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
 
         CheckDuplicateRequestBean checkDuplicateRequestBean= syncDataRepo.getCheckDuplicateRequest(loginId, stateShortName, imeiNo,deviceName, locationCoordinates, entryCompleteConfirmation);
         if (checkDuplicateRequestBean.getMember_data().equalsIgnoreCase("")){
@@ -177,6 +180,7 @@ public class HomeViewModel extends ViewModel {
                                     syncApiStatus="E200";
 
                                     updateSyncStatus();
+
                                     updateAadharSyncStatus();
 
                                     AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "DataSync and status updated successfully-" +
@@ -223,6 +227,12 @@ public class HomeViewModel extends ViewModel {
     private void updateAadharSyncStatus() {
         syncDataRepo.updateAadharSyncStatus();
     }
+
+    public String checkSeccNumberInDb(String memberCode) throws ExecutionException, InterruptedException {
+      return   syncDataRepo.checkSeccNumberInDb(memberCode);
+    }
+
+
 
 
 

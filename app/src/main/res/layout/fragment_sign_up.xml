@@ -164,8 +164,9 @@
                         android:layout_height="wrap_content"
                         android:lines="1"
                         android:maxLength="20"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:fontFamily="@font/manrope_regular"
-                        android:inputType="text" />
+                        android:inputType="textCapWords" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

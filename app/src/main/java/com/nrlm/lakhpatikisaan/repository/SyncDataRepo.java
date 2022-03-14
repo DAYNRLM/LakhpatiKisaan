@@ -425,7 +425,7 @@ public class SyncDataRepo {
         } catch (Exception e) {
             AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + e, SyncDataRepo.class);
         }
-        AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + syncEntriesRequestBean.toString(), SyncDataRepo.class);
+       // AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + syncEntriesRequestBean.toString(), SyncDataRepo.class);
         return syncEntriesRequestBean;
     }
 
@@ -449,6 +449,23 @@ public class SyncDataRepo {
         });
 
     }
+
+
+
+    public String checkSeccNumberInDb(String memberCode) throws ExecutionException, InterruptedException {
+
+        Callable<String> callable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return memberEntryDao.checkSeccNumberInDb(memberCode);
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+
+    }
+
+
 
     public void deleteDuplicateEntries(String shgCode, String memberCode, String sectorCode, String activityCode, String entryType) {
         memberEntryDao.deleteDuplicateEntries(shgCode, memberCode, sectorCode, activityCode, entryType);

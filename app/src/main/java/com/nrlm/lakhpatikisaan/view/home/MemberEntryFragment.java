@@ -88,7 +88,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     String incomeFrequencyName;
     String incomeRangName;
     String monthName;
-    String seccNumber;
+    String seccNumber="";
     String seccName;
     String aadharStatus;
 
@@ -133,6 +133,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
 
+
+
         try {
             shgMemberCode = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedMemberCode(), getContext());
             shgCode = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefSelectedShgCode(), getContext());
@@ -140,6 +142,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             String shgName = viewModel.getShgNameDB(shgCode);
             String joiningDate = viewModel.getMemberJoiningDate(shgMemberCode);
             aadharStatus = viewModel.getAadharStatusFromMaster(shgMemberCode);
+
+
+
 
             String memberDOJ = viewModel.getMemberDOJ(shgMemberCode);
 
@@ -163,6 +168,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
 
 
         /*****for aadhar layout*****/
@@ -315,6 +321,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
         /**** add activity after selection****/
         binding.btnAddActivityDetail.setOnClickListener(view1 -> {
+
             if (seccNumber == null || seccNumber.isEmpty()) {
                 ViewUtilsKt.toast(getCurrentContext(), getContext().getResources().getString(R.string.secc_not_fill));
             } else if (sectorDate == null || sectorDate.isEmpty()) {
@@ -345,8 +352,25 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
          * user can add multiple activity*****/
         binding.btnAddActivity.setOnClickListener(view1 -> {
             binding.cvSelectActivity.setVisibility(View.VISIBLE);
+            try {
+                seccNumber=viewModel.checkSeccNumberInDb(shgMemberCode);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
             //loadSector();
+
             loadAllActivity( shgMemberCode);
+
+            if (seccNumber!=null){
+                if (!seccNumber.equalsIgnoreCase("") )
+                    binding.ttlSeccc.setVisibility(View.GONE);
+                else binding.ttlSeccc.setVisibility(View.VISIBLE);
+            }else binding.ttlSeccc.setVisibility(View.VISIBLE);
+
         });
         /****** for reset current and all data on this screen*******/
         binding.btnReset.setOnClickListener(view1 -> {
@@ -462,7 +486,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
         });
     }
-
 
 
 
@@ -664,6 +687,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         binding.spinnerSelectIncome.setOnItemClickListener((adapterView, view, i, l) -> {
             incomeRangCode = String.valueOf(viewModel.getAllIncomeData(frequency_id).get(i).getFrequency_id());
             incomeRangName = viewModel.loadIncomeData(frequency_id).get(i);
+
         });
 
     }

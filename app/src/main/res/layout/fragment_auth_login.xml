@@ -34,9 +34,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:maxLength="20"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
+                    android:maxLength="24"
                     android:fontFamily="@font/manrope_regular"
-                    android:inputType="text" />
+
+                    android:inputType="textCapWords" />
            </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
