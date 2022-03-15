@@ -112,48 +112,54 @@ public class HomeViewModel extends ViewModel {
     public void checkDuplicateAtServer(Context context, String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
 
+        if(syncDataRepo==null){
 
-        CheckDuplicateRequestBean checkDuplicateRequestBean= syncDataRepo.getCheckDuplicateRequest(loginId, stateShortName, imeiNo,deviceName, locationCoordinates, entryCompleteConfirmation);
-        if (checkDuplicateRequestBean.getMember_data().equalsIgnoreCase("")){
-            AppUtils.getInstance().showLog("NoDataToCheckDuplicate", AuthViewModel.class);
-            return;
-        }else {
-            syncDataRepo.makeCheckDuplicateRequest(checkDuplicateRequestBean, new RepositoryCallback() {
-                @Override
-                public void onComplete(Result result) {
-                    try {
-                        AppUtils.getInstance().showLog("checkDuplicateDataResult" + result.toString(), AuthViewModel.class);
-                        if (result instanceof Result.Success) {
-                            CheckDuplicateResponseBean checkDuplicateResponseBean = (CheckDuplicateResponseBean) ((Result.Success) result).data;
-                            AppUtils.getInstance().showLog("checkDuplicateSuccessResult" + checkDuplicateResponseBean.getMember_code(), HomeViewModel.class);
-                            if (!checkDuplicateResponseBean.getMember_code().equalsIgnoreCase("0")) {
-                                /*delete  duplicate entries and hit sync api*/
-                                deleteDuplicateEntries(checkDuplicateResponseBean.getMember_code());
-                            }
-                            makeSyncMemberEntry(loginId, stateShortName, imeiNo, deviceName, locationCoordinates, entryCompleteConfirmation);
-                        } else {
-                            Object errorObject = ((Result.Error) result).exception;
-                            if (errorObject != null) {
+        }else{
+            CheckDuplicateRequestBean checkDuplicateRequestBean= syncDataRepo.getCheckDuplicateRequest(loginId, stateShortName, imeiNo,deviceName, locationCoordinates, entryCompleteConfirmation);
+            if (checkDuplicateRequestBean.getMember_data().equalsIgnoreCase("")){
+                AppUtils.getInstance().showLog("NoDataToCheckDuplicate", AuthViewModel.class);
+                return;
+            }else {
+                syncDataRepo.makeCheckDuplicateRequest(checkDuplicateRequestBean, new RepositoryCallback() {
+                    @Override
+                    public void onComplete(Result result) {
+                        try {
+                            AppUtils.getInstance().showLog("checkDuplicateDataResult" + result.toString(), AuthViewModel.class);
+                            if (result instanceof Result.Success) {
+                                CheckDuplicateResponseBean checkDuplicateResponseBean = (CheckDuplicateResponseBean) ((Result.Success) result).data;
+                                AppUtils.getInstance().showLog("checkDuplicateSuccessResult" + checkDuplicateResponseBean.getMember_code(), HomeViewModel.class);
+                                if (!checkDuplicateResponseBean.getMember_code().equalsIgnoreCase("0")) {
+                                    /*delete  duplicate entries and hit sync api*/
+                                    deleteDuplicateEntries(checkDuplicateResponseBean.getMember_code());
+                                }
+                                makeSyncMemberEntry(loginId, stateShortName, imeiNo, deviceName, locationCoordinates, entryCompleteConfirmation);
+                            } else {
+                                Object errorObject = ((Result.Error) result).exception;
+                                if (errorObject != null) {
                                /* if (errorObject instanceof MasterDataResponseBean.Error){
                                     MasterDataResponseBean.Error responseError= (MasterDataResponseBean.Error) errorObject;
                                     AppUtils.getInstance().showLog(responseError.getCode()+" MasterApiErrorObj"
                                             +responseError.getMessage(),AuthViewModel.class);
                                 } else*/
-                                if (errorObject instanceof Throwable) {
-                                    Throwable exception = (Throwable) errorObject;
-                                    syncApiStatus=exception.getMessage();
-                                    AppUtils.getInstance().showLog("CheckDuplicateRetrofitErrors:-------" + exception.getMessage()
-                                            , AuthViewModel.class);
+                                    if (errorObject instanceof Throwable) {
+                                        Throwable exception = (Throwable) errorObject;
+                                        syncApiStatus=exception.getMessage();
+                                        AppUtils.getInstance().showLog("CheckDuplicateRetrofitErrors:-------" + exception.getMessage()
+                                                , AuthViewModel.class);
+                                    }
                                 }
                             }
+                        } catch (Exception e) {
+                            syncApiStatus=e.getMessage();
+                            AppUtils.getInstance().showLog("checkDuplicateDataResultExp" + e.toString(), AuthViewModel.class);
                         }
-                    } catch (Exception e) {
-                        syncApiStatus=e.getMessage();
-                        AppUtils.getInstance().showLog("checkDuplicateDataResultExp" + e.toString(), AuthViewModel.class);
                     }
-                }
-            });
+                });
+            }
         }
+
+
+
 
 
 
