@@ -9,12 +9,11 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
-
     defaultConfig {
         applicationId "com.nrlm.lakhpatikisaan"
         minSdkVersion 25
         targetSdkVersion 30
-        versionCode 4
+        versionCode 7
         versionName "1.0.0"
         multiDexEnabled true
 

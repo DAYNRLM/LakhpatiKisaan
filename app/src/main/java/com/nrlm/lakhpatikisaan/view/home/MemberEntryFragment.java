@@ -685,7 +685,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         incomeAdapter.notifyDataSetChanged();
 
         binding.spinnerSelectIncome.setOnItemClickListener((adapterView, view, i, l) -> {
-            incomeRangCode = String.valueOf(viewModel.getAllIncomeData(frequency_id).get(i).getFrequency_id());
+            incomeRangCode = String.valueOf(viewModel.getAllIncomeData(frequency_id).get(i).getRange_id());
             incomeRangName = viewModel.loadIncomeData(frequency_id).get(i);
 
         });
