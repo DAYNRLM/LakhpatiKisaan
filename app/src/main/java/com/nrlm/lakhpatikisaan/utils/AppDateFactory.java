@@ -30,6 +30,7 @@ public class AppDateFactory {
     }
 
     public AppDateFactory() {
+        locale = Locale.US;
         appUtils = AppUtils.getInstance();
     }
 
@@ -40,6 +41,31 @@ public class AppDateFactory {
         return date;
     }
 
+    public Date getDateFormate(String date){
+        Date convertedDate = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            convertedDate = sdf.parse(date);
+            sdf.format(convertedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
+    }
+    public String getNextDate(String dateString, int noOfDays, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format, locale);
+        Date myDate = null;
+        try {
+            myDate = sdf.parse(dateString);
+        } catch (ParseException e) {
+            AppUtils.getInstance().showLog("ParseException"+e,AppDateFactory.class);
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(myDate);
+        calendar.add(Calendar.DAY_OF_YEAR, +noOfDays);
+        Date previousDate = calendar.getTime();
+        return sdf.format(previousDate);
+    }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String getCurrentDateAndTime() {
        /* DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -55,7 +81,13 @@ public class AppDateFactory {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         return formatter.format(date);
     }
-
+    public String changeDateValue(String date) {
+        String changedValue = "";
+        Locale locale = new Locale("ENGLISH");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", locale);
+        changedValue = sdf.format(new Date());
+        return changedValue;
+    }
 
     /********get date in yyyy-MM-dd**********/
     public String getTodayDate() {

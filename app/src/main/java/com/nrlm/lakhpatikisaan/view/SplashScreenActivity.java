@@ -10,11 +10,16 @@ import android.view.WindowManager;
 
 import com.nrlm.lakhpatikisaan.R;
 
+import com.nrlm.lakhpatikisaan.repository.LoginRepo;
+import com.nrlm.lakhpatikisaan.utils.AppDateFactory;
+import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.auth.AuthActivity;
 import com.nrlm.lakhpatikisaan.view.mpin.MpinActivity;
+
+import java.util.Date;
 
 public class SplashScreenActivity extends AppCompatActivity {
     private static final int SPLASH_SCREEN_TIME_OUT=2000;
@@ -31,8 +36,38 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         else {
             getLanguageCode();
-            new Handler().postDelayed(this::goToNextScreen, SPLASH_SCREEN_TIME_OUT);
+            if(DaycheckForLogouts()){
+                PreferenceFactory.getInstance().removeSharedPrefrencesData(PreferenceKeyManager.getPrefLoginSessionKey(), SplashScreenActivity.this);
+                LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).deleteAllMaster();            }
         }
+        new Handler().postDelayed(this::goToNextScreen, SPLASH_SCREEN_TIME_OUT);
+
+    }
+
+    private boolean DaycheckForLogouts() {
+        boolean performLogout=false;
+        String serverDateTimeandDays=getDateFromDB();    //This need to be check in Database
+        if (serverDateTimeandDays!=null){
+            String [] serverDTAndDs=serverDateTimeandDays.split(",");
+            String logoutDate= AppDateFactory.getInstance().getNextDate(serverDTAndDs[0],Integer.parseInt(serverDTAndDs[1]),"dd-MM-yyyy");
+            Date convertedLogOutDate = AppDateFactory.getInstance().getDateFormate(logoutDate);
+            //set today date in right formate
+            String todayDate =AppDateFactory.getInstance().changeDateValue(AppDateFactory.getInstance().getTodayDate());
+            Date convertedTodayDate = AppDateFactory.getInstance().getDateFormate(todayDate);
+            AppUtils.getInstance().showLog("serverDateTime"+serverDateTimeandDays,SplashScreenActivity.class);
+
+            if(convertedTodayDate.compareTo(convertedLogOutDate)>=0){
+                performLogout=true;
+            }
+        } else {
+            serverDateTimeandDays="null";
+            AppUtils.getInstance().showLog("serverDateTime"+serverDateTimeandDays,SplashScreenActivity.class);
+        }
+        return performLogout;
+    }
+
+    private String getDateFromDB() {
+        return "24-03-2022"+","+ "1";
     }
 
     @Override
