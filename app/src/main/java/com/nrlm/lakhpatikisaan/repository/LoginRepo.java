@@ -448,6 +448,34 @@ public class LoginRepo {
         return future.get();
     }
 
+    public String getServerDateTime() throws ExecutionException, InterruptedException
+
+    {
+        Callable<String> callable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return loginInfoDao.getServerDateTime();
+            }
+        };
+
+        Future<String> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+    }
+
+    public String getLogoutDays() throws ExecutionException, InterruptedException
+
+    {
+        Callable<String> callable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return loginInfoDao.getLogoutDays();
+            }
+        };
+
+        Future<String> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+    }
+
     public String getLanguageCodeDB() throws ExecutionException, InterruptedException
 
     {
@@ -461,7 +489,6 @@ public class LoginRepo {
         Future<String> future = Executors.newSingleThreadExecutor().submit(callable);
         return future.get();
     }
-
     public void deleteAllMaster() {
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override

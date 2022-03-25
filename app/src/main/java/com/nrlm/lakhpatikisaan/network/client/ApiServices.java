@@ -34,8 +34,8 @@ public interface ApiServices {
     @POST("checkDuplicay")
     Call<JsonObject> checkDuplicateDataApi(@Body JsonObject checkDuplicateRequestBean);
 
-
-    @POST("addmemberdata")
+//Change here addmemberdata to addshgmemberdata
+    @POST("addshgmemberdata")
     Call<JsonObject> syncEntriesDataApi(@Body JsonObject syncEntriesRequestBean);
     
 

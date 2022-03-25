@@ -19,6 +19,12 @@ public interface LoginInfoDao {
     @Query("select distinct language_id from loginInfoEntity")
     String getLanguageCode();
 
+    @Query("select distinct server_date_time from logininfoentity")
+    String getServerDateTime();
+
+    @Query("select distinct logout_days from logininfoentity")
+    String getLogoutDays();
+
     @Query("delete from logininfoentity")
     void deleteAll();
 

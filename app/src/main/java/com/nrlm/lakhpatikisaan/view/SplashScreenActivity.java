@@ -20,6 +20,7 @@ import com.nrlm.lakhpatikisaan.view.auth.AuthActivity;
 import com.nrlm.lakhpatikisaan.view.mpin.MpinActivity;
 
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class SplashScreenActivity extends AppCompatActivity {
     private static final int SPLASH_SCREEN_TIME_OUT=2000;
@@ -36,15 +37,21 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         else {
             getLanguageCode();
-            if(DaycheckForLogouts()){
-                PreferenceFactory.getInstance().removeSharedPrefrencesData(PreferenceKeyManager.getPrefLoginSessionKey(), SplashScreenActivity.this);
-                LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).deleteAllMaster();            }
+            try {
+                if(DaycheckForLogouts()){
+                    PreferenceFactory.getInstance().removeSharedPrefrencesData(PreferenceKeyManager.getPrefLoginSessionKey(), SplashScreenActivity.this);
+                    LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).deleteAllMaster();            }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         new Handler().postDelayed(this::goToNextScreen, SPLASH_SCREEN_TIME_OUT);
 
     }
 
-    private boolean DaycheckForLogouts() {
+    private boolean DaycheckForLogouts() throws ExecutionException, InterruptedException {
         boolean performLogout=false;
         String serverDateTimeandDays=getDateFromDB();    //This need to be check in Database
         if (serverDateTimeandDays!=null){
@@ -66,8 +73,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         return performLogout;
     }
 
-    private String getDateFromDB() {
-        return "24-03-2022"+","+ "1";
+    private String getDateFromDB() throws ExecutionException, InterruptedException {
+        String currentDate = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).getServerDateTime();
+        String logoutDays = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).getLogoutDays();
+        //  return "25-03-2022"+","+ "1";
+        if(currentDate!=null && logoutDays!=null) {
+            return currentDate + "," + logoutDays;
+        }
+        return null;
     }
 
     @Override

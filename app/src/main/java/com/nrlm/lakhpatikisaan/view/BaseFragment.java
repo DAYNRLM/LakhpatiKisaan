@@ -17,7 +17,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.nrlm.lakhpatikisaan.utils.AppDateFactory;
 
-public abstract class BaseFragment<VM extends ViewModel,
+public abstract class  BaseFragment<VM extends ViewModel,
         B extends ViewBinding> extends Fragment {
 
     //R extends BaseRepository,

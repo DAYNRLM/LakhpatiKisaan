@@ -57,7 +57,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.MyView
                         AppUtils.getInstance().setLocale(languageCode, context.getResources(), context);
                         Intent refresh = new Intent(context, HomeActivity.class);
                         context.startActivity(refresh);
-                      //  AppUtils.getInstance().makeIntent(context, HomeActivity.class, true);
+                         //  AppUtils.getInstance().makeIntent(context, HomeActivity.class, true);
                         // AppUtils.getInstance().makeIntent(context, HomeActivity.class, true);
                     }
                 }, context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {

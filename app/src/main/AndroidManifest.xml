@@ -33,7 +33,8 @@
         android:roundIcon="@drawable/app_icon_lakhpati"
         android:supportsRtl="true"
         android:theme="@style/Theme.LakhpatiKisaan"
-        android:usesCleartextTraffic="false"
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:icon,android:allowBackup">
         <activity
             android:name=".view.auth.SignUPActivity"

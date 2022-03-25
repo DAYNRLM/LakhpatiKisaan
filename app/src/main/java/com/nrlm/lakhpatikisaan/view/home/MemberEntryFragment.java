@@ -100,34 +100,34 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     XmlPullParser parser;
     ProgressDialog progressDialog;
 
-
-
-
-
     @Override
+
     public Class<HomeViewModel> getViewModel() {
         return HomeViewModel.class;
     }
 
     @Override
+
     public FragmentMemberEntryBinding getFragmentBinding(LayoutInflater inflater, @Nullable ViewGroup container) {
         inflate =inflater;
         return FragmentMemberEntryBinding.inflate(inflater, container, false);
     }
 
     @Override
+
     public Context getCurrentContext() {
         return getContext();
     }
 
     @Override
+
     public void onFragmentReady() {
 
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) { super.onViewCreated(view, savedInstanceState);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         Calendar today = Calendar.getInstance();
         viewModel.getHomeViewModelRepos(getCurrentContext());
