@@ -510,7 +510,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
     private void loadSecc(String memberCode) {
         String seccStatus = viewModel.getSeccStatus(memberCode);
-        if (seccStatus.equalsIgnoreCase("Y")) {
+        if (seccStatus.equalsIgnoreCase("")) {
             binding.spinnerSeccNumber.setVisibility(View.GONE);
             seccNumber="0";
         } else {
