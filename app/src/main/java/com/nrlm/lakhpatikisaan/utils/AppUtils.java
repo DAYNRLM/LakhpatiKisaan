@@ -35,7 +35,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AppUtils {
+public class  AppUtils {
     public static AppUtils utilsInstance;
 
 
@@ -87,7 +87,7 @@ public class AppUtils {
 
 
 
-    public void showLog(String logMsg, Class application) {
+    public  void showLog(String logMsg, Class application) {
         if (AppConstant.wantToShow) {
             Log.d(application.getName(), logMsg);
         }

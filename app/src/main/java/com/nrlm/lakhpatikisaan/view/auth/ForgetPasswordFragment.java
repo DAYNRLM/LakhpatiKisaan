@@ -1,15 +1,19 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -139,7 +143,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
 
 
         String genratedOtp = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getRandomOtp(), getCurrentContext());
-
+        Toast.makeText(getCurrentContext(), genratedOtp, Toast.LENGTH_SHORT).show();
         if (!genratedOtp.equalsIgnoreCase(etrOpt)) {
             DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert), getContext().getResources().getString(R.string.invalid_otp_msg)
                     , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false

@@ -85,6 +85,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
     public FragmentSignUpBinding getFragmentBinding(LayoutInflater inflater, @Nullable ViewGroup container) {
         return FragmentSignUpBinding.inflate(inflater, container, false);
     }
+
     @Override
     public Context getCurrentContext() {
         return getContext();
@@ -801,7 +802,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 progressDialog.show();
                 JSONObject stateReq = new JSONObject();
                 try {
-                    stateReq.accumulate("app_version", "1.0.0");
+                    stateReq.accumulate("app_version", "2.0.0");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

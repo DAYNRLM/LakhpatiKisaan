@@ -74,11 +74,11 @@ public class MpinViewModel extends ViewModel {
 
 
                     } else {
-                        /*got to dashboard*/
+                        /*go to dashboard*/
                         apiStatus="No data to delete";
                     }
                 } else {
-                    /*got to dashboard*/
+                    /*go to dashboard*/
                     apiStatus="Error in check shg for delete api ";
                 }
             }

@@ -54,9 +54,6 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-
-
-
         binding.btnSendOtp.setOnClickListener(v -> {
             mobileNumber=binding.etMobileNumber.getText().toString();
 

@@ -67,10 +67,6 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
         }
         holder.itemBinding.tvYearlyIncome.setText(context.getResources().getString(R.string.yearly_income)+getYearlyData(frequencyCode,number));
        // String yearly = getYearlyData(frequencyCode,number);
-
-
-
-
     }
 
     @Override
@@ -85,7 +81,6 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
             itemBinding = rootView;
         }
     }
-
 
     public static boolean isStringOnlyAlphabet(String str)
     {

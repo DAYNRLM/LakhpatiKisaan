@@ -63,8 +63,8 @@ int counter;
         super.onViewCreated(view, savedInstanceState);
        counter = PreferenceFactory.getInstance().getSharedPreferenceIntegerData(PreferenceKeyManager.getPrefKeyMpinCounter(),getCurrentContext());
 
-        binding.btnVerify.setOnClickListener(viewBtn -> {
-             progressDialog = new ProgressDialog(getContext());
+            binding.btnVerify.setOnClickListener(viewBtn -> {
+            progressDialog = new ProgressDialog(getContext());
             progressDialog.setMessage(getString(R.string.authenticating));
             progressDialog.setCancelable(false);
             progressDialog.show();

@@ -18,6 +18,7 @@ public class MemberListDataBean {
 
 
     public String getAadhaar_verified_status() {
+
         return aadhaar_verified_status;
     }
 
