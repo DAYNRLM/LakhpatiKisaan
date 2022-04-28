@@ -414,7 +414,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                         progressDialog.dismiss();
                                                         Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
                                                         try {
-                                                            viewModel.updateBeforeEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
+                                                            viewModel.updateBeforeEntryDateInLocal(shgMemberCode,entryMonthCode+"-"+entryYearCode);
                                                         } catch (ExecutionException e) {
                                                             e.printStackTrace();
                                                         } catch (InterruptedException e) {
@@ -427,7 +427,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                     } else {
                                                         progressDialog.dismiss();
                                                         try {
-                                                            viewModel.updateBeforeEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
+                                                            viewModel.updateBeforeEntryDateInLocal(shgMemberCode,entryMonthCode+"-"+entryYearCode);
                                                         } catch (ExecutionException e) {
                                                             e.printStackTrace();
                                                         } catch (InterruptedException e) {
@@ -443,7 +443,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                             }, 6000);
                                         } else {
                                             try {
-                                                viewModel.updateBeforeEntryDateInLocal(shgMemberCode,monthName+"-"+entryYearCode);
+                                                viewModel.updateBeforeEntryDateInLocal(shgMemberCode,entryMonthCode+"-"+entryYearCode);
                                             } catch (ExecutionException e) {
                                                 e.printStackTrace();
                                             } catch (InterruptedException e) {
@@ -628,7 +628,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         memberEntryEntity.activityName = activityName;
         memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
         memberEntryEntity.incomeRangName = incomeRangName;
-        memberEntryEntity.monthName = monthName;
+        memberEntryEntity.monthName = entryMonthCode;
         memberEntryEntity.seccNumber = seccNumber;
         memberEntryEntity.seccName = seccName;
         memberEntryEntity.entryCompleteConfirmation = "0";
@@ -676,6 +676,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             incomeFrequencyCode = String.valueOf(viewModel.getAllFrequencyData().get(i).getFrequency_id());
             incomeFrequencyName = viewModel.loadFrequencyData().get(i);
             loadIncomeData(viewModel.getAllFrequencyData().get(i).getFrequency_id());
+            resetFunction(4);
         });
     }
 

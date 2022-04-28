@@ -273,7 +273,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                                 AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
                             } catch (Exception e) {
                                 progressDialog.dismiss();
-                                Toast.makeText(getCurrentContext(), "Data not found!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getCurrentContext(), "Data not found! " +e , Toast.LENGTH_SHORT).show();
                                 AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
                             }
                         }
@@ -319,6 +319,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
             }
 
     }
+
         private void getApiCallForMobileVerification(String mobi) {
         JSONObject mobileVerfication=null;
 
@@ -802,7 +803,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 progressDialog.show();
                 JSONObject stateReq = new JSONObject();
                 try {
-                    stateReq.accumulate("app_version", "2.0.0");
+                    stateReq.accumulate("app_version", "3.1.0");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

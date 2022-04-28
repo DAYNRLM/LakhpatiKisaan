@@ -132,7 +132,6 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             binding.rvEntryRecyclerview.setLayoutManager(new LinearLayoutManager(getCurrentContext()));
             binding.rvEntryRecyclerview.setAdapter(entryBeforeNrlmFoldAdapter);
             entryBeforeNrlmFoldAdapter.notifyDataSetChanged();
-
             binding.cvRecyclerview.setVisibility(View.VISIBLE);
             binding.cvSelectActivity.setVisibility(View.GONE);
             binding.btnAddNewActivity.setText(getCurrentContext().getResources().getString(R.string.add_activity_msg));
@@ -149,7 +148,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             entryYearCode = String.valueOf(memberEntryDataItem.get(0).getEntryYearCode());
             entryMonthCode = String.valueOf(memberEntryDataItem.get(0).getMonthName());
 
-            monthName = memberEntryDataItem.get(0).getMonthName();
+           monthName = String.valueOf(memberEntryDataItem.get(0).getMonthName());
 
             resetFunction(1);
 
@@ -179,7 +178,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
                     entryYearCode = String.valueOf(selectedYear);
                     entryMonthCode = String.valueOf(selectedMonth + 1);
-                    monthName = month_name;
+            //        monthName = month_name;
 
                 }
             }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
@@ -276,7 +275,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                                                 if (viewModel.getSyncApiStatus() != null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")) {
                                                     progressDialog.dismiss();
                                                     try {
-                                                        viewModel.updateAfterEntryDateInLocal(shgMemberCode, monthName + "-" + entryYearCode);
+                                                        viewModel.updateAfterEntryDateInLocal(shgMemberCode, entryMonthCode + "-" + entryYearCode);
                                                     } catch (ExecutionException e) {
                                                         e.printStackTrace();
                                                     } catch (InterruptedException e) {
@@ -296,7 +295,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                                                     navController.navigate(navDirections);
                                                     /* ***this update date code comes after data sync sucessfully*****/
                                                     try {
-                                                        viewModel.updateAfterEntryDateInLocal(shgMemberCode, monthName + "-" + entryYearCode);
+                                                        viewModel.updateAfterEntryDateInLocal(shgMemberCode, entryMonthCode + "-" + entryYearCode);
                                                     } catch (ExecutionException e) {
                                                         e.printStackTrace();
                                                     } catch (InterruptedException e) {
@@ -308,7 +307,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                                         }, 6000);
                                     } else {
                                         try {
-                                            viewModel.updateAfterEntryDateInLocal(shgMemberCode, monthName + "-" + entryYearCode);
+                                            viewModel.updateAfterEntryDateInLocal(shgMemberCode, entryMonthCode + "-" + entryYearCode);
                                         } catch (ExecutionException e) {
                                             e.printStackTrace();
                                         } catch (InterruptedException e) {
@@ -409,7 +408,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                 entryMonthCode = "06";
                 break;
             case "May":
-                entryMonthCode="05";
+                entryMonthCode = "05";
                 break;
             case "Apr":
                 entryMonthCode = "04";
@@ -438,7 +437,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.activityName = activityName;
         memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
         memberEntryEntity.incomeRangName = incomeRangName;
-        memberEntryEntity.monthName = monthName;
+        memberEntryEntity.monthName = entryMonthCode;
 
         memberEntryEntity.seccNumber = "";
         memberEntryEntity.seccName = "";
@@ -488,6 +487,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             incomeFrequencyCode = String.valueOf(viewModel.getAllFrequencyData().get(i).getFrequency_id());
             incomeFrequencyName = viewModel.loadFrequencyData().get(i);
             loadIncomeData(viewModel.getAllFrequencyData().get(i).getFrequency_id());
+            resetFunction(4);
         });
     }
 
@@ -511,22 +511,18 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                 activityAdapter = null;
                 frequencyAdapter = null;
                 incomeAdapter = null;
-
                 binding.spinnerSelectSector.setText("");
                 binding.spinnerSelectActivity.setText("");
                 binding.spinnerSelectFrequency.setText("");
                 binding.spinnerSelectIncome.setText("");
-
                 activityCode = null;
                 incomeFrequencyCode = null;
                 incomeRangCode = null;
                 sectorDate = null;
-
                 sectorName = null;
                 activityName = null;
                 incomeFrequencyName = null;
                 incomeRangName = null;
-
 
                 break;
 

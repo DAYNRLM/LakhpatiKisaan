@@ -297,8 +297,6 @@ public class LoginRepo {
 
 
 
-
-
                     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         try {
                             Cryptography cryptography = new Cryptography();

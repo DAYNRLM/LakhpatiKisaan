@@ -13,8 +13,8 @@ android {
         applicationId "com.nrlm.lakhpatikisaan"
         minSdkVersion 25
         targetSdkVersion 30
-        versionCode 9
-        versionName "2.0.0"
+        versionCode 12
+        versionName "3.1.0"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -24,6 +24,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
         }
     }
 
