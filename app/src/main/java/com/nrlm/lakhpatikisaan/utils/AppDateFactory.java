@@ -189,7 +189,7 @@ public class AppDateFactory {
             Calendar cal = Calendar.getInstance();
             cal.setTime(d);
             cal.add(Calendar.MONTH, -1);
-            String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
+            String monthName = new SimpleDateFormat("MM").format(cal.getTime());
             String year = new SimpleDateFormat("yyyy").format(cal.getTime());
             String yearCode = new SimpleDateFormat("MM").format(cal.getTime());
             appUtils.showLog("***YEAR NAME****" + year, AppDateFactory.class);

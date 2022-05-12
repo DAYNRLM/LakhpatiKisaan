@@ -107,6 +107,7 @@
     <string name="yearly_income">Yearly Income : </string>
     <string name="invalid_otp_msg">Entered Otp is invalid.</string>
     <string name="oops_smthng_wrong">Oops something went Wrong</string>
+    <string name="please_change_lan" translatable="false">Please Change phone language in English</string>
     <string name="add_activity_msg">Add Another Activity</string>
     <string name="total_activity">Total Activities are : </string>
     <string name="secc_not_fill">Please select SECC first</string>

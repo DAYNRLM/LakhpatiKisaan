@@ -146,9 +146,8 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             binding.ccDisplayDate.setVisibility(View.VISIBLE);
 
             entryYearCode = String.valueOf(memberEntryDataItem.get(0).getEntryYearCode());
-            entryMonthCode = String.valueOf(memberEntryDataItem.get(0).getMonthName());
 
-           monthName = String.valueOf(memberEntryDataItem.get(0).getMonthName());
+
 
             resetFunction(1);
 
@@ -166,7 +165,8 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
                     today.set(Calendar.MONTH, selectedMonth);
 
-                    String month_name = month_date.format(today.getTime());
+
+                    String month_name = String.valueOf(selectedMonth + 1);
 
 
                     binding.tvMonth.setText(month_name);
@@ -178,7 +178,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
                     entryYearCode = String.valueOf(selectedYear);
                     entryMonthCode = String.valueOf(selectedMonth + 1);
-            //        monthName = month_name;
+
 
                 }
             }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
@@ -186,7 +186,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             //.setMinMonth(Calendar.FEBRUARY)
             builder.setActivatedMonth(today.get(Calendar.MONTH))
                     .setActivatedYear(today.get(Calendar.YEAR))
-                    .setMinYear(showingYear)
+                    .setMinYear(today.get(Calendar.YEAR))
                     .setMaxYear(today.get(Calendar.YEAR))
                     .setTitle("Select Month")
                     .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
@@ -254,6 +254,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                                     /*** pending update cofirmation status for
                                      * need to make a coloum for status confirmation  in masterEntryEntity
                                      * after NRML before syn data*****/
+
 
                                     if (NetworkFactory.isInternetOn(getContext())) {
 
@@ -381,47 +382,49 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.shgMemberCode = shgMemberCode;
         memberEntryEntity.entryYearCode = entryYearCode;
         switch (entryMonthCode) {
-            case "Dec":
+            case "12":
                 entryMonthCode = "12";
                 break;
 
-            case "Nov":
+            case "11":
                 entryMonthCode = "11";
                 break;
 
-            case "Oct":
+            case "10":
                 entryMonthCode = "10";
                 break;
 
-            case "Sep":
-                entryMonthCode = "09";
+            case "9":
+                entryMonthCode = "9";
                 break;
 
-            case "Aug":
-                entryMonthCode = "08";
+            case "8":
+                entryMonthCode = "8";
                 break;
 
-            case "Jul":
-                entryMonthCode = "07";
+            case "7":
+                entryMonthCode = "7";
                 break;
-            case "Jun":
-                entryMonthCode = "06";
+            case "6":
+                entryMonthCode = "6";
                 break;
-            case "May":
-                entryMonthCode = "05";
+            case "5":
+                entryMonthCode = "5";
                 break;
-            case "Apr":
-                entryMonthCode = "04";
+            case "4":
+                entryMonthCode = "4";
                 break;
-            case "Mar":
-                entryMonthCode = "03";
+            case "3":
+                entryMonthCode = "3";
                 break;
-            case "Feb":
-                entryMonthCode = "02";
+            case "2":
+                entryMonthCode = "2";
                 break;
-            case "Jan":
-                entryMonthCode = "01";
+            case "1":
+                entryMonthCode = "1";
                 break;
+            default:
+                entryMonthCode = "1";
 
         }
         memberEntryEntity.entryMonthCode = entryMonthCode;
