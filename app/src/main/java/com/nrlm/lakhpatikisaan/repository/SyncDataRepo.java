@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.nrlm.lakhpatikisaan.BuildConfig;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.dao.AadharDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
@@ -129,6 +130,7 @@ public class SyncDataRepo {
             Cryptography cryptography = new Cryptography();
             Gson gson=new Gson();
             String logreq=gson.toJson(syncEntriesRequestBean);
+            AppUtils.getInstance().showLog("Sinal Data"+logreq,SyncDataRepo.class);
 
             encryptedObject.addProperty("data",cryptography.encrypt(logreq));
         } catch (NoSuchAlgorithmException e) {
@@ -372,6 +374,7 @@ public class SyncDataRepo {
             syncEntriesRequestBean.setImei_no(imeiNo);
             syncEntriesRequestBean.setLocation_coordinate(locationCoordinates);
             syncEntriesRequestBean.setState_short_name(stateShortName);
+        //    syncEntriesRequestBean.setVersion_code(BuildConfig.VERSION_NAME);
 
 
             for (ShgAndMemberDataBean shgAndMemberDataBean : shgAndMemberDataBeanList) {
@@ -421,6 +424,8 @@ public class SyncDataRepo {
                 syncEntryList.add(syncEntry);
             }
             syncEntriesRequestBean.setNrlm_entry_sync(syncEntryList);
+          String data=  new Gson().toJson(syncEntryList).toString();
+          AppUtils.getInstance().showLog(data,SyncDataRepo.class);
 
         } catch (Exception e) {
             AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + e, SyncDataRepo.class);

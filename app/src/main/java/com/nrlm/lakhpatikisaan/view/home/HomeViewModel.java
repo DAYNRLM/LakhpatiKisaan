@@ -108,12 +108,9 @@ public class HomeViewModel extends ViewModel {
         }).show();
         return resetData;
     }
-
     public void checkDuplicateAtServer(Context context, String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
-
         if(syncDataRepo==null){
-
         }else{
             CheckDuplicateRequestBean checkDuplicateRequestBean= syncDataRepo.getCheckDuplicateRequest(loginId, stateShortName, imeiNo,deviceName, locationCoordinates, entryCompleteConfirmation);
             if (checkDuplicateRequestBean.getMember_data().equalsIgnoreCase("")){
@@ -157,12 +154,6 @@ public class HomeViewModel extends ViewModel {
                 });
             }
         }
-
-
-
-
-
-
     }
 
 
