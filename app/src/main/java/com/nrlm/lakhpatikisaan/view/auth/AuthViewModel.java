@@ -1,10 +1,15 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModel;
 
 import com.google.gson.Gson;
@@ -28,6 +33,7 @@ import com.nrlm.lakhpatikisaan.repository.LoginRepo;
 import com.nrlm.lakhpatikisaan.repository.MasterDataRepo;
 import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
+import com.nrlm.lakhpatikisaan.utils.AppDeviceInfoUtils;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.Cryptography;
@@ -60,6 +66,8 @@ public class AuthViewModel extends ViewModel {
     public SimpleResponseBean simpleResponseBean;
     public OtpResponseBean otpResponseBean;
     private HomeViewModel homeViewModel;
+    private TelephonyManager telephonyManager;
+
 
     public AuthViewModel() {
 
@@ -306,19 +314,62 @@ public class AuthViewModel extends ViewModel {
         });
     }
 
-    public void ResetPasswordRequestData(Context context) {
+    public void ResetPasswordRequestData(Context context,String userId) {
         ResetPasswordBean resetPasswordBean = new ResetPasswordBean();
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         resetPasswordBean.setPassword(AppUtils.getInstance().getSha256(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefFrgtPass(), context)));
-        resetPasswordBean.setDevice_name(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(), context));
-        resetPasswordBean.setImei_no(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), context));
+        resetPasswordBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
+        resetPasswordBean.setImei_no(getIMEINo1(context));
         resetPasswordBean.setMobileno(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getForgotMobileNumber(), context));
         resetPasswordBean.setLocation_coordinate("28.6771787,77.4923927");
-        resetPasswordBean.setLogin_id(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), context));
+        resetPasswordBean.setLogin_id(userId);
         ResetPassword(resetPasswordBean);
 
     }
+    public String getIMEINo1(Context context) {
+        String imeiNo1 = "";
+        try {
+            if (getSIMSlotCount(context) > 0) {
+                if (ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                }
 
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    imeiNo1 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+                    Build.getSerial();
+
+                    AppUtils.getInstance().showLog("BUILD SERIAL " + Build.getSerial(), AppDeviceInfoUtils.class);
+
+                } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    imeiNo1 = telephonyManager.getDeviceId(0);
+                    AppUtils.getInstance().showLog("BUILD SERIAL-imeiNo1 " + imeiNo1, AppDeviceInfoUtils.class);
+
+                } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    imeiNo1 = "dummy_123456789";
+                    AppUtils.getInstance().showLog("BUILD SERIAL-dummy " + imeiNo1, AppDeviceInfoUtils.class);
+                }
+
+            } else imeiNo1 = telephonyManager.getDeviceId();
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("Expection in imeiiiiii: " + e, AppDeviceInfoUtils.class);
+        }
+        //appSharedPreferences.setImeiNumber(imeiNo1);
+        AppUtils.getInstance().showLog("imeiiiiii: " + imeiNo1, AppDeviceInfoUtils.class);
+        return imeiNo1;
+    }
+    private int getSIMSlotCount(Context context) {
+        int getPhoneCount = 0;
+        try {
+            telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getPhoneCount = telephonyManager.getPhoneCount();
+            }
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("Expection: " + e, AppDeviceInfoUtils.class);
+        }
+        AppUtils.getInstance().showLog("getSimSlotCount: " + getPhoneCount, AppDeviceInfoUtils.class);
+        return getPhoneCount;
+    }
     private void ResetPassword(ResetPasswordBean resetPasswordBean) {
         loginRepo.resetPasswordRequestLog(resetPasswordBean, new RepositoryCallback() {
             @Override

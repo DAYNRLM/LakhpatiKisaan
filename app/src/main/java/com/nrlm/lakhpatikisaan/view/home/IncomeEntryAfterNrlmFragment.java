@@ -186,7 +186,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             //.setMinMonth(Calendar.FEBRUARY)
             builder.setActivatedMonth(today.get(Calendar.MONTH))
                     .setActivatedYear(today.get(Calendar.YEAR))
-                    .setMinYear(showingYear)
+                    .setMinYear(today.get(Calendar.YEAR))
                     .setMaxYear(today.get(Calendar.YEAR))
                     .setTitle("Select Month")
                     .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();

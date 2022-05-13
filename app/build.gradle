@@ -13,7 +13,7 @@ android {
         applicationId "com.nrlm.lakhpatikisaan"
         minSdkVersion 25
         targetSdkVersion 30
-        versionCode 12
+        versionCode 7
         versionName "3.1.0"
         multiDexEnabled true
 
@@ -24,7 +24,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
         }
     }
 
@@ -97,6 +96,5 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
     implementation 'com.android.volley:volley:1.1.1'
-    implementation 'org.greenrobot:greendao:3.3.0'
 
 }

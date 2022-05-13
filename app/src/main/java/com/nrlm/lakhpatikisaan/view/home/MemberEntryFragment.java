@@ -675,6 +675,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         binding.spinnerSelectFrequency.setOnItemClickListener((adapterView, view, i, l) -> {
             incomeFrequencyCode = String.valueOf(viewModel.getAllFrequencyData().get(i).getFrequency_id());
             incomeFrequencyName = viewModel.loadFrequencyData().get(i);
+
+
             loadIncomeData(viewModel.getAllFrequencyData().get(i).getFrequency_id());
             resetFunction(4);
         });

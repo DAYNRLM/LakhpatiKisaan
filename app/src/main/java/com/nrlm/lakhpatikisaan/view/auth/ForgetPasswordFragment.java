@@ -2,12 +2,17 @@ package com.nrlm.lakhpatikisaan.view.auth;
 
 import static android.content.ContentValues.TAG;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +22,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.databinding.FragmentForgetpasswordBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentOtpSendBinding;
+import com.nrlm.lakhpatikisaan.utils.AppDeviceInfoUtils;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
@@ -32,6 +40,8 @@ import org.json.JSONException;
 
 public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, FragmentForgetpasswordBinding> {
     private String userId;
+    private TelephonyManager telephonyManager;
+
     private String password;
     private String confirmPassword;
     private String etrOpt;
@@ -85,7 +95,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
                     progressDialog.setMessage(getString(R.string.loading_heavy));
                     progressDialog.setCancelable(false);
                     progressDialog.show();
-                    authViewModel.ResetPasswordRequestData(getContext());
+                    authViewModel.ResetPasswordRequestData(getContext(),userId);
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -138,6 +148,8 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
         });
 
     }
+
+
 
     private void checkingOtp(String etrOpt) {
 
