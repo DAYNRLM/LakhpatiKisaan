@@ -1,9 +1,11 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -39,6 +41,7 @@ import com.nrlm.lakhpatikisaan.databinding.FragmentShgMemberBinding;
 import com.nrlm.lakhpatikisaan.network.model.AadharPojo;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
@@ -410,7 +413,15 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")) {
+                                                    if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E2"))
+                                                    {
+                                                        DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, "Info"
+                                                                , "Invalid App version", "Update", (dialog, which) -> updateApplication(), "Cancel", (dialog, which) -> {
+                                                                    dialog.dismiss();
+                                                                    ((Activity) getCurrentContext()).finish();
+                                                                },false);
+                                                    }
+                                                      else if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")) {
                                                         progressDialog.dismiss();
                                                         Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
                                                         try {
@@ -440,6 +451,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                         /****this update date code comes after data sync sucessfully*****/
                                                     }
                                                 }
+
                                             }, 6000);
                                         } else {
                                             try {
@@ -791,6 +803,19 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             status = true;
         }
         return status;
+    }
+    private void updateApplication() {
+        // final String appPackageName = context.getPackageName();
+        try {
+            //context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://drive.google.com/file/d/11ai-E0CY-RshvTO3aHAISREQi74kEhb6/view?usp=sharing")));
+            getCurrentContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.nrlm.lakhpatikisaan")));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            //context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://nrlm.gov.in/outerReportAction.do?methodName=showIndex")));
+            getCurrentContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.nrlm.lakhpatikisaan")));
+
+        }
+        //((Activity) context).finish();
+        ((Activity) getCurrentContext()).finish();
     }
 }
 

@@ -14,16 +14,16 @@ public class SyncEntriesRequestBean implements Serializable {
     private String state_short_name;
     private List<SyncEntry> nrlm_entry_sync;
 
-  /*  private String version_code;
+   private String app_version;
 
-    public String getVersion_code() {
-        return version_code;
+    public String getApp_version() {
+        return app_version;
     }
 
-    public void setVersion_code(String version_code) {
-        this.version_code = version_code;
+    public void setApp_version(String app_version) {
+        this.app_version = app_version;
     }
-*/
+
     public String getLogin_id() {
         return login_id;
     }

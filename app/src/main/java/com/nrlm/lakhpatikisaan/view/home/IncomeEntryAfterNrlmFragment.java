@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,6 +27,7 @@ import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
@@ -47,6 +49,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
     ArrayAdapter<String> activityAdapter;
     ArrayAdapter<String> frequencyAdapter;
     ArrayAdapter<String> incomeAdapter;
+    private String loginApiStatus="E2";
 
     String shgCode;
     String shgMemberCode;
@@ -273,6 +276,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
+
                                                 if (viewModel.getSyncApiStatus() != null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")) {
                                                     progressDialog.dismiss();
                                                     try {

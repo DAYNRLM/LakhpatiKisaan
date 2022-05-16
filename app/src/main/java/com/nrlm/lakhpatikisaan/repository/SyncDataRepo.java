@@ -86,6 +86,7 @@ public class SyncDataRepo {
             String logreq=gson.toJson(checkDuplicateRequestBean);
 
             encryptedObject.addProperty("data",cryptography.encrypt(logreq));
+            AppUtils.getInstance().showLog("DuplicateRequestFinal"+encryptedObject.toString(),SyncDataRepo.class);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (NoSuchPaddingException e) {
@@ -133,6 +134,9 @@ public class SyncDataRepo {
             AppUtils.getInstance().showLog("Sinal Data"+logreq,SyncDataRepo.class);
 
             encryptedObject.addProperty("data",cryptography.encrypt(logreq));
+
+
+
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (NoSuchPaddingException e) {
@@ -181,7 +185,7 @@ public class SyncDataRepo {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                AppUtils.getInstance().showLog("checkDuplicateDataResponse" + response.toString(), MasterDataRepo.class);
+                AppUtils.getInstance().showLog("checkDuplicateDataResponse" + response.toString(), SyncDataRepo.class);
                 if (response.isSuccessful()) {
                     JSONObject jsonObject = null;
 
@@ -205,13 +209,13 @@ public class SyncDataRepo {
                             Cryptography cryptography = new Cryptography();
                             jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
 
-                            AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                            AppUtils.getInstance().showLog("responseJSONFinal" + jsonObject.toString(), SyncDataRepo.class);
                         } catch (Exception e) {
                             AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
                         }
                     }
 
-                    AppUtils.getInstance().showLog("SyncEntriesDataResponse" + response.toString(), SyncDataRepo.class);
+                    AppUtils.getInstance().showLog("SyncEntriesDataResponseFinal" + response.body().toString(), SyncDataRepo.class);
                     if (response.body() == null || response.code() == 204) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
                     }/*else if (!response.body().getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase("E200")){
@@ -219,6 +223,7 @@ public class SyncDataRepo {
                         serviceCallback.error(new Result.Error(error));
                     }*/ else {
                         CheckDuplicateResponseBean checkDuplicateResponseBean = new Gson().fromJson(jsonObject.toString(), CheckDuplicateResponseBean.class);
+                        AppUtils.getInstance().showLog("FinalDuplicate"+new Gson().toJson(checkDuplicateResponseBean).toString(),SyncDataRepo.class);
                         serviceCallback.success(new Result.Success(checkDuplicateResponseBean));
                     }
 
@@ -229,7 +234,7 @@ public class SyncDataRepo {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                AppUtils.getInstance().showLog("FailureFromServer" + t.toString(), MasterDataRepo.class);
+                AppUtils.getInstance().showLog("FailureFromServer" + t.toString(), SyncDataRepo.class);
                 serviceCallback.error(new Result.Error(t));
             }
         });
@@ -242,6 +247,7 @@ public class SyncDataRepo {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
 
                 if (response.isSuccessful()) {
                     JSONObject jsonObject = null;
@@ -374,7 +380,7 @@ public class SyncDataRepo {
             syncEntriesRequestBean.setImei_no(imeiNo);
             syncEntriesRequestBean.setLocation_coordinate(locationCoordinates);
             syncEntriesRequestBean.setState_short_name(stateShortName);
-        //    syncEntriesRequestBean.setVersion_code(BuildConfig.VERSION_NAME);
+           syncEntriesRequestBean.setApp_version(BuildConfig.VERSION_NAME);
 
 
             for (ShgAndMemberDataBean shgAndMemberDataBean : shgAndMemberDataBeanList) {
@@ -473,7 +479,13 @@ public class SyncDataRepo {
 
 
     public void deleteDuplicateEntries(String shgCode, String memberCode, String sectorCode, String activityCode, String entryType) {
-        memberEntryDao.deleteDuplicateEntries(shgCode, memberCode, sectorCode, activityCode, entryType);
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                memberEntryDao.deleteDuplicateEntries(shgCode, memberCode, sectorCode, activityCode, entryType);
+
+            }
+        });
     }
 
     private AadharDbBean getAadharDetails(String memberCode) throws ExecutionException, InterruptedException {

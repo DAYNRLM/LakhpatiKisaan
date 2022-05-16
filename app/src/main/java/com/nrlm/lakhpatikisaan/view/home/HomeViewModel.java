@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.nrlm.lakhpatikisaan.R;
@@ -117,18 +118,22 @@ public class HomeViewModel extends ViewModel {
                 AppUtils.getInstance().showLog("NoDataToCheckDuplicate", AuthViewModel.class);
                 return;
             }else {
+                AppUtils.getInstance().showLog("AtHomeViewModel"+new Gson().toJson(checkDuplicateRequestBean).toString(),HomeViewModel.class);
                 syncDataRepo.makeCheckDuplicateRequest(checkDuplicateRequestBean, new RepositoryCallback() {
                     @Override
-                    public void onComplete(Result result) {
+                    public void onComplete(Result result) {      /*{"status":0,"error":null,"memcode":[{"member_code":"0"}]}*/
+
+
                         try {
                             AppUtils.getInstance().showLog("checkDuplicateDataResult" + result.toString(), AuthViewModel.class);
                             if (result instanceof Result.Success) {
                                 CheckDuplicateResponseBean checkDuplicateResponseBean = (CheckDuplicateResponseBean) ((Result.Success) result).data;
-                                AppUtils.getInstance().showLog("checkDuplicateSuccessResult" + checkDuplicateResponseBean.getMember_code(), HomeViewModel.class);
-                                if (!checkDuplicateResponseBean.getMember_code().equalsIgnoreCase("0")) {
+                                AppUtils.getInstance().showLog("checkDuplicateSuccessResultFinal" + new Gson().toJson(checkDuplicateResponseBean).toString(), HomeViewModel.class);
+                                if (checkDuplicateResponseBean.getStatus()!=0) {
                                     /*delete  duplicate entries and hit sync api*/
-                                    deleteDuplicateEntries(checkDuplicateResponseBean.getMember_code());
+                                    deleteDuplicateEntries(checkDuplicateResponseBean.getMemcode());
                                 }
+                                AppUtils.getInstance().showLog("AfterCall",HomeViewModel.class);
                                 makeSyncMemberEntry(loginId, stateShortName, imeiNo, deviceName, locationCoordinates, entryCompleteConfirmation);
                             } else {
                                 Object errorObject = ((Result.Error) result).exception;
@@ -505,17 +510,26 @@ public class HomeViewModel extends ViewModel {
         return incomeName;
     }
 
-    private void deleteDuplicateEntries(String member_code) {
+    private void deleteDuplicateEntries(List<CheckDuplicateResponseBean.Memcode> memData) {
+
         try {
-            String [] arr=member_code.split(",");
-            for(int i=0; i<arr.length;i++){
-                String[] singleEntry=arr[i].split("|");
-                String shgCode=singleEntry[0];
-                String memberCode=singleEntry[1];
-                String sectorCode=singleEntry[2];
-                String activityCode=singleEntry[3];
-                String entryType=singleEntry[4];
-                syncDataRepo.deleteDuplicateEntries(shgCode,memberCode,sectorCode,activityCode,entryType);
+
+            for (int j=0;j<memData.size();j++) {
+
+                String member_code=memData.get(j).getMember_code();
+
+             //   String[] arr = member_code.split(",");
+
+
+                    String[] singleEntry = member_code.split("\\|");
+                    String shgCode = singleEntry[0];
+                    String memberCode = singleEntry[1];
+                    String sectorCode = singleEntry[2];
+                    String activityCode = singleEntry[3];
+                    String entryType = singleEntry[4];
+                    AppUtils.getInstance().showLog("DeleteMember"+memberCode+"shgCode"+shgCode,HomeViewModel.class);
+                    syncDataRepo.deleteDuplicateEntries(shgCode, memberCode, sectorCode, activityCode, entryType);
+
             }
         }catch (Exception e){
             AppUtils.getInstance().showLog("DuplicateEntriesParingExp"+e.toString(),HomeViewModel.class);
