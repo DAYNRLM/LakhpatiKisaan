@@ -413,15 +413,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E2"))
-                                                    {
-                                                        DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, "Info"
-                                                                , "Invalid App version", "Update", (dialog, which) -> updateApplication(), "Cancel", (dialog, which) -> {
-                                                                    dialog.dismiss();
-                                                                    ((Activity) getCurrentContext()).finish();
-                                                                },false);
-                                                    }
-                                                      else if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")) {
+                                                   if (viewModel.getSyncApiStatus()!=null && viewModel.getSyncApiStatus().equalsIgnoreCase("E200")) {
                                                         progressDialog.dismiss();
                                                         Toast.makeText(getContext(), "Data Synced Successfully!!!", Toast.LENGTH_LONG).show();
                                                         try {
@@ -437,6 +429,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                         /****this update date code comes after data sync sucessfully*****/
                                                     } else {
                                                         progressDialog.dismiss();
+                                                       DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please Uninstall the App and Reinstall it"
+                                                               , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                                                       );
                                                         try {
                                                             viewModel.updateBeforeEntryDateInLocal(shgMemberCode,entryMonthCode+"-"+entryYearCode);
                                                         } catch (ExecutionException e) {

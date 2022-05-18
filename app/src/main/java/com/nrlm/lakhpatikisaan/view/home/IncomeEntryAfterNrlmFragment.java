@@ -294,6 +294,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
 
                                                 } else {
+                                                    progressDialog.dismiss();
                                                     DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please Uninstall the App and Reinstall it"
                                                             , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
                                                     );

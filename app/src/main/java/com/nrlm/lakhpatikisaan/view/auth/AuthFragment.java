@@ -30,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 
 
+import com.google.gson.Gson;
 import com.nrlm.lakhpatikisaan.BuildConfig;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.databinding.FragmentAuthLoginBinding;
@@ -171,8 +172,8 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     /*---------------LIVE------------------*/
                     loginRequestBean.setLogin_id(userId);
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
-                 //   loginRequestBean.setImei_no(imei);
-                    loginRequestBean.setImei_no("5d7eaa5ef9d3e");
+                    loginRequestBean.setImei_no(imei);
+                 //   loginRequestBean.setImei_no("5d7eaa5ef9d3e");
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("10");
                   // String apploginTime=AppDateFactory.getInstance().getCurrentDateAndTime();
@@ -188,6 +189,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
 
 
                     authViewModel.makeLogin(loginRequestBean, getContext());
+                    AppUtils.getInstance().showLog("Initial request"+new Gson().toJson(loginRequestBean).toString(),AuthFragment.class);
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
