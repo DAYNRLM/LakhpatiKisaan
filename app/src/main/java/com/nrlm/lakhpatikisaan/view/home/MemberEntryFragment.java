@@ -444,10 +444,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                         } catch (InterruptedException e) {
                                                             e.printStackTrace();
                                                         }
-                                                        Toast.makeText(getContext(), "Data Synchronization failed!!!", Toast.LENGTH_LONG).show();
-                                                        NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
-                                                        navController.navigate(navDirections);
-                                                        Navigation.findNavController(requireView()).popBackStack(R.id.memberEntryFragment, true);
+                                                        DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please Uninstall the App and Reinstall it"
+                                                                , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                                                        );
                                                         /****this update date code comes after data sync sucessfully*****/
                                                     }
                                                 }

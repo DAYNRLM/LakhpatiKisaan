@@ -32,35 +32,7 @@ public class AppDeviceInfoUtils {
     }
 
 
-    @SuppressLint("MissingPermission")
-    public String getIMEINo1() {
-        String imeiNo1 = "";
-        try {
-            if (getSIMSlotCount() > 0) {
-                if (ActivityCompat.checkSelfPermission(context,
-                        Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                }
 
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    imeiNo1 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-                    Build.getSerial();
-
-                    mainApplication.appUtils.showLog("BUILD SERIAL ",AppDeviceInfoUtils.class);
-
-                }else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    imeiNo1 = telephonyManager.getDeviceId(0);
-
-                }else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-                    imeiNo1 =AppConstant.dummyImei;
-                }
-
-            } else imeiNo1 = telephonyManager.getDeviceId();
-        }catch (Exception e){
-            mainApplication.appUtils.showLog("Expection: "+e,AppDeviceInfoUtils.class);
-        }
-        mainApplication.appUtils.showLog("imeiiiiii: "+imeiNo1,AppDeviceInfoUtils.class);
-        return imeiNo1;
-    }
 
 
     private int getSIMSlotCount() {

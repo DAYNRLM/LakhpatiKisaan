@@ -294,10 +294,9 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
 
                                                 } else {
-                                                    progressDialog.dismiss();
-                                                    Toast.makeText(getContext(), "Data Synchronization failed!!!", Toast.LENGTH_LONG).show();
-                                                    NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
-                                                    navController.navigate(navDirections);
+                                                    DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please Uninstall the App and Reinstall it"
+                                                            , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                                                    );
                                                     /* ***this update date code comes after data sync sucessfully*****/
                                                     try {
                                                         viewModel.updateAfterEntryDateInLocal(shgMemberCode, entryMonthCode + "-" + entryYearCode);
