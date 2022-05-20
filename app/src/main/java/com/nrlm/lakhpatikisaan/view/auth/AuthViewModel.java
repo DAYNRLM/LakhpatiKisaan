@@ -118,12 +118,22 @@ public class AuthViewModel extends ViewModel {
                         AppUtils.getInstance().showLog("loginDataResponseBean" + loginResponseBean.getError().getCode() + "---" +
                                 loginResponseBean.getError().getMessage(), AuthViewModel.class);
 
+
                         //  String stateShortName=loginRepo.getStateNameDB();
                         if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200") && loginResponseBean.getState_short_name() != null) {
                             loginApiStatus = loginResponseBean.getError().getCode();
+                            String mst=  loginResponseBean.getMst_data();
+                            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyMstData(),mst,context);
                             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(), loginResponseBean.getState_short_name(), context);
                             LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), loginResponseBean.getState_short_name()
                                     , loginRequestBean.getImei_no(), loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
+                          //  PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyMstData(), loginResponseBean.getMst_data(), context);
+                      // String mst=     PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyMstData(), context);
+                            AppUtils.getInstance().showLog("mst_datavalueeeee" + mst, AuthViewModel.class);
+
+                            getMasterData(logRequestBean);
+                            getSupportiveMasters(logRequestBean);
+
 
 
                             /*masterDataRepo.makeMasterDataRequest(logRequestBean, new RepositoryCallback() {
@@ -200,7 +210,7 @@ public class AuthViewModel extends ViewModel {
                                 }
                             });*/
 
-                            getMasterData(logRequestBean);
+
 
                             /*masterDataRepo.makeSupportiveMasterDataRequest(logRequestBean, new RepositoryCallback() {
                                 @Override
@@ -227,7 +237,6 @@ public class AuthViewModel extends ViewModel {
                                 }
                             });*/
 
-                            getSupportiveMasters(logRequestBean);
 
 
                         }
@@ -262,9 +271,7 @@ public class AuthViewModel extends ViewModel {
                 deviceName, location, AppConstant.entryCompleted);
     }
 
-    public void deleteAllMasterDataLg() {
-        loginRepo.deleteAllMaster();
-    }
+
 
     public void makeOtpRequest(Context context) {
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
@@ -325,6 +332,7 @@ public class AuthViewModel extends ViewModel {
         resetPasswordBean.setLogin_id(userId);
         ResetPassword(resetPasswordBean);
 
+        AppUtils.getInstance().showLog("resetRequest:-------" +resetPasswordBean, AuthViewModel.class);
     }
     public String getIMEINo1(Context context) {
         String imeiNo1 = "";

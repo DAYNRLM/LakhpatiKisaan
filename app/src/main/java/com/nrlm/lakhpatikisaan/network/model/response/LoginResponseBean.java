@@ -14,6 +14,16 @@ public class LoginResponseBean {
     private String  login_attempt ;
     private String  logout_days ;
 
+    public String getMst_data() {
+        return mst_data;
+    }
+
+    public void setMst_data(String mst_data) {
+        this.mst_data = mst_data;
+    }
+
+    private String  mst_data ;
+
 
 
     public int getStatus() {

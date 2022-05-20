@@ -126,7 +126,6 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
             if (clfDataBeanList==null||clfDataBeanList.size()==0) {
                 /*show dialog*/
                 if (NetworkFactory.isInternetOn(getCurrentContext())){
-                    viewModel.deleteAllMasterDataLg();
                     ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
                     progressDialog.setCancelable(false);
                     progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));
@@ -280,7 +279,6 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         if (blockNameList==null || blockNameList.size() == 0) {
 
             if (NetworkFactory.isInternetOn(getCurrentContext())){
-                viewModel.deleteAllMasterDataLg();
                 ProgressDialog progressDialog=new ProgressDialog(getCurrentContext());
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage(""+getCurrentContext().getResources().getString(R.string.loading_heavy));

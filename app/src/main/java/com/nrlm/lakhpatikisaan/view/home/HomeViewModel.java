@@ -566,9 +566,11 @@ public class HomeViewModel extends ViewModel {
          masterDataRepo.updateConfirmationStatus(memberCode,entryStatus);
     }
 
+/*
     public void deleteAllMasterDataLg() {
         loginRepo.deleteAllMaster();
     }
+*/
 
 
 

@@ -136,7 +136,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             });
         }
         binding.btnLogin.setOnClickListener(v -> {
-            authViewModel.deleteAllMasterDataLg();
+
 
 
             String password = binding.etPassword.getText().toString();
@@ -147,7 +147,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 binding.etPassword.setError(getString(R.string.invalid_password));
             } else {
                 if (!(loginId.equalsIgnoreCase("")) && !(stateShortName.equalsIgnoreCase(""))) {
-                    authViewModel.deleteAllMasterDataLg();
+                 //   authViewModel.deleteAllMasterDataLg();
                 }
                 AppUtils.getInstance().showLog("sha256Pass" + AppUtils.getInstance().getSha256(password), AuthFragment.class);
                 progressDialog = new ProgressDialog(getContext());
@@ -163,7 +163,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefDeviceinfo(), deviceInfo, getContext());
 
                 if (NetworkFactory.isInternetOn(getContext())) {
-                    authViewModel.deleteAllMasterDataLg();
+
                     final LoginRequestBean loginRequestBean = new LoginRequestBean();
                     /*  -------------lOCAL-----------------*/
                  /*   loginRequestBean.setLogin_id("UPAGASSDAD");
@@ -172,7 +172,8 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     /*---------------LIVE------------------*/
                     loginRequestBean.setLogin_id(userId);
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
-                    loginRequestBean.setImei_no(imei);
+
+                    loginRequestBean.setImei_no(imeiNo);
                  //   loginRequestBean.setImei_no("5d7eaa5ef9d3e");
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("10");
@@ -362,7 +363,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                         Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                 }
 
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     imeiNo1 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
                     Build.getSerial();
 
@@ -372,9 +373,6 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     imeiNo1 = telephonyManager.getDeviceId(0);
                     AppUtils.getInstance().showLog("BUILD SERIAL-imeiNo1 " + imeiNo1, AppDeviceInfoUtils.class);
 
-                } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                    imeiNo1 = "dummy_123456789";
-                    AppUtils.getInstance().showLog("BUILD SERIAL-dummy " + imeiNo1, AppDeviceInfoUtils.class);
                 }
 
             } else imeiNo1 = telephonyManager.getDeviceId();

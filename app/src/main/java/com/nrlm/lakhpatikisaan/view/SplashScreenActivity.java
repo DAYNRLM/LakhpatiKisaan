@@ -40,7 +40,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             try {
                 if(DaycheckForLogouts()){
                     PreferenceFactory.getInstance().removeSharedPrefrencesData(PreferenceKeyManager.getPrefLoginSessionKey(), SplashScreenActivity.this);
-                    LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).deleteAllMaster();            }
+                  //  LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).deleteAllMaster();
+                     }
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

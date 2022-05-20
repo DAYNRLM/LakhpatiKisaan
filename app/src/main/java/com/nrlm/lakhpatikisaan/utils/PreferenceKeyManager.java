@@ -25,6 +25,7 @@ public class PreferenceKeyManager {
     private static final String PREF_FRGT_PASS="frgtpassword";
     private  static final String PREF_KEY_COUNTDOWN_TIME = "countDownTime";
     private static final String PREF_KEY_MPIN_COUNTER = "mpinCounter";
+    private static final String PREF_KEY_MST_DATA = "mstdata";
 
 
     public static String getPrefKeyMpinCounter() {
@@ -32,7 +33,9 @@ public class PreferenceKeyManager {
     }
 
 
-
+    public static String getPrefKeyMstData() {
+        return PREF_KEY_MST_DATA;
+    }
 
     public static String getPrefKeyCountdownTime() {
         return PREF_KEY_COUNTDOWN_TIME;

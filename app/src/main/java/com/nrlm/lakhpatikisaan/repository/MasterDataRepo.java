@@ -304,17 +304,19 @@ public class MasterDataRepo {
                 String getEncrypted="";
                 try {
                    getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+                    AppUtils.getInstance().showLog("encryptmasterdata" + jsonObject.toString(), SignUpFragment.class);
 
                 }catch (Exception e)
                 {
 
+                    AppUtils.getInstance().showLog("exception" + e, SignUpFragment.class);
                 }
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     try {
                         Cryptography cryptography = new Cryptography();
                         jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
 
-                        AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                        AppUtils.getInstance().showLog("masterdata" + jsonObject.toString(), SignUpFragment.class);
                     } catch (Exception e) {
                         Toast.makeText(context, "Data not found!", Toast.LENGTH_SHORT).show();
                         AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
@@ -441,8 +443,9 @@ public class MasterDataRepo {
 
                 String objectResponse="";
                 JSONObject encryptedData=null;
-                String getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
 
+                String getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+                AppUtils.getInstance().showLog("responseJSON" + getEncrypted, SignUpFragment.class);
 
 
 
@@ -452,7 +455,7 @@ public class MasterDataRepo {
                         Cryptography cryptography = new Cryptography();
                         jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
 
-                        AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                        AppUtils.getInstance().showLog("responseJSON1" + jsonObject.toString(), SignUpFragment.class);
                     } catch (Exception e) {
                         Toast.makeText(context, "Data not found!", Toast.LENGTH_SHORT).show();
                         AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);

@@ -42,7 +42,7 @@ public class LogOutDialogFragment extends DialogFragment {
                 .setTitle(getContext().getResources().getString(R.string.dialog_sign_out_title)).setMessage(getContext().getResources().getString(R.string.dialog_sign_out_msg))
                 .setCancelable(false)
                 .setPositiveButton(getContext().getResources().getString(R.string.dialog_btn_signout), (dialogInterface, i) -> {
-                    loginRepo.deleteAllMaster();
+
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefLoginSessionKey(),"",requireContext());
                     ViewUtilsKt.toast(requireContext(),getContext().getResources().getString(R.string.toast_success_sign_out));
                     dialogInterface.dismiss();

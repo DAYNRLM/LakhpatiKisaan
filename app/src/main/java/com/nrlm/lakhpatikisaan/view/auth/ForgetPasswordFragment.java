@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.databinding.FragmentForgetpasswordBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentOtpSendBinding;
+import com.nrlm.lakhpatikisaan.repository.LoginRepo;
 import com.nrlm.lakhpatikisaan.utils.AppDeviceInfoUtils;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
@@ -48,6 +49,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
     LinearLayout linearLayoutFurtherView;
     private AuthViewModel authViewModel;
     ProgressDialog progressDialog;
+    private LoginRepo loginRepo;
 
     @Override
     public Class<AuthViewModel> getViewModel() {
@@ -102,6 +104,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
                         public void run() {
                             progressDialog.dismiss();
                             if (authViewModel.resetPasswordApiStatuss.equalsIgnoreCase("E200")) {
+                            loginRepo.deleteAllMaster();
                        /* DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert),  authViewModel.simpleResponseBean.getError().getMessage()
                                 , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
                         );*/
