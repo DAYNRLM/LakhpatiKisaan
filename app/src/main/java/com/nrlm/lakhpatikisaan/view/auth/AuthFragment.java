@@ -161,6 +161,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(), imeiNo, getContext());
                 if (deviceInfo != null && !deviceInfo.equalsIgnoreCase(""))
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefDeviceinfo(), deviceInfo, getContext());
+                    PreferenceFactory.getInstance().getSharedPreferenceIntegerData(PreferenceKeyManager.getPrefKeyMstData(),getContext());
 
                 if (NetworkFactory.isInternetOn(getContext())) {
 

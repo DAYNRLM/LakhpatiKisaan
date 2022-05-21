@@ -13,6 +13,7 @@ public class LoginResponseBean {
     private String  language_id ;
     private String  login_attempt ;
     private String  logout_days ;
+    private String  mst_data ;
 
     public String getMst_data() {
         return mst_data;
@@ -22,7 +23,7 @@ public class LoginResponseBean {
         this.mst_data = mst_data;
     }
 
-    private String  mst_data ;
+
 
 
 

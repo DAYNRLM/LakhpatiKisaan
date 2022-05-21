@@ -127,11 +127,11 @@ public class AuthViewModel extends ViewModel {
                             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(), loginResponseBean.getState_short_name(), context);
                             LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), loginResponseBean.getState_short_name()
                                     , loginRequestBean.getImei_no(), loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
-                          //  PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyMstData(), loginResponseBean.getMst_data(), context);
-                      // String mst=     PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyMstData(), context);
-                            AppUtils.getInstance().showLog("mst_datavalueeeee" + mst, AuthViewModel.class);
 
-                            getMasterData(logRequestBean);
+                            if (mst.toString().equalsIgnoreCase("Y")){
+                                getMasterData(logRequestBean);
+                            }
+
                             getSupportiveMasters(logRequestBean);
 
 

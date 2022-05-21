@@ -492,13 +492,23 @@ public class LoginRepo {
             @Override
             public void run() {
                 loginInfoDao.deleteAll();
-                masterDataDao.deleteAll();
                 seccDao.deleteAll();
                 sectorDao.deleteAll();
                 activityDao.deleteAll();
                 incomeRangeDao.deleteAll();
                 frequencyDao.deleteAll();
                 checkDeleteShgDao.deleteAll();
+            }
+        });
+    }
+
+    public void deleteOnlyMaster() {
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+
+                masterDataDao.deleteAll();
+
             }
         });
     }
