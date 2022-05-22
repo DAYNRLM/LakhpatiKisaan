@@ -78,7 +78,6 @@ public class AuthViewModel extends ViewModel {
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         masterDataRepo = MasterDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         homeViewModel = new HomeViewModel();
-
     }
 
     public void makeLogin(LoginRequestBean loginRequestBean, Context context) {
@@ -123,16 +122,22 @@ public class AuthViewModel extends ViewModel {
                         if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200") && loginResponseBean.getState_short_name() != null) {
                             loginApiStatus = loginResponseBean.getError().getCode();
                             String mst=  loginResponseBean.getMst_data();
-                            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyMstData(),mst,context);
+                            String imei_flag=  loginResponseBean.getImei_flag();
                             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(), loginResponseBean.getState_short_name(), context);
                             LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), loginResponseBean.getState_short_name()
                                     , loginRequestBean.getImei_no(), loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
 
                             if (mst.toString().equalsIgnoreCase("Y")){
                                 getMasterData(logRequestBean);
+
                             }
 
-                            getSupportiveMasters(logRequestBean);
+                            if (imei_flag.toString().equalsIgnoreCase("Y")){
+
+                                getSupportiveMasters(logRequestBean);
+                            }
+
+
 
 
 

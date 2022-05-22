@@ -498,6 +498,7 @@ public class LoginRepo {
                 incomeRangeDao.deleteAll();
                 frequencyDao.deleteAll();
                 checkDeleteShgDao.deleteAll();
+                masterDataDao.deleteAll();
             }
         });
     }

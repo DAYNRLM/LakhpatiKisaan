@@ -215,7 +215,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                                 }
                             }
                         }
-                    }, 30000);
+                    }, 10000);
                 } else {
                     try {
                         progressDialog.dismiss();

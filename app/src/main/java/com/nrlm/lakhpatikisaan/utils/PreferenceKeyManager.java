@@ -26,7 +26,11 @@ public class PreferenceKeyManager {
     private  static final String PREF_KEY_COUNTDOWN_TIME = "countDownTime";
     private static final String PREF_KEY_MPIN_COUNTER = "mpinCounter";
     private static final String PREF_KEY_MST_DATA = "mstdata";
+    private static final String PREF_KEY_IMEI_FLAG = "imeiflag";
 
+    public static String getPrefKeyImeiFlag() {
+        return PREF_KEY_IMEI_FLAG;
+    }
 
     public static String getPrefKeyMpinCounter() {
         return PREF_KEY_MPIN_COUNTER;
