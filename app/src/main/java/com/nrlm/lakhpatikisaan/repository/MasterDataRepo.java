@@ -338,7 +338,7 @@ public class MasterDataRepo {
 
                     if (response.body() == null || response.code() == 204) { // 204 is empty response
                         serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
-                    } else if (!code.equalsIgnoreCase("E200")) {
+                    } else if (!code.equalsIgnoreCase("E200" )&& !code.equalsIgnoreCase(null)) {
                         MasterDataResponseBean.Error error = new Gson().fromJson(errorObj.toString(), MasterDataResponseBean.Error.class);
                         serviceCallback.error(new Result.Error(error));
                     } else {

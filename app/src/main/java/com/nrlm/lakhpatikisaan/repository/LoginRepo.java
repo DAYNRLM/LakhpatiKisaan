@@ -493,26 +493,18 @@ public class LoginRepo {
             public void run() {
                 loginInfoDao.deleteAll();
                 seccDao.deleteAll();
-                sectorDao.deleteAll();
-                activityDao.deleteAll();
-                incomeRangeDao.deleteAll();
-                frequencyDao.deleteAll();
                 checkDeleteShgDao.deleteAll();
                 masterDataDao.deleteAll();
+                activityDao.deleteAll();
+                frequencyDao.deleteAll();
+                sectorDao.deleteAll();
+                incomeRangeDao.deleteAll();
             }
         });
     }
 
-    public void deleteOnlyMaster() {
-        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
 
-                masterDataDao.deleteAll();
 
-            }
-        });
-    }
 
 
 }

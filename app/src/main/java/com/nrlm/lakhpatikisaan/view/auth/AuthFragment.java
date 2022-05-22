@@ -194,8 +194,8 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     AppUtils.getInstance().showLog("Initial request"+new Gson().toJson(loginRequestBean).toString(),AuthFragment.class);
 
                     new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+                            @Override
+                            public void run() {
                            loginApiStatus = authViewModel.loginApiResult();
 
                             AppUtils.getInstance().showLog("loginApiStatusTTTTT" + loginApiStatus, AuthFragment.class);
@@ -215,7 +215,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                                 }
                             }
                         }
-                    }, 10000);
+                    }, 40000);
                 } else {
                     try {
                         progressDialog.dismiss();

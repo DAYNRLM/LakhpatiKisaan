@@ -201,7 +201,7 @@ int counter;
                             startActivity(intentToHomeActy);
                         }
                     }
-                }, 2000);
+                }, 10000);
             } else {
                 progressDialog.dismiss();
                 Intent intentToHomeActy = new Intent(getCurrentContext(), HomeActivity.class);

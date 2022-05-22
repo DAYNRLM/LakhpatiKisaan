@@ -122,20 +122,19 @@ public class AuthViewModel extends ViewModel {
                         if (loginResponseBean.getError().getCode().equalsIgnoreCase("E200") && loginResponseBean.getState_short_name() != null) {
                             loginApiStatus = loginResponseBean.getError().getCode();
                             String mst=  loginResponseBean.getMst_data();
-                            String imei_flag=  loginResponseBean.getImei_flag();
+
                             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(), loginResponseBean.getState_short_name(), context);
                             LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), loginResponseBean.getState_short_name()
                                     , loginRequestBean.getImei_no(), loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
 
-                            if (mst.toString().equalsIgnoreCase("Y")){
+                            if (mst.toString().equalsIgnoreCase("N")){
+                                loginRepo.deleteAllMaster();
                                 getMasterData(logRequestBean);
-
-                            }
-
-                            if (imei_flag.toString().equalsIgnoreCase("Y")){
-
                                 getSupportiveMasters(logRequestBean);
+
+
                             }
+
 
 
 
@@ -498,7 +497,7 @@ public class AuthViewModel extends ViewModel {
                                 AppUtils.getInstance().showLog("makeSeccDataRequestExp:- " + e.getMessage(), AuthViewModel.class);
                             }
                         }
-                    }, 6000);
+                    }, 10000);
 
                 } else {
                     Object errorObject = ((Result.Error) result).exception;

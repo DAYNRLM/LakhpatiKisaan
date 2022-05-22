@@ -14,15 +14,8 @@ public class LoginResponseBean {
     private String  login_attempt ;
     private String  logout_days ;
     private String  mst_data ;
-    private String  imei_flag ;
 
-    public String getImei_flag() {
-        return imei_flag;
-    }
 
-    public void setImei_flag(String imei_flag) {
-        this.imei_flag = imei_flag;
-    }
 
     public String getMst_data() {
         return mst_data;
