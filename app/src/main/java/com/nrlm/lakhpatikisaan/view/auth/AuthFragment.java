@@ -175,9 +175,10 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
 
                     loginRequestBean.setImei_no(imeiNo);
+
                  //   loginRequestBean.setImei_no("5d7eaa5ef9d3e");
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
-                    loginRequestBean.setAndroid_version("10");
+                    loginRequestBean.setAndroid_version("12");
                   // String apploginTime=AppDateFactory.getInstance().getCurrentDateAndTime();
                   // String apploginTime="2022-02-16 14:50:48";
 
@@ -364,7 +365,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                         Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                 }
 
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     imeiNo1 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
                     Build.getSerial();
 

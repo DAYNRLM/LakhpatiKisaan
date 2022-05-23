@@ -89,22 +89,23 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
                     userId=binding.etUserId.getText().toString().toUpperCase().trim();
             password=binding.etPassword.getText().toString();
             confirmPassword=binding.etConfirmPassword.getText().toString();
+
         //  String prefLoginId= ;
             if (!userId.equalsIgnoreCase("")) {
+                String device= AppUtils.getInstance().getDeviceInfo();
                 if (password.equalsIgnoreCase(confirmPassword) && !password.equalsIgnoreCase("") && !confirmPassword.equalsIgnoreCase("")) {
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefFrgtPass(),confirmPassword,getCurrentContext());
                     progressDialog = new ProgressDialog(getContext());
                     progressDialog.setMessage(getString(R.string.loading_heavy));
                     progressDialog.setCancelable(false);
                     progressDialog.show();
-                    authViewModel.ResetPasswordRequestData(getContext(),userId);
+                    authViewModel.ResetPasswordRequestData(getContext(),userId,getIMEINo1(getContext()),device);
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             progressDialog.dismiss();
                             if (authViewModel.resetPasswordApiStatuss.equalsIgnoreCase("E200")) {
-                            loginRepo.deleteAllMaster();
                        /* DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.alert),  authViewModel.simpleResponseBean.getError().getMessage()
                                 , getString(R.string.ok), (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, false
                         );*/
@@ -169,5 +170,49 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
             linearLayoutFurtherView.setVisibility(LinearLayout.VISIBLE);
             binding.verifyOtpbtn.setVisibility(View.GONE);
         }
+    }
+    public String getIMEINo1(Context context) {
+        String imeiNo1 = "";
+        try {
+            if (getSIMSlotCount(context) > 0) {
+                if (ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                }
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    imeiNo1 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+                    Build.getSerial();
+
+                    AppUtils.getInstance().showLog("BUILD SERIAL " + Build.getSerial(), AppDeviceInfoUtils.class);
+
+                } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    imeiNo1 = telephonyManager.getDeviceId(0);
+                    AppUtils.getInstance().showLog("BUILD SERIAL-imeiNo1 " + imeiNo1, AppDeviceInfoUtils.class);
+
+                } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    imeiNo1 = "dummy_123456789";
+                    AppUtils.getInstance().showLog("BUILD SERIAL-dummy " + imeiNo1, AppDeviceInfoUtils.class);
+                }
+
+            } else imeiNo1 = telephonyManager.getDeviceId();
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("Expection in imeiiiiii: " + e, AppDeviceInfoUtils.class);
+        }
+        //appSharedPreferences.setImeiNumber(imeiNo1);
+        AppUtils.getInstance().showLog("imeiiiiii: " + imeiNo1, AppDeviceInfoUtils.class);
+        return imeiNo1;
+    }
+    private int getSIMSlotCount(Context context) {
+        int getPhoneCount = 0;
+        try {
+            telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getPhoneCount = telephonyManager.getPhoneCount();
+            }
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("Expection: " + e, AppDeviceInfoUtils.class);
+        }
+        AppUtils.getInstance().showLog("getSimSlotCount: " + getPhoneCount, AppDeviceInfoUtils.class);
+        return getPhoneCount;
     }
 }

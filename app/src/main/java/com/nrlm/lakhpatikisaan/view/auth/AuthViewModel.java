@@ -325,7 +325,7 @@ public class AuthViewModel extends ViewModel {
         });
     }
 
-    public void ResetPasswordRequestData(Context context,String userId) {
+    public void ResetPasswordRequestData(Context context,String userId,String imei,String deviceInfo) {
         ResetPasswordBean resetPasswordBean = new ResetPasswordBean();
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         resetPasswordBean.setPassword(AppUtils.getInstance().getSha256(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefFrgtPass(), context)));
