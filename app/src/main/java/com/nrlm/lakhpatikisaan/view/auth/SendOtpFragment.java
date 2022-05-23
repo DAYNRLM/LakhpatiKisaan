@@ -82,19 +82,8 @@ public class SendOtpFragment extends BaseFragment<AuthViewModel,FragmentOtpSendB
                            navController.navigate(action);
                        }else
                        {
-                           MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(getCurrentContext());
-                           materialAlertDialogBuilder.setCancelable(false);
-                           materialAlertDialogBuilder.setMessage(msg);
-                           materialAlertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                               @Override
-                               public void onClick(DialogInterface dialog, int which) {
-                                   dialog.dismiss();
-                                  /* Intent intent = new Intent(getContext(), AuthActivity.class);
-                                   startActivity(intent);*/
-
-                               }
-                           });
-                           materialAlertDialogBuilder.show();
+                           NavDirections action = SendOtpFragmentDirections.actionSendOtpFragmentToForgetPasswordFragment();
+                           navController.navigate(action);
 
                        }
 
