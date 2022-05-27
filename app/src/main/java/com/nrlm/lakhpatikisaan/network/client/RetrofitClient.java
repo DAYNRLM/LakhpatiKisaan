@@ -20,8 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-   //public static final String server = "local";
- //  public static final String server ="demo".trim();
+  // public static final String server = "local";
+  //public static final String server ="demo".trim();
    public static final String server ="live".trim();
 
     private static final int CONNECTION_TIMEOUT = 40000;
@@ -47,11 +47,11 @@ public class RetrofitClient {
                 NRLM_STATUS = "lakhpatilive";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
                 break;
-/*
-            case "local":
+            /*case "local":
                 HTTP_TYPE = "http";
-                IP_ADDRESS = "10.197.183.251";
-                NRLM_STATUS = ":8989";
+                IP_ADDRESS = "10.197.183.105";
+                NRLM_STATUS = ":." +
+                        "";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + NRLM_STATUS + "/lakhpatishg/";
                 break;*/
         }

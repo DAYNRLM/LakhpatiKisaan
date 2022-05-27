@@ -123,6 +123,7 @@ public class AuthViewModel extends ViewModel {
                             loginApiStatus = loginResponseBean.getError().getCode();
                             String mst=  loginResponseBean.getMst_data();
 
+                            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyMstData(), mst, context);
                             PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefStateShortName(), loginResponseBean.getState_short_name(), context);
                             LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), loginResponseBean.getState_short_name()
                                     , loginRequestBean.getImei_no(), loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
@@ -325,7 +326,7 @@ public class AuthViewModel extends ViewModel {
         });
     }
 
-    public void ResetPasswordRequestData(Context context,String userId,String imei,String deviceInfo) {
+    public void ResetPasswordRequestData(Context context,String imei,String userId) {
         ResetPasswordBean resetPasswordBean = new ResetPasswordBean();
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         resetPasswordBean.setPassword(AppUtils.getInstance().getSha256(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefFrgtPass(), context)));

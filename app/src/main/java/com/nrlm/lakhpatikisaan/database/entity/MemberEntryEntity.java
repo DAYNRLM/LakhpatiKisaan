@@ -19,7 +19,7 @@ public class MemberEntryEntity {
     public String incomeFrequencyCode;
     public String incomeRangCode;
     public String flagBeforeAfterNrlm;
-    public String flagSyncStatus;
+    public  String flagSyncStatus;
 
     public String sectorName;
     public String activityName;

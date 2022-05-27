@@ -103,10 +103,11 @@ int counter;
 
                 } else {
                     if (getMpin.equalsIgnoreCase(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyMpin(),getCurrentContext()))) {
-                       /* Intent intent = new Intent(getContext(), HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);*/
+                //  String mst=  PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyMstData(),getCurrentContext());
+
+
                          getApiCall();
+
 
                     } else {
                         progressDialog.dismiss();

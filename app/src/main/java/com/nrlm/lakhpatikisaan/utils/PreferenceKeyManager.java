@@ -14,7 +14,11 @@ public class PreferenceKeyManager {
     private static final String PrefImeiNo="PrefImeiNo";
     private static final String PrefDeviceinfo="PrefDeviceInfo";
     private static final String PrefLogoutTime="PrefLogoutTime";
+    private static final String MST_FLAG="mstflag";
 
+    public static String getMstFlag() {
+        return MST_FLAG;
+    }
 
     private static final String ForgotMobileNumber="forgotmobile";
     private static final String RandomOtp="genratedOtp";
@@ -27,6 +31,11 @@ public class PreferenceKeyManager {
     private static final String PREF_KEY_MPIN_COUNTER = "mpinCounter";
     private static final String PREF_KEY_MST_DATA = "mstdata";
     private static final String PREF_KEY_IMEI_FLAG = "imeiflag";
+    private static final String PREF_KEY_SECCNO = "seccno";
+
+    public static String getPrefKeySeccno() {
+        return PREF_KEY_SECCNO;
+    }
 
     public static String getPrefKeyImeiFlag() {
         return PREF_KEY_IMEI_FLAG;

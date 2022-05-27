@@ -397,7 +397,14 @@ public class SyncDataRepo {
                 SyncEntriesRequestBean.SyncEntry syncEntry = new SyncEntriesRequestBean.SyncEntry();
                 syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
                 syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
-                syncEntry.setSecc(shgAndMemberDataBean.getSecc());
+               if (shgAndMemberDataBean.getSecc().equalsIgnoreCase("")) {
+
+                   syncEntry.setSecc("0");
+
+              }
+               else
+                 syncEntry.setSecc(shgAndMemberDataBean.getSecc());
+
                 if (aadharDbBean==null || activityDataBeanList!=null &&
                         activityDataBeanList.get(0).getFlag_before_after_nrlm().equalsIgnoreCase("A") ){
                     syncEntry.setName_as_per_aadhaar("");
@@ -422,7 +429,9 @@ public class SyncDataRepo {
                     activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
                     activityData.setFrequency_code(activityDataBean.getFrequency_code());
                     activityData.setRange_code(activityDataBean.getRange_code());
-                    activityData.setSector_code(activityDataBean.getSector_code());
+
+                        activityData.setSector_code(activityDataBean.getSector_code());
+
                     activityDataList.add(activityData);
                 }
                 syncEntry.setActivities_data_sync(activityDataList);

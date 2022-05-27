@@ -154,7 +154,8 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 progressDialog.setMessage(getString(R.string.loading_heavy));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                String imeiNo = getIMEINo1(getContext());
+                String  imeiNo = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+
                 String deviceInfo = AppUtils.getInstance().getDeviceInfo();
                 AppUtils.getInstance().showLog("imeiNoFinal" + imeiNo, AuthFragment.class);
                 if (imeiNo!=null &&!imeiNo.equalsIgnoreCase(""))
@@ -164,6 +165,8 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     PreferenceFactory.getInstance().getSharedPreferenceIntegerData(PreferenceKeyManager.getPrefKeyMstData(),getContext());
 
                 if (NetworkFactory.isInternetOn(getContext())) {
+
+
 
                     final LoginRequestBean loginRequestBean = new LoginRequestBean();
                     /*  -------------lOCAL-----------------*/

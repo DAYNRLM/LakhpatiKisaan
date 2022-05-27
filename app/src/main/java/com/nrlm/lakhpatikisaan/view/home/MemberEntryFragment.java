@@ -428,10 +428,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                        Navigation.findNavController(requireView()).popBackStack(R.id.memberEntryFragment, true);
                                                         /****this update date code comes after data sync sucessfully*****/
                                                     } else {
-                                                        progressDialog.dismiss();
-                                                       DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please Uninstall the App and Reinstall it"
-                                                               , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
-                                                       );
+                                                       Toast.makeText(getContext(), "Data Synced Failed!!!", Toast.LENGTH_LONG).show();
+                                                       NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
+                                                       navController.navigate(navDirections);
                                                         try {
                                                             viewModel.updateBeforeEntryDateInLocal(shgMemberCode,entryMonthCode+"-"+entryYearCode);
                                                         } catch (ExecutionException e) {
@@ -439,9 +438,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                         } catch (InterruptedException e) {
                                                             e.printStackTrace();
                                                         }
-                                                        DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please Uninstall the App and Reinstall it"
-                                                                , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
-                                                        );
+
                                                         /****this update date code comes after data sync sucessfully*****/
                                                     }
                                                 }

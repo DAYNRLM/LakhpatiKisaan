@@ -39,9 +39,17 @@ public interface MemberEntryDao {
             "where MemberEntryEntity.entryCompleteConfirmation =:entryCompleteConfirmation and MemberEntryEntity.flagSyncStatus=:syncFlag")
    List<MemberDataToCheckDup> getDataToCheckDuplicate(String entryCompleteConfirmation, String syncFlag);
 
-    @Query("select distinct shgCode,shgMemberCode,seccNumber from MemberEntryEntity " +
+    /*@Query("select distinct shgCode,shgMemberCode,seccNumber from MemberEntryEntity " +
             "where MemberEntryEntity.entryCompleteConfirmation =:entryCompleteConfirmation and MemberEntryEntity.flagSyncStatus=:syncFlag ")
-    List<ShgAndMemberDataBean> getDistinctShgAndMemberToSync(String entryCompleteConfirmation, String syncFlag);
+    List<ShgAndMemberDataBean> getDistinctShgAndMemberToSync(String entryCompleteConfirmation, String syncFlag);*/
+@Query("select distinct shgCode,shgMemberCode,seccNumber from MemberEntryEntity where length(seccNumber)>0 and MemberEntryEntity.entryCompleteConfirmation =:entryCompleteConfirmation and MemberEntryEntity.flagSyncStatus=:syncFlag " +
+        " union all select distinct shgCode,shgMemberCode,seccNumber from MemberEntryEntity where MemberEntryEntity.entryCompleteConfirmation =:entryCompleteConfirmation and MemberEntryEntity.flagSyncStatus=:syncFlag" +
+        " and shgMemberCode in  (select  shgMemberCode from MemberEntryEntity where MemberEntryEntity.entryCompleteConfirmation =:entryCompleteConfirmation and MemberEntryEntity.flagSyncStatus=:syncFlag  " +
+        "  except  select   shgMemberCode from MemberEntryEntity where  MemberEntryEntity.entryCompleteConfirmation =:entryCompleteConfirmation and MemberEntryEntity.flagSyncStatus=:syncFlag and length(seccNumber)>0)")
+List<ShgAndMemberDataBean> getDistinctShgAndMemberToSync(String entryCompleteConfirmation, String syncFlag);
+
+
+
 
     @Query("select entryYearCode,entryMonthCode,entryCreatedDate,activityCode," +
             "incomeFrequencyCode,incomeRangCode,sectorDate,flagBeforeAfterNrlm" +
