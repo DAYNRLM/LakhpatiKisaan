@@ -87,6 +87,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
                 });
         binding.btnUpdatePw.setOnClickListener(view1 -> {
 
+
                     userId=binding.etUserId.getText().toString().toUpperCase().trim();
             password=binding.etPassword.getText().toString();
             confirmPassword=binding.etConfirmPassword.getText().toString();

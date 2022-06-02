@@ -1,6 +1,7 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -130,8 +131,9 @@ public class AuthViewModel extends ViewModel {
 
                             if (mst.toString().equalsIgnoreCase("Y")){
                                 loginRepo.deleteAllMaster();
-                                getMasterData(logRequestBean);
                                 getSupportiveMasters(logRequestBean);
+                                getMasterData(logRequestBean);
+
 
 
                             }
@@ -326,12 +328,12 @@ public class AuthViewModel extends ViewModel {
         });
     }
 
-    public void ResetPasswordRequestData(Context context,String imei,String userId) {
+    public void ResetPasswordRequestData(Context context,String userId ,String imei) {
         ResetPasswordBean resetPasswordBean = new ResetPasswordBean();
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         resetPasswordBean.setPassword(AppUtils.getInstance().getSha256(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefFrgtPass(), context)));
         resetPasswordBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
-        resetPasswordBean.setImei_no(getIMEINo1(context));
+        resetPasswordBean.setImei_no(imei);
         resetPasswordBean.setMobileno(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getForgotMobileNumber(), context));
         resetPasswordBean.setLocation_coordinate("28.6771787,77.4923927");
         resetPasswordBean.setLogin_id(userId);
@@ -339,6 +341,7 @@ public class AuthViewModel extends ViewModel {
 
         AppUtils.getInstance().showLog("resetRequest:-------" +resetPasswordBean, AuthViewModel.class);
     }
+    @SuppressLint("HardwareIds")
     public String getIMEINo1(Context context) {
         String imeiNo1 = "";
         try {
@@ -357,9 +360,6 @@ public class AuthViewModel extends ViewModel {
                     imeiNo1 = telephonyManager.getDeviceId(0);
                     AppUtils.getInstance().showLog("BUILD SERIAL-imeiNo1 " + imeiNo1, AppDeviceInfoUtils.class);
 
-                } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                    imeiNo1 = "dummy_123456789";
-                    AppUtils.getInstance().showLog("BUILD SERIAL-dummy " + imeiNo1, AppDeviceInfoUtils.class);
                 }
 
             } else imeiNo1 = telephonyManager.getDeviceId();

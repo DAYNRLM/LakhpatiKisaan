@@ -13,7 +13,7 @@ android {
         applicationId "com.nrlm.lakhpatikisaan"
         minSdkVersion 25
         targetSdkVersion 30
-        versionCode 13
+        versionCode 16
         versionName "3.3.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
