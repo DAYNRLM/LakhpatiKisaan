@@ -1,18 +1,8 @@
 package com.nrlm.lakhpatikisaan.view.auth;
-
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Handler;
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
-
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModel;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -34,27 +24,19 @@ import com.nrlm.lakhpatikisaan.repository.LoginRepo;
 import com.nrlm.lakhpatikisaan.repository.MasterDataRepo;
 import com.nrlm.lakhpatikisaan.repository.RepositoryCallback;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
-import com.nrlm.lakhpatikisaan.utils.AppDeviceInfoUtils;
 import com.nrlm.lakhpatikisaan.utils.AppExecutor;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.Cryptography;
-import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
-import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.home.DashBoardFragment;
 import com.nrlm.lakhpatikisaan.view.home.HomeViewModel;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -304,7 +286,7 @@ public class AuthViewModel extends ViewModel {
                 AppUtils.getInstance().showLog("OtpResult" + result.toString(), AuthViewModel.class);
                 if (result instanceof Result.Success) {
                     otpResponseBean = (OtpResponseBean) ((Result.Success) result).data;
-                    AppUtils.getInstance().showLog("Responseotp : -" + otpResponseBean.getError().getCode(), AuthViewModel.class);
+                    AppUtils.getInstance().showLog("ResponseOtp : -" + otpResponseBean.getError().getCode(), AuthViewModel.class);
                     loginApiStatus=otpResponseBean.getError().getCode();
                     return;
 
@@ -341,7 +323,7 @@ public class AuthViewModel extends ViewModel {
 
         AppUtils.getInstance().showLog("resetRequest:-------" +resetPasswordBean, AuthViewModel.class);
     }
-    @SuppressLint("HardwareIds")
+  /*/  @SuppressLint("HardwareIds")
     public String getIMEINo1(Context context) {
         String imeiNo1 = "";
         try {
@@ -382,7 +364,7 @@ public class AuthViewModel extends ViewModel {
         }
         AppUtils.getInstance().showLog("getSimSlotCount: " + getPhoneCount, AppDeviceInfoUtils.class);
         return getPhoneCount;
-    }
+    }*/
     private void ResetPassword(ResetPasswordBean resetPasswordBean) {
         loginRepo.resetPasswordRequestLog(resetPasswordBean, new RepositoryCallback() {
             @Override

@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.network.client;
 
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -21,32 +22,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
   // public static final String server = "local";
-  //public static final String server ="demo".trim();
-   public static final String server ="live".trim();
+  public static final String server ="demo".trim();
+ //public static final String server ="live".trim();
 
     private static final int CONNECTION_TIMEOUT = 40000;
     private static final int READ_TIMEOUT = 40000;
-
-
-
     private static String getBaseUrl(String server) {
         String baseURL = "";
         String HTTP_TYPE, IP_ADDRESS, NRLM_STATUS;
         switch (server) {
-
-           /* case "demo":
-
+            case "demo":
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
-                NRLM_STATUS = "lakhpatishgDemo";
+                NRLM_STATUS = "lakhpatidemo";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
-                break;*/
-            case "live":
+                break;
+        /*    case "live":
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
                 NRLM_STATUS = "lakhpatilive";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
-                break;
+                break;*/
             /*case "local":
                 HTTP_TYPE = "http";
                 IP_ADDRESS = "10.197.183.105";

@@ -296,17 +296,14 @@ public class LoginRepo {
                     String getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
 
 
+                    try {
+                        Cryptography cryptography = new Cryptography();
+                        jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
 
-                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        try {
-                            Cryptography cryptography = new Cryptography();
-                            jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
+                        AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                    } catch (Exception e) {
 
-                            AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
-                        } catch (Exception e) {
-
-                            AppUtils.getInstance().showLog("DecryptEx" + e, LoginRepo.class);
-                        }
+                        AppUtils.getInstance().showLog("DecryptEx" + e, LoginRepo.class);
                     }
                     String code="";
                     JSONObject errorObj=null;

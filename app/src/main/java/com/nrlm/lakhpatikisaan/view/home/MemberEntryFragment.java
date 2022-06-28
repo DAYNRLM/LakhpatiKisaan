@@ -525,7 +525,8 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
                 binding.spinnerSeccNumber.setOnItemClickListener((adapterView, view, i, l) -> {
                     seccName = viewModel.loadSeccNameData(memberCode).get(i);
-                    seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
+               //     seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
+                    seccNumber = "0";
                 });
             }else {
                 seccNumber="0";
@@ -613,6 +614,53 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     }
 
     private void loadEntryList() {
+        switch (entryMonthCode) {
+            case "12":
+                entryMonthCode = "12";
+                break;
+
+            case "11":
+                entryMonthCode = "11";
+                break;
+
+            case "10":
+                entryMonthCode = "10";
+                break;
+
+            case "09":
+                entryMonthCode = "09";
+                break;
+
+            case "08":
+                entryMonthCode = "08";
+                break;
+
+            case "07":
+                entryMonthCode = "07";
+                break;
+            case "06":
+                entryMonthCode = "06";
+                break;
+            case "05":
+                entryMonthCode = "05";
+                break;
+            case "04":
+                entryMonthCode = "04";
+                break;
+            case "03":
+                entryMonthCode = "03";
+                break;
+            case "02":
+                entryMonthCode = "02";
+                break;
+            case "01":
+                entryMonthCode = "01";
+                break;
+            default:
+                entryMonthCode = "01";
+
+        }
+
 
         //memberEntryDataItem = new ArrayList<>();
         MemberEntryEntity memberEntryEntity = new MemberEntryEntity();

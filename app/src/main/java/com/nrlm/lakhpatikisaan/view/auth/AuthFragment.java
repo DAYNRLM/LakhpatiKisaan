@@ -1,6 +1,7 @@
 package com.nrlm.lakhpatikisaan.view.auth;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -154,7 +155,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 progressDialog.setMessage(getString(R.string.loading_heavy));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                String  imeiNo = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+                @SuppressLint("HardwareIds") String  imeiNo = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
                 String deviceInfo = AppUtils.getInstance().getDeviceInfo();
                 AppUtils.getInstance().showLog("imeiNoFinal" + imeiNo, AuthFragment.class);
@@ -179,7 +180,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
 
                     loginRequestBean.setImei_no(imeiNo);
 
-                 //   loginRequestBean.setImei_no("5d7eaa5ef9d3e");
+                 //   loginRequestBean.setImei_no("e7caddce4676291f");
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("12");
                   // String apploginTime=AppDateFactory.getInstance().getCurrentDateAndTime();
