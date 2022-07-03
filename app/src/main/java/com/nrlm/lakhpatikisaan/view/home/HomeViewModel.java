@@ -445,7 +445,24 @@ public class HomeViewModel extends ViewModel {
         return masterDataRepo.getAfterLastDate(memberCode);
     }
 
+public String getShgCount()
+{
+    return  masterDataRepo.getTotalShg();
+}
+public String getMemberCount()
+{
+    return masterDataRepo.getTotalMember();
+}
 
+public String getBeforeLocally()
+{
+    return masterDataRepo.getBeforeMemberSyncLocally();
+}
+
+public String getAfterLocally()
+{
+    return masterDataRepo.getAfterMemberSyncLOcally();
+}
 
 
 

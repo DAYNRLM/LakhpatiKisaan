@@ -112,6 +112,21 @@ public interface MasterDataDao {
     @Query("UPDATE masterdataentity SET aadhaar_verified_status = :status WHERE member_code =:memberCode ")
     void updateAadharStatus(String memberCode, String status);
 
+    @Query("select count(*) from (select distinct shg_code from MasterDataEntity)")
+    String getaTotalShg();
+
+    @Query("select count(*) from (select distinct member_code from MasterDataEntity)")
+    String getTotalMember();
+
+    @Query("select count(*) from (select distinct  shgCode from MemberEntryEntity where flagBeforeAfterNrlm ='B' and flagSyncStatus='0')")
+    String getLocalBeforeEntry();
+    @Query(" select count(*) from (select distinct shgCode from MemberEntryEntity where flagBeforeAfterNrlm ='A' and flagSyncStatus='0')")
+    String getLocalAfterEntry();
+
+
+
+
+
 
 }
 

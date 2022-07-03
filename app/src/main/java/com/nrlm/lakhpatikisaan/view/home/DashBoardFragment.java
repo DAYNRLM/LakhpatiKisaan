@@ -77,6 +77,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
 
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -116,6 +117,14 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
             }else {
                 NavDirections navDirections = DashBoardFragmentDirections.actionDashBoardFragmentToShgMemberFragment();
                 navController.navigate(navDirections);
+            }
+        });
+
+        binding.dashboardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections navDirectionFullDashboard=DashBoardFragmentDirections.actionDashBoardFragmentToFullDashboardFragment();
+                navController.navigate(navDirectionFullDashboard);
             }
         });
     }

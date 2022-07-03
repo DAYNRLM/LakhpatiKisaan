@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <ScrollView
             android:layout_marginBottom="@dimen/space_5dp"
             android:layout_above="@+id/btn_goToMember"
@@ -47,6 +48,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_20sp"
+                            android:id="@+id/dashboard_btn"
+                            android:text="Dashboard"/>
 
                         <TextView
                             android:id="@+id/tv_click"

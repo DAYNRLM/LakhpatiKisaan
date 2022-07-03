@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_dashBoardFragment_to_shgMemberFragment"
             app:destination="@id/shgMemberFragment" />
+        <action
+            android:id="@+id/action_dashBoardFragment_to_fullDashboardFragment"
+            app:destination="@id/fullDashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/shgMemberFragment"
@@ -66,4 +69,13 @@
         android:name="com.nrlm.lakhpatikisaan.view.home.ChangeLanguageFragment"
         android:label="Change Language"
         tools:layout="@layout/fragment_change_language" />
+    <fragment
+        android:id="@+id/fullDashboardFragment"
+        android:name="com.nrlm.lakhpatikisaan.view.home.FullDashboardFragment"
+        android:label="fragment_full_dashboard"
+        tools:layout="@layout/fragment_full_dashboard" >
+        <action
+            android:id="@+id/action_fullDashboardFragment_to_dashBoardFragment"
+            app:destination="@id/dashBoardFragment" />
+    </fragment>
 </navigation>
