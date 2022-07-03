@@ -614,6 +614,17 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
     }
 
     private void loadEntryList() {
+
+        MemberEntryEntity memberEntryEntity = new MemberEntryEntity();
+        memberEntryEntity.shgCode = shgCode;
+        memberEntryEntity.shgMemberCode = shgMemberCode;
+        if (entryYearCode.equalsIgnoreCase("2011")||entryYearCode.equalsIgnoreCase("2012")||entryYearCode.equalsIgnoreCase("2013")||entryYearCode.equalsIgnoreCase("2014")||entryYearCode.equalsIgnoreCase("2015")||entryYearCode.equalsIgnoreCase("2016")||entryYearCode.equalsIgnoreCase("2017")||entryYearCode.equalsIgnoreCase("2018")||entryYearCode.equalsIgnoreCase("2019")||entryYearCode.equalsIgnoreCase("2020")||entryYearCode.equalsIgnoreCase("2021")||entryYearCode.equalsIgnoreCase("2022")|| entryYearCode.equalsIgnoreCase("2023")||entryYearCode.equalsIgnoreCase("2024")||entryYearCode.equalsIgnoreCase("2025")||entryYearCode.equalsIgnoreCase("2026")||entryYearCode.equalsIgnoreCase("2027")||entryYearCode.equalsIgnoreCase("2028")||entryYearCode.equalsIgnoreCase("2029")||entryYearCode.equalsIgnoreCase("2030")||entryYearCode.equalsIgnoreCase("2031")||entryYearCode.equalsIgnoreCase("2032")||entryYearCode.equalsIgnoreCase("2033")){
+            memberEntryEntity.entryYearCode = entryYearCode;
+        }
+        else {
+            memberEntryEntity.entryYearCode = "2019";
+              }
+
         switch (entryMonthCode) {
             case "12":
                 entryMonthCode = "12";
@@ -661,12 +672,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
         }
 
-
-        //memberEntryDataItem = new ArrayList<>();
-        MemberEntryEntity memberEntryEntity = new MemberEntryEntity();
-        memberEntryEntity.shgCode = shgCode;
-        memberEntryEntity.shgMemberCode = shgMemberCode;
-        memberEntryEntity.entryYearCode = entryYearCode;
         memberEntryEntity.entryMonthCode = entryMonthCode;
         memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
         memberEntryEntity.sectorDate = sectorDate;

@@ -385,75 +385,88 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         MemberEntryEntity memberEntryEntity = new MemberEntryEntity();
         memberEntryEntity.shgCode = shgCode;
         memberEntryEntity.shgMemberCode = shgMemberCode;
-        memberEntryEntity.entryYearCode = entryYearCode;
-        switch (entryMonthCode) {
-            case "12":
-                entryMonthCode = "12";
-                break;
+        if (entryYearCode.equalsIgnoreCase("2022")|| entryYearCode.equalsIgnoreCase("2023")||entryYearCode.equalsIgnoreCase("2024")||entryYearCode.equalsIgnoreCase("2025")||entryYearCode.equalsIgnoreCase("2026")||entryYearCode.equalsIgnoreCase("2027")||entryYearCode.equalsIgnoreCase("2028")||entryYearCode.equalsIgnoreCase("2029")||entryYearCode.equalsIgnoreCase("2030")||entryYearCode.equalsIgnoreCase("2031")||entryYearCode.equalsIgnoreCase("2032")||entryYearCode.equalsIgnoreCase("2033")){
+            memberEntryEntity.entryYearCode = entryYearCode;
+            switch (entryMonthCode) {
+                case "12":
+                    entryMonthCode = "12";
+                    break;
 
-            case "11":
-                entryMonthCode = "11";
-                break;
+                case "11":
+                    entryMonthCode = "11";
+                    break;
 
-            case "10":
-                entryMonthCode = "10";
-                break;
+                case "10":
+                    entryMonthCode = "10";
+                    break;
 
-            case "9":
-                entryMonthCode = "9";
-                break;
+                case "9":
+                    entryMonthCode = "9";
+                    break;
 
-            case "8":
-                entryMonthCode = "8";
-                break;
+                case "8":
+                    entryMonthCode = "8";
+                    break;
 
-            case "7":
-                entryMonthCode = "7";
-                break;
-            case "6":
-                entryMonthCode = "6";
-                break;
-            case "5":
-                entryMonthCode = "5";
-                break;
-            case "4":
-                entryMonthCode = "4";
-                break;
-            case "3":
-                entryMonthCode = "3";
-                break;
-            case "2":
-                entryMonthCode = "2";
-                break;
-            case "1":
-                entryMonthCode = "1";
-                break;
-            default:
-                entryMonthCode = "1";
+                case "7":
+                    entryMonthCode = "7";
+                    break;
+                case "6":
+                    entryMonthCode = "6";
+                    break;
+                case "5":
+                    entryMonthCode = "5";
+                    break;
+                case "4":
+                    entryMonthCode = "4";
+                    break;
+                case "3":
+                    entryMonthCode = "3";
+                    break;
+                case "2":
+                    entryMonthCode = "2";
+                    break;
+                case "1":
+                    entryMonthCode = "1";
+                    break;
+                default:
+                    entryMonthCode = "1";
+
+            }
+
+            memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
+            memberEntryEntity.sectorDate = sectorDate;
+            memberEntryEntity.activityCode = activityCode;
+            memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
+            memberEntryEntity.incomeRangCode = incomeRangCode;
+            memberEntryEntity.flagBeforeAfterNrlm = AppConstant.afterNrlmStatus;
+
+            memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
+            memberEntryEntity.sectorName = sectorName;
+            memberEntryEntity.activityName = activityName;
+            memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
+            memberEntryEntity.incomeRangName = incomeRangName;
+            memberEntryEntity.monthName = entryMonthCode;
+
+            memberEntryEntity.seccNumber = "0";
+            memberEntryEntity.seccName = "";
+            memberEntryEntity.entryCompleteConfirmation = "1";
+
+            // memberEntryDataItem.add(memberEntryEntity);
+
+            viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
 
         }
-        memberEntryEntity.entryMonthCode = entryMonthCode;
-        memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
-        memberEntryEntity.sectorDate = sectorDate;
-        memberEntryEntity.activityCode = activityCode;
-        memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
-        memberEntryEntity.incomeRangCode = incomeRangCode;
-        memberEntryEntity.flagBeforeAfterNrlm = AppConstant.afterNrlmStatus;
-        memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
+        else {
+            DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please change Your phone language in English"
+                    , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+            );        }
 
-        memberEntryEntity.sectorName = sectorName;
-        memberEntryEntity.activityName = activityName;
-        memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
-        memberEntryEntity.incomeRangName = incomeRangName;
-        memberEntryEntity.monthName = entryMonthCode;
 
-        memberEntryEntity.seccNumber = "0";
-        memberEntryEntity.seccName = "";
-        memberEntryEntity.entryCompleteConfirmation = "1";
 
-        // memberEntryDataItem.add(memberEntryEntity);
 
-        viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
+
+
 
     }
 
