@@ -747,6 +747,48 @@ public class MasterDataRepo {
         }
         return str;
     }
+    public String getAfterDataFromServer(){
+        String str=null;
+
+        try{
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return masterDataDao.getServerAfterEntry();
+                }
+            };
+
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
+
+    public String getBeforeDataFromServer(){
+        String str=null;
+
+        try{
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return masterDataDao.getServerBeforeEntry();
+                }
+            };
+
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
+
     public String getAfterMemberSyncLOcally(){
         String str=null;
 

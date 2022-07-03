@@ -464,7 +464,14 @@ public String getAfterLocally()
     return masterDataRepo.getAfterMemberSyncLOcally();
 }
 
-
+public String getBeforeServerData()
+{
+    return  masterDataRepo.getBeforeDataFromServer();
+}
+public String getAfterDataFromServer()
+{
+    return  masterDataRepo.getAfterDataFromServer();
+}
 
     String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getMemberCount(shgCode);

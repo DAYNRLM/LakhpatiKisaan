@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,13 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
         binding.memberNumberTextview.setText(viewModel.getMemberCount());
         binding.syncBLocallyNumberTextview.setText(viewModel.getBeforeLocally());
         binding.syncALocallyNumberTextview.setText(viewModel.getAfterLocally());
+        binding.syncBOnlineNumberTextview.setText(viewModel.getBeforeServerData());
+        binding.syncAOnlineNumberTextview.setText(viewModel.getAfterDataFromServer());
+        int totalBeforeMemberLeft= Integer.parseInt( viewModel.getMemberCount()) -Integer.parseInt(viewModel.getBeforeServerData());
+        binding.totalBMemLeftTextview.setText(""+totalBeforeMemberLeft);
+
+        int totalAfterMemberLeft= Integer.parseInt( viewModel.getMemberCount()) -Integer.parseInt(viewModel.getAfterDataFromServer());
+        binding.totalAMemLeftTextview.setText(""+totalAfterMemberLeft);
     }
 
     @Override

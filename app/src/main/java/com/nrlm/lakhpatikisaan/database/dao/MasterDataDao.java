@@ -123,6 +123,11 @@ public interface MasterDataDao {
     @Query(" select count(*) from (select distinct shgCode from MemberEntryEntity where flagBeforeAfterNrlm ='A' and flagSyncStatus='0')")
     String getLocalAfterEntry();
 
+     @Query("select count(*) from(Select * from MasterDataEntity where last_entry_before_nrlm not null )")
+     String getServerBeforeEntry();
+
+    @Query("select count(*) from(Select * from MasterDataEntity where last_entry_after_nrlm not null )")
+    String getServerAfterEntry();
 
 
 
