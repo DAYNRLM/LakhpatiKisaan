@@ -387,7 +387,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.shgMemberCode = shgMemberCode;
         if (entryYearCode.equalsIgnoreCase("2022")|| entryYearCode.equalsIgnoreCase("2023")||entryYearCode.equalsIgnoreCase("2024")||entryYearCode.equalsIgnoreCase("2025")||entryYearCode.equalsIgnoreCase("2026")||entryYearCode.equalsIgnoreCase("2027")||entryYearCode.equalsIgnoreCase("2028")||entryYearCode.equalsIgnoreCase("2029")||entryYearCode.equalsIgnoreCase("2030")||entryYearCode.equalsIgnoreCase("2031")||entryYearCode.equalsIgnoreCase("2032")||entryYearCode.equalsIgnoreCase("2033")){
             memberEntryEntity.entryYearCode = entryYearCode;
-            switch (entryMonthCode) {
+          /*  switch (entryMonthCode) {
                 case "12":
                     entryMonthCode = "12";
                     break;
@@ -433,7 +433,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                     entryMonthCode = "1";
 
             }
-
+*/
             memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
             memberEntryEntity.sectorDate = sectorDate;
             memberEntryEntity.activityCode = activityCode;
@@ -446,7 +446,12 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             memberEntryEntity.activityName = activityName;
             memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
             memberEntryEntity.incomeRangName = incomeRangName;
-            memberEntryEntity.monthName = entryMonthCode;
+            if (entryMonthCode.equalsIgnoreCase("12")||entryMonthCode.equalsIgnoreCase("11")||entryMonthCode.equalsIgnoreCase("10")||entryMonthCode.equalsIgnoreCase("9")||entryMonthCode.equalsIgnoreCase("8")||entryMonthCode.equalsIgnoreCase("7")||entryMonthCode.equalsIgnoreCase("6")||entryMonthCode.equalsIgnoreCase("5")||entryMonthCode.equalsIgnoreCase("4")||entryMonthCode.equalsIgnoreCase("3")||entryMonthCode.equalsIgnoreCase("2")||entryMonthCode.equalsIgnoreCase("1")){
+                memberEntryEntity.entryMonthCode = "0"+entryMonthCode;
+            }
+            else {
+                memberEntryEntity.entryMonthCode = "01";
+            }
 
             memberEntryEntity.seccNumber = "0";
             memberEntryEntity.seccName = "";

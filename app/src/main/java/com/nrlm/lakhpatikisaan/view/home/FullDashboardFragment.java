@@ -42,8 +42,11 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
 
         binding.shgNumberTextview.setText(viewModel.getShgCount());
         binding.memberNumberTextview.setText(viewModel.getMemberCount());
-        binding.syncBLocallyNumberTextview.setText(viewModel.getBeforeLocally());
-        binding.syncALocallyNumberTextview.setText(viewModel.getAfterLocally());
+        int syncPending= Integer.parseInt( viewModel.getBeforeLocally()) +Integer.parseInt(viewModel.getAfterLocally());
+        int syncComplted= Integer.parseInt( viewModel.getAfterDataFromServer()) +Integer.parseInt(viewModel.getBeforeServerData());
+
+        binding.syncBLocallyNumberTextview.setText(syncComplted);
+        binding.syncALocallyNumberTextview.setText(syncPending);
         binding.syncBOnlineNumberTextview.setText(viewModel.getBeforeServerData());
         binding.syncAOnlineNumberTextview.setText(viewModel.getAfterDataFromServer());
         int totalBeforeMemberLeft= Integer.parseInt( viewModel.getMemberCount()) -Integer.parseInt(viewModel.getBeforeServerData());

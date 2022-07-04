@@ -15,7 +15,7 @@ android {
         targetSdkVersion 30
         versionCode 19
         versionName "3.3.0"
-        multiDexEnabled true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

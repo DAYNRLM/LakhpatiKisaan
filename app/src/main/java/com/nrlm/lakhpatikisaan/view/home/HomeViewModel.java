@@ -411,7 +411,6 @@ public class HomeViewModel extends ViewModel {
         return incomeName;
     }
 
-
     public void insertBeforeNrlmEntryData(MemberEntryEntity memberEntryDataItem) {
         masterDataRepo.insertBeforeNrlmEntry(memberEntryDataItem);
     }

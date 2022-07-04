@@ -618,14 +618,17 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         MemberEntryEntity memberEntryEntity = new MemberEntryEntity();
         memberEntryEntity.shgCode = shgCode;
         memberEntryEntity.shgMemberCode = shgMemberCode;
-        if (entryYearCode.equalsIgnoreCase("2011")||entryYearCode.equalsIgnoreCase("2012")||entryYearCode.equalsIgnoreCase("2013")||entryYearCode.equalsIgnoreCase("2014")||entryYearCode.equalsIgnoreCase("2015")||entryYearCode.equalsIgnoreCase("2016")||entryYearCode.equalsIgnoreCase("2017")||entryYearCode.equalsIgnoreCase("2018")||entryYearCode.equalsIgnoreCase("2019")||entryYearCode.equalsIgnoreCase("2020")||entryYearCode.equalsIgnoreCase("2021")||entryYearCode.equalsIgnoreCase("2022")|| entryYearCode.equalsIgnoreCase("2023")||entryYearCode.equalsIgnoreCase("2024")||entryYearCode.equalsIgnoreCase("2025")||entryYearCode.equalsIgnoreCase("2026")||entryYearCode.equalsIgnoreCase("2027")||entryYearCode.equalsIgnoreCase("2028")||entryYearCode.equalsIgnoreCase("2029")||entryYearCode.equalsIgnoreCase("2030")||entryYearCode.equalsIgnoreCase("2031")||entryYearCode.equalsIgnoreCase("2032")||entryYearCode.equalsIgnoreCase("2033")){
+        if (entryYearCode.equalsIgnoreCase("2011")||entryYearCode.equalsIgnoreCase("2012")||entryYearCode.equalsIgnoreCase("2013")||entryYearCode.equalsIgnoreCase("2014")||entryYearCode.equalsIgnoreCase("2015")||entryYearCode.equalsIgnoreCase("2016")||entryYearCode.equalsIgnoreCase("2017")||entryYearCode.equalsIgnoreCase("2018")||entryYearCode.equalsIgnoreCase("2019")||entryYearCode.equalsIgnoreCase("2020")||entryYearCode.equalsIgnoreCase("2021")||entryYearCode.equalsIgnoreCase("2022")|| entryYearCode.equalsIgnoreCase("2023")||entryYearCode.equalsIgnoreCase("2024")||entryYearCode.equalsIgnoreCase("2025")||entryYearCode.equalsIgnoreCase("2026")||entryYearCode.equalsIgnoreCase("2027")||entryYearCode.equalsIgnoreCase("2028")||entryYearCode.equalsIgnoreCase("2029")||entryYearCode.equalsIgnoreCase("2030")||entryYearCode.equalsIgnoreCase("2031")||entryYearCode.equalsIgnoreCase("2032")||entryYearCode.equalsIgnoreCase("2033")) {
             memberEntryEntity.entryYearCode = entryYearCode;
-        }
-        else {
-            memberEntryEntity.entryYearCode = "2019";
-              }
 
-        switch (entryMonthCode) {
+
+            if (entryMonthCode.equalsIgnoreCase("12") || entryMonthCode.equalsIgnoreCase("11") || entryMonthCode.equalsIgnoreCase("10") || entryMonthCode.equalsIgnoreCase("09") || entryMonthCode.equalsIgnoreCase("08") || entryMonthCode.equalsIgnoreCase("07") || entryMonthCode.equalsIgnoreCase("06") || entryMonthCode.equalsIgnoreCase("05") || entryMonthCode.equalsIgnoreCase("04") || entryMonthCode.equalsIgnoreCase("03") || entryMonthCode.equalsIgnoreCase("02")  || entryMonthCode.equalsIgnoreCase("01")) {
+                memberEntryEntity.entryMonthCode = entryMonthCode;
+            } else {
+
+                memberEntryEntity.entryMonthCode = "01";
+            }
+      /*  switch (entryMonthCode) {
             case "12":
                 entryMonthCode = "12";
                 break;
@@ -670,25 +673,31 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             default:
                 entryMonthCode = "01";
 
-        }
+        }*/
 
-        memberEntryEntity.entryMonthCode = entryMonthCode;
-        memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
-        memberEntryEntity.sectorDate = sectorDate;
-        memberEntryEntity.activityCode = activityCode;
-        memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
-        memberEntryEntity.incomeRangCode = incomeRangCode;
-        memberEntryEntity.flagBeforeAfterNrlm = AppConstant.beforeNrlmStatus;
-        memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
-        memberEntryEntity.sectorName = sectorName;
-        memberEntryEntity.activityName = activityName;
-        memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
-        memberEntryEntity.incomeRangName = incomeRangName;
-        memberEntryEntity.monthName = entryMonthCode;
-        memberEntryEntity.seccNumber = seccNumber;
-        memberEntryEntity.seccName = seccName;
-        memberEntryEntity.entryCompleteConfirmation = "0";
-        viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
+
+            memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
+            memberEntryEntity.sectorDate = sectorDate;
+            memberEntryEntity.activityCode = activityCode;
+            memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
+            memberEntryEntity.incomeRangCode = incomeRangCode;
+            memberEntryEntity.flagBeforeAfterNrlm = AppConstant.beforeNrlmStatus;
+            memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
+            memberEntryEntity.sectorName = sectorName;
+            memberEntryEntity.activityName = activityName;
+            memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
+            memberEntryEntity.incomeRangName = incomeRangName;
+            memberEntryEntity.monthName = entryMonthCode;
+            memberEntryEntity.seccNumber = seccNumber;
+            memberEntryEntity.seccName = seccName;
+            memberEntryEntity.entryCompleteConfirmation = "0";
+            viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
+        }
+        else {
+            DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please change Your phone language in English"
+                    , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+            );        }
+
     }
     private void loadActivityData(int id, String memberCode) {
         /****** tis selection based on condition on activity id*****/
