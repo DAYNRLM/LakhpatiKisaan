@@ -26,6 +26,7 @@ import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
+import com.nrlm.lakhpatikisaan.database.entity.MemberInActiveEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SeccEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.network.client.Result;
@@ -229,6 +230,7 @@ public class HomeViewModel extends ViewModel {
     private void updateAadharSyncStatus() {
         syncDataRepo.updateAadharSyncStatus();
     }
+
 
     public String checkSeccNumberInDb(String memberCode) throws ExecutionException, InterruptedException {
       return   syncDataRepo.checkSeccNumberInDb(memberCode);
@@ -458,19 +460,40 @@ public String getBeforeLocally()
     return masterDataRepo.getBeforeMemberSyncLocally();
 }
 
-public String getAfterLocally()
-{
-    return masterDataRepo.getAfterMemberSyncLOcally();
+
+public String getShgWhoseAllMemberCompleted(){
+
+        return masterDataRepo.getShgWhoseAllMemberComplted();
 }
+public String getshgWhoseAtleastOneMemberLeft(){
+
+        return masterDataRepo.getShgWhoseAtleastOneMemberLeft();
+}
+
 
 public String getBeforeServerData()
 {
     return  masterDataRepo.getBeforeDataFromServer();
 }
-public String getAfterDataFromServer()
-{
-    return  masterDataRepo.getAfterDataFromServer();
+public String getSurveyCompleted(){
+        return masterDataRepo.getMemberSurveyCompeted();
 }
+public String getSUrveyPending(){
+        return masterDataRepo.getMemberSurveyPending();
+}
+
+
+//MemberInActive database
+
+   /* String insertInActiveMember()
+    {
+        return syncDataRepo.in
+    }
+   String insertMemberCount(MemberInActiveEntity memberInActiveEntity) throws ExecutionException, InterruptedException {
+       return masterDataRepo.getMemberCount(memberInActiveEntity);
+   }
+
+*/
 
     String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getMemberCount(shgCode);

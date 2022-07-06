@@ -7,6 +7,11 @@
     <data>
 
     </data>
+    <ScrollView
+        android:layout_marginBottom="@dimen/space_5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +26,6 @@
             android:layout_gravity="center"
             android:text="Dashboard"
             android:textColor="@color/green_500"
-            android:layout_marginTop="20dp"
             android:textSize="50sp"
             android:textStyle="bold" />
 
@@ -215,7 +219,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/image_view21" />
 
                     <TextView
-                        android:id="@+id/sync_b_locally_number_textview"
+                        android:id="@+id/survey_completed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -277,7 +281,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/image_view22" />
 
                     <TextView
-                        android:id="@+id/sync_a_locally_number_textview"
+                        android:id="@+id/survey_pending"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -351,7 +355,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/image_view23" />
 
                     <TextView
-                        android:id="@+id/sync_b_online_number_textview"
+                        android:id="@+id/shg_whose_all_membercompleted"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -415,7 +419,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/image_view" />
 
                     <TextView
-                        android:id="@+id/sync_a_online_number_textview"
+                        android:id="@+id/shg_whose_one_membercompleted"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -489,7 +493,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/image_view2" />
 
                     <TextView
-                        android:id="@+id/total_b_mem_left_textview"
+                        android:id="@+id/Synced_server"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -552,7 +556,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/image_vie" />
 
                     <TextView
-                        android:id="@+id/total_a_mem_left_textview"
+                        android:id="@+id/sync_locally"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -580,6 +584,7 @@
             android:layout_marginTop="@dimen/space_15dp"
             android:textStyle="bold"/>
 
-
     </LinearLayout>
-</layout>
+</ScrollView>
+
+    </layout>

@@ -14,10 +14,13 @@ import com.nrlm.lakhpatikisaan.BuildConfig;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.dao.AadharDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
+import com.nrlm.lakhpatikisaan.database.dao.MemberInActiveDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.AadharDbBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ActivityDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberDataToCheckDup;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgAndMemberDataBean;
+import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
+import com.nrlm.lakhpatikisaan.database.entity.MemberInActiveEntity;
 import com.nrlm.lakhpatikisaan.network.client.ApiServices;
 import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
@@ -61,6 +64,7 @@ public class SyncDataRepo {
     private static SyncDataRepo instance = null;
     private MemberEntryDao memberEntryDao;
     private AadharDao aadharDao;
+    private MemberInActiveDao memberInActiveDao;
 
     private SyncDataRepo(ExecutorService executor, Context context) {
         this.executor = executor;
@@ -469,7 +473,16 @@ public class SyncDataRepo {
         });
 
     }
+// For MemberInActive Table
+private void insertMemberInActiveData(List<MemberInActiveEntity> memberInActiveEntityList) {
 
+    AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+        @Override
+        public void run() {
+            memberInActiveDao.insertAll(memberInActiveEntityList);
+        }
+    });
+}
 
 
     public String checkSeccNumberInDb(String memberCode) throws ExecutionException, InterruptedException {

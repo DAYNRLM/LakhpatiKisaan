@@ -18,7 +18,7 @@ import java.util.List;
 @Dao
 public interface MemberEntryDao {
 
-    @Insert
+   @Insert
     void insertAll(MemberEntryEntity memberEntryEntity);
 
     @Query("select * from MemberEntryEntity")

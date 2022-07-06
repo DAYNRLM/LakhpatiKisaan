@@ -118,7 +118,7 @@ public interface MasterDataDao {
     @Query("select count(*) from (select distinct member_code from MasterDataEntity)")
     String getTotalMember();
 
-    @Query("select count(*) from (select distinct  shgCode from MemberEntryEntity where flagBeforeAfterNrlm ='B' and flagSyncStatus='0')")
+    @Query("select count(*) from (select  shgMemberCode from MemberEntryEntity where flagSyncStatus='0')")
     String getLocalBeforeEntry();
     @Query(" select count(*) from (select distinct shgCode from MemberEntryEntity where flagBeforeAfterNrlm ='A' and flagSyncStatus='0')")
     String getLocalAfterEntry();
@@ -130,11 +130,18 @@ public interface MasterDataDao {
     String getServerAfterEntry();
 
 
+    @Query("select count(*) from (select distinct  shg_Code member_code from masterdataentity where  last_entry_after_nrlm not null and last_entry_before_nrlm not null)")
+    String getWhoseAllMemberCompleted();
+
+    @Query("select count(*) from (select distinct  shg_Code from masterdataentity where  last_entry_after_nrlm is  null and last_entry_before_nrlm is null)")
+    String getWhoseAtleastOneMemberLeft();
 
 
+    @Query("select count(*) from(Select distinct member_code from MasterDataEntity where last_entry_before_nrlm not null and last_entry_after_nrlm not null )")
+    String getSurveyCompleted();
 
-
-
+    @Query("select count(*) from(Select distinct member_code from MasterDataEntity where last_entry_after_nrlm is NULL )")
+    String getSurveyPending();
 
 }
 

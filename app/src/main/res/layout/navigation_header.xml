@@ -18,7 +18,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/manrope_semi_bold"
-            android:text="SHG Name"
+            android:text="HelpLine"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:fontFamily="@font/manrope_regular"
-            android:text="9812343583"
+            android:text="9812290027"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="@color/white" />
 

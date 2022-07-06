@@ -24,6 +24,7 @@ public class PreferenceKeyManager {
     private static final String RandomOtp="genratedOtp";
     private static final String PREF_KEY_MPIN= "prfMPIN";
     private static final String PREF_KEY_LOGIN_DONE = "Longin";
+    private static final String PREF_KEY_Time_For_InActive = "InActive";
     private static final String PREF_LANGUAGE_CODE="langCode";
     private static final String PREF_LANGUAGE_ID="langId";
     private static final String PREF_FRGT_PASS="frgtpassword";
@@ -116,7 +117,9 @@ public class PreferenceKeyManager {
         return PREF_KEY_LOGIN_DONE;
     }
 
-
+    public static String getTimeForInActive() {
+        return PREF_KEY_Time_For_InActive;
+    }
 
 
 

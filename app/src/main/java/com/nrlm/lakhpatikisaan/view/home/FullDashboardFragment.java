@@ -1,5 +1,7 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -8,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,21 +42,17 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.getHomeViewModelRepos(getCurrentContext());
-
         binding.shgNumberTextview.setText(viewModel.getShgCount());
         binding.memberNumberTextview.setText(viewModel.getMemberCount());
-        int syncPending= Integer.parseInt( viewModel.getBeforeLocally()) +Integer.parseInt(viewModel.getAfterLocally());
-        int syncComplted= Integer.parseInt( viewModel.getAfterDataFromServer()) +Integer.parseInt(viewModel.getBeforeServerData());
+        binding.SyncedServer.setText(viewModel.getBeforeServerData());
+        binding.syncLocally.setText(viewModel.getBeforeLocally());
+        int surveyShgAllCompleted = Integer.parseInt(viewModel.getShgCount()) -Integer.parseInt(viewModel.getshgWhoseAtleastOneMemberLeft());
+        String s = String.valueOf(surveyShgAllCompleted);
+        binding.shgWhoseAllMembercompleted.setText(s);
+        binding.shgWhoseOneMembercompleted.setText(viewModel.getshgWhoseAtleastOneMemberLeft());
+        binding.surveyCompleted.setText(viewModel.getSurveyCompleted());
+        binding.surveyPending.setText(viewModel.getSUrveyPending());
 
-        binding.syncBLocallyNumberTextview.setText(syncComplted);
-        binding.syncALocallyNumberTextview.setText(syncPending);
-        binding.syncBOnlineNumberTextview.setText(viewModel.getBeforeServerData());
-        binding.syncAOnlineNumberTextview.setText(viewModel.getAfterDataFromServer());
-        int totalBeforeMemberLeft= Integer.parseInt( viewModel.getMemberCount()) -Integer.parseInt(viewModel.getBeforeServerData());
-        binding.totalBMemLeftTextview.setText(""+totalBeforeMemberLeft);
-
-        int totalAfterMemberLeft= Integer.parseInt( viewModel.getMemberCount()) -Integer.parseInt(viewModel.getAfterDataFromServer());
-        binding.totalAMemLeftTextview.setText(""+totalAfterMemberLeft);
     }
 
     @Override

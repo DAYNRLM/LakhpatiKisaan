@@ -15,6 +15,7 @@ import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
 
+import com.nrlm.lakhpatikisaan.database.dao.MemberInActiveDao;
 import com.nrlm.lakhpatikisaan.database.dao.SeccDao;
 import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
@@ -83,6 +84,7 @@ public class MasterDataRepo {
     private ActivityDao activityDao;
     private FrequencyDao frequencyDao;
     private IncomeRangeDao incomeRangeDao;
+    private MemberInActiveDao memberInActiveDao;
     private MemberEntryDao memberEntryDao;
     private SeccDao seccDao;
     private AadharDao aadharDao;
@@ -563,6 +565,7 @@ public class MasterDataRepo {
             public List<MemberListDataBean> call() throws Exception {
                 AppUtils.getInstance().showLog("memberListMasterData" + masterDataDao.getMemberListData(shgCode).size(), MasterDataRepo.class);
                 return masterDataDao.getMemberListData(shgCode);
+
             }
         };
         Future<List<MemberListDataBean>> future = Executors.newSingleThreadExecutor().submit(listCallable);
@@ -756,6 +759,90 @@ public class MasterDataRepo {
                 public String call() throws Exception {
                     //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
                     return masterDataDao.getServerAfterEntry();
+                }
+            };
+
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
+
+    public String getShgWhoseAllMemberComplted(){
+        String str=null;
+
+        try{
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return masterDataDao.getWhoseAllMemberCompleted();
+                }
+            };
+
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
+
+    public String getShgWhoseAtleastOneMemberLeft(){
+        String str=null;
+
+        try{
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return masterDataDao.getWhoseAtleastOneMemberLeft();
+                }
+            };
+
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
+
+    public String getMemberSurveyCompeted(){
+        String str=null;
+
+        try{
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return masterDataDao.getSurveyCompleted();
+                }
+            };
+
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
+
+    public String getMemberSurveyPending(){
+        String str=null;
+
+        try{
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return masterDataDao.getSurveyPending();
                 }
             };
 

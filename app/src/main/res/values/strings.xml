@@ -126,11 +126,16 @@
     by
     lincon
     <string name="dialog_sign_out_title">Confirm Sign Out</string>
+    <string name="dialog_InActive_title" translatable="false">Confirm InActive</string>
     <string name="dialog_sign_out_msg">You are signing out of your app on this device.</string>
     <string name="dialog_btn_signout">sign out</string>
+    <string name="dialog_btn_InActive" translatable="false">InActive</string>
+    <string name="dialog_toast_InActive" translatable="false">Successfully InActive</string>/
+    <string name="dialog_inActive" translatable="false">Are you Sure</string>
     <string name="toast_success_sign_out">Successfully SignOut</string>
     <string name="dialog_cancel_btn">cancel</string>
     <string name="entry_complete_msg">Entries completed</string>
+    <string name="member_is_InActive" translatable="false">Member Is InActive Please Do Active First</string>
     <string name="select_clf">Select CLF</string>
     <string name="select_vo">Select VO</string>
     <string name="select_block">Select Block</string>

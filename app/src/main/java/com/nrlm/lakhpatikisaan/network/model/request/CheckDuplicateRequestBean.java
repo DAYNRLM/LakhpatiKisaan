@@ -6,7 +6,6 @@ public class CheckDuplicateRequestBean implements Serializable {
 
 
     private String state_short_name;
-
     private String login_id;
     private String imei_no;
     private String device_name;

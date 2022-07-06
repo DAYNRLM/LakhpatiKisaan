@@ -194,6 +194,7 @@
                             android:textColor="@color/red_500"
                             android:textSize="@dimen/text_16sp"
                             />
+
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -202,7 +203,17 @@
                             android:layout_weight=".3"/>
 
                     </LinearLayout>
+                   <Spinner
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:id="@+id/active_spinner"
+                       android:layout_gravity="end"
+                       android:text="Active"
 
+
+
+
+                       />
                 </LinearLayout>
 
 
