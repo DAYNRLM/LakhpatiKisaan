@@ -7,6 +7,7 @@ import androidx.room.Query;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ClfDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.InActiveMember;
 import com.nrlm.lakhpatikisaan.database.dbbean.LgdVillageCode;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
@@ -29,7 +30,7 @@ public interface MasterDataDao {
 
     /*322249*/
 
-    @Query("select  shg_code,member_code,member_name,last_entry_before_nrlm,last_entry_after_nrlm,aadhaar_verified_status from MasterDataEntity where shg_code=:shgCode   order by last_entry_before_nrlm is not null , last_entry_after_nrlm is not null")
+    @Query("select  shg_code,member_code,member_name,last_entry_before_nrlm,last_entry_after_nrlm,aadhaar_verified_status,status from MasterDataEntity where shg_code=:shgCode   order by last_entry_before_nrlm is not null , last_entry_after_nrlm is not null")
     List<MemberListDataBean> getMemberListData(String shgCode);
 
     /*3120002*/
@@ -49,6 +50,8 @@ public interface MasterDataDao {
 
     @Query("select distinct shg_name from MasterDataEntity where shg_code=:shgCode")
     String getShgNameDB(String shgCode);
+
+
 
     @Query("select distinct member_joining_date from MasterDataEntity where member_code=:memberCode")
     String getMemberJoiningDate(String memberCode);
@@ -75,6 +78,9 @@ public interface MasterDataDao {
 
     @Query("select distinct lgd_village_code from masterdataentity")
     List<LgdVillageCode> getLgdVillageCodes();
+    @Query("select distinct shg_code, member_code village_code  from masterdataentity where status is 'InActive'")
+    List<InActiveMember> getInActiveMember();
+
 
     @Query("select member_joining_date from MasterDataEntity where member_code=:memberCode")
     String getMemberDOJ(String memberCode);
@@ -128,10 +134,16 @@ public interface MasterDataDao {
 
     @Query("select count(*) from(Select * from MasterDataEntity where last_entry_after_nrlm not null )")
     String getServerAfterEntry();
+    @Query("update masterdataentity set status = :status where member_code = :memberCode")
+    void setStatus(String status ,String memberCode);
 
 
     @Query("select count(*) from (select distinct  shg_Code member_code from masterdataentity where  last_entry_after_nrlm not null and last_entry_before_nrlm not null)")
     String getWhoseAllMemberCompleted();
+
+    @Query("select count(*) from( select distinct member_code from MasterDataEntity where member_code =:memberCode and  (clf_code is   null or vo_code is  null))")
+    String getMemberIsNotInClfAndVo(String memberCode);
+
 
     @Query("select count(*) from (select distinct  shg_Code from masterdataentity where  last_entry_after_nrlm is  null and last_entry_before_nrlm is null)")
     String getWhoseAtleastOneMemberLeft();

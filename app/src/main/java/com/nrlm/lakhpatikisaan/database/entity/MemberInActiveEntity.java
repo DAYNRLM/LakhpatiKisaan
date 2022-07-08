@@ -1,6 +1,7 @@
 package com.nrlm.lakhpatikisaan.database.entity;
 
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "memberInActive")
 public class MemberInActiveEntity {
@@ -24,10 +25,29 @@ public class MemberInActiveEntity {
     public String getTime_Stamp() {
         return time_Stamp;
     }
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     private String memberCode;
     private String  shgCode ;
     private String  villageCode ;
+    private String  newT ;
+
+    public String getNewT() {
+        return newT;
+    }
+
+    public void setNewT(String newT) {
+        this.newT = newT;
+    }
 
     public void setMemberCode(String memberCode) {
         this.memberCode = memberCode;

@@ -15,7 +15,26 @@ public class MemberListDataBean {
     private String lastFilledAfterNrlmEntry;
     @ColumnInfo(name = "aadhaar_verified_status")
     private String aadhaar_verified_status;
+    @ColumnInfo(name = "status")
+    private String status;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+/* @ColumnInfo(name = "status_active")
+    private String status_active;
+
+    public String getStatus_active() {
+        return status_active;
+    }
+
+    public void setStatus_active(String status_active) {
+        this.status_active = status_active;
+    }*/
 
     public String getAadhaar_verified_status() {
 

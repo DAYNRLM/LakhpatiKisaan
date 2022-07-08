@@ -163,6 +163,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="shg_alloted" translatable="false">SHG\'s Alloted</string>
+    <string name="dialog_toast_active">Member activated successfully</string>
 
 
 </resources>

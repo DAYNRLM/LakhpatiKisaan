@@ -13,8 +13,6 @@ public interface MemberInActiveDao {
     @Insert
     void insertAll(List<MemberInActiveEntity> memberInActiveEntities);
 
-    @Query("delete from MemberInActiveEntity")
-    void deleteAll();
 
 }
 

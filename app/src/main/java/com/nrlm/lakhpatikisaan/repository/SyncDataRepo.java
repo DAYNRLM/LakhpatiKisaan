@@ -18,6 +18,7 @@ import com.nrlm.lakhpatikisaan.database.dao.MemberInActiveDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.AadharDbBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ActivityDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberDataToCheckDup;
+import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgAndMemberDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberInActiveEntity;
@@ -26,6 +27,7 @@ import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.network.client.ServiceCallback;
 import com.nrlm.lakhpatikisaan.network.model.request.CheckDuplicateRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.MemberInActiveRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.CheckDuplicateResponseBean;
 import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
@@ -177,6 +179,57 @@ public class SyncDataRepo {
             }
         });
     }
+    public void makeMemberInActiveRequest(final MemberInActiveRequestBean memberInActiveRequestBean,
+                                          final RepositoryCallback repositoryCallback) {
+        JsonObject encryptedObject =new JsonObject();
+        try {
+            Cryptography cryptography = new Cryptography();
+            Gson gson=new Gson();
+            String logreq=gson.toJson(memberInActiveRequestBean );
+            AppUtils.getInstance().showLog("Sinal Data"+logreq,SyncDataRepo.class);
+
+            encryptedObject.addProperty("data",cryptography.encrypt(logreq));
+
+
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                callInactiveMemberApi(encryptedObject, new ServiceCallback<Result>() {
+                    @Override
+                    public void success(Result<Result> successResponse) {
+                        /*update the db*/
+                        repositoryCallback.onComplete(successResponse);
+                    }
+
+                    @Override
+                    public void error(Result<Result> errorResponse) {
+                        repositoryCallback.onComplete(errorResponse);
+                    }
+                });
+            }
+        });
+    }
+
+
 
 
     private void callCheckDuplicateDataApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
@@ -316,6 +369,79 @@ public class SyncDataRepo {
         });
     }
 
+    private void callInactiveMemberApi(final JsonObject encryptedObject, final ServiceCallback<Result> serviceCallback) {
+
+        ApiServices apiServices = RetrofitClient.getApiServices();
+        Call<JsonObject> call = (Call<JsonObject>) apiServices.inActiveApi(encryptedObject);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+
+                if (response.isSuccessful()) {
+                    JSONObject jsonObject = null;
+
+                    String objectResponse="";
+                    JSONObject encryptedData=null;
+                    String getEncrypted="";
+                    try {
+                        getEncrypted=  response.body().getAsJsonObject().getAsJsonPrimitive("data").getAsString();
+                    }catch (JsonParseException e)
+                    {
+                        AppUtils.getInstance().showLog("errorInSyncDataApi"+e,SyncDataRepo.class);
+                    }
+
+
+
+
+
+
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        try {
+                            Cryptography cryptography = new Cryptography();
+                            jsonObject = new JSONObject(cryptography.decrypt(getEncrypted)); //Main data of state
+
+                            AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
+                        } catch (Exception e) {
+                            AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                        }
+                    }
+                    String code="";
+                    JSONObject errorObj=null;
+                    try {
+                        code = jsonObject.getJSONObject("error").getString("code");
+                        errorObj=jsonObject.getJSONObject("error");
+
+                    }catch (JSONException e)
+                    {
+                        AppUtils.getInstance().showLog(""+e,LoginRepo.class);
+                    }
+                    AppUtils.getInstance().showLog("SyncEntriesDataResponse" + response.toString(), SyncDataRepo.class);
+
+                    if (response.body() == null || response.code() == 204) { // 204 is empty response
+                        serviceCallback.error(new Result.Error(new Throwable("Getting NULL response")));
+                    } else if (!code.equalsIgnoreCase("E200")) {
+                        SimpleResponseBean.Error error = new Gson().fromJson(errorObj.toString(), SimpleResponseBean.Error.class);
+                        serviceCallback.error(new Result.Error(error));
+                    } else {
+                        SimpleResponseBean simpleResponseBean = new Gson().fromJson(jsonObject.toString(), SimpleResponseBean.class);
+                        serviceCallback.success(new Result.Success(simpleResponseBean));
+                    }
+
+                } else {
+                    serviceCallback.error(new Result.Error(new Throwable(response.code() + " " + response.message())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                AppUtils.getInstance().showLog("FailureFromServer" + t.toString(), MasterDataRepo.class);
+                serviceCallback.error(new Result.Error(t));
+            }
+        });
+    }
+
+
     public List<MemberDataToCheckDup> getDataToCheckDuplicate(String entryCompleteConfirmation) throws ExecutionException, InterruptedException {
 
         Callable<List<MemberDataToCheckDup>> callable = new Callable<List<MemberDataToCheckDup>>() {
@@ -452,6 +578,90 @@ public class SyncDataRepo {
        // AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + syncEntriesRequestBean.toString(), SyncDataRepo.class);
         return syncEntriesRequestBean;
     }
+
+
+  /*  public MemberInActiveRequestBean getMemberInActive(String loginId, String imeiNo
+            , String deviceName, String locationCoordinates, String stateShortName, String app_version) {
+        MemberInActiveRequestBean memberInActiveRequestBean = new MemberInActiveRequestBean();
+        try {
+           List<MemberListDataBean> memberListDataBeans = getDistinctShgAndMemberToSync(entryCompleteConfirmation);
+            List<MemberInActiveRequestBean.InactiveMemSync> memSyncList = new ArrayList<>();
+
+            memberInActiveRequestBean.setLogin_id(loginId);
+            memberInActiveRequestBean.setImei_no(imeiNo);
+            memberInActiveRequestBean.setDevice_name(deviceName);
+            memberInActiveRequestBean.setLocation_coordinate(locationCoordinates);
+            memberInActiveRequestBean.setState_short_name(stateShortName);
+            memberInActiveRequestBean.setApp_version(BuildConfig.VERSION_NAME);
+
+
+            for (MemberInActiveRequestBean memberInActiveRequestBean1 : shgAndMemberDataBeanList) {
+                List<ActivityDataBean> activityDataBeanList = null ;
+                AadharDbBean aadharDbBean=null;
+
+                try {
+                            activityDataBeanList = getActivityData(shgAndMemberDataBean.getShgCode(), shgAndMemberDataBean.getMemberCode(), entryCompleteConfirmation);
+                    aadharDbBean=getAadharDetails(shgAndMemberDataBean.getMemberCode());
+
+                }  catch (Exception e) {
+                    AppUtils.getInstance().showLog("ExcpGetActivityDataSync" + e, SyncDataRepo.class);
+                }
+                SyncEntriesRequestBean.SyncEntry syncEntry = new SyncEntriesRequestBean.SyncEntry();
+                syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
+                syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
+                if (shgAndMemberDataBean.getSecc().equalsIgnoreCase("")) {
+
+                    syncEntry.setSecc("0");
+
+                }
+                else
+                    syncEntry.setSecc(shgAndMemberDataBean.getSecc());
+
+                if (aadharDbBean==null || activityDataBeanList!=null &&
+                        activityDataBeanList.get(0).getFlag_before_after_nrlm().equalsIgnoreCase("A") ){
+                    syncEntry.setName_as_per_aadhaar("");
+                    syncEntry.setEncrypted_aadhaar("");
+                    syncEntry.setAadhaar_verified_status("");
+
+                }else {
+                    syncEntry.setName_as_per_aadhaar(aadharDbBean.getAadharName());
+                    syncEntry.setEncrypted_aadhaar(aadharDbBean.getAadharNumber());
+                    syncEntry.setAadhaar_verified_status(aadharDbBean.getAadharVerifiedStatus());
+                }
+
+
+                List<SyncEntriesRequestBean.ActivityData> activityDataList = new ArrayList<>();
+
+                for (ActivityDataBean activityDataBean : activityDataBeanList) {
+                    SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
+                    activityData.setActivity_code(activityDataBean.getActivity_code());
+                    activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
+                    activityData.setEntry_month(activityDataBean.getEntry_month());
+                    activityData.setEntry_year(activityDataBean.getEntry_year());
+                    activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
+                    activityData.setFrequency_code(activityDataBean.getFrequency_code());
+                    activityData.setRange_code(activityDataBean.getRange_code());
+
+                    activityData.setSector_code(activityDataBean.getSector_code());
+
+                    activityDataList.add(activityData);
+                }
+                syncEntry.setActivities_data_sync(activityDataList);
+
+                syncEntryList.add(syncEntry);
+            }
+            syncEntriesRequestBean.setNrlm_entry_sync(syncEntryList);
+            String data=  new Gson().toJson(syncEntryList).toString();
+            AppUtils.getInstance().showLog(data,SyncDataRepo.class);
+
+        } catch (Exception e) {
+            AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + e, SyncDataRepo.class);
+        }
+        // AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + syncEntriesRequestBean.toString(), SyncDataRepo.class);
+        return syncEntriesRequestBean;
+    }
+
+*/
 
     public void updateSyncStatus() {
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {

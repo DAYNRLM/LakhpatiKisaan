@@ -17,7 +17,9 @@ import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
 import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.LoginInfoDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
+import com.nrlm.lakhpatikisaan.database.dao.MemberActiveDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
+import com.nrlm.lakhpatikisaan.database.dao.MemberInActiveDao;
 import com.nrlm.lakhpatikisaan.database.dao.SeccDao;
 import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
 import com.nrlm.lakhpatikisaan.database.entity.AadhaarEntity;
@@ -27,7 +29,9 @@ import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
 import com.nrlm.lakhpatikisaan.database.entity.LoginInfoEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
+import com.nrlm.lakhpatikisaan.database.entity.MemberActiveEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
+import com.nrlm.lakhpatikisaan.database.entity.MemberInActiveEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SeccEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
 import com.nrlm.lakhpatikisaan.database.entity.TempEntryBeforeNrlmEntity;
@@ -38,7 +42,7 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {MemberEntryEntity.class,
         TempEntryBeforeNrlmEntity.class, LoginInfoEntity.class, MasterDataEntity.class, SectorEntity.class,
-        ActivityEntity.class, FrequencyEntity.class, IncomeRangeEntity.class, CheckDeleteShgEntity.class, SeccEntity.class, AadhaarEntity.class}
+        ActivityEntity.class, FrequencyEntity.class, IncomeRangeEntity.class, CheckDeleteShgEntity.class, SeccEntity.class, AadhaarEntity.class, MemberActiveEntity.class, MemberInActiveEntity.class}
         , version = 7, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -59,6 +63,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CheckDeleteShgDao getCheckDeleteShgDao();
     public abstract SeccDao getSeccDao();
     public abstract AadharDao getAadharDao();
+    public abstract MemberInActiveDao getMemberInActiveDao();
+    public abstract MemberActiveDao getMemberActiveDao();
 
     public static AppDatabase getDatabase(final Context context) {
         if (instance == null) {

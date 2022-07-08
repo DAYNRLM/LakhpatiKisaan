@@ -32,6 +32,9 @@
             app:destination="@id/incomeEntryAfterNrlmFragment"
             app:popUpTo="@id/incomeEntryAfterNrlmFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_shgMemberFragment_self"
+            app:destination="@id/shgMemberFragment" />
     </fragment>
     <fragment
         android:id="@+id/memberEntryFragment"

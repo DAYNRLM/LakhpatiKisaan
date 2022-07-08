@@ -13,6 +13,7 @@ import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
 import com.nrlm.lakhpatikisaan.database.dao.FrequencyDao;
 import com.nrlm.lakhpatikisaan.database.dao.IncomeRangeDao;
 import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
+import com.nrlm.lakhpatikisaan.database.dao.MemberActiveDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
 
 import com.nrlm.lakhpatikisaan.database.dao.MemberInActiveDao;
@@ -30,6 +31,7 @@ import com.nrlm.lakhpatikisaan.database.entity.ActivityEntity;
 import com.nrlm.lakhpatikisaan.database.entity.FrequencyEntity;
 import com.nrlm.lakhpatikisaan.database.entity.IncomeRangeEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
+import com.nrlm.lakhpatikisaan.database.entity.MemberActiveEntity;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SeccEntity;
 import com.nrlm.lakhpatikisaan.database.entity.SectorEntity;
@@ -80,6 +82,7 @@ public class MasterDataRepo {
     private static MasterDataRepo instance = null;
     private Context context;
     private MasterDataDao masterDataDao;
+    private MemberActiveDao memberActiveDao;
     private SectorDao sectorDao;
     private ActivityDao activityDao;
     private FrequencyDao frequencyDao;
@@ -129,7 +132,7 @@ public class MasterDataRepo {
                                         , masterData.getGp_name(), masterData.getVillage_code(), masterData.getVillage_name(), masterData.getShg_name(), masterData.getShg_code(),
                                         masterData.getMember_code(), masterData.getMember_name(), masterData.getClf_code(), masterData.getClf_name(), masterData.getVo_code(),
                                         masterData.getVo_name(), masterData.getMember_joining_date(), masterData.getLast_entry_after_nrlm(), masterData.getLast_entry_before_nrlm(),
-                                        masterData.getSecc_no_flag(), masterData.getLgd_village_code(),masterData.getAadhaar_verified_status(),masterData.getGender());
+                                        masterData.getSecc_no_flag(), masterData.getLgd_village_code(),masterData.getAadhaar_verified_status(),masterData.getGender(),"Active");
 
                                 masterDataEntityList.add(masterDataEntity);
                             }
@@ -521,6 +524,15 @@ public class MasterDataRepo {
             }
         });
     }
+    private void insertActivity(List<MemberActiveEntity> memberActiveEntityList) {
+
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                memberActiveDao.insertAll(memberActiveEntityList);
+            }
+        });
+    }
 
     private void insertSector(SectorEntity sectorEntity) {
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
@@ -770,6 +782,14 @@ public class MasterDataRepo {
         }
         return str;
     }
+    public void setStatus(String status,String memberCode){
+       AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+           @Override
+           public void run() {
+               masterDataDao.setStatus(status,memberCode);
+           }
+       });
+    }
 
     public String getShgWhoseAllMemberComplted(){
         String str=null;
@@ -791,6 +811,30 @@ public class MasterDataRepo {
         }
         return str;
     }
+
+
+    public String getMemberIsNotInClfAndVo(String memberCode){
+        String str=null;
+
+        try{
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return masterDataDao.getMemberIsNotInClfAndVo(memberCode);
+                }
+            };
+
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
+
+
 
     public String getShgWhoseAtleastOneMemberLeft(){
         String str=null;
@@ -942,6 +986,8 @@ public class MasterDataRepo {
         Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
         return future.get();
     }
+
+
 
     public String getAfterEntryMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         Callable<String> listCallable = new Callable<String>() {

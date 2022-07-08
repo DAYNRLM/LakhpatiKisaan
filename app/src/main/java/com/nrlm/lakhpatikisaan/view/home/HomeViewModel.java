@@ -33,6 +33,7 @@ import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.model.AadharPojo;
 import com.nrlm.lakhpatikisaan.network.model.request.CheckDuplicateRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.MemberInActiveRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SeccRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SyncEntriesRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.CheckDuplicateResponseBean;
@@ -218,6 +219,64 @@ public class HomeViewModel extends ViewModel {
 
     }
 
+
+
+  /*  private void makeInActiveMemberEntry(String loginId,  String imeiNo
+            , String deviceName, String locationCoordinates, String stateShortName) {
+        MemberInActiveRequestBean memberInActiveRequestBean = syncDataRepo.ge(loginId,  imeiNo, deviceName, locationCoordinates,stateShortName);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (memberInActiveRequestBean.getNrlm_member_inactivate() != null && memberInActiveRequestBean.getNrlm_member_inactivate().size() != 0) {
+                    syncDataRepo.makeMemberInActiveRequest(memberInActiveRequestBean, new RepositoryCallback() {
+                        @Override
+                        public void onComplete(Result result) {
+                            try {
+                                if (result instanceof Result.Success) {
+                                    SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
+
+                                    *//*update sync status in member entry table*//*
+                                    syncApiStatus="E200";
+
+                                    updateSyncStatus();
+
+                                    updateAadharSyncStatus();
+
+                                    AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "DataSync and status updated successfully-" +
+                                            simpleResponseBean.getError().getMessage(), HomeViewModel.class);
+                                } else {
+                                    Object errorObject = ((Result.Error) result).exception;
+                                    if (errorObject != null) {
+                                        if (errorObject instanceof SimpleResponseBean.Error) {
+                                            SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
+                                            syncApiStatus=responseError.getCode();
+                                            AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
+                                                    + responseError.getMessage(), AuthViewModel.class);
+                                        } else if (errorObject instanceof Throwable) {
+                                            Throwable exception = (Throwable) errorObject;
+                                            syncApiStatus=exception.getMessage();
+                                            AppUtils.getInstance().showLog("SyncEntriesRetrofitErrors:-------" + exception.getMessage()
+                                                    , AuthViewModel.class);
+                                        }
+                                    }
+                                }
+                            } catch (Exception e) {
+                                syncApiStatus=e.getMessage();
+                                AppUtils.getInstance().showLog("SyncEntriesResultExp" + e.toString(), AuthViewModel.class);
+
+                            }
+                        }
+                    });
+                }
+            }
+        },1000);
+
+
+    }
+
+
+*/
     public String getSyncApiStatus(){
         return syncApiStatus;
     }
@@ -459,7 +518,9 @@ public String getBeforeLocally()
 {
     return masterDataRepo.getBeforeMemberSyncLocally();
 }
-
+public void setStatus(String status,String memberCode){
+         masterDataRepo.setStatus(status,memberCode);
+}
 
 public String getShgWhoseAllMemberCompleted(){
 
@@ -469,6 +530,11 @@ public String getshgWhoseAtleastOneMemberLeft(){
 
         return masterDataRepo.getShgWhoseAtleastOneMemberLeft();
 }
+
+    public String getMemberIsNotInClfAndVo(String memberCode){
+        return masterDataRepo.getMemberIsNotInClfAndVo(memberCode);
+    }
+
 
 
 public String getBeforeServerData()
@@ -502,6 +568,7 @@ public String getSUrveyPending(){
     String getBeforeEntryMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getBeforeEntryMemberCount(shgCode);
     }
+
 
     String getAfterEntryMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getAfterEntryMemberCount(shgCode);
@@ -582,7 +649,6 @@ public String getSUrveyPending(){
         }
 
     }
-
     String getMemberDOJ(String memberCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getMemberDoj(memberCode);
     }

@@ -54,4 +54,8 @@ public interface ApiServices {
     @POST("seccdata")
     Call<JsonObject> seccDataApi(@Body JsonObject seccRequestBean);
 
+    @POST("inactivememberdata")
+    Call<JsonObject> inActiveApi(@Body JsonObject seccRequestBean);
+
+
 }

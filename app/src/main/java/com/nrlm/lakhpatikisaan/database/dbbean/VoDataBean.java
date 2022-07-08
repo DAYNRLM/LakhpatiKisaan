@@ -8,6 +8,7 @@ public class VoDataBean {
     @ColumnInfo(name = "vo_name")
     private String vo_name;
 
+
     public String getVo_code() {
         return vo_code;
     }

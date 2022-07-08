@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.database.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -8,15 +9,45 @@ public class MasterDataEntity {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String block_name,block_code,gp_code,gp_name,village_code,village_name,shg_name,shg_code,member_code,member_name
-            ,clf_code,clf_name,vo_code,vo_name,member_joining_date,last_entry_after_nrlm,last_entry_before_nrlm,secc_no_flag,lgd_village_code,aadhaar_verified_status,gender;
+    private String block_name;
+    private String block_code;
+    private String gp_code;
+    private String gp_name;
+    private String village_code;
+    private String village_name;
+    private String shg_name;
+    private String shg_code;
+    private String member_code;
+    private String member_name;
+    private String clf_code;
+    private String clf_name;
+    private String vo_code;
+    private String vo_name;
+    private String member_joining_date;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    @ColumnInfo(name = "status")
+    private String status;
+
+
+    private String last_entry_after_nrlm;
+    private String last_entry_before_nrlm;
+    private String secc_no_flag;
+    private String lgd_village_code;
+    private String aadhaar_verified_status;
+    private String gender;
     public MasterDataEntity(String block_name, String block_code, String gp_code, String gp_name,
                             String village_code, String village_name, String shg_name, String shg_code,
                             String member_code, String member_name, String clf_code, String clf_name,
                             String vo_code, String vo_name, String member_joining_date, String last_entry_after_nrlm,
                             String last_entry_before_nrlm, String secc_no_flag, String lgd_village_code,
-                            String aadhaar_verified_status, String gender) {
+                            String aadhaar_verified_status, String gender,String status) {
         this.block_name = block_name;
         this.block_code = block_code;
         this.gp_code = gp_code;
@@ -38,6 +69,10 @@ public class MasterDataEntity {
         this.lgd_village_code = lgd_village_code;
         this.aadhaar_verified_status = aadhaar_verified_status;
         this.gender = gender;
+        this.status =status;
+
+
+
     }
 
     public int getId() {
