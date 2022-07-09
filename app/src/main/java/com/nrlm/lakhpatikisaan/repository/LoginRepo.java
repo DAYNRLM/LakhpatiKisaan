@@ -430,7 +430,26 @@ public class LoginRepo {
         Future<List<LgdVillageCode>> future = Executors.newSingleThreadExecutor().submit(callable);
         return future.get();
     }
+    public String getLoginId(){
+        String str=null;
 
+        try{
+            Callable<String> listCallable = new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return loginInfoDao.getLoginId();
+                }
+            };
+
+            Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
     public String getStateNameDB() throws ExecutionException, InterruptedException {
         Callable<String> callable = new Callable<String>() {
             @Override

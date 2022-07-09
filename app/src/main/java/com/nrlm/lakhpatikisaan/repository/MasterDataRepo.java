@@ -22,6 +22,7 @@ import com.nrlm.lakhpatikisaan.database.dao.SectorDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ClfDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.InActiveMember;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.VillageDataBean;
@@ -40,6 +41,7 @@ import com.nrlm.lakhpatikisaan.network.client.Result;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.network.client.ServiceCallback;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.request.MemberInActiveRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.OtpRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.request.SeccRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.MasterDataResponseBean;
@@ -899,6 +901,8 @@ public class MasterDataRepo {
         return str;
     }
 
+
+
     public String getBeforeDataFromServer(){
         String str=null;
 
@@ -1069,6 +1073,23 @@ public class MasterDataRepo {
 
         }
         return sectorData;
+    }
+    public List<InActiveMember> getAllInactiveData(){
+        List<InActiveMember> inactiveDataMember=null;
+        try {
+            Callable<List<InActiveMember>> listCallable = new Callable<List<InActiveMember>>() {
+                @Override
+                public List<InActiveMember> call() throws Exception {
+                    return masterDataDao.getDataOfInactiveMember();
+                }
+            };
+            Future<List<InActiveMember>> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            inactiveDataMember = future.get();
+
+        } catch (Exception e) {
+
+        }
+        return inactiveDataMember;
     }
 
     public List<String> getSectorName() {

@@ -16,6 +16,7 @@ import com.nrlm.lakhpatikisaan.database.dao.MasterDataDao;
 import com.nrlm.lakhpatikisaan.database.dbbean.BlockDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ClfDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.GpDataBean;
+import com.nrlm.lakhpatikisaan.database.dbbean.InActiveMember;
 import com.nrlm.lakhpatikisaan.database.dbbean.LgdVillageCode;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.dbbean.ShgDataBean;
@@ -135,6 +136,7 @@ public class HomeViewModel extends ViewModel {
                                     /*delete  duplicate entries and hit sync api*/
                                     deleteDuplicateEntries(checkDuplicateResponseBean.getMemcode());
                                 }
+
                                 AppUtils.getInstance().showLog("AfterCall",HomeViewModel.class);
                                 makeSyncMemberEntry(loginId, stateShortName, imeiNo, deviceName, locationCoordinates, entryCompleteConfirmation);
                             } else {
@@ -163,7 +165,13 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
-
+public String LoginId()
+{
+   return loginRepo.getLoginId();
+}
+public String getStateName() throws ExecutionException, InterruptedException {
+    return loginRepo.getStateNameDB();
+}
 
     private void makeSyncMemberEntry(String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
@@ -417,6 +425,7 @@ public class HomeViewModel extends ViewModel {
 
     public String getLanguageCode() throws ExecutionException, InterruptedException {
         return loginRepo.getLanguageCodeDB();
+
     }
     public List<String> loadBlockName() {
         return masterDataRepo.getBlockName();
@@ -534,7 +543,10 @@ public String getshgWhoseAtleastOneMemberLeft(){
     public String getMemberIsNotInClfAndVo(String memberCode){
         return masterDataRepo.getMemberIsNotInClfAndVo(memberCode);
     }
-
+public List<InActiveMember> getInactiveMemberData()
+{
+    return masterDataRepo.getAllInactiveData();
+}
 
 
 public String getBeforeServerData()

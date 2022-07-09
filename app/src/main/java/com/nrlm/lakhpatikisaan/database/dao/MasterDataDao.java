@@ -155,5 +155,8 @@ public interface MasterDataDao {
     @Query("select count(*) from(Select distinct member_code from MasterDataEntity where last_entry_after_nrlm is NULL )")
     String getSurveyPending();
 
+    @Query("select shg_code, member_code, village_code from MasterDataEntity where status ='InAactive'")
+    List<InActiveMember> getDataOfInactiveMember();
+
 }
 

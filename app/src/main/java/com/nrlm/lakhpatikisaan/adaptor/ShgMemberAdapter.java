@@ -2,11 +2,16 @@ package com.nrlm.lakhpatikisaan.adaptor;
 
 import static android.content.ContentValues.TAG;
 
+import static com.nrlm.lakhpatikisaan.network.vollyCall.VolleyService.volleyService;
+
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,34 +27,60 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.VolleyError;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.gson.Gson;
+import com.nrlm.lakhpatikisaan.BuildConfig;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
 import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
 import com.nrlm.lakhpatikisaan.databinding.CustomShgMemberLayoutBinding;
+import com.nrlm.lakhpatikisaan.network.model.request.MemberInActiveRequestBean;
+import com.nrlm.lakhpatikisaan.network.model.response.BlockApiResponse;
+import com.nrlm.lakhpatikisaan.network.vollyCall.VolleyResult;
+import com.nrlm.lakhpatikisaan.utils.AppDateFactory;
+import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.Cryptography;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
+import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.auth.AuthActivity;
+import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
 import com.nrlm.lakhpatikisaan.view.home.HomeViewModel;
 import com.nrlm.lakhpatikisaan.view.home.ShgMemberFragmentDirections;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyViewHolder> {
 
     List<MemberListDataBean> dataItem;
     ArrayList<MasterDataEntity> dataItem2;
+    public VolleyResult mResultCallBack = null;
+
+
     Context context;
     NavController navController;
+    ProgressDialog progressDialog;
     HomeViewModel homeViewModel;
     AlertDialog alertDialog;
-
     public ShgMemberAdapter(List<MemberListDataBean> dataItem, Context context, NavController navController, HomeViewModel homeViewModel) {
         this.dataItem = dataItem;
         this.context = context;
@@ -117,15 +148,155 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                         else {
 
 
+                            if(NetworkFactory.isInternetOn(context))
+                            {
+                                progressDialog = new ProgressDialog(context);
+                                progressDialog.setMessage("Loading...");
+                                progressDialog.setCancelable(false);
+                                progressDialog.show();
 
-                            homeViewModel.setStatus("InActive",dataItem.get(holder.getAdapterPosition()).getMemberCode());
-                            notifyItemChanged(holder.getAdapterPosition());
-                            dialogInterface.dismiss();
-                            ViewUtilsKt.toast(context, context.getResources().getString(R.string.dialog_toast_InActive));
-                          //  ((TextView) arg0.getChildAt(0)).setTextColor(Color.RED);
-                            holder.itemBinding.memberStatus.setTextColor(context.getResources().getColor(R.color.red_500));
-                            NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentSelf();
-                            navController.navigate(navDirections);
+                               /* JSONObject blockReq = new JSONObject();
+                                try {
+                                    blockReq.accumulate("district_code", selectedDistrictCode);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }*/
+                                /*******make json object is encrypted and *********/
+                                JSONObject encryptedObject =new JSONObject();
+                                try {
+                                    Cryptography cryptography = new Cryptography();
+
+
+                                    @SuppressLint("HardwareIds") String  imeiNo = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+
+                                    MemberInActiveRequestBean memberInActiveRequestBean=new MemberInActiveRequestBean();
+                                    memberInActiveRequestBean.setLogin_id(homeViewModel.LoginId());
+                                    memberInActiveRequestBean.setImei_no(imeiNo);
+                                    memberInActiveRequestBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
+                                    memberInActiveRequestBean.setLocation_coordinate("10.3111313,154.16546");
+                                    memberInActiveRequestBean.setState_short_name(homeViewModel.getStateName());
+                                    memberInActiveRequestBean.setApp_version(BuildConfig.VERSION_NAME);
+
+                                    ArrayList<MemberInActiveRequestBean.InactiveMemSync> memberInavtivearr=new ArrayList<>();
+
+                                    for(int j=0;j<homeViewModel.getInactiveMemberData().size();j++){
+
+                                        MemberInActiveRequestBean.InactiveMemSync inactiveMemSync=new MemberInActiveRequestBean.InactiveMemSync();
+
+                                        inactiveMemSync.setShg_member_code(homeViewModel.getInactiveMemberData().get(j).getMemberCode());
+                                        inactiveMemSync.setShg_code(homeViewModel.getInactiveMemberData().get(j).getShgCode());
+                                        inactiveMemSync.setVillage_code(homeViewModel.getInactiveMemberData().get(j).getVillageCode());
+                                        inactiveMemSync.setUpdated_on(AppDateFactory.getInstance().getTimeStamp());
+                                        memberInavtivearr.add(inactiveMemSync);
+
+
+                                    }
+                                    memberInActiveRequestBean.setNrlm_member_inactivate(memberInavtivearr);
+
+
+
+                                    encryptedObject.accumulate("data",cryptography.encrypt(new Gson().toJson(memberInActiveRequestBean)));
+                                } catch (NoSuchAlgorithmException e) {
+                                    e.printStackTrace();
+                                } catch (NoSuchPaddingException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (InvalidKeyException e) {
+                                    e.printStackTrace();
+                                } catch (InvalidAlgorithmParameterException e) {
+                                    e.printStackTrace();
+                                } catch (IllegalBlockSizeException e) {
+                                    e.printStackTrace();
+                                } catch (BadPaddingException e) {
+                                    e.printStackTrace();
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
+                                /***********************************************/
+
+                                AppUtils.getInstance().showLog(" Encryptrd response*****error" +encryptedObject, ShgMemberAdapter.class);
+                                mResultCallBack = new VolleyResult() {
+                                    @Override
+                                    public void notifySuccess(String requestType, JSONObject response) {
+                                        progressDialog.dismiss();
+                                        JSONObject jsonObject = null;
+
+                                        String objectResponse="";
+                                        if(response.has("data")){
+                                            try {
+                                                objectResponse=response.getString("data");
+
+                                            }catch (JSONException e)
+                                            {
+                                                AppUtils.getInstance().showLog("exceptionInBlockData"+e,ShgMemberAdapter.class);
+                                            }
+                                        }else {
+                                            return;
+                                        }
+
+                                        try {
+                                            JSONObject jsonObject1=new JSONObject(objectResponse);
+                                            objectResponse=jsonObject1.getString("data");
+                                            AppUtils.getInstance().showLog("inactiveStatus"+jsonObject1,ShgMemberAdapter.class);
+                                        }catch (JSONException e)
+                                        {
+                                            AppUtils.getInstance().showLog("exceptionDataOfBlock"+e,ShgMemberAdapter.class);
+
+                                        }
+
+
+                                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            try {
+                                                Cryptography cryptography = new Cryptography();
+                                                jsonObject = new JSONObject(cryptography.decrypt(objectResponse)); //Main data of state
+                                                if (jsonObject.getString("E200").equalsIgnoreCase("Success"))
+                                                {
+                                                    homeViewModel.setStatus("InActive",dataItem.get(holder.getAdapterPosition()).getMemberCode());
+                                                    holder.itemBinding.activeSpinner.setVisibility(View.GONE);
+                                                    holder.itemBinding.memberStatus.setTextColor(context.getResources().getColor(R.color.red_500));
+                                                    NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentSelf();
+                                                    navController.navigate(navDirections);
+
+                                                }
+                                                AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), ShgMemberAdapter.class);
+                                            } catch (Exception e) {
+                                                progressDialog.dismiss();
+                                                Toast.makeText(context, "Data not found!", Toast.LENGTH_SHORT).show();
+                                                AppUtils.getInstance().showLog("DecryptEx" + e, ShgMemberAdapter.class);
+                                            }
+                                        }
+
+
+                                    }
+
+                                    @Override
+                                    public void notifyError(String requestType, VolleyError error) {
+
+                                    }
+                                };
+
+                                volleyService.postDataVolley("InactiveRequest", "https://nrlm.gov.in/lakhpatilive/lakhpatishg/inactivememberdata", encryptedObject, mResultCallBack);
+                            }
+                            else
+                            {
+
+                                homeViewModel.setStatus("InActive",dataItem.get(holder.getAdapterPosition()).getMemberCode());
+                                notifyItemChanged(holder.getAdapterPosition());
+                                dialogInterface.dismiss();
+                                ViewUtilsKt.toast(context, context.getResources().getString(R.string.dialog_toast_InActive));
+                                //  ((TextView) arg0.getChildAt(0)).setTextColor(Color.RED);
+                                holder.itemBinding.memberStatus.setTextColor(context.getResources().getColor(R.color.red_500));
+                                NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentSelf();
+                                navController.navigate(navDirections);
+
+                            }
+
 
 
 

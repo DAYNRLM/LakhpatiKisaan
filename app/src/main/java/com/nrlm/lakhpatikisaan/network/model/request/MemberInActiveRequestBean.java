@@ -17,7 +17,6 @@ public class MemberInActiveRequestBean implements Serializable {
         private String shg_code;
         private String shg_member_code;
         private String village_code;
-        private String updated_by;
         private String updated_on;
 
         public String getShg_code() {
@@ -44,13 +43,6 @@ public class MemberInActiveRequestBean implements Serializable {
             this.village_code = village_code;
         }
 
-        public String getUpdated_by() {
-            return updated_by;
-        }
-
-        public void setUpdated_by(String updated_by) {
-            this.updated_by = updated_by;
-        }
 
         public String getUpdated_on() {
             return updated_on;

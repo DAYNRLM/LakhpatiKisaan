@@ -25,6 +25,12 @@ public interface LoginInfoDao {
     @Query("select distinct logout_days from logininfoentity")
     String getLogoutDays();
 
+    @Query("select login_id from LoginInfoEntity")
+    String getLoginId();
+
+
+
+
     @Query("delete from logininfoentity")
     void deleteAll();
 
