@@ -78,7 +78,7 @@ public interface MasterDataDao {
 
     @Query("select distinct lgd_village_code from masterdataentity")
     List<LgdVillageCode> getLgdVillageCodes();
-    @Query("select distinct shg_code, member_code village_code  from masterdataentity where status is 'InActive'")
+    @Query("select shg_code, member_code village_code  from masterdataentity where status is 'InActive'")
     List<InActiveMember> getInActiveMember();
 
 
