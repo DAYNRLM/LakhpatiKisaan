@@ -92,8 +92,23 @@
                 android:text="@string/tv_forget_pw"
                 android:textColor="@color/green_500" />
 
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="@dimen/space_25dp"
+                android:src="@drawable/demo"
+                android:id="@+id/demo"
+                android:visibility="gone"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Version- 4.0.0"
+                android:textStyle="bold"
+                android:layout_marginTop="80dp"
+                />
         </LinearLayout>
+
 
 
         <com.google.android.material.button.MaterialButton

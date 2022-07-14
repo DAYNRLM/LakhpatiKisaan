@@ -1,12 +1,13 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
-import static android.content.ContentValues.TAG;
+
 
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 
@@ -53,10 +54,24 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
         binding.surveyCompleted.setText(viewModel.getSurveyCompleted());
         binding.surveyPending.setText(viewModel.getSUrveyPending());
 
+
+
+
     }
 
     @Override
     public void onFragmentReady() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 }

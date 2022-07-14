@@ -1,11 +1,15 @@
 package com.nrlm.lakhpatikisaan.network.client;
 
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
+import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
+import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,34 +25,41 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-   //public static final String server = "local";
-  //public static final String server ="demo".trim();
+   //public static final String server = "local".trim();
+ // public static final String server ="demo".trim();
  public static final String server ="live".trim();
 
     private static final int CONNECTION_TIMEOUT = 40000;
     private static final int READ_TIMEOUT = 40000;
+    private static Context context;
+
     private static String getBaseUrl(String server) {
         String baseURL = "";
         String HTTP_TYPE, IP_ADDRESS, NRLM_STATUS;
         switch (server) {
-          /*  case "demo":
+            /*case "demo":
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
                 NRLM_STATUS = "lakhpatidemo";
+             //   PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPREF_KEY_Demo(),"demo" , context);
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
+
                 break;*/
             case "live":
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
                 NRLM_STATUS = "lakhpatilive";
+              //  PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPREF_KEY_Demo(),server , context);
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
+
                 break;
-            /*case "local":
+          /*  case "local":
                 HTTP_TYPE = "http";
                 IP_ADDRESS = "10.197.183.105";
-                NRLM_STATUS = ":." +
-                        "";
+                NRLM_STATUS = ":" +
+                        "8989";
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + NRLM_STATUS + "/lakhpatishg/";
+                //  PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPREF_KEY_Demo(),server , context);
                 break;*/
         }
         AppUtils.getInstance().showLog("BaseURLRetrofitClient"+baseURL, RetrofitClient.class);

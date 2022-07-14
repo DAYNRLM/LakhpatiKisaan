@@ -21,7 +21,6 @@
             app:menu="@menu/menu"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
         <fragment
             android:id="@+id/home_nav_host"
             android:name="androidx.navigation.fragment.NavHostFragment"

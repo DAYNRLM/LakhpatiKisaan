@@ -93,6 +93,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         locationFromAdapter.notifyDataSetChanged();
 
 
+
         binding.spinnerSelectLocationFrom.setOnItemClickListener((adapterView, view1, i, l) -> {
             if (viewModel.getLocationFrom().get(i).equalsIgnoreCase("Geography")) {
                 binding.layoutGeoLocation.setVisibility(View.VISIBLE);

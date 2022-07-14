@@ -78,6 +78,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
 
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -90,7 +91,12 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         String stateShortName = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getCurrentContext());
         String imei = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), getCurrentContext());
         String deviceInfoSaved = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(), getContext());
+        String serverDemo = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPREF_KEY_Demo(),getContext());
+       /* if (!serverDemo.equalsIgnoreCase("demo")){
+            binding.demo.setVisibility(View.GONE);
 
+        }
+*/
         if (NetworkFactory.isInternetOn(getContext()))
             if (!(loginId.equalsIgnoreCase("")) && !(stateShortName.equalsIgnoreCase("")))
                 AppUtils.getInstance().showLog("imei0000" + imei, AuthFragment.class);
@@ -333,6 +339,16 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                             dialog.dismiss();
                             ((Activity) getCurrentContext()).finish();
                         },false);
+                break;
+            case "E3":
+                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info),"Shgs are not Assign"
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                );
+                break;
+            case "E306":
+                DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info),"Invalid User Id or role not assign to this user"
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                );
                 break;
 
 

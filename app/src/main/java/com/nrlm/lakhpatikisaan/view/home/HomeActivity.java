@@ -62,8 +62,9 @@ public class HomeActivity extends AppCompatActivity {
         navigation_view = findViewById(R.id.navigation_view);
         home_drawer_layout = findViewById(R.id.home_drawer_layout);
         appUtils = AppUtils.getInstance();
-
         setSupportActionBar(tollBar);
+
+
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 

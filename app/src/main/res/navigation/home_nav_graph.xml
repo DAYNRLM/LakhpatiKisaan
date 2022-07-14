@@ -51,6 +51,9 @@
             app:destination="@id/incomeEntryAfterNrlmFragment"
             app:popUpTo="@id/incomeEntryAfterNrlmFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_memberEntryFragment_self"
+            app:destination="@id/memberEntryFragment" />
     </fragment>
     <fragment
         android:id="@+id/incomeEntryAfterNrlmFragment"
@@ -62,6 +65,9 @@
             app:destination="@id/shgMemberFragment"
             app:popUpTo="@id/shgMemberFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_incomeEntryAfterNrlmFragment_self"
+            app:destination="@id/incomeEntryAfterNrlmFragment" />
     </fragment>
     <dialog
         android:id="@+id/logOutDialogFragment"

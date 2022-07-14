@@ -32,6 +32,7 @@ import com.nrlm.lakhpatikisaan.network.model.response.LanguageApiResponse;
 import com.nrlm.lakhpatikisaan.network.model.response.StateApiResponse;
 import com.nrlm.lakhpatikisaan.network.vollyCall.VolleyResult;
 import com.nrlm.lakhpatikisaan.network.vollyCall.VolleyService;
+import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.Cryptography;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
@@ -312,7 +313,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("submitRequest","https://nrlm.gov.in/lakhpatilive/lakhpatishg/usersignup",encryptedObject,mResultCallBack);
+                volleyService.postDataVolley("submitRequest", AppConstant.baseUrl+"usersignup",encryptedObject,mResultCallBack);
 
             }else{
 
@@ -466,7 +467,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
 
                     }
                 };
-                volleyService.postDataVolley("verifyMobileNumber", "https://nrlm.gov.in/lakhpatilive/lakhpatishg/verifymobile", encryptedObject, mResultCallBack);
+                volleyService.postDataVolley("verifyMobileNumber", AppConstant.baseUrl+"verifymobile", encryptedObject, mResultCallBack);
 
             }
 
@@ -576,7 +577,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("languageData", "https://nrlm.gov.in/lakhpatilive/lakhpatishg/languagemasterdata", encryptedObject, mResultCallBack);
+                volleyService.postDataVolley("languageData", AppConstant.baseUrl+"languagemasterdata", encryptedObject, mResultCallBack);
 
             } else {
 
@@ -682,7 +683,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("blockData", "https://nrlm.gov.in/lakhpatilive/lakhpatishg/blockmasterdata", encryptedObject, mResultCallBack);
+                volleyService.postDataVolley("blockData", AppConstant.baseUrl+"blockmasterdata", encryptedObject, mResultCallBack);
 
             } else {
 
@@ -788,7 +789,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("districtData", "https://nrlm.gov.in/lakhpatilive/lakhpatishg/districtmasterdata", encryptedObject, mResultCallBack);
+                volleyService.postDataVolley("districtData", AppConstant.baseUrl+"districtmasterdata", encryptedObject, mResultCallBack);
 
             } else {
 
@@ -803,7 +804,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 progressDialog.show();
                 JSONObject stateReq = new JSONObject();
                 try {
-                    stateReq.accumulate("app_version", "3.3.0");
+                    stateReq.accumulate("app_version", "4.0.0");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -895,7 +896,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                     }
                 };
 
-                volleyService.postDataVolley("stateData", "https://nrlm.gov.in/lakhpatilive/lakhpatishg/statemasterdata", encryptedObject, mResultCallBack);
+                volleyService.postDataVolley("stateData", AppConstant.baseUrl+"statemasterdata", encryptedObject, mResultCallBack);
 
             } else {
 

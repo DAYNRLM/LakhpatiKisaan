@@ -122,9 +122,6 @@ public class AuthViewModel extends ViewModel {
 
 
 
-
-
-
                             /*masterDataRepo.makeMasterDataRequest(logRequestBean, new RepositoryCallback() {
                                 @Override
                                 public void onComplete(Result result) {

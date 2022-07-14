@@ -17,6 +17,16 @@ public class MemberListDataBean {
     private String aadhaar_verified_status;
     @ColumnInfo(name = "status")
     private String status;
+    @ColumnInfo(name = "belonging_name")
+    private String belonging_name;
+
+    public String getBelonging_name() {
+        return belonging_name;
+    }
+
+    public void setBelonging_name(String belonging_name) {
+        this.belonging_name = belonging_name;
+    }
 
     public String getStatus() {
         return status;

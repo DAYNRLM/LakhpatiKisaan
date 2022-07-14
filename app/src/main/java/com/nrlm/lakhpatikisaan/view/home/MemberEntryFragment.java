@@ -145,6 +145,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             String shgName = viewModel.getShgNameDB(shgCode);
             String joiningDate = viewModel.getMemberJoiningDate(shgMemberCode);
             aadharStatus = viewModel.getAadharStatusFromMaster(shgMemberCode);
+            String memberBelongingName = viewModel.getMemberBelongingName(shgMemberCode);
 
 
 
@@ -166,6 +167,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             binding.tvShgNameCode.setText("Member : "+memberName + " (" + shgMemberCode + ")");
             binding.tvMemberNameCode.setText("SHG : "+shgName + " (" + shgCode + ")");
             binding.joiningDate.setText("Member's joining date : " +  joiningDate );
+            binding.tvMemberBelonging.setText("Father/Husband Name :"+memberBelongingName);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -484,7 +486,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
         binding.spinnerSelectSector.setOnItemClickListener((adapterView, view1, i, l) -> {
             sectorDate = String.valueOf(viewModel.getAllSectorData().get(i).getSector_code());
             sectorName = viewModel.loadSectorData().get(i);
-            resetFunction(2);
+           resetFunction(2);
             loadActivityData(viewModel.getAllSectorData().get(i).getSector_code(), shgMemberCode);
 
         });
@@ -680,18 +682,87 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             memberEntryEntity.sectorDate = sectorDate;
             memberEntryEntity.activityCode = activityCode;
             memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
-            memberEntryEntity.incomeRangCode = incomeRangCode;
-            memberEntryEntity.flagBeforeAfterNrlm = AppConstant.beforeNrlmStatus;
-            memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
-            memberEntryEntity.sectorName = sectorName;
-            memberEntryEntity.activityName = activityName;
-            memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
-            memberEntryEntity.incomeRangName = incomeRangName;
-            memberEntryEntity.monthName = entryMonthCode;
-            memberEntryEntity.seccNumber = seccNumber;
-            memberEntryEntity.seccName = seccName;
-            memberEntryEntity.entryCompleteConfirmation = "0";
-            viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
+
+            if (incomeFrequencyCode.equalsIgnoreCase("1"))
+            {
+                if (incomeRangCode.equalsIgnoreCase("1")||incomeRangCode.equalsIgnoreCase("2")||incomeRangCode.equalsIgnoreCase("3")||incomeRangCode.equalsIgnoreCase("4")){
+                    memberEntryEntity.incomeRangCode = incomeRangCode;
+                    memberEntryEntity.flagBeforeAfterNrlm = AppConstant.beforeNrlmStatus;
+                    memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
+                    memberEntryEntity.sectorName = sectorName;
+                    memberEntryEntity.activityName = activityName;
+                    memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
+                    memberEntryEntity.incomeRangName = incomeRangName;
+                    memberEntryEntity.monthName = entryMonthCode;
+                    memberEntryEntity.seccNumber = seccNumber;
+                    memberEntryEntity.seccName = seccName;
+                    memberEntryEntity.entryCompleteConfirmation = "0";
+                    viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
+                }
+                else  DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please Uninstall the app download from Playstore"
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                );
+
+            }
+            else if (incomeFrequencyCode.equalsIgnoreCase("2")){
+                if (incomeRangCode.equalsIgnoreCase("5")||incomeRangCode.equalsIgnoreCase("6")||incomeRangCode.equalsIgnoreCase("7")||incomeRangCode.equalsIgnoreCase("8")){
+                    memberEntryEntity.incomeRangCode = incomeRangCode;
+                    memberEntryEntity.flagBeforeAfterNrlm = AppConstant.beforeNrlmStatus;
+                    memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
+                    memberEntryEntity.sectorName = sectorName;
+                    memberEntryEntity.activityName = activityName;
+                    memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
+                    memberEntryEntity.incomeRangName = incomeRangName;
+                    memberEntryEntity.monthName = entryMonthCode;
+                    memberEntryEntity.seccNumber = seccNumber;
+                    memberEntryEntity.seccName = seccName;
+                    memberEntryEntity.entryCompleteConfirmation = "0";
+                    viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
+                }
+                else  DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please Uninstall the app download from Playstore"
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                );
+            }
+            else if (incomeFrequencyCode.equalsIgnoreCase("3")){
+                if (incomeRangCode.equalsIgnoreCase("9")||incomeRangCode.equalsIgnoreCase("10")||incomeRangCode.equalsIgnoreCase("11")||incomeRangCode.equalsIgnoreCase("12")){
+                    memberEntryEntity.incomeRangCode = incomeRangCode;
+                    memberEntryEntity.flagBeforeAfterNrlm = AppConstant.beforeNrlmStatus;
+                    memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
+                    memberEntryEntity.sectorName = sectorName;
+                    memberEntryEntity.activityName = activityName;
+                    memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
+                    memberEntryEntity.incomeRangName = incomeRangName;
+                    memberEntryEntity.monthName = entryMonthCode;
+                    memberEntryEntity.seccNumber = seccNumber;
+                    memberEntryEntity.seccName = seccName;
+                    memberEntryEntity.entryCompleteConfirmation = "0";
+                    viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
+                }
+                else  DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please Uninstall the app download from Playstore"
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                );
+            }
+            else if (incomeFrequencyCode.equalsIgnoreCase("4")){
+                if (incomeRangCode.equalsIgnoreCase("13")||incomeRangCode.equalsIgnoreCase("14")||incomeRangCode.equalsIgnoreCase("15")||incomeRangCode.equalsIgnoreCase("16")){
+                    memberEntryEntity.incomeRangCode = incomeRangCode;
+                    memberEntryEntity.flagBeforeAfterNrlm = AppConstant.beforeNrlmStatus;
+                    memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
+                    memberEntryEntity.sectorName = sectorName;
+                    memberEntryEntity.activityName = activityName;
+                    memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
+                    memberEntryEntity.incomeRangName = incomeRangName;
+                    memberEntryEntity.monthName = entryMonthCode;
+                    memberEntryEntity.seccNumber = seccNumber;
+                    memberEntryEntity.seccName = seccName;
+                    memberEntryEntity.entryCompleteConfirmation = "0";
+                    viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
+                }
+                else  DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please Uninstall the app download from Playstore"
+                        , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
+                );
+            }
+
+
         }
         else {
             DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please change Your phone language in English"

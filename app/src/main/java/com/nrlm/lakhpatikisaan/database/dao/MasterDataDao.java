@@ -52,9 +52,10 @@ public interface MasterDataDao {
     String getShgNameDB(String shgCode);
 
 
-
     @Query("select distinct member_joining_date from MasterDataEntity where member_code=:memberCode")
     String getMemberJoiningDate(String memberCode);
+    @Query("select distinct belonging_name from MasterDataEntity where member_code=:memberCode")
+    String getMemberBelonging(String memberCode);
 
 
     @Query("select count( member_code) from MasterDataEntity where shg_code=:shgCode")
@@ -78,8 +79,6 @@ public interface MasterDataDao {
 
     @Query("select distinct lgd_village_code from masterdataentity")
     List<LgdVillageCode> getLgdVillageCodes();
-    @Query("select shg_code, member_code village_code  from masterdataentity where status is 'InActive'")
-    List<InActiveMember> getInActiveMember();
 
 
     @Query("select member_joining_date from MasterDataEntity where member_code=:memberCode")
@@ -155,8 +154,11 @@ public interface MasterDataDao {
     @Query("select count(*) from(Select distinct member_code from MasterDataEntity where last_entry_after_nrlm is NULL )")
     String getSurveyPending();
 
-    @Query("select shg_code, member_code, village_code from MasterDataEntity where status ='InAactive'")
+    @Query("select shg_code, member_code, village_code from masterdataentity where status is'InActive'")
     List<InActiveMember> getDataOfInactiveMember();
+
+    @Query("delete from masterdataentity where status is 'InActive'")
+    void deleteInActivityMember();
 
 }
 

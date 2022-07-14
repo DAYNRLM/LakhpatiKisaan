@@ -22,7 +22,7 @@ public class VolleyService {
     Context mContext;
     AppUtils appUtility;
 
-    public static VolleyService volleyService = null;
+    public static VolleyService volleyService ;
     public static VolleyService getInstance(Context context) {
         if (volleyService == null)
             volleyService = new VolleyService(context);

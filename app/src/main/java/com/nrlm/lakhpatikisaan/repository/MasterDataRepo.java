@@ -1,12 +1,16 @@
 package com.nrlm.lakhpatikisaan.repository;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.dao.AadharDao;
 import com.nrlm.lakhpatikisaan.database.dao.ActivityDao;
@@ -50,6 +54,7 @@ import com.nrlm.lakhpatikisaan.network.model.response.SupportiveMastersResponseB
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.Cryptography;
+import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
 
 import org.json.JSONException;
@@ -134,8 +139,7 @@ public class MasterDataRepo {
                                         , masterData.getGp_name(), masterData.getVillage_code(), masterData.getVillage_name(), masterData.getShg_name(), masterData.getShg_code(),
                                         masterData.getMember_code(), masterData.getMember_name(), masterData.getClf_code(), masterData.getClf_name(), masterData.getVo_code(),
                                         masterData.getVo_name(), masterData.getMember_joining_date(), masterData.getLast_entry_after_nrlm(), masterData.getLast_entry_before_nrlm(),
-                                        masterData.getSecc_no_flag(), masterData.getLgd_village_code(),masterData.getAadhaar_verified_status(),masterData.getGender(),"Active");
-
+                                        masterData.getSecc_no_flag(), masterData.getLgd_village_code(),masterData.getAadhaar_verified_status(),masterData.getGender(),"Active",masterData.getBelonging_name());
                                 masterDataEntityList.add(masterDataEntity);
                             }
                             insertAllMasterData(masterDataEntityList);
@@ -325,7 +329,11 @@ public class MasterDataRepo {
 
                         AppUtils.getInstance().showLog("masterdata" + jsonObject.toString(), SignUpFragment.class);
                     } catch (Exception e) {
-                        Toast.makeText(context, "Data not found!", Toast.LENGTH_SHORT).show();
+                        DialogFactory.getInstance().showAlertDialog(context, 1, "Alert","Kindly contact BPM in order to reset your device info & please login after 24 hours after resetting device info"
+                                , "ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        );
+                       // Toast.makeText(context,"data not found",Toast.LENGTH_LONG).show();
+
                         AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
                     }
                 }
@@ -394,7 +402,11 @@ public class MasterDataRepo {
 
                         AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), SignUpFragment.class);
                     } catch (Exception e) {
-                        Toast.makeText(context, "Data not found!", Toast.LENGTH_SHORT).show();
+                       /* DialogFactory.getInstance().showAlertDialog(context, 1, "Alert","Kindly contact BPM in order to reset your device info & please login after 24 hours after resetting device info"
+                                , "ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        ); */
+                        Toast.makeText(context,"data not found",Toast.LENGTH_LONG).show();
+
                         AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
                     }
                 }
@@ -464,8 +476,10 @@ public class MasterDataRepo {
 
                         AppUtils.getInstance().showLog("responseJSON1" + jsonObject.toString(), SignUpFragment.class);
                     } catch (Exception e) {
-                        Toast.makeText(context, "Data not found!", Toast.LENGTH_SHORT).show();
-                        AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
+                        Toast.makeText(context,"data not found",Toast.LENGTH_LONG).show();
+                       /* DialogFactory.getInstance().showAlertDialog(context, 1, "Alert","Kindly contact BPM in order to reset your device info & please login after 24 hours after resetting device info"
+                                , "ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        );  */                           AppUtils.getInstance().showLog("DecryptEx" + e, SignUpFragment.class);
                     }
                 }
                 String code="";
@@ -656,6 +670,18 @@ public class MasterDataRepo {
             public String call() throws Exception {
                 AppUtils.getInstance().showLog("ShgNameDB" + masterDataDao.getGpListData(memberCode).size(), MasterDataRepo.class);
                 return masterDataDao.getMemberJoiningDate(memberCode);
+            }
+        };
+        Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+        return future.get();
+    }
+
+
+    public String getMemberBelongingName(String memberCode) throws ExecutionException, InterruptedException {
+        Callable<String> listCallable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return masterDataDao.getMemberBelonging(memberCode);
             }
         };
         Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
@@ -1056,6 +1082,16 @@ public class MasterDataRepo {
         Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
         return future.get();
     }
+    public void deleteInactiveMainMember(){
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                masterDataDao.deleteInActivityMember();
+            }
+        });
+    }
+
+
 
     public List<SectorEntity> getAllSector(){
         List<SectorEntity> sectorData=null;

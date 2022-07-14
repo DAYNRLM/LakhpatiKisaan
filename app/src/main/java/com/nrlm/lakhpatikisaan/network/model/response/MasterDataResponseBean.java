@@ -61,7 +61,7 @@ public class MasterDataResponseBean {
         private String village_name ;
         private String shg_name ;
         private String shg_code ;
-        private String member_code  ;
+        private String member_code ;
         private String member_name  ;
         private String clf_code ;
         private String clf_name  ;
@@ -73,7 +73,16 @@ public class MasterDataResponseBean {
         private String lgd_village_code  ;
         private String secc_no_flag  ;
         private String aadhaar_verified_status  ;
-        private String gender  ;
+        private String gender;
+        private String belonging_name;
+
+        public String getBelonging_name() {
+            return belonging_name;
+        }
+
+        public void setBelonging_name(String belonging_name) {
+            this.belonging_name = belonging_name;
+        }
 
         public String getGender() {
             return gender;

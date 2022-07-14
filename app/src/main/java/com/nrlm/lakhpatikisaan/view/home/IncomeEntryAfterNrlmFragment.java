@@ -107,6 +107,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             String memberName = viewModel.getMemberNameDB(shgMemberCode);
             String shgName = viewModel.getShgNameDB(shgCode);
             String joiningDate = viewModel.getMemberJoiningDate(shgMemberCode);
+            String memberBelongingName = viewModel.getMemberBelongingName(shgMemberCode);
 
             String memberDOJ = viewModel.getMemberDOJ(shgMemberCode);
 
@@ -119,6 +120,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             binding.tvShgNameCode.setText("Member : " + memberName + " (" + shgMemberCode + ")");
             binding.tvMemberNameCode.setText("SHG : " + shgName + " (" + shgCode + ")");
             binding.joiningDates.setText("Member's joining date : " + joiningDate);
+            binding.tvMemberBelonging.setText("Father/Husband Name :"+memberBelongingName);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -149,6 +151,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             binding.ccDisplayDate.setVisibility(View.VISIBLE);
 
             entryYearCode = String.valueOf(memberEntryDataItem.get(0).getEntryYearCode());
+            entryMonthCode = String.valueOf(memberEntryDataItem.get(0).getMonthName());
 
 
 
@@ -181,6 +184,8 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
                     entryYearCode = String.valueOf(selectedYear);
                     entryMonthCode = String.valueOf(selectedMonth + 1);
+                       PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPREF_KEY_month(),entryMonthCode , getContext());
+
 
 
                 }
@@ -294,8 +299,9 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
 
                                                 } else {
-                                                    progressDialog.dismiss();
+
                                                     Toast.makeText(getContext(), "Data Synced failed!!!", Toast.LENGTH_LONG).show();
+                                                    progressDialog.dismiss();
                                                     NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentToShgMemberFragment();
                                                     navController.navigate(navDirections);
 
@@ -387,72 +393,22 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.shgMemberCode = shgMemberCode;
         if (entryYearCode.equalsIgnoreCase("2022")|| entryYearCode.equalsIgnoreCase("2023")||entryYearCode.equalsIgnoreCase("2024")||entryYearCode.equalsIgnoreCase("2025")||entryYearCode.equalsIgnoreCase("2026")||entryYearCode.equalsIgnoreCase("2027")||entryYearCode.equalsIgnoreCase("2028")||entryYearCode.equalsIgnoreCase("2029")||entryYearCode.equalsIgnoreCase("2030")||entryYearCode.equalsIgnoreCase("2031")||entryYearCode.equalsIgnoreCase("2032")||entryYearCode.equalsIgnoreCase("2033")){
             memberEntryEntity.entryYearCode = entryYearCode;
-          /*  switch (entryMonthCode) {
-                case "12":
-                    entryMonthCode = "12";
-                    break;
+            memberEntryEntity.entryMonthCode= PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPREF_KEY_month(), getContext());;
 
-                case "11":
-                    entryMonthCode = "11";
-                    break;
-
-                case "10":
-                    entryMonthCode = "10";
-                    break;
-
-                case "9":
-                    entryMonthCode = "9";
-                    break;
-
-                case "8":
-                    entryMonthCode = "8";
-                    break;
-
-                case "7":
-                    entryMonthCode = "7";
-                    break;
-                case "6":
-                    entryMonthCode = "6";
-                    break;
-                case "5":
-                    entryMonthCode = "5";
-                    break;
-                case "4":
-                    entryMonthCode = "4";
-                    break;
-                case "3":
-                    entryMonthCode = "3";
-                    break;
-                case "2":
-                    entryMonthCode = "2";
-                    break;
-                case "1":
-                    entryMonthCode = "1";
-                    break;
-                default:
-                    entryMonthCode = "1";
-
-            }
-*/
             memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
             memberEntryEntity.sectorDate = sectorDate;
             memberEntryEntity.activityCode = activityCode;
+
             memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
             memberEntryEntity.incomeRangCode = incomeRangCode;
             memberEntryEntity.flagBeforeAfterNrlm = AppConstant.afterNrlmStatus;
+            memberEntryEntity.monthName=entryMonthCode;
 
             memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
             memberEntryEntity.sectorName = sectorName;
             memberEntryEntity.activityName = activityName;
             memberEntryEntity.incomeFrequencyName = incomeFrequencyName;
             memberEntryEntity.incomeRangName = incomeRangName;
-            if (entryMonthCode.equalsIgnoreCase("12")||entryMonthCode.equalsIgnoreCase("11")||entryMonthCode.equalsIgnoreCase("10")||entryMonthCode.equalsIgnoreCase("9")||entryMonthCode.equalsIgnoreCase("8")||entryMonthCode.equalsIgnoreCase("7")||entryMonthCode.equalsIgnoreCase("6")||entryMonthCode.equalsIgnoreCase("5")||entryMonthCode.equalsIgnoreCase("4")||entryMonthCode.equalsIgnoreCase("3")||entryMonthCode.equalsIgnoreCase("2")||entryMonthCode.equalsIgnoreCase("1")){
-                memberEntryEntity.entryMonthCode = "0"+entryMonthCode;
-            }
-            else {
-                memberEntryEntity.entryMonthCode = "01";
-            }
-
             memberEntryEntity.seccNumber = "0";
             memberEntryEntity.seccName = "";
             memberEntryEntity.entryCompleteConfirmation = "1";

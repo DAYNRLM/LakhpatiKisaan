@@ -12,6 +12,7 @@ public class PreferenceKeyManager {
     private static final String PrefLoginId="PrefLoginId";
     private static final String PrefStateShortName="PrefStateShortName";
     private static final String PrefImeiNo="PrefImeiNo";
+   // private static final String PrefLoginId="LoginId";
     private static final String PrefDeviceinfo="PrefDeviceInfo";
     private static final String PrefLogoutTime="PrefLogoutTime";
     private static final String MST_FLAG="mstflag";
@@ -33,6 +34,42 @@ public class PreferenceKeyManager {
     private static final String PREF_KEY_MST_DATA = "mstdata";
     private static final String PREF_KEY_IMEI_FLAG = "imeiflag";
     private static final String PREF_KEY_SECCNO = "seccno";
+    private static final String PREF_KEY_LOGINID = "loginid";
+    private static final String PREF_KEY_Demo = "Demo";
+    private static final String PREF_KEY_month = "month";
+
+    public static String getPREF_KEY_month() {
+        return PREF_KEY_month;
+    }
+
+    public static String getPREF_KEY_Demo() {
+        return PREF_KEY_Demo;
+    }
+
+    public static String getPREF_KEY_Time_For_InActive() {
+        return PREF_KEY_Time_For_InActive;
+    }
+
+    public static String getPrefKeyLoginid() {
+        return PREF_KEY_LOGINID;
+    }
+
+    public static String getPrefKeyStateShortName() {
+        return PREF_KEY_STATE_SHORT_NAME;
+    }
+
+    public static String getPrefKeyLogoutdays() {
+        return PREF_KEY_LOGOUTDAYS;
+    }
+
+    public static String getPrefKeyServerdate() {
+        return PREF_KEY_SERVERDATE;
+    }
+
+    private static final String PREF_KEY_STATE_SHORT_NAME = "stateshortname";
+    private static final String PREF_KEY_LOGOUTDAYS = "logoutdays";
+    private static final String PREF_KEY_SERVERDATE = "serverdate";
+
 
     public static String getPrefKeySeccno() {
         return PREF_KEY_SECCNO;
@@ -72,6 +109,9 @@ public class PreferenceKeyManager {
     }
 
 
+    public static String getLoginId() {
+        return PrefImeiNo;
+    }
 
     public static String getPrefImeiNo() {
         return PrefImeiNo;

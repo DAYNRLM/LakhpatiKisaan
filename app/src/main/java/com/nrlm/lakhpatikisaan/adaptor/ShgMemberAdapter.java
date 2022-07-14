@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,9 @@ import com.nrlm.lakhpatikisaan.databinding.CustomShgMemberLayoutBinding;
 import com.nrlm.lakhpatikisaan.network.model.request.MemberInActiveRequestBean;
 import com.nrlm.lakhpatikisaan.network.model.response.BlockApiResponse;
 import com.nrlm.lakhpatikisaan.network.vollyCall.VolleyResult;
+import com.nrlm.lakhpatikisaan.network.vollyCall.VolleyService;
+import com.nrlm.lakhpatikisaan.repository.LoginRepo;
+import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppDateFactory;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.Cryptography;
@@ -63,6 +67,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.crypto.BadPaddingException;
@@ -77,6 +82,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
 
     Context context;
+    LoginRepo loginRepo;
     NavController navController;
     ProgressDialog progressDialog;
     HomeViewModel homeViewModel;
@@ -146,14 +152,23 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                      //   else if (holder.itemBinding.ac)
 
                         else {
+                            homeViewModel.setStatus("InActive",dataItem.get(holder.getAdapterPosition()).getMemberCode());
 
+
+                            ViewUtilsKt.toast(context, context.getResources().getString(R.string.dialog_toast_InActive));
+                            //  ((TextView) arg0.getChildAt(0)).setTextColor(Color.RED);
+                            holder.itemBinding.memberStatus.setTextColor(context.getResources().getColor(R.color.red_500));
 
                             if(NetworkFactory.isInternetOn(context))
                             {
+
+
                                 progressDialog = new ProgressDialog(context);
                                 progressDialog.setMessage("Loading...");
                                 progressDialog.setCancelable(false);
                                 progressDialog.show();
+
+
 
                                /* JSONObject blockReq = new JSONObject();
                                 try {
@@ -171,11 +186,20 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
 
                                     MemberInActiveRequestBean memberInActiveRequestBean=new MemberInActiveRequestBean();
-                                    memberInActiveRequestBean.setLogin_id(homeViewModel.LoginId());
+                                   // memberInActiveRequestBean.setLogin_id(homeViewModel.LoginId());
+
+                                    String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyStateShortName(),context);
+                                    String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyLoginid(),context);
+
+                                    AppUtils.getInstance().showLog("inactiveMemSyncValue"+stateShortName,ShgMemberAdapter.class);
+                                    AppUtils.getInstance().showLog("inactiveMemSyncValue"+loginId,ShgMemberAdapter.class);
+                                   memberInActiveRequestBean.setLogin_id(loginId);
+                                   // memberInActiveRequestBean.setLogin_id("UPAGABDUSS");
                                     memberInActiveRequestBean.setImei_no(imeiNo);
                                     memberInActiveRequestBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
                                     memberInActiveRequestBean.setLocation_coordinate("10.3111313,154.16546");
-                                    memberInActiveRequestBean.setState_short_name(homeViewModel.getStateName());
+                                   memberInActiveRequestBean.setState_short_name(stateShortName);
+                                 //   memberInActiveRequestBean.setState_short_name("UP");
                                     memberInActiveRequestBean.setApp_version(BuildConfig.VERSION_NAME);
 
                                     ArrayList<MemberInActiveRequestBean.InactiveMemSync> memberInavtivearr=new ArrayList<>();
@@ -183,16 +207,17 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                     for(int j=0;j<homeViewModel.getInactiveMemberData().size();j++){
 
                                         MemberInActiveRequestBean.InactiveMemSync inactiveMemSync=new MemberInActiveRequestBean.InactiveMemSync();
-
-                                        inactiveMemSync.setShg_member_code(homeViewModel.getInactiveMemberData().get(j).getMemberCode());
                                         inactiveMemSync.setShg_code(homeViewModel.getInactiveMemberData().get(j).getShgCode());
+                                        inactiveMemSync.setShg_member_code(homeViewModel.getInactiveMemberData().get(j).getMemberCode());
                                         inactiveMemSync.setVillage_code(homeViewModel.getInactiveMemberData().get(j).getVillageCode());
                                         inactiveMemSync.setUpdated_on(AppDateFactory.getInstance().getTimeStamp());
                                         memberInavtivearr.add(inactiveMemSync);
+                                        AppUtils.getInstance().showLog("inactiveMemSyncValue"+inactiveMemSync,ShgMemberAdapter.class);
 
 
                                     }
                                     memberInActiveRequestBean.setNrlm_member_inactivate(memberInavtivearr);
+                         //          AppUtils.getInstance().showLog("mainInActiveRequest"+memberInActiveRequestBean,ShgMemberAdapter.class);
 
 
 
@@ -213,10 +238,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                     e.printStackTrace();
                                 } catch (UnsupportedEncodingException e) {
                                     e.printStackTrace();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                } catch (ExecutionException e) {
-                                    e.printStackTrace();
                                 }
                                 /***********************************************/
 
@@ -234,7 +255,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
                                             }catch (JSONException e)
                                             {
-                                                AppUtils.getInstance().showLog("exceptionInBlockData"+e,ShgMemberAdapter.class);
+                                                AppUtils.getInstance().showLog("objjjjjjj"+objectResponse,ShgMemberAdapter.class);
                                             }
                                         }else {
                                             return;
@@ -255,19 +276,33 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                             try {
                                                 Cryptography cryptography = new Cryptography();
                                                 jsonObject = new JSONObject(cryptography.decrypt(objectResponse)); //Main data of state
-                                                if (jsonObject.getString("E200").equalsIgnoreCase("Success"))
+                                                //if (jsonObject.getString("E200").equalsIgnoreCase("Success"))
+
+                                                JSONObject error=jsonObject.getJSONObject("error");
+                                                if(error.getString("code").equalsIgnoreCase("E200"))
+                                                AppUtils.getInstance().showLog("responseJSON" + error.toString(), ShgMemberAdapter.class);
+
                                                 {
-                                                    homeViewModel.setStatus("InActive",dataItem.get(holder.getAdapterPosition()).getMemberCode());
-                                                    holder.itemBinding.activeSpinner.setVisibility(View.GONE);
+                                                    AppUtils.getInstance().showLog("responseJSONmain" + error.toString(), ShgMemberAdapter.class);
+                                                    homeViewModel.deleteInactiveMember();
                                                     holder.itemBinding.memberStatus.setTextColor(context.getResources().getColor(R.color.red_500));
                                                     NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentSelf();
                                                     navController.navigate(navDirections);
+
 
                                                 }
                                                 AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), ShgMemberAdapter.class);
                                             } catch (Exception e) {
                                                 progressDialog.dismiss();
-                                                Toast.makeText(context, "Data not found!", Toast.LENGTH_SHORT).show();
+
+                                                homeViewModel.setStatus("Active",dataItem.get(holder.getAdapterPosition()).getMemberCode());
+                                                notifyItemChanged(holder.getAdapterPosition());
+                                                dialogInterface.dismiss();
+                                                //  ((TextView) arg0.getChildAt(0)).setTextColor(Color.RED);
+                                                holder.itemBinding.memberStatus.setTextColor(context.getResources().getColor(R.color.green_500));
+                                                NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentSelf();
+                                                navController.navigate(navDirections);
+
                                                 AppUtils.getInstance().showLog("DecryptEx" + e, ShgMemberAdapter.class);
                                             }
                                         }
@@ -277,16 +312,22 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
                                     @Override
                                     public void notifyError(String requestType, VolleyError error) {
+                                        progressDialog.dismiss();
 
                                     }
                                 };
+                              volleyService = VolleyService.getInstance(context);
+                                volleyService.postDataVolley("InactiveRequest", AppConstant.baseUrl+"inactivememberdata", encryptedObject, mResultCallBack);
+                              //  volleyService.postDataVolley("InactiveRequest", "http://10.197.183.105:8989/lakhpatishg/inactivememberdata", encryptedObject, mResultCallBack);
 
-                                volleyService.postDataVolley("InactiveRequest", "https://nrlm.gov.in/lakhpatilive/lakhpatishg/inactivememberdata", encryptedObject, mResultCallBack);
+
+
                             }
                             else
                             {
 
                                 homeViewModel.setStatus("InActive",dataItem.get(holder.getAdapterPosition()).getMemberCode());
+
                                 notifyItemChanged(holder.getAdapterPosition());
                                 dialogInterface.dismiss();
                                 ViewUtilsKt.toast(context, context.getResources().getString(R.string.dialog_toast_InActive));

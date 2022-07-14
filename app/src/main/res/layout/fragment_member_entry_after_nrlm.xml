@@ -60,6 +60,15 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/tv_member_belonging"
+                            android:fontFamily="@font/manrope_regular"
+                            android:text="Father/Husband Name:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/space_15dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:id="@+id/tv_member_name_code"
                             android:fontFamily="@font/manrope_regular"
                             android:text="Date Of Joining: 11-March-206"

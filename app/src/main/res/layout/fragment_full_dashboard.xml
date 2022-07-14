@@ -19,6 +19,7 @@
         android:orientation="vertical"
         >
 
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -331,7 +332,7 @@
                         android:id="@+id/image_view23"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/sync_online"
+                        android:src="@drawable/ic_baseline_people_24"
                         app:layout_constraintBottom_toTopOf="@+id/textView23"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -394,7 +395,7 @@
                         android:id="@+id/image_view"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/sync_online"
+                        android:src="@drawable/ic_baseline_people_24"
                         app:layout_constraintBottom_toTopOf="@+id/textView4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -470,7 +471,7 @@
                         android:id="@+id/image_view2"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/ic_baseline_people_24"
+                        android:src="@drawable/sync_online"
                         app:layout_constraintBottom_toTopOf="@+id/textView2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -532,7 +533,7 @@
                         android:id="@+id/image_vie"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/ic_baseline_people_24"
+                        android:src="@drawable/sync_online"
                         app:layout_constraintBottom_toTopOf="@+id/textVie"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -579,7 +580,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Version- 3.3.0"
+            android:text="Version- 4.0.0"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/space_15dp"
             android:textStyle="bold"/>

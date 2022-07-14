@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
@@ -75,8 +76,11 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private String getDateFromDB() throws ExecutionException, InterruptedException {
-        String currentDate = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).getServerDateTime();
-        String logoutDays = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).getLogoutDays();
+        String currentDate =    PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyServerdate(), SplashScreenActivity.this);
+                //LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).getServerDateTime();
+        String logoutDays =  PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyLogoutdays(), SplashScreenActivity.this);
+                //LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).getLogoutDays();
+        //String currentDate =
         //  return "25-03-2022"+","+ "1";
         if(currentDate!=null && logoutDays!=null) {
             return currentDate + "," + logoutDays;

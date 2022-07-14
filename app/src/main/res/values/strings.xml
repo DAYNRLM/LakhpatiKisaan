@@ -141,8 +141,8 @@
     <string name="select_block">Select Block</string>
     <string name="select_grampanchayat">Select Grampanchayat:</string>
     <string name="select_village">Select Village</string>
-    <string name="members_before_nrlm_entry">"Member's completed before nrlm entry"</string>
-    <string name="members_complete_after_nrlm_entry">Members completed after nrlm entry</string>
+    <string name="members_before_nrlm_entry">HHs whose survey completed (before joining NRLM)</string>
+    <string name="members_complete_after_nrlm_entry">HHs whose survey completed (Present status)</string>
     <string name="verify_otp">Verify Otp</string>
     <string name="select_entry_date">Select Entry Date</string>
     <string name="add_activity">Add activity</string>

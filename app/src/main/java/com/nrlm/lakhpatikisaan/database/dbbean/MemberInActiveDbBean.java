@@ -19,13 +19,6 @@ public class MemberInActiveDbBean {
     private String timeStamp;
 
 
-    @ColumnInfo(name = "newT")
-    private String newT;
-
-    public String getNewT() {
-        return newT;
-    }
-
     public String getShgCode() {
         return shgCode;
     }

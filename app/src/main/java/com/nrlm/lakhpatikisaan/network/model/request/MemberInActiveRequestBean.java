@@ -10,7 +10,8 @@ public class MemberInActiveRequestBean implements Serializable {
     private String location_coordinate;
     private String state_short_name;
     private String app_version;
-    private List<InactiveMemSync> nrlm_member_inactivate;
+
+    private List<InactiveMemSync> inactive_mem_sync;
 
 
     public static class InactiveMemSync {
@@ -102,10 +103,10 @@ public class MemberInActiveRequestBean implements Serializable {
     }
 
     public List<InactiveMemSync> getNrlm_member_inactivate() {
-        return nrlm_member_inactivate;
+        return inactive_mem_sync;
     }
 
     public void setNrlm_member_inactivate(List<InactiveMemSync> nrlm_member_inactivate) {
-        this.nrlm_member_inactivate = nrlm_member_inactivate;
+        this.inactive_mem_sync = nrlm_member_inactivate;
     }
 }

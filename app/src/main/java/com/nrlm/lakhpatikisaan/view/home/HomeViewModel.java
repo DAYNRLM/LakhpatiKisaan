@@ -172,6 +172,9 @@ public String LoginId()
 public String getStateName() throws ExecutionException, InterruptedException {
     return loginRepo.getStateNameDB();
 }
+    public void deleteInactiveMember(){
+        masterDataRepo.deleteInactiveMainMember();
+    }
 
     private void makeSyncMemberEntry(String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
@@ -496,6 +499,9 @@ public String getStateName() throws ExecutionException, InterruptedException {
 
     String getMemberJoiningDate(String memberCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getMemberJoiningDate(memberCode);
+    }
+    String getMemberBelongingName(String memberCode) throws ExecutionException, InterruptedException {
+        return masterDataRepo.getMemberBelongingName(memberCode);
     }
 
     void updateBeforeEntryDateInLocal(String memberCode,String date) throws ExecutionException, InterruptedException {

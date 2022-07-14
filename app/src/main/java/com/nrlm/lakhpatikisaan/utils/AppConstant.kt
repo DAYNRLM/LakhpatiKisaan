@@ -19,6 +19,7 @@ class AppConstant {
         val items = arrayOf("Income (Before coming into NRLM Fold)", "Income at present")
         val confirmation = arrayOf("Do you confirm all this entry", "Do You want still add more activity")
         val status = arrayOf("1","2");
+        const val baseUrl: String = "https://nrlm.gov.in/lakhpatilive/lakhpatishg/"
 
 
 

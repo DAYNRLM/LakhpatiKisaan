@@ -34,7 +34,16 @@ public class MasterDataEntity {
     }
     @ColumnInfo(name = "status")
     private String status;
+    @ColumnInfo(name = "belonging_name")
+    private String belonging_name;
 
+    public String getBelonging_name() {
+        return belonging_name;
+    }
+
+    public void setBelonging_name(String belonging_name) {
+        this.belonging_name = belonging_name;
+    }
 
     private String last_entry_after_nrlm;
     private String last_entry_before_nrlm;
@@ -47,7 +56,7 @@ public class MasterDataEntity {
                             String member_code, String member_name, String clf_code, String clf_name,
                             String vo_code, String vo_name, String member_joining_date, String last_entry_after_nrlm,
                             String last_entry_before_nrlm, String secc_no_flag, String lgd_village_code,
-                            String aadhaar_verified_status, String gender,String status) {
+                            String aadhaar_verified_status, String gender,String status,String belonging_name) {
         this.block_name = block_name;
         this.block_code = block_code;
         this.gp_code = gp_code;
@@ -70,6 +79,8 @@ public class MasterDataEntity {
         this.aadhaar_verified_status = aadhaar_verified_status;
         this.gender = gender;
         this.status =status;
+        this.belonging_name=belonging_name;
+
 
 
 

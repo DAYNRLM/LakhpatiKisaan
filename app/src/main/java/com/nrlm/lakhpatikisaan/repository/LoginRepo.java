@@ -32,6 +32,8 @@ import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.Cryptography;
+import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
+import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
 
 import org.json.JSONException;
@@ -207,6 +209,10 @@ public class LoginRepo {
                                         loginResponseBean.getServer_date_time(), loginResponseBean.getLanguage_id(), loginResponseBean.getLogin_attempt(),
                                         loginResponseBean.getLogout_days());
                                 insertLoginInfo(loginInfoEntity);
+                                PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyLoginid(), loginResponseBean.getLogin_id(), context);
+                                PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyStateShortName(), loginResponseBean.getState_short_name(), context);
+                                PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyServerdate(), loginResponseBean.getServer_date_time(), context);
+                                PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyLogoutdays(), loginResponseBean.getLogout_days(), context);
                             }
                             repositoryCallback.onComplete(successResponse);
                         }
@@ -503,6 +509,10 @@ public class LoginRepo {
         Future<String> future = Executors.newSingleThreadExecutor().submit(callable);
         return future.get();
     }
+    public void deleteInactiveMember(){
+        masterDataDao.deleteInActivityMember();
+    }
+
     public void deleteAllMaster() {
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override

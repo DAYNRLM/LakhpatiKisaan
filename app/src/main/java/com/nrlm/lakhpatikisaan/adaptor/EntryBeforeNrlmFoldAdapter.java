@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.adaptor;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ public class EntryBeforeNrlmFoldAdapter extends RecyclerView.Adapter<EntryBefore
         return new MyViewHolder(rootView);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         int number = 0;

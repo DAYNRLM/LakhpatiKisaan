@@ -15,8 +15,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:layout_above="@+id/btn_saveEntry">
+            android:layout_above="@+id/btn_saveEntry"
+            android:scrollbars="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,8 +31,8 @@
                     android:layout_margin="@dimen/space_10dp"
                     android:outlineAmbientShadowColor="@color/green_500"
                     android:outlineSpotShadowColor="@color/green_500"
-                    app:cardCornerRadius="@dimen/space_10dp"
                     android:translationZ="@dimen/space_10dp"
+                    app:cardCornerRadius="@dimen/space_10dp"
                     app:cardElevation="8dp"
                     app:strokeColor="@color/light_green_50"
                     app:strokeWidth="1dp">
@@ -47,31 +47,40 @@
 
 
                         <TextView
+                            android:id="@+id/tv_shg_name_code"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tv_shg_name_code"
                             android:fontFamily="@font/manrope_regular"
                             android:text="Shambhu Ghanshyam  ( 3456762 )"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_20sp" />
 
                         <TextView
+                            android:id="@+id/tv_member_belonging"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_regular"
+                            android:text="Father/Husband Name:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/space_15dp" />
+
+                        <TextView
                             android:id="@+id/tv_member_name_code"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_regular"
                             android:text="Date Of Joining: 11-March-206"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/space_15dp"/>
+                            android:textSize="@dimen/space_15dp" />
 
                         <TextView
-                            android:layout_width="match_parent"
                             android:id="@+id/joining_date"
-                            android:visibility="visible"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/manrope_regular"
                             android:text="@string/select_entry_date"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:visibility="visible" />
 
 
                     </LinearLayout>
@@ -104,7 +113,7 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
-               <!-- <com.google.android.material.card.MaterialCardView
+                <!-- <com.google.android.material.card.MaterialCardView
                     android:visibility="gone"
                     android:id="@+id/cv_selectMonthYear"
                     android:layout_width="match_parent"
@@ -166,13 +175,13 @@
                 </com.google.android.material.card.MaterialCardView>-->
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="gone"
                     android:id="@+id/cv_aadharCardEntry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/space_5dp"
                     android:outlineAmbientShadowColor="@color/green_500"
                     android:outlineSpotShadowColor="@color/green_500"
+                    android:visibility="gone"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="8dp"
                     app:strokeColor="@color/light_green_50"
@@ -191,66 +200,67 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
                             <LinearLayout
-                                android:weightSum="2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:weightSum="2">
 
                                 <com.google.android.material.textfield.TextInputLayout
-                                    android:layout_weight="0.5"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Enter 12 Digit Aadhaar Number"
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginRight="10dp"
-                                    app:boxStrokeColor="@color/out_line_strok"
+                                    android:layout_weight="0.5"
                                     android:fontFamily="@font/manrope_regular"
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                                    android:hint="Enter 12 Digit Aadhaar Number"
+                                    app:boxStrokeColor="@color/out_line_strok">
 
                                     <com.google.android.material.textfield.TextInputEditText
                                         android:id="@+id/et_aadharNumber"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:lines="1"
-                                        android:maxLength="12"
                                         android:fontFamily="@font/manrope_regular"
-                                        android:inputType="numberPassword" />
+                                        android:inputType="numberPassword"
+                                        android:lines="1"
+                                        android:maxLength="12" />
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
 
                                 <ImageView
-                                    android:visibility="gone"
                                     android:id="@+id/iv_aadhrScanner"
-                                    android:layout_weight="1.5"
                                     android:layout_width="match_parent"
                                     android:layout_height="70dp"
-                                    android:src="@drawable/ic_baseline_qr_code_scanner_24"/>
+                                    android:layout_weight="1.5"
+                                    android:src="@drawable/ic_baseline_qr_code_scanner_24"
+                                    android:visibility="gone" />
 
 
                             </LinearLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
-                                android:layout_weight="0.5"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Enter Name as per Aadhaar"
                                 android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
                                 android:layout_marginTop="5dp"
+                                android:layout_marginRight="10dp"
                                 android:layout_marginBottom="5dp"
-                                app:boxStrokeColor="@color/out_line_strok"
+                                android:layout_weight="0.5"
                                 android:fontFamily="@font/manrope_regular"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                                android:hint="Enter Name as per Aadhaar"
+                                app:boxStrokeColor="@color/out_line_strok">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_aadharName"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:lines="1"
                                     android:fontFamily="@font/manrope_regular"
-                                    android:inputType="text" />
+                                    android:inputType="text"
+                                    android:lines="1" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -259,18 +269,18 @@
 
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:id="@+id/ll_displayAadharData"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/space_10dp"
                             android:orientation="vertical"
-                            android:layout_margin="@dimen/space_10dp">
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Aadhaar Number"
-                                android:fontFamily="@font/manrope_regular"/>
+                                android:fontFamily="@font/manrope_regular"
+                                android:text="Aadhaar Number" />
 
                             <TextView
                                 android:id="@+id/tv_aadharNumber"
@@ -278,17 +288,17 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
+                                android:fontFamily="@font/manrope_extra_bold"
                                 android:padding="@dimen/space_3dp"
                                 android:text="986755488769"
-                                android:fontFamily="@font/manrope_extra_bold"
-                                android:textSize="@dimen/text_20sp"
-                                android:textColor="@color/black"/>
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_20sp" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Name as per Aadhaar"
-                                android:fontFamily="@font/manrope_regular"/>
+                                android:fontFamily="@font/manrope_regular"
+                                android:text="Name as per Aadhaar" />
 
                             <TextView
                                 android:id="@+id/tvaadharName"
@@ -296,9 +306,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
+                                android:fontFamily="@font/manrope_extra_bold"
                                 android:padding="@dimen/space_3dp"
                                 android:text="Sunder Kumar Sharma"
-                                android:fontFamily="@font/manrope_extra_bold"
                                 android:textSize="@dimen/text_16sp" />
 
 
@@ -306,9 +316,9 @@
 
                         <LinearLayout
                             android:id="@+id/ll_btnLayout"
-                            android:gravity="right"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="right"
                             android:orientation="horizontal">
 
                             <com.google.android.material.button.MaterialButton
@@ -327,10 +337,10 @@
                                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/text_20sp"
                                 android:text="Reset"
                                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                 android:textColor="@color/orange_500"
-                                android:layout_marginLeft="@dimen/text_20sp"
                                 app:strokeColor="@color/green_500" />
 
                         </LinearLayout>
@@ -341,13 +351,13 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="gone"
                     android:id="@+id/cv_changeMonthYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/space_5dp"
                     android:outlineAmbientShadowColor="@color/green_500"
                     android:outlineSpotShadowColor="@color/green_500"
+                    android:visibility="gone"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="8dp"
                     app:strokeColor="@color/light_green_50"
@@ -433,14 +443,14 @@
 
 
                                     <TextView
-                                        android:visibility="gone"
                                         android:id="@+id/tv_totalActivityCount"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Total Activity Added : 10"
-                                        android:gravity="center_horizontal"
                                         android:layout_marginBottom="@dimen/space_10dp"
-                                        android:fontFamily="@font/manrope_regular" />
+                                        android:fontFamily="@font/manrope_regular"
+                                        android:gravity="center_horizontal"
+                                        android:text="Total Activity Added : 10"
+                                        android:visibility="gone" />
 
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btn_addActivity"
@@ -481,13 +491,13 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="gone"
                     android:id="@+id/cv_selectActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/space_5dp"
                     android:outlineAmbientShadowColor="@color/green_500"
                     android:outlineSpotShadowColor="@color/green_500"
+                    android:visibility="gone"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="8dp"
                     app:strokeColor="@color/light_green_50"
@@ -500,21 +510,18 @@
                         android:layout_margin="@dimen/space_3dp"
                         android:orientation="vertical">
 
-<!--secc-->
-
-
-
+                        <!--secc-->
 
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/ttl_sector"
-                            android:visibility="gone"
                             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_regular"
                             android:hint="@string/select_sector"
                             android:padding="3dp"
+                            android:visibility="gone"
                             app:boxBackgroundColor="@color/white"
                             app:boxStrokeColor="@color/out_line_strok">
 
@@ -650,7 +657,6 @@
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btn_reset"
-                                android:visibility="gone"
                                 style="@style/IconTextContainedButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -658,6 +664,7 @@
                                 android:text="@string/reset"
                                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                                 android:textSize="16sp"
+                                android:visibility="gone"
                                 app:cornerRadius="@dimen/text_20sp" />
 
                         </LinearLayout>
@@ -669,13 +676,13 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="gone"
                     android:id="@+id/cv_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/space_5dp"
                     android:outlineAmbientShadowColor="@color/green_500"
                     android:outlineSpotShadowColor="@color/green_500"
+                    android:visibility="gone"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="8dp"
                     app:strokeColor="@color/light_green_50"
@@ -692,15 +699,15 @@
                             android:text="@string/selected_activity" />
 
                         <LinearLayout
-                            android:layout_marginTop="@dimen/space_3dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_3dp"
                             android:orientation="vertical">
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_entryRecyclerview"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                     </LinearLayout>

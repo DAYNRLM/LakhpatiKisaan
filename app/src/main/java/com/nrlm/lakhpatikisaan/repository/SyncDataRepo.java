@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.nrlm.lakhpatikisaan.BuildConfig;
+import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.AppDatabase;
 import com.nrlm.lakhpatikisaan.database.dao.AadharDao;
 import com.nrlm.lakhpatikisaan.database.dao.MemberEntryDao;
@@ -34,6 +35,7 @@ import com.nrlm.lakhpatikisaan.network.model.response.SimpleResponseBean;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.Cryptography;
+import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
 
 import org.json.JSONException;
@@ -67,6 +69,7 @@ public class SyncDataRepo {
     private MemberEntryDao memberEntryDao;
     private AadharDao aadharDao;
     private MemberInActiveDao memberInActiveDao;
+    Context context;
 
     private SyncDataRepo(ExecutorService executor, Context context) {
         this.executor = executor;
@@ -551,18 +554,94 @@ public class SyncDataRepo {
                 List<SyncEntriesRequestBean.ActivityData> activityDataList = new ArrayList<>();
 
                 for (ActivityDataBean activityDataBean : activityDataBeanList) {
-                    SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
-                    activityData.setActivity_code(activityDataBean.getActivity_code());
-                    activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
-                    activityData.setEntry_month(activityDataBean.getEntry_month());
-                    activityData.setEntry_year(activityDataBean.getEntry_year());
-                    activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
-                    activityData.setFrequency_code(activityDataBean.getFrequency_code());
-                    activityData.setRange_code(activityDataBean.getRange_code());
+                    String incomeFrequencyCode = activityDataBean.getFrequency_code();
+                    String incomeRangCode = activityDataBean.getRange_code();
+                    if (!incomeFrequencyCode.isEmpty()){
+                    if (incomeFrequencyCode.equalsIgnoreCase("1"))
+                    {
+                        if (incomeRangCode.equalsIgnoreCase("1")||incomeRangCode.equalsIgnoreCase("2")||incomeRangCode.equalsIgnoreCase("3")||incomeRangCode.equalsIgnoreCase("4")){
+                            SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
+                            activityData.setActivity_code(activityDataBean.getActivity_code());
+                            activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
+                            activityData.setEntry_month(activityDataBean.getEntry_month());
+                            activityData.setEntry_year(activityDataBean.getEntry_year());
+                            activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
+                            activityData.setFrequency_code(activityDataBean.getFrequency_code());
+                            activityData.setRange_code(activityDataBean.getRange_code());
 
-                        activityData.setSector_code(activityDataBean.getSector_code());
+                            activityData.setSector_code(activityDataBean.getSector_code());
 
-                    activityDataList.add(activityData);
+                            activityDataList.add(activityData);
+                        }
+                        else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
+                                ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        );
+
+                    }
+                    else if (incomeFrequencyCode.equalsIgnoreCase("2")){
+                        if (incomeRangCode.equalsIgnoreCase("5")||incomeRangCode.equalsIgnoreCase("6")||incomeRangCode.equalsIgnoreCase("7")||incomeRangCode.equalsIgnoreCase("8")){
+                            SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
+                            activityData.setActivity_code(activityDataBean.getActivity_code());
+                            activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
+                            activityData.setEntry_month(activityDataBean.getEntry_month());
+                            activityData.setEntry_year(activityDataBean.getEntry_year());
+                            activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
+                            activityData.setFrequency_code(activityDataBean.getFrequency_code());
+                            activityData.setRange_code(activityDataBean.getRange_code());
+
+                            activityData.setSector_code(activityDataBean.getSector_code());
+
+                            activityDataList.add(activityData);
+                        }
+                        else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
+                                ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        );
+                    }
+                    else if (incomeFrequencyCode.equalsIgnoreCase("3")){
+                        if (incomeRangCode.equalsIgnoreCase("9")||incomeRangCode.equalsIgnoreCase("10")||incomeRangCode.equalsIgnoreCase("11")||incomeRangCode.equalsIgnoreCase("12")){
+                            SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
+                            activityData.setActivity_code(activityDataBean.getActivity_code());
+                            activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
+                            activityData.setEntry_month(activityDataBean.getEntry_month());
+                            activityData.setEntry_year(activityDataBean.getEntry_year());
+                            activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
+                            activityData.setFrequency_code(activityDataBean.getFrequency_code());
+                            activityData.setRange_code(activityDataBean.getRange_code());
+
+                            activityData.setSector_code(activityDataBean.getSector_code());
+
+                            activityDataList.add(activityData);
+                        }
+                        else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
+                                ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        );
+                    }
+                    else if (incomeFrequencyCode.equalsIgnoreCase("4")){
+                        if (incomeRangCode.equalsIgnoreCase("13")||incomeRangCode.equalsIgnoreCase("14")||incomeRangCode.equalsIgnoreCase("15")||incomeRangCode.equalsIgnoreCase("16")){
+                            SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
+                            activityData.setActivity_code(activityDataBean.getActivity_code());
+                            activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
+                            activityData.setEntry_month(activityDataBean.getEntry_month());
+                            activityData.setEntry_year(activityDataBean.getEntry_year());
+                            activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
+                            activityData.setFrequency_code(activityDataBean.getFrequency_code());
+                            activityData.setRange_code(activityDataBean.getRange_code());
+
+                            activityData.setSector_code(activityDataBean.getSector_code());
+
+                            activityDataList.add(activityData);
+                        }
+                        else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
+                                ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        );
+                    }
+
+
+
+                }
+                    else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
+                            ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                    );
                 }
                 syncEntry.setActivities_data_sync(activityDataList);
 
