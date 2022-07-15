@@ -574,11 +574,11 @@ public class SyncDataRepo {
                             activityDataList.add(activityData);
                         }
 
-
+                        else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
+                                ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        );
                     }
-                    else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
-                            ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
-                    );
+
                      if (incomeFrequencyCode.equalsIgnoreCase("2")){
                         if (incomeRangCode.equalsIgnoreCase("5")||incomeRangCode.equalsIgnoreCase("6")||incomeRangCode.equalsIgnoreCase("7")||incomeRangCode.equalsIgnoreCase("8")){
                             SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
@@ -594,11 +594,11 @@ public class SyncDataRepo {
 
                             activityDataList.add(activityData);
                         }
-
+                        else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
+                                ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        );
                     }
-                     else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
-                             ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
-                     );
+
                     if (incomeFrequencyCode.equalsIgnoreCase("3")){
                         if (incomeRangCode.equalsIgnoreCase("9")||incomeRangCode.equalsIgnoreCase("10")||incomeRangCode.equalsIgnoreCase("11")||incomeRangCode.equalsIgnoreCase("12")){
                             SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
@@ -614,11 +614,11 @@ public class SyncDataRepo {
 
                             activityDataList.add(activityData);
                         }
-
+                        else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
+                                ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        );
                     }
-                    else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
-                            ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
-                    );
+
                      if (incomeFrequencyCode.equalsIgnoreCase("4")){
                         if (incomeRangCode.equalsIgnoreCase("13")||incomeRangCode.equalsIgnoreCase("14")||incomeRangCode.equalsIgnoreCase("15")||incomeRangCode.equalsIgnoreCase("16")){
                             SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
@@ -634,11 +634,11 @@ public class SyncDataRepo {
 
                             activityDataList.add(activityData);
                         }
-
+                        else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
+                                ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
+                        );
                     }
-                     else  DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Please Uninstall the app download from Playstore"
-                             ,"ok", (dialog, which) -> dialog.dismiss(), null, null, true
-                     );
+
 
 
 
