@@ -103,6 +103,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.itemBinding.tvMemberNameCode.setTextColor(context.getResources().getColor(R.color.green_500));
@@ -272,7 +273,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                         }
 
 
-                                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                             try {
                                                 Cryptography cryptography = new Cryptography();
                                                 jsonObject = new JSONObject(cryptography.decrypt(objectResponse)); //Main data of state
@@ -391,7 +392,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             holder.itemBinding.beforeNrlmEntry.setText(context.getResources().getString(R.string.not_filled));
         } else {
             holder.itemBinding.beforeNrlmEntry.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.beforeNrlmEntry.setText("Captured for "+lastFilledBeforeNrlmEntry);
+            holder.itemBinding.beforeNrlmEntry.setText("capture"+lastFilledBeforeNrlmEntry);
         }
 
         if (lastFilledAfterNrlmEntry == null) {
@@ -399,7 +400,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             holder.itemBinding.afterNrlmEntry.setText(context.getResources().getString(R.string.not_filled));
         } else {
             holder.itemBinding.afterNrlmEntry.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.afterNrlmEntry.setText("Captured for "+lastFilledAfterNrlmEntry);
+            holder.itemBinding.afterNrlmEntry.setText("captured for"+lastFilledAfterNrlmEntry);
         }
 
 
@@ -408,7 +409,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             holder.itemBinding.aadharDetails.setText(context.getResources().getString(R.string.not_filled));
         } else if (aadharStatus.equalsIgnoreCase("1")){
             holder.itemBinding.aadharDetails.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.aadharDetails.setText("Captured");
+            holder.itemBinding.aadharDetails.setText("captured");
         }else if (aadharStatus.equalsIgnoreCase("2")){
             holder.itemBinding.aadharDetails.setTextColor(context.getResources().getColor(R.color.green_500));
             holder.itemBinding.aadharDetails.setText("Requested for verification");

@@ -142,4 +142,24 @@
     <string name="enter_user_name">Enter your name</string>
     <string name="enter_mobile">Enter mobile number</string>
     <string name="enter_email">Enter email</string>
+
+    <string name="shg_alloted">shg ஒதுக்கப்பட்டது</string>
+    <string name="shg_members_alotted">shg உறுப்பினர்கள் ஒதுக்கப்பட்டனர்</string>
+    <string name="survey_completed">கணக்கெடுப்பு முடிந்தது</string>
+    <string name="survey_pending">கணக்கெடுப்பு நிலுவையில் உள்ளது</string>
+    <string name="shg_s_whose_all_members_survey_completed">shg இன் அனைத்து உறுப்பினர்களின் கணக்கெடுப்பு முடிந்தது</string>
+    <string name="shg_s_whose_atleast_one_member_survey_pending">shg இன் குறைந்தபட்சம் ஒரு உறுப்பினர் கணக்கெடுப்பு நிலுவையில் உள்ளது</string>
+    <string name="synched_to_server">சேவையகத்துடன் ஒத்திசைக்கப்பட்டது</string>>
+    <string name="pending_for_synchronization">ஒத்திசைவு நிலுவையில் உள்ளது</string>
+    <string name="dashboard">டாஷ்போர்டு</string>
+
+
+
+
+
+
+
+
+
+
 </resources>

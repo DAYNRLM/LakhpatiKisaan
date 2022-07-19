@@ -161,9 +161,18 @@
     <string name="enter_mobile">Enter mobile number</string>
     <string name="enter_email">Enter email</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="shg_alloted" translatable="false">SHG\'s Alloted</string>
-    <string name="dialog_toast_active">Member activated successfully</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="shg_alloted">SHG\'s Alloted</string>
+
+    <string name="dialog_toast_active" translatable="false">Member activated successfully</string>
+    <string name="shg_members_alotted">Shg members alotted</string>
+    <string name="survey_completed">Survey Completed</string>
+    <string name="survey_pending">Survey Pending</string>
+    <string name="shg_s_whose_all_members_survey_completed">shg\'s whose all members survey completed</string>
+    <string name="shg_s_whose_atleast_one_member_survey_pending">shg\'s whose atleast one member survey pending</string>
+    <string name="synched_to_server">Synched to server</string>
+    <string name="pending_for_synchronization">Pending for synchronization</string>
+    <string name="dashboard">Dashboard</string>
 
 
 </resources>

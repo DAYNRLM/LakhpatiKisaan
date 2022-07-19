@@ -135,10 +135,26 @@
     <string name="entry_complete_msg">प्रविष्टियां पूर्ण</string>
     <string name="seed_sec">नाम का चयन करके SECC TIN नंबर की सीडिंग</string>
 
-    <string name="sign_up">Sign up</string>
-    <string name="select_state">Select your state</string>
-    <string name="selete_district">Select your district</string>
-    <string name="enter_user_name">Enter your name</string>
-    <string name="enter_mobile">Enter mobile number</string>
-    <string name="enter_email">Enter email</string>
+    <string name="sign_up">साइन अप करें</string>
+    <string name="select_state">अपना राज्य चुनें</string>
+    <string name="selete_district">अपने जिले का चयन करें</string>
+    <string name="enter_user_name">अपना नाम दर्ज करें</string>
+    <string name="enter_mobile">मोबाइल नंबर दर्ज करें</string>
+    <string name="enter_email">ईमेल दर्ज करें</string>
+    <string name="shg_alloted" translatable="false">एसएचजी आवंटित</string>
+    <string name="shg_members_alotted">एसएचजी सदस्यों को आवंटित</string>
+    <string name="survey_completed">सर्वेक्षण पूरा हुआ</string>
+    <string name="survey_pending">सर्वेक्षण लंबित</string>
+    <string name="shg_s_whose_all_members_survey_completed">एसएचजी जिनके सभी सदस्यों का सर्वेक्षण पूरा हुआ </string>
+    <string name="shg_s_whose_atleast_one_member_survey_pending">एसएचजी जिनके कम से कम एक सदस्य का सर्वेक्षण लंबित है</string>
+    <string name="synched_to_server">सर्वर से सिंक किया गया</string>>
+    <string name="pending_for_synchronization">સसिंक्रनाइज़ेशन के लिए लंबित</string>
+    <string name="dashboard">डैशबोर्ड</string>
+
+
+
+
+
+
+
 </resources>

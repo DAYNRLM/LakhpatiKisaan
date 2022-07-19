@@ -55,7 +55,7 @@
                             android:textSize="@dimen/text_20sp"
                             style="@style/IconTextContainedButton"
                             android:id="@+id/dashboard_btn"
-                            android:text="Dashboard"
+                            android:text="@string/dashboard"
                           />
 
                         <TextView
