@@ -152,8 +152,14 @@
     <string name="synched_to_server">ಸರ್ವರ್‌ಗೆ_ಸಿಂಕ್ ಮಾಡಲಾಗಿದೆ</string>>
     <string name="pending_for_synchronization">ಸಿಂಕ್ರೊನೈಸೇಶನ್_ಗಾಗಿ ಬಾಕಿಯಿದೆ</string>
     <string name="dashboard">್ಯಾಶ್‌ಬೋರ್ಡ್</string>
+    <string name="member">ಸದಸ್ಯ </string>
+    <string name="memberjoiningdate">ಸದಸ್ಯರ ಸೇರ್ಪಡೆ ದಿನಾಂಕ </string>
 
+    <string name="fathername">पತಂದೆಯ ಹೆಸರು/ಗಂಡನ ಹೆಸರು</string>
 
+    <string name="capture">ಸೆರೆಹಿಡಿಯಿರಿ</string>
+    <string name="capturedfor">ಗಾಗಿ ವಶಪಡಿಸಿಕೊಳ್ಳಲಾಗಿದೆ</string>
+    <string name="captured">ವಶಪಡಿಸಿಕೊಂಡಿದ್ದಾರೆ </string>
 
 
 

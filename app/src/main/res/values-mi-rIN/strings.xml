@@ -153,6 +153,12 @@
     <string name="pending_for_synchronization">Synchronization neih theihna tur a la awm</string>
 
     <string name="dashboard">Dashboard a ni</string>
+    <string name="member">member a ni tawh</string>
+    <string name="memberjoiningdate">member a tel hun tur a ni </string>
+    <string name="fathername">Pa hming/pasal hming</string>
+    <string name="capture">la</string>
+    <string name="capturedfor">man ta a ni</string>
+    <string name="captured">an man ta a ni </string>
 
 
 

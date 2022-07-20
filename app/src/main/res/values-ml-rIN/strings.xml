@@ -151,7 +151,13 @@
     <string name="synched_to_server">സെർവറിലേക്ക് സമന്വയിപ്പിച്ചു</string>>
     <string name="pending_for_synchronization">സമന്വയത്തിനായി തീർച്ചപ്പെടുത്തിയിട്ടില്ല</string>
     <string name="dashboard">ഡാഷ്ബോർഡ്</string>
+    <string name="member">അംഗം</string>
+    <string name="memberjoiningdate">അംഗം ചേരുന്ന തീയതി</string>
+    <string name="fathername">അച്ഛന്റെ പേര്/ഭർത്താവിന്റെ പേര്</string>
 
+    <string name="capture">പിടിക്കുക</string>
+    <string name="capturedfor">വേണ്ടി പിടിച്ചെടുത്തു</string>
+    <string name="captured">പിടികൂടി </string>
 
 
 

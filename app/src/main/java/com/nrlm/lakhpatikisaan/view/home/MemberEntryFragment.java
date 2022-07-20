@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -128,6 +129,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) { super.onViewCreated(view, savedInstanceState);
@@ -164,10 +166,10 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
             binding.tvYear.setText("" + entryYearCode);
 
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
-            binding.tvShgNameCode.setText("Member : "+memberName + " (" + shgMemberCode + ")");
+            binding.tvShgNameCode.setText(getString(R.string.member)+memberName + " (" + shgMemberCode + ")");
             binding.tvMemberNameCode.setText("SHG : "+shgName + " (" + shgCode + ")");
-            binding.joiningDate.setText("Member's joining date : " +  joiningDate );
-            binding.tvMemberBelonging.setText("Father/Husband Name :"+memberBelongingName);
+            binding.joiningDate.setText(getString(R.string.memberjoiningdate) +  joiningDate );
+            binding.tvMemberBelonging.setText(getString(R.string.fathername)+memberBelongingName);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

@@ -151,6 +151,13 @@
     <string name="synched_to_server">ସର୍ଭର ସହିତ ସିଙ୍କ୍ ହୋଇଛି |</string>>
     <string name="pending_for_synchronization">ସର୍ଭର ସହିତ ସିଙ୍କ୍ ହୋଇଛି |</string>
     <string name="dashboard">ଡ୍ୟାସବୋର୍ଡ |</string>
+    <string name="member">ସଦସ୍ୟ</string>
+    <string name="memberjoiningdate">ସଦସ୍ୟଙ୍କ ଯୋଗଦାନ ତାରିଖ |</string>
+
+    <string name="fathername">ପିତାଙ୍କ ନାମ/ସ୍ୱାମୀ ନାମ</string>
+    <string name="capture">ଧରିବା</string>
+    <string name="capturedfor">ପାଇଁ ଧରାପଡିଛି |</string>
+    <string name="captured">ଧରାପଡିଛି | </string>
 
 
 

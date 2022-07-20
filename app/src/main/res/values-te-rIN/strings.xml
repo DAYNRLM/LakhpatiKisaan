@@ -152,8 +152,14 @@
     <string name="synched_to_server">సర్వర్‌కి సమకాలీకరించబడింది</string>>
     <string name="pending_for_synchronization">సమకాలీకరణ కోసం పెండింగ్‌లో ఉంది</string>
     <string name="dashboard">డాష్బోర్డ్</string>
+    <string name="member">సభ్యుడు</string>
 
+    <string name="memberjoiningdate">సభ్యుడు చేరిన తేదీ</string>
 
+    <string name="fathername">ପதந்தையின் பெயர்/భర్త పేరు</string>
+    <string name="capture">పట్టుకోవడం</string>
+    <string name="capturedfor">కోసం స్వాధీనం</string>
+    <string name="captured">స్వాధీనం </string>
 
 
 

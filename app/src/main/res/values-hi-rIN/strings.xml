@@ -150,6 +150,12 @@
     <string name="synched_to_server">सर्वर से सिंक किया गया</string>>
     <string name="pending_for_synchronization">સसिंक्रनाइज़ेशन के लिए लंबित</string>
     <string name="dashboard">डैशबोर्ड</string>
+    <string name="member">सदस्य </string>
+    <string name="memberjoiningdate">सदस्य के शामिल होने की तिथि</string>
+    <string name="fathername">पिता का नाम/पति का नाम</string>
+    <string name="capture">कब्जा</string>
+    <string name="capturedfor">के लिए कब्जा कर लिया</string>
+    <string name="captured">कब्जा कर लिया</string>
 
 
 

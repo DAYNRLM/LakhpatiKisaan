@@ -392,7 +392,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             holder.itemBinding.beforeNrlmEntry.setText(context.getResources().getString(R.string.not_filled));
         } else {
             holder.itemBinding.beforeNrlmEntry.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.beforeNrlmEntry.setText("capture"+lastFilledBeforeNrlmEntry);
+            holder.itemBinding.beforeNrlmEntry.setText(context.getString(R.string.capture)+lastFilledBeforeNrlmEntry);
         }
 
         if (lastFilledAfterNrlmEntry == null) {
@@ -400,7 +400,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             holder.itemBinding.afterNrlmEntry.setText(context.getResources().getString(R.string.not_filled));
         } else {
             holder.itemBinding.afterNrlmEntry.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.afterNrlmEntry.setText("captured for"+lastFilledAfterNrlmEntry);
+            holder.itemBinding.afterNrlmEntry.setText(context.getString(R.string.capturedfor)+lastFilledAfterNrlmEntry);
         }
 
 
@@ -409,7 +409,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             holder.itemBinding.aadharDetails.setText(context.getResources().getString(R.string.not_filled));
         } else if (aadharStatus.equalsIgnoreCase("1")){
             holder.itemBinding.aadharDetails.setTextColor(context.getResources().getColor(R.color.green_500));
-            holder.itemBinding.aadharDetails.setText("captured");
+            holder.itemBinding.aadharDetails.setText(R.string.captured);
         }else if (aadharStatus.equalsIgnoreCase("2")){
             holder.itemBinding.aadharDetails.setTextColor(context.getResources().getColor(R.color.green_500));
             holder.itemBinding.aadharDetails.setText("Requested for verification");

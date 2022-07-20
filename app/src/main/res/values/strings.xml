@@ -173,6 +173,12 @@
     <string name="synched_to_server">Synched to server</string>
     <string name="pending_for_synchronization">Pending for synchronization</string>
     <string name="dashboard">Dashboard</string>
+    <string name="member">Member </string>
+    <string name="memberjoiningdate">\"Member\'s joining date : \"</string>
+    <string name="fathername">Father/Husband Name :</string>
+    <string name="capture">Capture</string>
+    <string name="capturedfor">Captured for</string>
+    <string name="captured">Captured</string>
 
 
 </resources>
