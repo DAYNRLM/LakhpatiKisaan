@@ -38,6 +38,12 @@ public class PreferenceKeyManager {
     private static final String PREF_KEY_Demo = "Demo";
     private static final String PREF_KEY_month = "month";
 
+    public static String getPrefKeyLanguageId() {
+        return PREF_KEY_LANGUAGE_ID;
+    }
+
+    private static final String PREF_KEY_LANGUAGE_ID = "language";
+
     public static String getPREF_KEY_month() {
         return PREF_KEY_month;
     }

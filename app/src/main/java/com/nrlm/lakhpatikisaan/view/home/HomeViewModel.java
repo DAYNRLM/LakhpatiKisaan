@@ -232,62 +232,6 @@ public String getStateName() throws ExecutionException, InterruptedException {
 
 
 
-  /*  private void makeInActiveMemberEntry(String loginId,  String imeiNo
-            , String deviceName, String locationCoordinates, String stateShortName) {
-        MemberInActiveRequestBean memberInActiveRequestBean = syncDataRepo.ge(loginId,  imeiNo, deviceName, locationCoordinates,stateShortName);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (memberInActiveRequestBean.getNrlm_member_inactivate() != null && memberInActiveRequestBean.getNrlm_member_inactivate().size() != 0) {
-                    syncDataRepo.makeMemberInActiveRequest(memberInActiveRequestBean, new RepositoryCallback() {
-                        @Override
-                        public void onComplete(Result result) {
-                            try {
-                                if (result instanceof Result.Success) {
-                                    SimpleResponseBean simpleResponseBean = (SimpleResponseBean) ((Result.Success) result).data;
-
-                                    *//*update sync status in member entry table*//*
-                                    syncApiStatus="E200";
-
-                                    updateSyncStatus();
-
-                                    updateAadharSyncStatus();
-
-                                    AppUtils.getInstance().showLog(simpleResponseBean.getError().getCode() + "DataSync and status updated successfully-" +
-                                            simpleResponseBean.getError().getMessage(), HomeViewModel.class);
-                                } else {
-                                    Object errorObject = ((Result.Error) result).exception;
-                                    if (errorObject != null) {
-                                        if (errorObject instanceof SimpleResponseBean.Error) {
-                                            SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
-                                            syncApiStatus=responseError.getCode();
-                                            AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
-                                                    + responseError.getMessage(), AuthViewModel.class);
-                                        } else if (errorObject instanceof Throwable) {
-                                            Throwable exception = (Throwable) errorObject;
-                                            syncApiStatus=exception.getMessage();
-                                            AppUtils.getInstance().showLog("SyncEntriesRetrofitErrors:-------" + exception.getMessage()
-                                                    , AuthViewModel.class);
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                syncApiStatus=e.getMessage();
-                                AppUtils.getInstance().showLog("SyncEntriesResultExp" + e.toString(), AuthViewModel.class);
-
-                            }
-                        }
-                    });
-                }
-            }
-        },1000);
-
-
-    }
-
-
-*/
     public String getSyncApiStatus(){
         return syncApiStatus;
     }
@@ -346,13 +290,6 @@ public String getStateName() throws ExecutionException, InterruptedException {
                     }
                 }
             }
-           /* for(MemberEntryEntity entryObject:entryData){
-                for(ActivityEntity activityObject:activityData){
-                    if(entryObject.getActivityCode().equalsIgnoreCase(String.valueOf(activityObject.getActivity_code()))){
-                        activityData.remove(activityObject);
-                    }
-                }
-            }*/
 
         }else {
             activityData =masterDataRepo.getAllActivity(id);
@@ -373,13 +310,6 @@ public String getStateName() throws ExecutionException, InterruptedException {
                     }
                 }
             }
-           /* for(MemberEntryEntity entryObject:entryData){
-                for(ActivityEntity activityObject:activityData){
-                    if(entryObject.getActivityCode().equalsIgnoreCase(String.valueOf(activityObject.getActivity_code()))){
-                        activityData.remove(activityObject);
-                    }
-                }
-            }*/
 
         }else {
             activityData =masterDataRepo.getAllActivityWithoutSector();
@@ -567,17 +497,7 @@ public String getSUrveyPending(){
 }
 
 
-//MemberInActive database
 
-   /* String insertInActiveMember()
-    {
-        return syncDataRepo.in
-    }
-   String insertMemberCount(MemberInActiveEntity memberInActiveEntity) throws ExecutionException, InterruptedException {
-       return masterDataRepo.getMemberCount(memberInActiveEntity);
-   }
-
-*/
 
     String getMemberCount(String shgCode) throws ExecutionException, InterruptedException {
         return masterDataRepo.getMemberCount(shgCode);
@@ -695,17 +615,6 @@ public String getSUrveyPending(){
     public void updateConfirmationStatus(String memberCode, String entryStatus){
          masterDataRepo.updateConfirmationStatus(memberCode,entryStatus);
     }
-
-/*
-    public void deleteAllMasterDataLg() {
-        loginRepo.deleteAllMaster();
-    }
-*/
-
-
-
-
-
 
     public void getMasterData(LogRequestBean logRequestBean){
         JsonObject encryptedObject =new JsonObject();

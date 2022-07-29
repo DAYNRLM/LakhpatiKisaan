@@ -389,7 +389,6 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     imeiNo1 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
                     Build.getSerial();
 
-                    AppUtils.getInstance().showLog("BUILD SERIAL " + Build.getSerial(), AppDeviceInfoUtils.class);
 
                 } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     imeiNo1 = telephonyManager.getDeviceId(0);

@@ -138,7 +138,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                             .setCancelable(false)
                             .setPositiveButton(context.getResources().getString(R.string.dialog_btn_InActive), (dialogInterface, i) -> {
                      //   String    memberIsNotInClfAndVo  =   homeViewModel.getMemberIsNotInClfAndVo("4205532");
-                       String    memberIsNotInClfAndVo  =   homeViewModel.getMemberIsNotInClfAndVo(dataItem.get(position).getMemberCode());
+                       String    memberIsNotInClfAndVo  =   homeViewModel.getMemberIsNotInClfAndVo(dataItem.get(holder.getAdapterPosition()).getMemberCode());
                         if (memberIsNotInClfAndVo.equalsIgnoreCase("0")){
                             DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Cannot Inactivate already Linked To CLF/VO"
                                     , "ok", (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, true
@@ -187,7 +187,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
 
                                     MemberInActiveRequestBean memberInActiveRequestBean=new MemberInActiveRequestBean();
-                                   // memberInActiveRequestBean.setLogin_id(homeViewModel.LoginId());
+                                   //memberInActiveRequestBean.setLogin_id(homeViewModel.LoginId());
 
                                     String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyStateShortName(),context);
                                     String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyLoginid(),context);
@@ -195,12 +195,12 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                     AppUtils.getInstance().showLog("inactiveMemSyncValue"+stateShortName,ShgMemberAdapter.class);
                                     AppUtils.getInstance().showLog("inactiveMemSyncValue"+loginId,ShgMemberAdapter.class);
                                    memberInActiveRequestBean.setLogin_id(loginId);
-                                   // memberInActiveRequestBean.setLogin_id("UPAGABDUSS");
+                                   //memberInActiveRequestBean.setLogin_id("UPAGABDUSS");
                                     memberInActiveRequestBean.setImei_no(imeiNo);
                                     memberInActiveRequestBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
                                     memberInActiveRequestBean.setLocation_coordinate("10.3111313,154.16546");
                                    memberInActiveRequestBean.setState_short_name(stateShortName);
-                                 //   memberInActiveRequestBean.setState_short_name("UP");
+                                 //memberInActiveRequestBean.setState_short_name("UP");
                                     memberInActiveRequestBean.setApp_version(BuildConfig.VERSION_NAME);
 
                                     ArrayList<MemberInActiveRequestBean.InactiveMemSync> memberInavtivearr=new ArrayList<>();
@@ -218,7 +218,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
                                     }
                                     memberInActiveRequestBean.setNrlm_member_inactivate(memberInavtivearr);
-                         //          AppUtils.getInstance().showLog("mainInActiveRequest"+memberInActiveRequestBean,ShgMemberAdapter.class);
+                         //AppUtils.getInstance().showLog("mainInActiveRequest"+memberInActiveRequestBean,ShgMemberAdapter.class);
 
 
 
@@ -319,7 +319,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                 };
                               volleyService = VolleyService.getInstance(context);
                                 volleyService.postDataVolley("InactiveRequest", AppConstant.baseUrl+"inactivememberdata", encryptedObject, mResultCallBack);
-                              //  volleyService.postDataVolley("InactiveRequest", "http://10.197.183.105:8989/lakhpatishg/inactivememberdata", encryptedObject, mResultCallBack);
+                              //volleyService.postDataVolley("InactiveRequest", "http://10.197.183.105:8989/lakhpatishg/inactivememberdata", encryptedObject, mResultCallBack);
 
 
 
@@ -446,27 +446,8 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                 ViewUtilsKt.toast(context, context.getResources().getString(R.string.member_is_InActive));
 
 
-            /*NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToMemberEntryFragment();
-            navController.navigate(navDirections);*/
 
 
-           /* new MaterialAlertDialogBuilder(context).setTitle(context.getResources().getString(R.string.income_selection)).setIcon(R.drawable.ic_baseline_add_circle_outline_24)
-                    .setItems(AppConstant.ConstantObject.getItems(), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            String arr[] =  AppConstant.ConstantObject.getItems();
-                            String str = arr[i];
-                            if(str.equalsIgnoreCase("Income (Before coming into NRLM Fold)")){
-                                NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToMemberEntryFragment();
-                                navController.navigate(navDirections);
-
-                            }else if(str.equalsIgnoreCase("Income at present")){
-                                NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToIncomeEntryAfterNrlmFragment();
-                                navController.navigate(navDirections);
-
-                            }
-                        }
-                    }).setCancelable(true).show();*/
         });
 
     }

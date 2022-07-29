@@ -656,93 +656,11 @@ public class SyncDataRepo {
         } catch (Exception e) {
             AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + e, SyncDataRepo.class);
         }
-       // AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + syncEntriesRequestBean.toString(), SyncDataRepo.class);
         return syncEntriesRequestBean;
     }
 
 
-  /*  public MemberInActiveRequestBean getMemberInActive(String loginId, String imeiNo
-            , String deviceName, String locationCoordinates, String stateShortName, String app_version) {
-        MemberInActiveRequestBean memberInActiveRequestBean = new MemberInActiveRequestBean();
-        try {
-           List<MemberListDataBean> memberListDataBeans = getDistinctShgAndMemberToSync(entryCompleteConfirmation);
-            List<MemberInActiveRequestBean.InactiveMemSync> memSyncList = new ArrayList<>();
 
-            memberInActiveRequestBean.setLogin_id(loginId);
-            memberInActiveRequestBean.setImei_no(imeiNo);
-            memberInActiveRequestBean.setDevice_name(deviceName);
-            memberInActiveRequestBean.setLocation_coordinate(locationCoordinates);
-            memberInActiveRequestBean.setState_short_name(stateShortName);
-            memberInActiveRequestBean.setApp_version(BuildConfig.VERSION_NAME);
-
-
-            for (MemberInActiveRequestBean memberInActiveRequestBean1 : shgAndMemberDataBeanList) {
-                List<ActivityDataBean> activityDataBeanList = null ;
-                AadharDbBean aadharDbBean=null;
-
-                try {
-                            activityDataBeanList = getActivityData(shgAndMemberDataBean.getShgCode(), shgAndMemberDataBean.getMemberCode(), entryCompleteConfirmation);
-                    aadharDbBean=getAadharDetails(shgAndMemberDataBean.getMemberCode());
-
-                }  catch (Exception e) {
-                    AppUtils.getInstance().showLog("ExcpGetActivityDataSync" + e, SyncDataRepo.class);
-                }
-                SyncEntriesRequestBean.SyncEntry syncEntry = new SyncEntriesRequestBean.SyncEntry();
-                syncEntry.setShg_code(shgAndMemberDataBean.getShgCode());
-                syncEntry.setShg_member_code(shgAndMemberDataBean.getMemberCode());
-                if (shgAndMemberDataBean.getSecc().equalsIgnoreCase("")) {
-
-                    syncEntry.setSecc("0");
-
-                }
-                else
-                    syncEntry.setSecc(shgAndMemberDataBean.getSecc());
-
-                if (aadharDbBean==null || activityDataBeanList!=null &&
-                        activityDataBeanList.get(0).getFlag_before_after_nrlm().equalsIgnoreCase("A") ){
-                    syncEntry.setName_as_per_aadhaar("");
-                    syncEntry.setEncrypted_aadhaar("");
-                    syncEntry.setAadhaar_verified_status("");
-
-                }else {
-                    syncEntry.setName_as_per_aadhaar(aadharDbBean.getAadharName());
-                    syncEntry.setEncrypted_aadhaar(aadharDbBean.getAadharNumber());
-                    syncEntry.setAadhaar_verified_status(aadharDbBean.getAadharVerifiedStatus());
-                }
-
-
-                List<SyncEntriesRequestBean.ActivityData> activityDataList = new ArrayList<>();
-
-                for (ActivityDataBean activityDataBean : activityDataBeanList) {
-                    SyncEntriesRequestBean.ActivityData activityData = new SyncEntriesRequestBean.ActivityData();
-                    activityData.setActivity_code(activityDataBean.getActivity_code());
-                    activityData.setCreated_on_android(activityDataBean.getCreated_on_android());
-                    activityData.setEntry_month(activityDataBean.getEntry_month());
-                    activityData.setEntry_year(activityDataBean.getEntry_year());
-                    activityData.setFlag_before_after_nrlm(activityDataBean.getFlag_before_after_nrlm());
-                    activityData.setFrequency_code(activityDataBean.getFrequency_code());
-                    activityData.setRange_code(activityDataBean.getRange_code());
-
-                    activityData.setSector_code(activityDataBean.getSector_code());
-
-                    activityDataList.add(activityData);
-                }
-                syncEntry.setActivities_data_sync(activityDataList);
-
-                syncEntryList.add(syncEntry);
-            }
-            syncEntriesRequestBean.setNrlm_entry_sync(syncEntryList);
-            String data=  new Gson().toJson(syncEntryList).toString();
-            AppUtils.getInstance().showLog(data,SyncDataRepo.class);
-
-        } catch (Exception e) {
-            AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + e, SyncDataRepo.class);
-        }
-        // AppUtils.getInstance().showLog("ExcpgetDistinctShgAndMemberToSync" + syncEntriesRequestBean.toString(), SyncDataRepo.class);
-        return syncEntriesRequestBean;
-    }
-
-*/
 
     public void updateSyncStatus() {
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
@@ -815,4 +733,3 @@ private void insertMemberInActiveData(List<MemberInActiveEntity> memberInActiveE
     }
 
 }
-/*{ }*/

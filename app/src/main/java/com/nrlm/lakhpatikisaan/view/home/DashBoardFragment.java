@@ -1,9 +1,11 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +57,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
     ArrayAdapter<String> clfAdaptor;
     ArrayAdapter<String> voAdaptor;
     String apiStatus;
+    Context context;
     String shgGlobalCode;
 
     @Override
@@ -297,8 +300,9 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                 String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getCurrentContext());
                 String deviceInfo=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(),getCurrentContext());
                 String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getCurrentContext());
+                @SuppressLint("HardwareIds") String  imeiNo = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-                LogRequestBean logRequestBean=new LogRequestBean(loginId,stateShortName,"5d7eaa5ef9d3e",deviceInfo,".3725698,.2985556");
+                LogRequestBean logRequestBean=new LogRequestBean(loginId,stateShortName,imeiNo,deviceInfo,".3725698,.2985556");
                 viewModel.getMasterData(logRequestBean);
                 viewModel.getSupportiveMasters(logRequestBean);
                 new Handler().postDelayed(new Runnable() {

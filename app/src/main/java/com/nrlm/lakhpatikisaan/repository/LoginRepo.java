@@ -209,6 +209,8 @@ public class LoginRepo {
                                         loginResponseBean.getServer_date_time(), loginResponseBean.getLanguage_id(), loginResponseBean.getLogin_attempt(),
                                         loginResponseBean.getLogout_days());
                                 insertLoginInfo(loginInfoEntity);
+                                PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyLanguageId(), loginResponseBean.getLanguage_id(), context);
+
                                 PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyLoginid(), loginResponseBean.getLogin_id(), context);
                                 PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyStateShortName(), loginResponseBean.getState_short_name(), context);
                                 PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyServerdate(), loginResponseBean.getServer_date_time(), context);

@@ -117,10 +117,10 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             binding.tvYear.setText("" + entryYearCode);
 
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
-            binding.tvShgNameCode.setText("Member : " + memberName + " (" + shgMemberCode + ")");
+            binding.tvShgNameCode.setText(getString(R.string.member)+ memberName + " (" + shgMemberCode + ")");
             binding.tvMemberNameCode.setText("SHG : " + shgName + " (" + shgCode + ")");
-            binding.joiningDates.setText("Member's joining date : " + joiningDate);
-            binding.tvMemberBelonging.setText("Father/Husband Name :"+memberBelongingName);
+            binding.joiningDates.setText(getString(R.string.memberjoiningdate)+ joiningDate);
+            binding.tvMemberBelonging.setText(getString(R.string.fathername)+memberBelongingName);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -175,7 +175,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                     String month_name = String.valueOf(selectedMonth + 1);
 
 
-                    binding.tvMonth.setText(month_name);
+                    binding.tvMonth.setText("0"+month_name);
                     binding.tvYear.setText("" + selectedYear);
 
                     binding.llSelectDate.setVisibility(View.GONE);
@@ -184,7 +184,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
                     entryYearCode = String.valueOf(selectedYear);
                     entryMonthCode = String.valueOf(selectedMonth + 1);
-                       PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPREF_KEY_month(),entryMonthCode , getContext());
+                       PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPREF_KEY_month(),"0"+entryMonthCode , getContext());
 
 
 
@@ -393,8 +393,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.shgMemberCode = shgMemberCode;
         if (entryYearCode.equalsIgnoreCase("2022")|| entryYearCode.equalsIgnoreCase("2023")||entryYearCode.equalsIgnoreCase("2024")||entryYearCode.equalsIgnoreCase("2025")||entryYearCode.equalsIgnoreCase("2026")||entryYearCode.equalsIgnoreCase("2027")||entryYearCode.equalsIgnoreCase("2028")||entryYearCode.equalsIgnoreCase("2029")||entryYearCode.equalsIgnoreCase("2030")||entryYearCode.equalsIgnoreCase("2031")||entryYearCode.equalsIgnoreCase("2032")||entryYearCode.equalsIgnoreCase("2033")){
             memberEntryEntity.entryYearCode = entryYearCode;
-            memberEntryEntity.entryMonthCode= PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPREF_KEY_month(), getContext());;
-
+            memberEntryEntity.entryMonthCode= "0"+entryMonthCode;
             memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
             memberEntryEntity.sectorDate = sectorDate;
             memberEntryEntity.activityCode = activityCode;
@@ -402,7 +401,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
             memberEntryEntity.incomeRangCode = incomeRangCode;
             memberEntryEntity.flagBeforeAfterNrlm = AppConstant.afterNrlmStatus;
-            memberEntryEntity.monthName=entryMonthCode;
+            memberEntryEntity.monthName="0"+entryMonthCode;
 
             memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
             memberEntryEntity.sectorName = sectorName;

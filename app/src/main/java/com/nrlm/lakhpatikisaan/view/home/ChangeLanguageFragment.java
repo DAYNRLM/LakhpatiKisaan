@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import com.nrlm.lakhpatikisaan.database.entity.LanguageEntity;
 import com.nrlm.lakhpatikisaan.databinding.FragmentChangeLanguageBinding;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.LanguageConstant;
+import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
+import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 
 import java.util.ArrayList;
@@ -68,13 +71,15 @@ public class ChangeLanguageFragment extends BaseFragment<HomeViewModel, Fragment
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     void bindData() throws ExecutionException, InterruptedException {
 
         languagedata=new ArrayList<>();
 
         String index = "0";
 
-       String languageId = viewModel.getLanguageCode();
+       String languageId = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyLanguageId(),getContext());
+
 
         AppUtils.getInstance().showLog("languageId" + languageId, ChangeLanguageFragment.class);
         /* String languageId = loginInfo.getLanguageId();*/

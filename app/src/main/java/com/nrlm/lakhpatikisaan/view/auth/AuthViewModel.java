@@ -111,7 +111,7 @@ public class AuthViewModel extends ViewModel {
                             LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), loginResponseBean.getState_short_name()
                                     , loginRequestBean.getImei_no(), loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
 
-                            if (mst.toString().equalsIgnoreCase("N")){
+                            if (mst.toString().equalsIgnoreCase("Y")){
                                 loginRepo.deleteAllMaster();
                                 getSupportiveMasters(logRequestBean);
                                 getMasterData(logRequestBean);
