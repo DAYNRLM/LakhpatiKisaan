@@ -45,7 +45,7 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
         viewModel.getHomeViewModelRepos(getCurrentContext());
         binding.shgNumberTextview.setText(viewModel.getShgCount());
         binding.memberNumberTextview.setText(viewModel.getMemberCount());
-        binding.SyncedServer.setText(viewModel.getBeforeServerData());
+        binding.SyncedServer.setText(viewModel.getSurveyCompleted());
         binding.syncLocally.setText(viewModel.getBeforeLocally());
         int surveyShgAllCompleted = Integer.parseInt(viewModel.getShgCount()) -Integer.parseInt(viewModel.getshgWhoseAtleastOneMemberLeft());
         String s = String.valueOf(surveyShgAllCompleted);

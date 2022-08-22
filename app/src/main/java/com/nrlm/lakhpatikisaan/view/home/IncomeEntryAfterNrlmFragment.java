@@ -415,6 +415,8 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             // memberEntryDataItem.add(memberEntryEntity);
 
             viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
+            NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentSelf();
+            navController.navigate(navDirections);
 
         }
         else {
