@@ -144,11 +144,11 @@
 
     <string name="shg_alloted">shg বরাদ্দ করা হয়েছে</string>
     <string name="shg_members_alotted">shg সদস্য আবণ্টন কৰা হৈছে</string>
-    <string name="survey_completed">জরিপ সম্পন্ন</string>
-    <string name="survey_pending">সমীক্ষা মুলতুবি</string>
+    <string name="shg_members_survey_completed">SHG এর সদস্যদের জরিপ সম্পন্ন হয়েছে</string>
+    <string name="shg_members_survey_pending">এসএইচজি সদস্যদের জরিপ বাকি আছে</string>
     <string name="shg_s_whose_all_members_survey_completed">shg এর সকল সদস্য সমীক্ষা সম্পন্ন করেছে</string>
     <string name="shg_s_whose_atleast_one_member_survey_pending">shg যার অন্তত একজন সদস্যের সমীক্ষা মুলতুবি আছে</string>
-    <string name="synched_to_server">সার্ভারে সিঙ্ক করা হয়েছে</string>>
+    <string name="shg_member_s_survey_details_synched_to_server">shg সদস্যদের সার্ভারের বিবরণ সার্ভারে সিঙ্ক করা হয়েছে</string>>
     <string name="pending_for_synchronization">সিঙ্ক্রোনাইজেশনের জন্য মুলতুবি</string>
     <string name="dashboard">ড্যাশবোর্ড</string>
 

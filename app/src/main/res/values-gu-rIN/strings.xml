@@ -152,12 +152,12 @@
 
     <string name="shg_alloted">shg ફાળવેલ</string>
     <string name="shg_members_alotted">shg સભ્યોની ફાળવણી</string>
-    <string name="survey_completed">સર્વે પૂર્ણ</string>
-    <string name="survey_pending">સર્વે બાકી છે</string>
+    <string name="shg_members_survey_completed">એસએચજીના સભ્યનો સર્વે પૂર્ણ થયો</string>
+    <string name="shg_members_survey_pending">shg સભ્યોનો સર્વે બાકી છે</string>
     <string name="shg_s_whose_all_members_survey_completed">shg ના તમામ સભ્યોએ સર્વે પૂર્ણ કર્યો </string>
     <string name="shg_s_whose_atleast_one_member_survey_pending">shg ના ઓછામાં ઓછા એક સભ્યનું સર્વેક્ષણ બાકી છે</string>
 
-    <string name="synched_to_server">સર્વર સાથે સમન્વયિત</string>>
+    <string name="shg_member_s_survey_details_synched_to_server">shg સભ્યો સર્વે વિગતો સર્વર સાથે સમન્વયિત</string>>
     <string name="pending_for_synchronization">સિંક્રનાઇઝેશન માટે બાકી છે</string>
     <string name="dashboard">ડેશબોર્ડ</string>
     <string name="member">સભ્ય </string>

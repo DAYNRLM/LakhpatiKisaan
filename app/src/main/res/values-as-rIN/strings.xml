@@ -145,11 +145,11 @@
 
     <string name="shg_alloted">shg আবণ্টন কৰা হৈছে</string>
     <string name="shg_members_alotted">shg সদস্য আবণ্টন কৰা হৈছে</string>
-    <string name="survey_completed">জৰীপ সম্পূৰ্ণ কৰা হৈছে</string>
-    <string name="survey_pending">জৰীপ বাকী আছে</string>
+    <string name="shg_members_survey_completed">আত্মসহায়ক গোটৰ সদস্যৰ জৰীপ সম্পূৰ্ণ [1]</string>
+    <string name="shg_members_survey_pending">Shg সদস্যৰ জৰীপ বাকী আছে</string>
     <string name="shg_s_whose_all_members_survey_completed">shg_s_ যাৰ_সকলো_সদস্যৰ_জৰীপ_সম্পূৰ্ণ</string>
     <string name="shg_s_whose_atleast_one_member_survey_pending">shg_s_whose_atleast_এজন_সদস্যৰ জৰীপ বাকী আছে</string>
-    <string name="synched_to_server">চাৰ্ভাৰলৈ সমন্বয় কৰা হৈছে</string>
+    <string name="shg_member_s_survey_details_synched_to_server">চাৰ্ভাৰলৈ সমন্বয় কৰা হৈছে</string>
     <string name="pending_for_synchronization">সমন্বয়ৰ বাবে বাকী আছে</string>
     <string name="dashboard">ডেচবোৰ্ড</string>
     <string name="member">সদস্য </string>

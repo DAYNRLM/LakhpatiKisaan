@@ -145,11 +145,11 @@
 
     <string name="shg_alloted">shg pek a ni</string>
     <string name="shg_members_alotted">shg member-te ruahman a ni</string>
-    <string name="survey_completed">survey zawh fel a ni tawh</string>
-    <string name="survey_pending">survey neih mek a ni</string>
+    <string name="shg_members_survey_completed">SHG-in Member-te survey neih zawh a ni</string>
+    <string name="shg_members_survey_pending">shg_member-te_survey_pending a awm</string>
     <string name="shg_s_whose_all_members_survey_completed">shg_s_a_member zawng zawngte_survey_a zawh tawh</string>
     <string name="shg_s_whose_atleast_one_member_survey_pending">shg_s_a_atleast_member pakhat_survey_pending_a awm</string>
-    <string name="synched_to_server">Server ah synched a ni</string>>
+    <string name="shg_member_s_survey_details_synched_to_server">shg member te survey details chu server ah synched a ni</string>>
     <string name="pending_for_synchronization">Synchronization neih theihna tur a la awm</string>
 
     <string name="dashboard">Dashboard a ni</string>

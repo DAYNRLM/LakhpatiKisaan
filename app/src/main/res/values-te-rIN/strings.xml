@@ -145,11 +145,11 @@
 
     <string name="shg_alloted">shg కేటాయించబడింది</string>
     <string name="shg_members_alotted">shg సభ్యులు కేటాయించారు</string>
-    <string name="survey_completed">సర్వే పూర్తయింది</string>
-    <string name="survey_pending">సర్వే పెండింగ్‌లో ఉంది</string>
+    <string name="shg_members_survey_completed">SHG సభ్యుల సర్వే పూర్తయింది</string>
+    <string name="shg_members_survey_pending">shg సభ్యుల సర్వే పెండింగ్‌లో ఉంది</string>
     <string name="shg_s_whose_all_members_survey_completed">shg యొక్క సభ్యులందరి సర్వే పూర్తయింది</string>
     <string name="shg_s_whose_atleast_one_member_survey_pending">shg యొక్క కనీసం ఒక సభ్యుని సర్వే పెండింగ్‌లో ఉంది</string>
-    <string name="synched_to_server">సర్వర్‌కి సమకాలీకరించబడింది</string>>
+    <string name="shg_member_s_survey_details_synched_to_server">shg సభ్యుల సర్వే వివరాలు సర్వర్‌కి సమకాలీకరించబడ్డాయి</string>>
     <string name="pending_for_synchronization">సమకాలీకరణ కోసం పెండింగ్‌లో ఉంది</string>
     <string name="dashboard">డాష్బోర్డ్</string>
     <string name="member">సభ్యుడు</string>
