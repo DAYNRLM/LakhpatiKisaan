@@ -443,8 +443,6 @@ public class SyncDataRepo {
             }
         });
     }
-
-
     public List<MemberDataToCheckDup> getDataToCheckDuplicate(String entryCompleteConfirmation) throws ExecutionException, InterruptedException {
 
         Callable<List<MemberDataToCheckDup>> callable = new Callable<List<MemberDataToCheckDup>>() {
@@ -513,7 +511,7 @@ public class SyncDataRepo {
             syncEntriesRequestBean.setImei_no(imeiNo);
             syncEntriesRequestBean.setLocation_coordinate(locationCoordinates);
             syncEntriesRequestBean.setState_short_name(stateShortName);
-           syncEntriesRequestBean.setApp_version(BuildConfig.VERSION_NAME);
+            syncEntriesRequestBean.setApp_version(BuildConfig.VERSION_NAME);
 
 
             for (ShgAndMemberDataBean shgAndMemberDataBean : shgAndMemberDataBeanList) {

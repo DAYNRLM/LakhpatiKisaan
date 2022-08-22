@@ -117,8 +117,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
         arrayList.add("Active");
         arrayList.add("InActive");
 
-
-
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context, R.layout.simple_item_adapter_list, arrayList);
 
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -338,11 +336,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                 navController.navigate(navDirections);
 
                             }
-
-
-
-
-
 
                             //  holder.itemBinding.activeSpinner.setVisibility(View.GONE);
                             //PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getTimeForInActive(),""+new Timestamp(new Date().getTime()),context);

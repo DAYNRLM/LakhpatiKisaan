@@ -763,6 +763,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                         , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
                 );
             }
+            NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentSelf();
 
 
         }
