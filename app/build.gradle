@@ -13,8 +13,8 @@ android {
         applicationId "com.nrlm.lakhpatikisaan"
         minSdkVersion 25
         targetSdkVersion 30
-        versionCode 22
-        versionName "4.0.1"
+        versionCode 23
+        versionName "4.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

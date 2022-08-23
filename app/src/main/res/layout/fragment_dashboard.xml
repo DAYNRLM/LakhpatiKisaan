@@ -192,7 +192,6 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:visibility="gone"
                                     android:layout_marginLeft="@dimen/space_3dp"
                                     android:layout_marginRight="@dimen/space_3dp"
                                     android:fontFamily="@font/montserrat_regular"

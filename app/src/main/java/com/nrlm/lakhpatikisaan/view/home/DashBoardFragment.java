@@ -332,7 +332,6 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         }
 
         else {
-            binding.spinnerSelectBlock.setVisibility(View.VISIBLE);
             binding.selectedBlockTV.setVisibility(View.GONE);
             blockAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, blockNameList);
             binding.spinnerSelectBlock.setAdapter(blockAdapter);
