@@ -149,8 +149,8 @@
     <string name="shg_members_survey_pending">Shg সদস্যৰ জৰীপ বাকী আছে</string>
     <string name="shg_s_whose_all_members_survey_completed">shg_s_ যাৰ_সকলো_সদস্যৰ_জৰীপ_সম্পূৰ্ণ</string>
     <string name="shg_s_whose_atleast_one_member_survey_pending">shg_s_whose_atleast_এজন_সদস্যৰ জৰীপ বাকী আছে</string>
-    <string name="shg_member_s_survey_details_synched_to_server">চাৰ্ভাৰলৈ সমন্বয় কৰা হৈছে</string>
-    <string name="pending_for_synchronization">সমন্বয়ৰ বাবে বাকী আছে</string>
+    <string name="shg_member_s_survey_details_synched_to_server">চচাৰ্ভাৰৰ সৈতে সংমিহলি কৰা এছজি সদস্যৰ জৰীপৰ বিৱৰণ</string>
+    <string name="shg_member_survey_detail_pending_for_synchronization">সমকালীনকৰণৰ বাবে অমীমাংসিত হৈ থকা এচজি সদস্য জৰীপৰ বিৱৰণ</string>
     <string name="dashboard">ডেচবোৰ্ড</string>
     <string name="member">সদস্য </string>
     <string name="memberjoiningdate">সদস্যৰ যোগদানৰ তাৰিখ</string>
