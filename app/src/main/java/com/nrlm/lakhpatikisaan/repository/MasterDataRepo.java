@@ -329,7 +329,7 @@ public class MasterDataRepo {
 
                         AppUtils.getInstance().showLog("masterdata" + jsonObject.toString(), SignUpFragment.class);
                     } catch (Exception e) {
-                        DialogFactory.getInstance().showAlertDialog(context, 1, "Alert","Kindly contact BPM in order to reset your device info & please login after 24 hours after resetting device info"
+                        DialogFactory.getInstance().showAlertDialog(context, 1, "Alert","Kindly Logout And Login Again"
                                 , "ok", (dialog, which) -> dialog.dismiss(), null, null, true
                         );
                        // Toast.makeText(context,"data not found",Toast.LENGTH_LONG).show();

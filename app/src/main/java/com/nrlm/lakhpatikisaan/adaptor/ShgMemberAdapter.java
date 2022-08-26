@@ -4,6 +4,8 @@ import static android.content.ContentValues.TAG;
 
 import static com.nrlm.lakhpatikisaan.network.vollyCall.VolleyService.volleyService;
 
+import static java.security.AccessController.getContext;
+
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -181,7 +183,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                     Cryptography cryptography = new Cryptography();
 
 
-                                    @SuppressLint("HardwareIds") String  imeiNo = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+                                 String imeiNo =  PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),context);
 
 
                                     MemberInActiveRequestBean memberInActiveRequestBean=new MemberInActiveRequestBean();

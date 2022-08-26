@@ -161,12 +161,10 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 progressDialog.setMessage(getString(R.string.loading_heavy));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                @SuppressLint("HardwareIds") String  imeiNo = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
                 String deviceInfo = AppUtils.getInstance().getDeviceInfo();
-                AppUtils.getInstance().showLog("imeiNoFinal" + imeiNo, AuthFragment.class);
-                if (imeiNo!=null &&!imeiNo.equalsIgnoreCase(""))
-                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(), imeiNo, getContext());
+                if (getIMEINo1(getContext())!=null &&!getIMEINo1(getContext()).equalsIgnoreCase(""))
+                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(), getIMEINo1(getContext()), getContext());
                 if (deviceInfo != null && !deviceInfo.equalsIgnoreCase(""))
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefDeviceinfo(), deviceInfo, getContext());
                     PreferenceFactory.getInstance().getSharedPreferenceIntegerData(PreferenceKeyManager.getPrefKeyMstData(),getContext());
@@ -184,7 +182,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     loginRequestBean.setLogin_id(userId);
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
 
-                    loginRequestBean.setImei_no(imeiNo);
+                    loginRequestBean.setImei_no(getIMEINo1(getContext()));
 
                  //   loginRequestBean.setImei_no("e7caddce4676291f");
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
@@ -380,6 +378,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+    @SuppressLint("HardwareIds")
     public String getIMEINo1(Context context) {
         String imeiNo1 = "";
         try {
@@ -393,13 +392,14 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     Build.getSerial();
 
 
-                } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                } else {
                     imeiNo1 = telephonyManager.getDeviceId(0);
                     AppUtils.getInstance().showLog("BUILD SERIAL-imeiNo1 " + imeiNo1, AppDeviceInfoUtils.class);
 
                 }
-
-            } else imeiNo1 = telephonyManager.getDeviceId();
+      if (imeiNo1.equalsIgnoreCase(""))
+                    imeiNo1 = "1e5852s4542g5415f";
+            }
         } catch (Exception e) {
             AppUtils.getInstance().showLog("Expection in imeiiiiii: " + e, AppDeviceInfoUtils.class);
         }

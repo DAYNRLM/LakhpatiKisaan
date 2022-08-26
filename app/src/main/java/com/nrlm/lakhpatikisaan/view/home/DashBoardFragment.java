@@ -300,8 +300,7 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                 String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(),getCurrentContext());
                 String deviceInfo=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(),getCurrentContext());
                 String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getCurrentContext());
-                @SuppressLint("HardwareIds") String  imeiNo = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-
+                String imeiNo=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getCurrentContext());
                 LogRequestBean logRequestBean=new LogRequestBean(loginId,stateShortName,imeiNo,deviceInfo,".3725698,.2985556");
                 viewModel.getMasterData(logRequestBean);
                 viewModel.getSupportiveMasters(logRequestBean);
@@ -332,7 +331,6 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         }
 
         else {
-            binding.spinnerSelectBlock.setVisibility(View.VISIBLE);
             binding.selectedBlockTV.setVisibility(View.GONE);
             blockAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, blockNameList);
             binding.spinnerSelectBlock.setAdapter(blockAdapter);
