@@ -56,7 +56,8 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
         binding.shgWhoseAllMembercompleted.setText(s);
         binding.shgWhoseOneMembercompleted.setText(viewModel.getshgWhoseAtleastOneMemberLeft());
         binding.surveyCompleted.setText(surveryCompleted+"");
-        binding.surveyPending.setText(Integer.parseInt(viewModel.getMemberCount())-surveryCompleted +"");
+        String surveyPending= Integer.parseInt(viewModel.getMemberCount())-surveryCompleted +"";
+        binding.surveyPending.setText(surveyPending);
 
 
 
