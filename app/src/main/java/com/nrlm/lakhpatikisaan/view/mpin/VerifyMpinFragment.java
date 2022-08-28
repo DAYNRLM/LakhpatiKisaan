@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.databinding.FragmentVerifyMpinBinding;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
+import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
 import com.nrlm.lakhpatikisaan.utils.DialogFactory;
 import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
@@ -25,7 +26,9 @@ import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.nrlm.lakhpatikisaan.view.auth.AuthActivity;
+import com.nrlm.lakhpatikisaan.view.auth.AuthViewModel;
 import com.nrlm.lakhpatikisaan.view.home.HomeActivity;
+import com.nrlm.lakhpatikisaan.view.home.HomeViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,7 +67,9 @@ int counter;
        counter = PreferenceFactory.getInstance().getSharedPreferenceIntegerData(PreferenceKeyManager.getPrefKeyMpinCounter(),getCurrentContext());
 
             binding.btnVerify.setOnClickListener(viewBtn -> {
-            progressDialog = new ProgressDialog(getContext());
+              //  new HomeViewModel().checkDuplicateAtServer(getCurrentContext(),PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), getCurrentContext()), PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getCurrentContext()),PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), getCurrentContext()), PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(), getContext()),".2719545,.3145555", AppConstant.entryCompleted);
+
+                progressDialog = new ProgressDialog(getContext());
             progressDialog.setMessage(getString(R.string.authenticating));
             progressDialog.setCancelable(false);
             progressDialog.show();

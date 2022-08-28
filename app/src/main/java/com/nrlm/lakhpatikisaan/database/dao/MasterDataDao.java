@@ -147,9 +147,12 @@ public interface MasterDataDao {
     @Query("select count(*) from (select distinct  shg_Code from masterdataentity where  last_entry_after_nrlm is  null and last_entry_before_nrlm is null)")
     String getWhoseAtleastOneMemberLeft();
 
+    @Query("select count(*) from (select ii.shgMemberCode  from MasterDataEntity fi inner join MemberEntryEntity ii on fi.member_code=ii.shgMemberCode where ii.flagSyncStatus=1 and ii.flagBeforeAfterNrlm='A')")
+    String getSurveyCompletedPartillayC();
 
-    @Query("select count(*) from(Select distinct member_code from MasterDataEntity where last_entry_before_nrlm not null and last_entry_after_nrlm not null )")
-    String getSurveyCompleted();
+
+    @Query("Select last_entry_after_nrlm from MasterDataEntity where  last_entry_after_nrlm not null  and  last_entry_after_nrlm")
+    List<String> getSurveyCompleted();
 
     @Query("select count(*) from(Select distinct member_code from MasterDataEntity where last_entry_after_nrlm is NULL )")
     String getSurveyPending();

@@ -884,8 +884,7 @@ public class MasterDataRepo {
         }
         return str;
     }
-
-    public String getMemberSurveyCompeted(){
+    public String getPartiallyServayCompletedCM(){
         String str=null;
 
         try{
@@ -893,11 +892,31 @@ public class MasterDataRepo {
                 @Override
                 public String call() throws Exception {
                     //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
-                    return masterDataDao.getSurveyCompleted();
+                    return masterDataDao.getSurveyCompletedPartillayC();
                 }
             };
 
             Future<String> future = Executors.newSingleThreadExecutor().submit(listCallable);
+            str =future.get();
+
+        }catch (Exception e){
+
+        }
+        return str;
+    }
+    public List<String> getMemberSurveyCompeted(){
+        List<String> str=null;
+
+        try{
+            Callable<List<String>> listCallable = new Callable<List<String>>() {
+                @Override
+                public List<String> call() throws Exception {
+                    //AppUtils.getInstance().showLog("getMemberCount" + masterDataDao.getGpListData(shgCode).size(), MasterDataRepo.class);
+                    return masterDataDao.getSurveyCompleted();
+                }
+            };
+
+            Future<List<String>> future = Executors.newSingleThreadExecutor().submit(listCallable);
             str =future.get();
 
         }catch (Exception e){

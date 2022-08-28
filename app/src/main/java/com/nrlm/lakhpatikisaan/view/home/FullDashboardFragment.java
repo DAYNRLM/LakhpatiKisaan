@@ -21,6 +21,8 @@ import com.nrlm.lakhpatikisaan.databinding.FragmentDashboardBinding;
 import com.nrlm.lakhpatikisaan.databinding.FragmentFullDashboardBinding;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 
+import java.util.List;
+
 public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentFullDashboardBinding> {
 
 
@@ -43,22 +45,45 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.getHomeViewModelRepos(getCurrentContext());
+
+        int surveryCompleted=Integer.parseInt(viewModel.getPartiallyCompletedLocalHM())+Integer.parseInt(getSurveyCompletedPartially());
         binding.shgNumberTextview.setText(viewModel.getShgCount());
         binding.memberNumberTextview.setText(viewModel.getMemberCount());
-        binding.SyncedServer.setText(viewModel.getSurveyCompleted());
+        binding.SyncedServer.setText(surveryCompleted+"");
         binding.syncLocally.setText(viewModel.getBeforeLocally());
         int surveyShgAllCompleted = Integer.parseInt(viewModel.getShgCount()) -Integer.parseInt(viewModel.getshgWhoseAtleastOneMemberLeft());
         String s = String.valueOf(surveyShgAllCompleted);
         binding.shgWhoseAllMembercompleted.setText(s);
         binding.shgWhoseOneMembercompleted.setText(viewModel.getshgWhoseAtleastOneMemberLeft());
-        binding.surveyCompleted.setText(viewModel.getSurveyCompleted());
-        binding.surveyPending.setText(viewModel.getSUrveyPending());
+        binding.surveyCompleted.setText(surveryCompleted+"");
+        binding.surveyPending.setText(Integer.parseInt(viewModel.getMemberCount())-surveryCompleted +"");
+
+
+
 
 
 
 
     }
 
+    public String getSurveyCompletedPartially()
+    {
+        List<String> surveyCompletedDates=viewModel.getSurveyCompleted();
+        String datePattern = "\\d{4}-\\d{2}-\\d{2}";
+        int completedStatusCount=0;
+
+        for (String i: surveyCompletedDates)
+        {
+            String date=i;
+            Boolean dateStatus = date.matches(datePattern);
+            if(dateStatus)
+            {
+               completedStatusCount++;
+            }
+
+        }
+        return completedStatusCount+"";
+    }
     @Override
     public void onFragmentReady() {
 

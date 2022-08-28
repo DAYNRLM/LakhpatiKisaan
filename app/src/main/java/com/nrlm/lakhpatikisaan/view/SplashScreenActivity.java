@@ -33,27 +33,28 @@ public class SplashScreenActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
-        if(AppUtils.isDeviceRooted()){
+        if (AppUtils.isDeviceRooted()) {
             showAlertDialogAndExitApp("This device is rooted. You can't use this app.");
+        } else {
+            getLanguageCode();
         }
-        else {
-            getLanguageCode();}
-        /*    try {
-                if(DaycheckForLogouts()){
-                    PreferenceFactory.getInstance().removeSharedPrefrencesData(PreferenceKeyManager.getPrefLoginSessionKey(), SplashScreenActivity.this);
-                  //  LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).deleteAllMaster();
-                     }
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        try {
+            if (DaycheckForLogouts()) {
+                PreferenceFactory.getInstance().removeSharedPrefrencesData(PreferenceKeyManager.getPrefLoginSessionKey(), SplashScreenActivity.this);
+                //  LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).deleteAllMaster();
             }
-        }*/
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         new Handler().postDelayed(this::goToNextScreen, SPLASH_SCREEN_TIME_OUT);
+
 
     }
 
-    /*private boolean DaycheckForLogouts() throws ExecutionException, InterruptedException {
+    private boolean DaycheckForLogouts() throws ExecutionException, InterruptedException {
         boolean performLogout=false;
         String serverDateTimeandDays=getDateFromDB();    //This need to be check in Database
         if (serverDateTimeandDays!=null){
@@ -73,8 +74,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             AppUtils.getInstance().showLog("serverDateTime"+serverDateTimeandDays,SplashScreenActivity.class);
         }
         return performLogout;
-    }*/
-/*
+    }
     private String getDateFromDB() throws ExecutionException, InterruptedException {
         String currentDate =   // PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyServerdate(), SplashScreenActivity.this);
                 LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).getServerDateTime();
@@ -82,11 +82,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                 LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), SplashScreenActivity.this).getLogoutDays();
         //String currentDate =
         //  return "25-03-2022"+","+ "1";
-     *//*   if(currentDate!=null && logoutDays!=null) {
+        if(currentDate!=null && logoutDays!=null) {
             return currentDate + "," + logoutDays;
-        }*//*
+        }
         return null;
-    }*/
+    }
 
     @Override
     protected void onResume() {

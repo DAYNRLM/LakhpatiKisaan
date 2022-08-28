@@ -60,6 +60,7 @@ public class AuthViewModel extends ViewModel {
 
         loginRepo = LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         masterDataRepo = MasterDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
+
         homeViewModel = new HomeViewModel();
     }
 
@@ -111,7 +112,7 @@ public class AuthViewModel extends ViewModel {
                             LogRequestBean logRequestBean = new LogRequestBean(loginRequestBean.getLogin_id(), loginResponseBean.getState_short_name()
                                     , loginRequestBean.getImei_no(), loginRequestBean.getDevice_name(), loginRequestBean.getLocation_coordinate());
 
-                                loginRepo.deleteAllMaster();
+                               loginRepo.deleteAllMaster();
                                 getSupportiveMasters(logRequestBean);
                                 getMasterData(logRequestBean);
 
@@ -247,6 +248,7 @@ public class AuthViewModel extends ViewModel {
 
     public void syncAllData(Context context, String loginId, String stateShortName, String imei,
                             String deviceName, String location) {
+
         homeViewModel.checkDuplicateAtServer(context, loginId, stateShortName, imei,
                 deviceName, location, AppConstant.entryCompleted);
     }

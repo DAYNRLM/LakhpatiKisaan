@@ -114,6 +114,7 @@ public class HomeViewModel extends ViewModel {
     }
     public void checkDuplicateAtServer(Context context, String loginId, String stateShortName, String imeiNo
             , String deviceName, String locationCoordinates, String entryCompleteConfirmation) {
+        getHomeViewModelRepos(context);
         if(syncDataRepo==null){
         }else{
             CheckDuplicateRequestBean checkDuplicateRequestBean= syncDataRepo.getCheckDuplicateRequest(loginId, stateShortName, imeiNo,deviceName, locationCoordinates, entryCompleteConfirmation);
@@ -475,7 +476,10 @@ public String getshgWhoseAtleastOneMemberLeft(){
 
         return masterDataRepo.getShgWhoseAtleastOneMemberLeft();
 }
-
+public String getPartiallyCompletedLocalHM()
+{
+    return masterDataRepo.getPartiallyServayCompletedCM();
+}
     public String getMemberIsNotInClfAndVo(String memberCode){
         return masterDataRepo.getMemberIsNotInClfAndVo(memberCode);
     }
@@ -489,7 +493,7 @@ public String getBeforeServerData()
 {
     return  masterDataRepo.getBeforeDataFromServer();
 }
-public String getSurveyCompleted(){
+public List<String> getSurveyCompleted(){
         return masterDataRepo.getMemberSurveyCompeted();
 }
 public String getSUrveyPending(){

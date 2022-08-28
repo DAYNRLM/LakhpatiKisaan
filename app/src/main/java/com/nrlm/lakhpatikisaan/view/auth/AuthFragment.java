@@ -100,7 +100,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         if (NetworkFactory.isInternetOn(getContext()))
             if (!(loginId.equalsIgnoreCase("")) && !(stateShortName.equalsIgnoreCase("")))
                 AppUtils.getInstance().showLog("imei0000" + imei, AuthFragment.class);
-                authViewModel.syncAllData(getContext(), loginId, stateShortName, imei, deviceInfoSaved, ".2719545,.3145555");
+                //authViewModel.syncAllData(getContext(), loginId, stateShortName, imei, deviceInfoSaved, ".2719545,.3145555");
 
 
         binding.tvForgetPassword.setOnClickListener(v -> {
@@ -143,7 +143,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
             });
         }
         binding.btnLogin.setOnClickListener(v -> {
-
+            authViewModel.syncAllData(getContext(), loginId, stateShortName, imei, deviceInfoSaved, ".2719545,.3145555");
 
 
             String password = binding.etPassword.getText().toString();
