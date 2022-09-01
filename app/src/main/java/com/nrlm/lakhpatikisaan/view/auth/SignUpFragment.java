@@ -804,7 +804,7 @@ public class SignUpFragment extends BaseFragment<AuthViewModel, FragmentSignUpBi
                 progressDialog.show();
                 JSONObject stateReq = new JSONObject();
                 try {
-                    stateReq.accumulate("app_version", "4.0.2");
+                    stateReq.accumulate("app_version", "4.0.3");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

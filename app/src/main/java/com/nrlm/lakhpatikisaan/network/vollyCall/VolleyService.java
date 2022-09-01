@@ -23,12 +23,12 @@ public class VolleyService {
     AppUtils appUtility;
 
     public static VolleyService volleyService ;
-    public static VolleyService getInstance(Context context) {
+    public static VolleyService getInstance(Context context)
+    {
         if (volleyService == null)
             volleyService = new VolleyService(context);
         return volleyService;
     }
-
     public VolleyService(Context mContext) {
         this.mContext = mContext;
         appUtility = AppUtils.getInstance();
@@ -60,9 +60,10 @@ public class VolleyService {
                 return headers;
             }};
             // SingletonVolley.getInstance(mContext).addToRequestQueue(jsonObj);
-            jsonObj.setRetryPolicy(new DefaultRetryPolicy(6000,0,0));
+            jsonObj.setRetryPolicy(new DefaultRetryPolicy(50000,2,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             queue.getCache().clear();
             queue.add(jsonObj);
+
         } catch (Exception e) {
             appUtility.showLog("post request Exception:- "+e,VolleyService.class);
         }

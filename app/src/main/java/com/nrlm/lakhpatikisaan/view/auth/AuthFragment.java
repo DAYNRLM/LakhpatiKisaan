@@ -161,10 +161,11 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                 progressDialog.setMessage(getString(R.string.loading_heavy));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-
+                @SuppressLint("HardwareIds") String  imeiNo1 = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+              //  "1e5852s4542g5415f"; sham kale
                 String deviceInfo = AppUtils.getInstance().getDeviceInfo();
-                if (getIMEINo1(getContext())!=null &&!getIMEINo1(getContext()).equalsIgnoreCase(""))
-                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(), getIMEINo1(getContext()), getContext());
+                if (imeiNo1!=null &&! imeiNo1.equalsIgnoreCase(""))
+                    PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefImeiNo(), imeiNo1, getContext());
                 if (deviceInfo != null && !deviceInfo.equalsIgnoreCase(""))
                     PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefDeviceinfo(), deviceInfo, getContext());
                     PreferenceFactory.getInstance().getSharedPreferenceIntegerData(PreferenceKeyManager.getPrefKeyMstData(),getContext());
@@ -181,8 +182,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     /*---------------LIVE------------------*/
                     loginRequestBean.setLogin_id(userId);
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
-
-                    loginRequestBean.setImei_no(getIMEINo1(getContext()));
+                    loginRequestBean.setImei_no(imeiNo1);
 
                  //   loginRequestBean.setImei_no("e7caddce4676291f");
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());

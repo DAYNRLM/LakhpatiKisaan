@@ -17,6 +17,43 @@ public class PreferenceKeyManager {
     private static final String PrefLogoutTime="PrefLogoutTime";
     private static final String MST_FLAG="mstflag";
 
+    private static final String ShgAlotted="shgAlotted";
+    private static final String memberAlotted="memberAlotted";
+
+    public static String getShgAlotted() {
+        return ShgAlotted;
+    }
+
+    public static String getMemberAlotted() {
+        return memberAlotted;
+    }
+
+    public static String getShgMemberSurveyCompleted() {
+        return shgMemberSurveyCompleted;
+    }
+
+    public static String getShgMemberSurveyPending() {
+        return shgMemberSurveyPending;
+    }
+
+    public static String getShgWhoseAllMemberSurveyCompleted() {
+        return shgWhoseAllMemberSurveyCompleted;
+    }
+
+    public static String getShgAtleastOneMemberSurveyCompleted() {
+        return shgAtleastOneMemberSurveyCompleted;
+    }
+
+    public static String getDate() {
+        return date;
+    }
+
+    private static final String shgMemberSurveyCompleted="shgMemberSurveyCompleted";
+    private static final String shgMemberSurveyPending="shgMemberSurveyPending";
+    private static final String shgWhoseAllMemberSurveyCompleted="shgWhoseAllMemberSurveyCompleted";
+    private static final String shgAtleastOneMemberSurveyCompleted="shgAtleastOneMemberSurveyCompleted";
+    private static final String date="date";
+
     public static String getMstFlag() {
         return MST_FLAG;
     }

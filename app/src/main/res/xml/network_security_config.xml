@@ -4,9 +4,7 @@
 
          <domain includeSubdomains="true">Your URL(ex: 127.0.0.1)</domain>
 
-<!--
-               <domain includeSubdomains="true">10.197.183.105</domain>
--->
+               <!--<domain includeSubdomains="true">10.197.183.105</domain>-->
 
 
     </domain-config>

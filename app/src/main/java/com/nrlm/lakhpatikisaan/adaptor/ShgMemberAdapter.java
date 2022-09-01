@@ -183,7 +183,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                     Cryptography cryptography = new Cryptography();
 
 
-                                 String imeiNo =  PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),context);
+                                 String imeiNo=  PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),context);
 
 
                                     MemberInActiveRequestBean memberInActiveRequestBean=new MemberInActiveRequestBean();

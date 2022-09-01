@@ -28,8 +28,29 @@
             android:textColor="@color/green_500"
             android:textSize="50sp"
             android:textStyle="bold" />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginLeft="90dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Updated Date : "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/date"
+        android:text="dd/mm/yyyy "
+        android:textColor="@color/black"
+        android:layout_marginLeft="@dimen/space_10dp"/>
+
+
+</LinearLayout>
 
 
         <LinearLayout
@@ -89,7 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="100"
+                        android:text="0"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="14sp"
@@ -151,7 +172,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="100"
+                        android:text="0"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="14sp"
@@ -226,7 +247,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="100"
+                        android:text="0"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="14sp"
@@ -288,7 +309,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="100"
+                        android:text="0"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="14sp"
@@ -362,7 +383,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="100"
+                        android:text="0"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="14sp"
@@ -426,7 +447,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="100"
+                        android:text="0"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="14sp"
@@ -493,14 +514,14 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/image_view2" />
-
+                        app:layout_constraintTop_toBottomOf="@+id/image_view2"
+                        android:layout_marginBottom="@dimen/space_5dp"/>
                     <TextView
                         android:id="@+id/Synced_server"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="100"
+                        android:text="0"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="14sp"
@@ -510,6 +531,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView2"
                         app:layout_constraintVertical_bias="0.0" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -563,7 +585,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="100"
+                        android:text="0"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="14sp"
@@ -582,10 +604,26 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Version- 4.0.2"
+            android:text="Version- 4.0.3"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/space_15dp"
             android:textStyle="bold"/>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_update"
+            style="@style/IconTextContainedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/manrope_semi_bold"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="Update"
+            android:textSize="16sp" />
 
     </LinearLayout>
 </ScrollView>

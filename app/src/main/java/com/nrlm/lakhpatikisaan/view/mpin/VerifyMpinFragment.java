@@ -67,7 +67,7 @@ int counter;
        counter = PreferenceFactory.getInstance().getSharedPreferenceIntegerData(PreferenceKeyManager.getPrefKeyMpinCounter(),getCurrentContext());
 
             binding.btnVerify.setOnClickListener(viewBtn -> {
-              //  new HomeViewModel().checkDuplicateAtServer(getCurrentContext(),PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), getCurrentContext()), PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getCurrentContext()),PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), getCurrentContext()), PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(), getContext()),".2719545,.3145555", AppConstant.entryCompleted);
+               // new HomeViewModel().checkDuplicateAtServer(getCurrentContext(),PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), getCurrentContext()), PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getCurrentContext()),PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), getCurrentContext()), PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(), getContext()),".2719545,.3145555", AppConstant.entryCompleted);
 
                 progressDialog = new ProgressDialog(getContext());
             progressDialog.setMessage(getString(R.string.authenticating));
