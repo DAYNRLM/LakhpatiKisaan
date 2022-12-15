@@ -87,7 +87,6 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
         viewModel.getHomeViewModelRepos(getCurrentContext());
         new AuthViewModel().init(getCurrentContext());
         binding.cvShgDetails.animate().alpha(1f).setDuration(7000).start();
-        //  HomeViewModel authViewModel=   new ViewModelProvider(this).get(HomeViewModel.class);
 
         PreferenceFactory.getInstance().saveSharedPreferenceData(PreferenceKeyManager.getPrefKeyMpinCounter(),3,getCurrentContext());
         PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyCountdownTime(),"",getCurrentContext());
