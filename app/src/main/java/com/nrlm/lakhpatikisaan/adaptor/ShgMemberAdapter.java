@@ -1,48 +1,34 @@
 package com.nrlm.lakhpatikisaan.adaptor;
 
-import static android.content.ContentValues.TAG;
-
 import static com.nrlm.lakhpatikisaan.network.vollyCall.VolleyService.volleyService;
 
-import static java.security.AccessController.getContext;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.VolleyError;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.nrlm.lakhpatikisaan.BuildConfig;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.database.dbbean.MemberListDataBean;
-import com.nrlm.lakhpatikisaan.database.entity.MasterDataEntity;
+
 import com.nrlm.lakhpatikisaan.databinding.CustomShgMemberLayoutBinding;
 import com.nrlm.lakhpatikisaan.network.model.request.MemberInActiveRequestBean;
-import com.nrlm.lakhpatikisaan.network.model.response.BlockApiResponse;
 import com.nrlm.lakhpatikisaan.network.vollyCall.VolleyResult;
 import com.nrlm.lakhpatikisaan.network.vollyCall.VolleyService;
-import com.nrlm.lakhpatikisaan.repository.LoginRepo;
+
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppDateFactory;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
@@ -52,26 +38,16 @@ import com.nrlm.lakhpatikisaan.utils.NetworkFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
 import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
-import com.nrlm.lakhpatikisaan.view.auth.AuthActivity;
-import com.nrlm.lakhpatikisaan.view.auth.SignUpFragment;
 import com.nrlm.lakhpatikisaan.view.home.HomeViewModel;
 import com.nrlm.lakhpatikisaan.view.home.ShgMemberFragmentDirections;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -79,12 +55,10 @@ import javax.crypto.NoSuchPaddingException;
 public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyViewHolder> {
 
     List<MemberListDataBean> dataItem;
-    ArrayList<MasterDataEntity> dataItem2;
     public VolleyResult mResultCallBack = null;
 
 
     Context context;
-    LoginRepo loginRepo;
     NavController navController;
     ProgressDialog progressDialog;
     HomeViewModel homeViewModel;
@@ -119,7 +93,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
         arrayList.add("Active");
         arrayList.add("InActive");
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context, R.layout.simple_item_adapter_list, arrayList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.simple_item_adapter_list, arrayList);
 
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -137,11 +111,10 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                             .setTitle("Alert").setMessage(context.getResources().getString(R.string.dialog_inActive))
                             .setCancelable(false)
                             .setPositiveButton(context.getResources().getString(R.string.dialog_btn_InActive), (dialogInterface, i) -> {
-                     //   String    memberIsNotInClfAndVo  =   homeViewModel.getMemberIsNotInClfAndVo("4205532");
                        String    memberIsNotInClfAndVo  =   homeViewModel.getMemberIsNotInClfAndVo(dataItem.get(holder.getAdapterPosition()).getMemberCode());
                         if (memberIsNotInClfAndVo.equalsIgnoreCase("0")){
                             DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Cannot Inactivate already Linked To CLF/VO"
-                                    , "ok", (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss(), null, null, true
+                                    , "ok", (dialog, which) -> dialog.dismiss(), null, null, true
 
                             );
                             notifyItemChanged(holder.getAdapterPosition());
@@ -150,7 +123,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 */
                         }
 
-                     //   else if (holder.itemBinding.ac)
 
                         else {
                             homeViewModel.setStatus("InActive",dataItem.get(holder.getAdapterPosition()).getMemberCode());
@@ -170,13 +142,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                 progressDialog.show();
 
 
-
-                               /* JSONObject blockReq = new JSONObject();
-                                try {
-                                    blockReq.accumulate("district_code", selectedDistrictCode);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }*/
                                 /*******make json object is encrypted and *********/
                                 JSONObject encryptedObject =new JSONObject();
                                 try {
@@ -187,7 +152,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
 
                                     MemberInActiveRequestBean memberInActiveRequestBean=new MemberInActiveRequestBean();
-                                   //memberInActiveRequestBean.setLogin_id(homeViewModel.LoginId());
 
                                     String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyStateShortName(),context);
                                     String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyLoginid(),context);
@@ -195,12 +159,10 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                     AppUtils.getInstance().showLog("inactiveMemSyncValue"+stateShortName,ShgMemberAdapter.class);
                                     AppUtils.getInstance().showLog("inactiveMemSyncValue"+loginId,ShgMemberAdapter.class);
                                    memberInActiveRequestBean.setLogin_id(loginId);
-                                   //memberInActiveRequestBean.setLogin_id("UPAGABDUSS");
                                     memberInActiveRequestBean.setImei_no(imeiNo);
                                     memberInActiveRequestBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
                                     memberInActiveRequestBean.setLocation_coordinate("10.3111313,154.16546");
                                    memberInActiveRequestBean.setState_short_name(stateShortName);
-                                 //memberInActiveRequestBean.setState_short_name("UP");
                                     memberInActiveRequestBean.setApp_version(BuildConfig.VERSION_NAME);
 
                                     ArrayList<MemberInActiveRequestBean.InactiveMemSync> memberInavtivearr=new ArrayList<>();
@@ -319,7 +281,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                 };
                               volleyService = VolleyService.getInstance(context);
                                 volleyService.postDataVolley("InactiveRequest", AppConstant.baseUrl+"inactivememberdata", encryptedObject, mResultCallBack);
-                              //volleyService.postDataVolley("InactiveRequest", "http://10.197.183.105:8989/lakhpatishg/inactivememberdata", encryptedObject, mResultCallBack);
 
 
 
@@ -400,6 +361,8 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
 
         if (aadharStatus.equalsIgnoreCase("0")) {
+
+
             holder.itemBinding.aadharDetails.setTextColor(context.getResources().getColor(R.color.red_500));
             holder.itemBinding.aadharDetails.setText(context.getResources().getString(R.string.not_filled));
         } else if (aadharStatus.equalsIgnoreCase("1")){
@@ -434,7 +397,8 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                     NavDirections navDirections = ShgMemberFragmentDirections.actionShgMemberFragmentToMemberEntryFragment();
                     navController.navigate(navDirections);
 
-                }else  ViewUtilsKt.toast(context, context.getResources().getString(R.string.entry_complete_msg));
+                }
+                else  ViewUtilsKt.toast(context, context.getResources().getString(R.string.entry_complete_msg));
 
             }
             else

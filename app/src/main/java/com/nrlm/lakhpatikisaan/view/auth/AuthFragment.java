@@ -224,7 +224,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                                 }
                             }
                         }
-                    }, 40000);
+                    }, 8000);
 
 
 

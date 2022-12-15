@@ -1,6 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.home;
 
-import android.app.Activity;
+import  android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,19 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.adaptor.EntryBeforeNrlmFoldAdapter;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryAfterNrlmBinding;
-import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
@@ -34,9 +30,7 @@ import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -50,27 +44,20 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
     ArrayAdapter<String> frequencyAdapter;
     ArrayAdapter<String> incomeAdapter;
     private String loginApiStatus="E2";
-
     String shgCode;
     String shgMemberCode;
     String entryYearCode;
     String entryMonthCode;
-    String entryCreatedDate;
     String sectorDate;
     String activityCode;
     String incomeFrequencyCode;
     String incomeRangCode;
-    String flagBeforeAfterNrlm;
-    String flagSyncStatus;
-
     String sectorName;
     String activityName;
     String incomeFrequencyName;
     String incomeRangName;
     String monthName;
-
     int showingYear;
-
     int count = 0;
 
     @Override
@@ -93,6 +80,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -154,37 +142,37 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             entryMonthCode = String.valueOf(memberEntryDataItem.get(0).getMonthName());
 
 
-
             resetFunction(1);
 
         } else {
 
         }
 
-
         binding.btnMonthYear.setOnClickListener(view1 -> {
-            MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(int selectedMonth, int selectedYear) {
+            MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(),
 
-                            SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+                    new MonthPickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(int selectedMonth, int selectedYear) {
 
-                            today.set(Calendar.MONTH, selectedMonth);
+                    SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+
+                    today.set(Calendar.MONTH, selectedMonth);
 
 
-                            String month_name = String.valueOf(selectedMonth + 1);
+                    String month_name = String.valueOf(selectedMonth + 1);
 
 
-                            binding.tvMonth.setText("0"+month_name);
-                            binding.tvYear.setText("" + selectedYear);
+                    binding.tvMonth.setText("0"+month_name);
+                    binding.tvYear.setText("" + selectedYear);
 
-                            binding.llSelectDate.setVisibility(View.GONE);
-                            binding.llStartActivity.setVisibility(View.VISIBLE);
-                            binding.ccDisplayDate.setVisibility(View.VISIBLE);
+                    binding.llSelectDate.setVisibility(View.GONE);
+                    binding.llStartActivity.setVisibility(View.VISIBLE);
+                    binding.ccDisplayDate.setVisibility(View.VISIBLE);
 
                     entryYearCode = String.valueOf(selectedYear);
                     entryMonthCode = String.valueOf(selectedMonth + 1);
-                       PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPREF_KEY_month(),"0"+entryMonthCode , getContext());
+                       PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPREF_KEY_month(),entryMonthCode , getContext());
 
 
 
@@ -393,7 +381,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
         memberEntryEntity.shgMemberCode = shgMemberCode;
         if (entryYearCode.equalsIgnoreCase("2022")|| entryYearCode.equalsIgnoreCase("2023")||entryYearCode.equalsIgnoreCase("2024")||entryYearCode.equalsIgnoreCase("2025")||entryYearCode.equalsIgnoreCase("2026")||entryYearCode.equalsIgnoreCase("2027")||entryYearCode.equalsIgnoreCase("2028")||entryYearCode.equalsIgnoreCase("2029")||entryYearCode.equalsIgnoreCase("2030")||entryYearCode.equalsIgnoreCase("2031")||entryYearCode.equalsIgnoreCase("2032")||entryYearCode.equalsIgnoreCase("2033")){
             memberEntryEntity.entryYearCode = entryYearCode;
-            memberEntryEntity.entryMonthCode= "0"+entryMonthCode;
+            memberEntryEntity.entryMonthCode= entryMonthCode;
             memberEntryEntity.entryCreatedDate = appDateFactory.getTimeStamp();
             memberEntryEntity.sectorDate = sectorDate;
             memberEntryEntity.activityCode = activityCode;
@@ -401,7 +389,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             memberEntryEntity.incomeFrequencyCode = incomeFrequencyCode;
             memberEntryEntity.incomeRangCode = incomeRangCode;
             memberEntryEntity.flagBeforeAfterNrlm = AppConstant.afterNrlmStatus;
-            memberEntryEntity.monthName="0"+entryMonthCode;
+            memberEntryEntity.monthName=entryMonthCode;
 
             memberEntryEntity.flagSyncStatus = AppConstant.unsyncStatus;
             memberEntryEntity.sectorName = sectorName;
@@ -412,8 +400,6 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             memberEntryEntity.seccName = "";
             memberEntryEntity.entryCompleteConfirmation = "1";
 
-            // memberEntryDataItem.add(memberEntryEntity);
-
             viewModel.insertBeforeNrlmEntryData(memberEntryEntity);
             NavDirections navDirections = IncomeEntryAfterNrlmFragmentDirections.actionIncomeEntryAfterNrlmFragmentSelf();
             navController.navigate(navDirections);
@@ -423,12 +409,6 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             DialogFactory.getInstance().showAlertDialog(getCurrentContext(), 1, getString(R.string.info), "Please change Your phone language in English"
                     , getString(R.string.ok), (dialog, which) -> dialog.dismiss(), null, null, true
             );        }
-
-
-
-
-
-
 
     }
 

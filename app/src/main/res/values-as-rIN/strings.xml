@@ -142,7 +142,6 @@
     <string name="enter_mobile">Enter mobile number</string>
     <string name="enter_email">Enter email</string>
 
-
     <string name="shg_alloted">shg আবণ্টন কৰা হৈছে</string>
     <string name="shg_members_alotted">shg সদস্য আবণ্টন কৰা হৈছে</string>
     <string name="shg_members_survey_completed">আত্মসহায়ক গোটৰ সদস্যৰ জৰীপ সম্পূৰ্ণ [1]</string>
@@ -159,13 +158,5 @@
     <string name="capture">বন্দী কৰা</string>
     <string name="capturedfor">কবন্দী কৰা হৈছে</string>
     <string name="captured">বন্দী কৰা হৈছে</string>
-
-
-
-
-
-
-
-
 
 </resources>

@@ -155,11 +155,7 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
 
                 String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyStateShortName(),getCurrentContext());
                 String loginId=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyLoginid(),getCurrentContext());
-
-
-
                 dashboardRequestBean.setLogin_id(loginId);
-
                 dashboardRequestBean.setImei_no(imeiNo);
                 dashboardRequestBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
                 dashboardRequestBean.setLocation_coordinate("10.3111313,154.16546");
@@ -227,7 +223,7 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
                             AppUtils.getInstance().showLog("responseJSON" + jsonObject.toString(), FullDashboardFragment.class);
                             JSONObject error=jsonObject.getJSONObject("error");
                             if(error.getString("code").equalsIgnoreCase("E200"))
-                                dashboardResponse= DashboardResponse.jsonToJava(jsonObject.toString());
+                                dashboardResponse= DashboardResponse. jsonToJava(jsonObject.toString());
                               /*  for (int i = 1; i<=1;i++){
                                     String shgAlotted = dashboardResponse.getDashboarddata().get(i).getShg_alloted();
                                     Toast.makeText(getCurrentContext(),shgAlotted,Toast.LENGTH_LONG).show();
@@ -306,8 +302,8 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
         else
         {
 
-          String shgAlotted=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getMemberAlotted(),getCurrentContext());
-          String memberAlotted=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getShgAlotted(),getCurrentContext());
+          String memberAlotted=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getMemberAlotted(),getCurrentContext());
+          String shgAlotted=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getShgAlotted(),getCurrentContext());
           String shgMemberSurveyCompleted=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getShgMemberSurveyCompleted(),getCurrentContext());
           String shgMemberSurveyPending=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getShgMemberSurveyPending(),getCurrentContext());
           String shgWhoseAllMemberSurveyCompleted=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getShgWhoseAllMemberSurveyCompleted(),getCurrentContext());

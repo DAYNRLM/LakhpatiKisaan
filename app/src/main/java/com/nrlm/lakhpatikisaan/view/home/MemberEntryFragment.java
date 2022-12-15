@@ -950,67 +950,9 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 }
 
 
-// add date condition on this btn click..
-
-//06-06-2019 //dd-mm-yyyy
-
-
-       /* binding.btnMonthYear.setOnClickListener(view1 -> {
-            MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(int selectedMonth, int selectedYear) {
-
-                    SimpleDateFormat month_date = new SimpleDateFormat("MMM");
-
-                    today.set(Calendar.MONTH, selectedMonth);
-
-                    String month_name = month_date.format(today.getTime());
-
-
-                    binding.tvMonth.setText(month_name);
-                    binding.tvYear.setText("" + selectedYear);
-
-                    binding.cvSelectMonthYear.setVisibility(View.GONE);
-                    binding.cvChangeMonthYear.setVisibility(View.VISIBLE);
-
-                    entryYearCode = String.valueOf(selectedYear);
-                    entryMonthCode = String.valueOf(selectedMonth);
-                    monthName = month_name;
-
-                }
-            }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
-
-            //.setMinMonth(Calendar.FEBRUARY)
-            builder.setActivatedMonth(today.get(Calendar.MONTH))
-                    .setActivatedYear(today.get(Calendar.YEAR))
-                    .setMinYear(1990)
-                    .setMaxYear(today.get(Calendar.YEAR))
-                    .setTitle("Select Month")
-                    .setMonthRange(Calendar.JANUARY, today.get(Calendar.MONTH)).build().show();
-        });*/
 
 
 
-  /* if (count == 0) {
-                // date confirmation dialog
-                Observer<String> actionObserver = new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
 
-                        if (s.equalsIgnoreCase("ok")) {
-                            //binding.btnChangeMonthYear.setVisibility(View.GONE);
-                            binding.cvSelectActivity.setVisibility(View.VISIBLE);
-                            loadSector();
-                        } else {
-                            ViewUtilsKt.toast(getCurrentContext(), "Change Date First");
 
-                        }
 
-                    }
-                };
-
-                viewModel.commonAleartDialog(getCurrentContext()).observe(getViewLifecycleOwner(), actionObserver);
-
-            } else {
-                binding.cvSelectActivity.setVisibility(View.VISIBLE);
-            }*/

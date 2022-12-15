@@ -19,7 +19,8 @@ class AppConstant {
         val items = arrayOf("Income (Before coming into NRLM Fold)", "Income at present")
         val confirmation = arrayOf("Do you confirm all this entry", "Do You want still add more activity")
         val status = arrayOf("1","2");
-        const val baseUrl: String = "https://nrlm.gov.in/lakhpatilive/lakhpatishg/"    //live
+          const val baseUrl: String = "https://nrlm.gov.in/lakhpatilive/lakhpatishg/"    //live
+         //  const val baseUrl: String = "https://nrlm.gov.in/lakhpatidemo/lakhpatishg/"    //demo
       //  const val baseUrl: String = "http://10.197.183.105:8989/lakhpatishg/"             //Local
       //const val baseUrl: String = "https://nrlm.gov.in/lakhpatidemo/lakhpatishg/"          //Demo
 
@@ -27,4 +28,4 @@ class AppConstant {
     }
 }
 
-//using minimum buil version N because for data base operation using Stream API......
+//using minimum build version N because for data base operation using Stream API......

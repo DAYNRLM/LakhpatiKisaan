@@ -37,7 +37,6 @@ public interface ApiServices {
 //Change here addmemberdata to addshgmemberdata
     @POST("addshgmemberdata")
     Call<JsonObject> syncEntriesDataApi(@Body JsonObject syncEntriesRequestBean);
-    
 
     @POST("forgotPassword")
     Call<JsonObject> otpApi(@Body JsonObject otpRequestBean);

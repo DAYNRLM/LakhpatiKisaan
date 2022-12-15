@@ -366,7 +366,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_marginBottom="10dp"
+                         android:layout_marginBottom="10dp"
                         android:text="@string/shg_s_whose_all_members_survey_completed"
                         android:textAllCaps="true"
                         android:textColor="@color/green_500"
@@ -604,7 +604,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Version- 4.0.3"
+            android:text="Version- 4.0.4"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/space_15dp"
             android:textStyle="bold"/>
