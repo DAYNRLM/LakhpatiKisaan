@@ -21,7 +21,7 @@ class AppConstant {
         val status = arrayOf("1","2");
         const val baseUrl: String = "https://nrlm.gov.in/lakhpatilive/lakhpatishg/"    //live
       //  const val baseUrl: String = "http://10.197.183.105:8989/lakhpatishg/"             //Local
-
+      //const val baseUrl: String = "https://nrlm.gov.in/lakhpatidemo/lakhpatishg/"          //Demo
 
 
     }

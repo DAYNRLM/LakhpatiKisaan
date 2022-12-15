@@ -164,23 +164,23 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
 
         binding.btnMonthYear.setOnClickListener(view1 -> {
             MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getCurrentContext(), new MonthPickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(int selectedMonth, int selectedYear) {
+                        @Override
+                        public void onDateSet(int selectedMonth, int selectedYear) {
 
-                    SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+                            SimpleDateFormat month_date = new SimpleDateFormat("MMM");
 
-                    today.set(Calendar.MONTH, selectedMonth);
-
-
-                    String month_name = String.valueOf(selectedMonth + 1);
+                            today.set(Calendar.MONTH, selectedMonth);
 
 
-                    binding.tvMonth.setText("0"+month_name);
-                    binding.tvYear.setText("" + selectedYear);
+                            String month_name = String.valueOf(selectedMonth + 1);
 
-                    binding.llSelectDate.setVisibility(View.GONE);
-                    binding.llStartActivity.setVisibility(View.VISIBLE);
-                    binding.ccDisplayDate.setVisibility(View.VISIBLE);
+
+                            binding.tvMonth.setText("0"+month_name);
+                            binding.tvYear.setText("" + selectedYear);
+
+                            binding.llSelectDate.setVisibility(View.GONE);
+                            binding.llStartActivity.setVisibility(View.VISIBLE);
+                            binding.ccDisplayDate.setVisibility(View.VISIBLE);
 
                     entryYearCode = String.valueOf(selectedYear);
                     entryMonthCode = String.valueOf(selectedMonth + 1);

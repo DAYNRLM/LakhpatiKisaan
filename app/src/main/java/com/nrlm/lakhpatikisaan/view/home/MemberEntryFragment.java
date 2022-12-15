@@ -151,7 +151,6 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
 
 
-
             String memberDOJ = viewModel.getMemberDOJ(shgMemberCode);
 
             monthYearItem = appDateFactory.monthYear(memberDOJ, AppConstant.nrlm_formation_date);
@@ -314,6 +313,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
             seccName = memberEntryDataItem.get(0).getSeccName();
             seccNumber = memberEntryDataItem.get(0).getSeccNumber();
+            //seccNumber = "0";
 
             binding.spinnerSeccNumber.setText(memberEntryDataItem.get(0).getSeccName());
 
@@ -433,6 +433,7 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
                                                         /****this update date code comes after data sync sucessfully*****/
                                                     } else {
                                                        Toast.makeText(getContext(), "Data Synced Failed!!!", Toast.LENGTH_LONG).show();
+                                                       progressDialog.dismiss();
                                                        NavDirections navDirections = MemberEntryFragmentDirections.actionMemberEntryFragmentToIncomeEntryAfterNrlmFragment();
                                                        navController.navigate(navDirections);
                                                         try {
@@ -529,11 +530,13 @@ public class MemberEntryFragment extends BaseFragment<HomeViewModel, FragmentMem
 
                 binding.spinnerSeccNumber.setOnItemClickListener((adapterView, view, i, l) -> {
                     seccName = viewModel.loadSeccNameData(memberCode).get(i);
-               //     seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
-                    seccNumber = "0";
+                  //  seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
+                    seccNumber="0";
                 });
             }else {
                 seccNumber="0";
+               // seccNumber = viewModel.getSeccData(memberCode).get(i).getSecc_no();
+
                 binding.spinnerSeccNumber.setOnClickListener(view -> {
                    // Toast.makeText(getContext(),"SECC Data not found",Toast.LENGTH_LONG).show();
                 });
