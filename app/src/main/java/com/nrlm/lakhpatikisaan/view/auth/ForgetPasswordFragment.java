@@ -75,6 +75,7 @@ public class ForgetPasswordFragment extends BaseFragment<AuthViewModel, Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         linearLayoutFurtherView=(LinearLayout) view.findViewById(R.id.llfurther_view);
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         binding.verifyOtpbtn.setOnClickListener(view1 -> {

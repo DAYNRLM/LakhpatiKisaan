@@ -12,6 +12,7 @@
     <color name="orange_200">#FFCC80</color>
     <color name="orange_500">#ff9800</color>
     <color name="orange_700">#c66900</color>
+    <color name="orange_dark">#FFD83D0C</color>
 
     <color name="green_200">#A5D6A7</color>
     <color name="green_500">#4CAF50</color>

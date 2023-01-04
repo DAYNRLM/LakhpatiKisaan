@@ -79,8 +79,8 @@
     <string name="number_cant_be_empty">Invalid  mobile number.</string>
     <string name="tv_mpin_title">We Value Security</string>
     <string name="tv_mpin_msg">Set new MPIN to Keep your Application safe and secure</string>
-    <string name="tv_mpin_confirm">Confirm Mpin</string>
-    <string name="tv_mpin_set_mpin">Set Mpin </string>
+    <string name="tv_mpin_confirm">Confirm MPIN</string>
+    <string name="tv_mpin_set_mpin">Set MPIN </string>
     <string name="tv_mpin_user_msg">Hi, Lakhpati User</string>
     <string name="tv_mpin_userId">UserId:</string>
     <string name="btn_verify_mpin">Verify Mpin</string>

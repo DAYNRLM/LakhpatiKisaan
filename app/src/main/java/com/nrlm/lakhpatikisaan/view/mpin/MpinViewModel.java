@@ -63,6 +63,7 @@ public class MpinViewModel extends ViewModel {
 
                             deleteShgRequestBean.setShg_code(AppUtils.getInstance().removeComma(shgCodesForDelete));
 
+                            AppUtils.getInstance().showLog("" + ":-------" + deleteShgRequestBean, MpinViewModel.class);
                             makeDeleteShgRequest(deleteShgRequestBean);
                         } catch (ExecutionException e) {
                             AppUtils.getInstance().showLog("getShgToDeleteExp:-------" + e.getMessage()
@@ -101,7 +102,7 @@ return apiStatus;
                         if (errorObject instanceof SimpleResponseBean.Error) {
                             SimpleResponseBean.Error responseError = (SimpleResponseBean.Error) errorObject;
                             apiStatus=responseError.getCode();
-                            AppUtils.getInstance().showLog(responseError.getCode() + "SyncEntriesApiErrorObj"
+                            AppUtils.getInstance().showLog(responseError.getCode() + "Delete response"
                                     + responseError.getMessage(), AuthViewModel.class);
                         } else if (errorObject instanceof Throwable) {
                             Throwable exception = (Throwable) errorObject;

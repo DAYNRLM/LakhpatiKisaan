@@ -130,6 +130,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/manrope_extra_bold"
                                 android:gravity="center_horizontal"
+                                android:textColor="@color/black"
                                 android:text="1991"
                                 android:textSize="@dimen/text_20sp" />
                         </LinearLayout>

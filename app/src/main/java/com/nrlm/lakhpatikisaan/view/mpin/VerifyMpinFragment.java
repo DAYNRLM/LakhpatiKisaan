@@ -1,5 +1,6 @@
 package com.nrlm.lakhpatikisaan.view.mpin;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nrlm.lakhpatikisaan.R;
+import com.nrlm.lakhpatikisaan.database.AppDatabase;
+import com.nrlm.lakhpatikisaan.database.dao.CheckDeleteShgDao;
 import com.nrlm.lakhpatikisaan.databinding.FragmentVerifyMpinBinding;
 import com.nrlm.lakhpatikisaan.network.model.request.LogRequestBean;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
@@ -34,12 +37,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class VerifyMpinFragment extends BaseFragment<MpinViewModel, FragmentVerifyMpinBinding> {
 int counter;
     String apiStatus = "";
     String vrfMpin;
     ProgressDialog progressDialog;
+    CheckDeleteShgDao checkDeleteShgDao;
 
     @Override
     public Class<MpinViewModel> getViewModel() {
@@ -68,6 +73,15 @@ int counter;
 
             binding.btnVerify.setOnClickListener(viewBtn -> {
                // new HomeViewModel().checkDuplicateAtServer(getCurrentContext(),PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefLoginId(), getCurrentContext()), PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(), getCurrentContext()),PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(), getCurrentContext()), PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefDeviceinfo(), getContext()),".2719545,.3145555", AppConstant.entryCompleted);
+                AppDatabase appDatabase = AppDatabase.getDatabase(getCurrentContext());
+                checkDeleteShgDao = appDatabase.getCheckDeleteShgDao();
+
+                AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        checkDeleteShgDao.deleteAll();
+                    }
+                });
 
                 progressDialog = new ProgressDialog(getContext());
             progressDialog.setMessage(getString(R.string.authenticating));
@@ -130,14 +144,14 @@ int counter;
         });
     }
     private void checkTime() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Calendar calendar = Calendar.getInstance();
         AppUtils.getInstance().showLog("diff time   ::" + df.format(calendar.getTime()), VerifyMpinFragment.class);
         // Add 10 minutes to current date
         calendar.add(Calendar.MINUTE, 1);
         AppUtils.getInstance().showLog("time after 10  min.  ::" + df.format(calendar.getTime()), VerifyMpinFragment.class);
 
-        PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyCountdownTime(),""+df.format(calendar.getTime()),getCurrentContext());
+        Objects.requireNonNull(PreferenceFactory.getInstance()).saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyCountdownTime(),""+df.format(calendar.getTime()),getCurrentContext());
 
         df.format(calendar.getTime());
 
@@ -145,9 +159,9 @@ int counter;
     public boolean isTimeValidForLogin() {
         boolean status = false;
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-        if (PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyCountdownTime(),getCurrentContext()).equalsIgnoreCase("")) {
+        if (Objects.requireNonNull(PreferenceFactory.getInstance()).getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyCountdownTime(),getCurrentContext()).equalsIgnoreCase("")) {
             status = false;
         } else {
             Date savedDateTime = getDateFormate(PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefKeyCountdownTime(),getCurrentContext()));
@@ -165,7 +179,7 @@ int counter;
 
     public Date getDateFormate(String date) {
         Date convertedDate = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             convertedDate = sdf.parse(date);
             sdf.format(convertedDate);
@@ -176,7 +190,7 @@ int counter;
     }
     private void getApiCall() {
 
-            PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyLoginDone(), "ok", getCurrentContext());
+            Objects.requireNonNull(PreferenceFactory.getInstance()).saveSharedPrefrecesData(PreferenceKeyManager.getPrefKeyLoginDone(), "ok", getCurrentContext());
 
             if (NetworkFactory.isInternetOn(getCurrentContext())) {
                 MpinViewModel mpinViewModel = new ViewModelProvider(getActivity()).get(MpinViewModel.class);
@@ -217,14 +231,24 @@ int counter;
 
     }
 
+
+ /*   public void deleteShgD() {
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                checkDeleteShgDao.deleteAll();
+            }
+        });
+    }
+*/
     private void status(String apiStatus) {
         if (apiStatus != null && apiStatus.equalsIgnoreCase("E200")) {
             Toast.makeText(getContext(), "Data synchronized successfully.", Toast.LENGTH_SHORT).show();
         } else {
-            return;
-          //  Toast.makeText(getContext(), "Shg data deletion and synchronization failed.", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(getContext(), "Shg data deletion and synchronization failed.", Toast.LENGTH_SHORT).show();
         }
     }
+
 }
 
 

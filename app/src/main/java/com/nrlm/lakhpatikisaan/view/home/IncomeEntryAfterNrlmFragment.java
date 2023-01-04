@@ -102,7 +102,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
             showingYear = appDateFactory.getMemberClanderYear(memberDOJ, AppConstant.nrlm_formation_date);
 
             binding.tvMonth.setText(monthName);
-            binding.tvYear.setText("" + entryYearCode);
+            binding.tvYear.setText(entryYearCode);
 
             binding.tvMemberNameCode.setTextColor(getCurrentContext().getResources().getColor(R.color.orange_700));
             binding.tvShgNameCode.setText(getString(R.string.member)+ memberName + " (" + shgMemberCode + ")");
@@ -163,7 +163,7 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                     String month_name = String.valueOf(selectedMonth + 1);
 
 
-                    binding.tvMonth.setText("0"+month_name);
+                    binding.tvMonth.setText(""+month_name);
                     binding.tvYear.setText("" + selectedYear);
 
                     binding.llSelectDate.setVisibility(View.GONE);
