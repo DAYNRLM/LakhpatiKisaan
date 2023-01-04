@@ -21,12 +21,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 
@@ -83,6 +85,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         authViewModel.init(getContext());
@@ -178,13 +181,14 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     /*  -------------lOCAL-----------------*/
                  /*   loginRequestBean.setLogin_id("UPAGASSDAD");
                     loginRequestBean.setPassword("8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92");
-                    loginRequestBean.setImei_no("5d7eaa5ef9d3ebed");*/
+                    loginRequestBean.setImei_no("b1dd608b2fa6cd15");*/
                     /*---------------LIVE------------------*/
                     loginRequestBean.setLogin_id(userId);
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
-                    loginRequestBean.setImei_no(imeiNo1);
+                         loginRequestBean.setImei_no(imeiNo1);
+                   // loginRequestBean.setImei_no("b1dd608b2fa6cd15");  //abdussId
 
-                 //   loginRequestBean.setImei_no("e7caddce4676291f");
+
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("12");
                   // String apploginTime=AppDateFactory.getInstance().getCurrentDateAndTime();
@@ -378,7 +382,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-    @SuppressLint("HardwareIds")
+  /*  @SuppressLint("HardwareIds")
     public String getIMEINo1(Context context) {
         String imeiNo1 = "";
         try {
@@ -420,5 +424,5 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
         AppUtils.getInstance().showLog("getSimSlotCount: " + getPhoneCount, AppDeviceInfoUtils.class);
         return getPhoneCount;
     }
-
+*/
 }

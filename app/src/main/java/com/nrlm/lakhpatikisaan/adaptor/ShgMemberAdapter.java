@@ -56,8 +56,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
     List<MemberListDataBean> dataItem;
     public VolleyResult mResultCallBack = null;
-
-
     Context context;
     NavController navController;
     ProgressDialog progressDialog;
@@ -176,14 +174,9 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                         inactiveMemSync.setUpdated_on(AppDateFactory.getInstance().getTimeStamp());
                                         memberInavtivearr.add(inactiveMemSync);
                                         AppUtils.getInstance().showLog("inactiveMemSyncValue"+inactiveMemSync,ShgMemberAdapter.class);
-
-
                                     }
                                     memberInActiveRequestBean.setNrlm_member_inactivate(memberInavtivearr);
                          //AppUtils.getInstance().showLog("mainInActiveRequest"+memberInActiveRequestBean,ShgMemberAdapter.class);
-
-
-
                                     encryptedObject.accumulate("data",cryptography.encrypt(new Gson().toJson(memberInActiveRequestBean)));
                                 } catch (NoSuchAlgorithmException e) {
                                     e.printStackTrace();
@@ -313,7 +306,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
                                 dialogInterface.dismiss();
                             }).show();
-
 
 
 

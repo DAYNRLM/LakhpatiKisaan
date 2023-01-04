@@ -11,7 +11,8 @@
         android:layout_marginBottom="@dimen/space_5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="horizontal">
+        android:scrollbars="horizontal"
+        android:background="@drawable/dashboard">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/dashboard"
-            android:textColor="@color/green_500"
+            android:textColor="@color/white"
             android:textSize="50sp"
             android:textStyle="bold" />
 <LinearLayout
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Last Updated Date : "
             android:textStyle="bold"
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"/>
 
 
     <TextView
@@ -46,7 +47,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/date"
         android:text="dd/mm/yyyy "
-        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         android:layout_marginLeft="@dimen/space_10dp"/>
 
 

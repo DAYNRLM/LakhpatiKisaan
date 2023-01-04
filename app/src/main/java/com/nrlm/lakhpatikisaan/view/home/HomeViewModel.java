@@ -83,9 +83,6 @@ public class HomeViewModel extends ViewModel {
     public HomeViewModel() {
     }
 
-
-
-
     public void getHomeViewModelRepos(Context context) {
         masterDataRepo = MasterDataRepo.getInstance(AppExecutor.getInstance().threadExecutor(), context);
         loginRepo=LoginRepo.getInstance(AppExecutor.getInstance().threadExecutor(),context);

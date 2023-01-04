@@ -13,7 +13,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/reg"
+       >
 
         <ScrollView
             android:layout_marginBottom="@dimen/space_5dp"
@@ -41,10 +43,11 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_25dp"
+                    android:layout_marginTop="@dimen/space_15dp"
                     android:layout_marginLeft="@dimen/space_3dp"
                     android:layout_marginRight="@dimen/space_3dp"
                     android:fontFamily="@font/montserrat_regular"
+                    android:textColorHint="@color/white"
                     android:hint="@string/select_state"
                     android:padding="3dp"
                     app:boxStrokeColor="@color/out_line_strok">
@@ -72,6 +75,8 @@
                     android:layout_marginRight="@dimen/space_3dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:hint="@string/selete_district"
+                    android:textColorHint="@color/white"
+
                     android:padding="3dp"
                     app:boxStrokeColor="@color/out_line_strok">
 
@@ -97,6 +102,8 @@
                     android:layout_marginRight="@dimen/space_3dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:hint="@string/select_block"
+                    android:textColorHint="@color/white"
+
                     android:padding="3dp"
                     app:boxStrokeColor="@color/out_line_strok">
 
@@ -120,6 +127,8 @@
                     android:layout_marginLeft="@dimen/space_3dp"
                     android:layout_marginRight="@dimen/space_3dp"
                     android:fontFamily="@font/montserrat_regular"
+                    android:textColorHint="@color/white"
+
                     android:hint="Select Language"
                     android:padding="3dp"
                     app:boxStrokeColor="@color/out_line_strok">
@@ -146,6 +155,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     app:errorEnabled="true"
+                    android:textColorHint="@color/white"
+
                     app:boxStrokeColor="@color/out_line_strok"
                     android:fontFamily="@font/manrope_regular"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -164,6 +175,7 @@
                         android:layout_height="wrap_content"
                         android:lines="1"
                         android:maxLength="20"
+                        android:drawableStart="@drawable/ic_baseline_person_24"
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:fontFamily="@font/manrope_regular"
                         android:inputType="textCapWords" />
@@ -178,6 +190,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     app:errorEnabled="true"
+                    android:textColorHint="@color/white"
+
                     app:boxStrokeColor="@color/out_line_strok"
                     android:fontFamily="@font/manrope_regular"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -186,6 +200,8 @@
                         android:id="@+id/et_userMobile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_baseline_phone_24"
+
                         android:lines="1"
                         android:maxLength="10"
                         android:fontFamily="@font/manrope_regular"
@@ -244,6 +260,8 @@
                     android:layout_marginRight="10dp"
                     app:errorEnabled="true"
                     app:boxStrokeColor="@color/out_line_strok"
+                    android:textColorHint="@color/white"
+
                     android:fontFamily="@font/manrope_regular"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -254,6 +272,8 @@
                         android:lines="1"
                         android:maxLength="35"
                         android:fontFamily="@font/manrope_regular"
+                        android:drawableStart="@drawable/ic_baseline_email_24"
+
                         android:inputType="textEmailAddress" />
 
                 </com.google.android.material.textfield.TextInputLayout>
