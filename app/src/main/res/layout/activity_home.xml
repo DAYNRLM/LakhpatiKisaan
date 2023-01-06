@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/home_drawer_layout"
-    tools:context=".view.home.HomeActivity">
+    tools:context=".view.home.HomeActivity"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -102,7 +102,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
             @SuppressLint({"SetTextI18n", "ResourceAsColor"})
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
-               // ss =  holder.itemBinding.activeSpinner.getSelectedItem().toString();
+
                 if (holder.itemBinding.activeSpinner.getSelectedItem().toString().equalsIgnoreCase("InActive")){
 
                     alertDialog =   new MaterialAlertDialogBuilder(context).setIcon(R.drawable.ic_baseline_logout_24)
@@ -127,7 +127,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
 
                             ViewUtilsKt.toast(context, context.getResources().getString(R.string.dialog_toast_InActive));
-                            //  ((TextView) arg0.getChildAt(0)).setTextColor(Color.RED);
+
                             holder.itemBinding.memberStatus.setTextColor(context.getResources().getColor(R.color.red_500));
 
                             if(NetworkFactory.isInternetOn(context))
@@ -156,11 +156,11 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
                                     AppUtils.getInstance().showLog("inactiveMemSyncValue"+stateShortName,ShgMemberAdapter.class);
                                     AppUtils.getInstance().showLog("inactiveMemSyncValue"+loginId,ShgMemberAdapter.class);
-                                   memberInActiveRequestBean.setLogin_id(loginId);
+                                    memberInActiveRequestBean.setLogin_id(loginId);
                                     memberInActiveRequestBean.setImei_no(imeiNo);
                                     memberInActiveRequestBean.setDevice_name(AppUtils.getInstance().getDeviceInfo());
                                     memberInActiveRequestBean.setLocation_coordinate("10.3111313,154.16546");
-                                   memberInActiveRequestBean.setState_short_name(stateShortName);
+                                    memberInActiveRequestBean.setState_short_name(stateShortName);
                                     memberInActiveRequestBean.setApp_version(BuildConfig.VERSION_NAME);
 
                                     ArrayList<MemberInActiveRequestBean.InactiveMemSync> memberInavtivearr=new ArrayList<>();
@@ -176,7 +176,7 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                         AppUtils.getInstance().showLog("inactiveMemSyncValue"+inactiveMemSync,ShgMemberAdapter.class);
                                     }
                                     memberInActiveRequestBean.setNrlm_member_inactivate(memberInavtivearr);
-                         //AppUtils.getInstance().showLog("mainInActiveRequest"+memberInActiveRequestBean,ShgMemberAdapter.class);
+
                                     encryptedObject.accumulate("data",cryptography.encrypt(new Gson().toJson(memberInActiveRequestBean)));
                                 } catch (NoSuchAlgorithmException e) {
                                     e.printStackTrace();
@@ -293,8 +293,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
 
                             }
 
-                            //  holder.itemBinding.activeSpinner.setVisibility(View.GONE);
-                            //PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getTimeForInActive(),""+new Timestamp(new Date().getTime()),context);
 
                         }  }).setCancelable(false)
                             .setNegativeButton(context.getResources().getString(R.string.dialog_cancel_btn), (dialogInterface, i) -> {

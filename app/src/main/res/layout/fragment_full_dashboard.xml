@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="horizontal"
-        android:background="@drawable/dashboard">
+        android:background="@drawable/dashbo">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,8 +26,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/dashboard"
-            android:textColor="@color/white"
-            android:textSize="50sp"
+            android:textColor="@color/green_500"
+            android:layout_marginTop="@dimen/text_20sp"
+            android:textSize="@dimen/space_30dp"
             android:textStyle="bold" />
 <LinearLayout
     android:layout_width="wrap_content"
@@ -39,7 +40,7 @@
             android:layout_height="wrap_content"
             android:text="Last Updated Date : "
             android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textColor="@color/black"/>
 
 
     <TextView
@@ -48,7 +49,7 @@
         android:id="@+id/date"
         android:text="dd/mm/yyyy "
         android:textStyle="bold"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:layout_marginLeft="@dimen/space_10dp"/>
 
 
@@ -608,7 +609,7 @@
             android:layout_height="wrap_content"
             android:text="Version- 4.0.4"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/space_15dp"
+            android:layout_marginTop="@dimen/space_10dp"
             android:textStyle="bold"/>
 
 

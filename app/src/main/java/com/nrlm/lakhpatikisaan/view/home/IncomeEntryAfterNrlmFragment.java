@@ -11,15 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nrlm.lakhpatikisaan.R;
 import com.nrlm.lakhpatikisaan.adaptor.EntryBeforeNrlmFoldAdapter;
 import com.nrlm.lakhpatikisaan.database.entity.MemberEntryEntity;
 import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryAfterNrlmBinding;
+import com.nrlm.lakhpatikisaan.databinding.FragmentMemberEntryBinding;
 import com.nrlm.lakhpatikisaan.network.client.RetrofitClient;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
@@ -30,7 +34,9 @@ import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
 import com.nrlm.lakhpatikisaan.utils.ViewUtilsKt;
 import com.nrlm.lakhpatikisaan.view.BaseFragment;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -52,6 +58,9 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
     String activityCode;
     String incomeFrequencyCode;
     String incomeRangCode;
+    String flagBeforeAfterNrlm;
+    String flagSyncStatus;
+
     String sectorName;
     String activityName;
     String incomeFrequencyName;
@@ -166,9 +175,9 @@ public class IncomeEntryAfterNrlmFragment extends BaseFragment<HomeViewModel, Fr
                     binding.tvMonth.setText(""+month_name);
                     binding.tvYear.setText("" + selectedYear);
 
-                    binding.llSelectDate.setVisibility(View.GONE);
-                    binding.llStartActivity.setVisibility(View.VISIBLE);
-                    binding.ccDisplayDate.setVisibility(View.VISIBLE);
+                            binding.llSelectDate.setVisibility(View.GONE);
+                            binding.llStartActivity.setVisibility(View.VISIBLE);
+                            binding.ccDisplayDate.setVisibility(View.VISIBLE);
 
                     entryYearCode = String.valueOf(selectedYear);
                     entryMonthCode = String.valueOf(selectedMonth + 1);

@@ -8,30 +8,29 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/log">
+    android:background="@drawable/loginbg">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome Back!"
-            android:textColor="@color/white"
             android:layout_marginLeft="@dimen/space_30dp"
+            android:layout_marginTop="150dp"
+            android:fontFamily="@font/manrope_extra_bold"
             android:gravity="center"
-            android:textSize="@dimen/space_30dp"
-            android:layout_marginTop="200dp"
-            android:fontFamily="@font/manrope_extra_bold"/>
-
+            android:text="Welcome Back!"
+            android:textColor="@color/black"
+            android:textSize="@dimen/space_30dp" />
 
 
         <LinearLayout
             android:id="@+id/l2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="350dp"
+            android:layout_marginTop="250dp"
             android:orientation="vertical">
-
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -77,7 +76,6 @@
                     android:fontFamily="@font/manrope_regular"
                     android:inputType="textPassword"
                     android:lines="1"
-
                     android:longClickable="false"
                     android:maxLength="15" />
 
@@ -88,14 +86,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="11dp"
+                android:weightSum="2"
                 android:orientation="horizontal">
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/space_15dp"
                     android:text="Sign in"
+                    android:layout_weight="1.8"
+                    android:layout_marginLeft="@dimen/space_15dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/space_25dp"
                     android:textStyle="bold" />
@@ -105,7 +105,6 @@
                     android:id="@+id/btn_login"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
-                    android:layout_marginLeft="200dp"
                     android:insetLeft="0dp"
                     android:insetTop="0dp"
                     android:insetRight="0dp"
@@ -146,52 +145,51 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:src="@drawable/demo"/>
--->  <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Version- 4.0.4"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"
-            android:textSize="@dimen/text_16sp"
-             />
+-->
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="@dimen/space_10dp"
-            android:fontFamily="@font/manrope_semi_bold"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/manrope_semi_bold"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_signUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_semi_bold"
+                    android:layout_marginLeft="@dimen/space_15dp"
+                    android:text="@string/sign_up"
+                    android:textColor="@color/green_500" />
+
+
+                <TextView
+                    android:id="@+id/tv_forget_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="150dp"
+                    android:fontFamily="@font/manrope_semi_bold"
+                    android:text="@string/tv_forget_pw"
+                    android:textColor="@color/green_500" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_signUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/space_15dp"
-                android:fontFamily="@font/manrope_semi_bold"
-                android:text="@string/sign_up"
-                android:textColor="@color/green_500" />
+                android:text="Version 4.0.4"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/space_15dp"
+                android:layout_gravity="center"/>
 
 
-            <TextView
-                android:id="@+id/tv_forget_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="150dp"
-                android:fontFamily="@font/manrope_semi_bold"
-                android:text="@string/tv_forget_pw"
-                android:textColor="@color/green_500" />
+
+
         </LinearLayout>
-
 
 
     </RelativeLayout>

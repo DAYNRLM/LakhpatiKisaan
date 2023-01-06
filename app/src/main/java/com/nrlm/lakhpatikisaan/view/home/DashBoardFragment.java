@@ -56,8 +56,6 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
     ArrayAdapter<String> shgAdaptor;
     ArrayAdapter<String> clfAdaptor;
     ArrayAdapter<String> voAdaptor;
-    String apiStatus;
-    Context context;
     String shgGlobalCode;
 
     @Override
@@ -149,17 +147,17 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                     String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getCurrentContext());
 
                     LogRequestBean logRequestBean=new LogRequestBean(loginId,stateShortName,"5d7eaa5ef9d3e",deviceInfo,".3725698,.2985556");
-                    viewModel.getMasterData(logRequestBean);
-                    viewModel.getSupportiveMasters(logRequestBean);
+                   /* viewModel.getMasterData(logRequestBean);
+                    viewModel.getSupportiveMasters(logRequestBean);*/
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             progressDialog.dismiss();
+                            Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_clf_found)+" If SHG's Are Assigned then,Logout and login again", Toast.LENGTH_LONG).show();
+
                         }
-                    },30000);
-                }else {
-                    Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_clf_found)+" Please open the internet to get master data", Toast.LENGTH_LONG).show();
+                    },1000);
                 }
 
 
@@ -301,16 +299,16 @@ public class DashBoardFragment extends BaseFragment<HomeViewModel, FragmentDashb
                 String stateShortName=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefStateShortName(),getCurrentContext());
                 String imeiNo=PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getPrefImeiNo(),getCurrentContext());
                 LogRequestBean logRequestBean=new LogRequestBean(loginId,stateShortName,imeiNo,deviceInfo,".3725698,.2985556");
-                viewModel.getMasterData(logRequestBean);
-                viewModel.getSupportiveMasters(logRequestBean);
+             //   viewModel.getMasterData(logRequestBean);
+            //    viewModel.getSupportiveMasters(logRequestBean);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
+                        Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_block_found)+" If SHG's Are Assigned then,Logout and login again", Toast.LENGTH_LONG).show();
+
                     }
-                },10000);
-            }else {
-                Toast.makeText(getCurrentContext(), getCurrentContext().getResources().getString(R.string.no_block_found)+" Please open the internet to get master data", Toast.LENGTH_LONG).show();
+                },1000);
             }
 
 
