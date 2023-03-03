@@ -1,8 +1,6 @@
 package com.nrlm.lakhpatikisaan.adaptor;
 
 import static com.nrlm.lakhpatikisaan.network.vollyCall.VolleyService.volleyService;
-
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -112,15 +110,12 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                        String    memberIsNotInClfAndVo  =   homeViewModel.getMemberIsNotInClfAndVo(dataItem.get(holder.getAdapterPosition()).getMemberCode());
                         if (memberIsNotInClfAndVo.equalsIgnoreCase("0")){
                             DialogFactory.getInstance().showAlertDialog(context, 1, "Alert", "Cannot Inactivate already Linked To CLF/VO"
-                                    , "ok", (dialog, which) -> dialog.dismiss(), null, null, true
-
-                            );
+                                    , "ok", (dialog, which) -> dialog.dismiss(), null, null, true);
                             notifyItemChanged(holder.getAdapterPosition());
                            /* ((TextView) arg0.getChildAt(0)).setTextColor(Color.GREEN);
                             ((TextView) arg0.getChildAt(0)).setText(arrayList.get(0));
 */
                         }
-
 
                         else {
                             homeViewModel.setStatus("InActive",dataItem.get(holder.getAdapterPosition()).getMemberCode());
@@ -138,8 +133,6 @@ public class ShgMemberAdapter extends RecyclerView.Adapter<ShgMemberAdapter.MyVi
                                 progressDialog.setMessage("Loading...");
                                 progressDialog.setCancelable(false);
                                 progressDialog.show();
-
-
                                 /*******make json object is encrypted and *********/
                                 JSONObject encryptedObject =new JSONObject();
                                 try {

@@ -179,7 +179,7 @@ public class  AppUtils {
     public String getAppVersion() {
         String appVersion = "";
         try {
-            appVersion = BuildConfig.VERSION_NAME;;
+            appVersion = BuildConfig.VERSION_NAME;
         }catch (Exception e){
             AppUtils.getInstance().showLog("Expection: "+e,AppDeviceInfoUtils.class);
         }

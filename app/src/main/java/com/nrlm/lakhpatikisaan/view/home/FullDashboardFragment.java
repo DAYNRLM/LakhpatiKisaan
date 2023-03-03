@@ -4,6 +4,7 @@ package com.nrlm.lakhpatikisaan.view.home;
 
 import static com.nrlm.lakhpatikisaan.network.vollyCall.VolleyService.volleyService;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
@@ -13,8 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,8 +61,12 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -70,6 +77,7 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
     ProgressDialog progressDialog;
     public VolleyResult mResultCallBack = null;
     DashboardResponse dashboardResponse;
+    public   String date2=null;
 
     @Override
     public Class<HomeViewModel> getViewModel() {
@@ -94,14 +102,114 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
 
         viewModel.getHomeViewModelRepos(getCurrentContext());
 
-        callDashboardApi();
 
 
+
+            String memberAlotted = Objects.requireNonNull(PreferenceFactory.getInstance()).getSharedPrefrencesData(PreferenceKeyManager.getMemberAlotted(), getCurrentContext());
+            String shgAlotted = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getShgAlotted(), getCurrentContext());
+            String shgMemberSurveyCompleted = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getShgMemberSurveyCompleted(), getCurrentContext());
+            String shgMemberSurveyPending = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getShgMemberSurveyPending(), getCurrentContext());
+            String shgWhoseAllMemberSurveyCompleted = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getShgWhoseAllMemberSurveyCompleted(), getCurrentContext());
+            String shgAtleastOneMemberSurveyCompleted = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getShgAtleastOneMemberSurveyCompleted(), getCurrentContext());
+             date2 = PreferenceFactory.getInstance().getSharedPrefrencesData(PreferenceKeyManager.getDate(), getCurrentContext());
+
+        assert memberAlotted != null;
+        if(memberAlotted.equalsIgnoreCase("")) {
+            @SuppressLint("SimpleDateFormat") String currdate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+            Date d1 = null;
+            try {
+                d1 = sdformat.parse(currdate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date d2 =null;
+            try {
+                if(date2.equalsIgnoreCase("")){
+
+                    date2="2022-06-12";
+                    d2 = sdformat.parse(date2);
+
+
+                }
+                else{
+
+                    d2 = sdformat.parse(date2);
+
+
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+            assert d1 != null;
+            if(d1.compareTo(d2) > 0) {
+                System.out.println("currdate > Date 2");
+
+                binding.btnUpdate.setVisibility(View.VISIBLE);
+            }  else if(d1.compareTo(d2) == 0) {
+                System.out.println("Both dates are equal");
+                binding.btnUpdate.setVisibility(View.GONE);
+            }
+
+
+
+        }
+         else {
+            @SuppressLint("SimpleDateFormat") String currdate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+            Date d1 = null;
+            try {
+                d1 = sdformat.parse(currdate);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date d2 = null;
+            try {
+                assert date2 != null;
+                d2 = sdformat.parse(date2);
+              //  d2 = sdformat.parse("2023-02-22");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            assert d1 != null;
+            if(d1.compareTo(d2) > 0) {
+                System.out.println("currdate > Date 2");
+                binding.btnUpdate.setVisibility(View.VISIBLE);
+            }  else if(d1.compareTo(d2) == 0) {
+                System.out.println("Both dates are equal");
+                binding.btnUpdate.setVisibility(View.GONE);
+            }
+
+
+
+            binding.shgNumberTextview.setText(shgAlotted);
+            binding.memberNumberTextview.setText(memberAlotted);
+            binding.surveyCompleted.setText(shgMemberSurveyCompleted);
+            binding.surveyPending.setText(shgMemberSurveyPending);
+            binding.shgWhoseAllMembercompleted.setText(shgWhoseAllMemberSurveyCompleted);
+            binding.shgWhoseOneMembercompleted.setText(shgAtleastOneMemberSurveyCompleted);
+            //  binding.syncedServer.setText(shgMemberSurveyCompleted);
+            binding.date.setText(date2);
+            binding.SyncedServer.setText(shgMemberSurveyCompleted);
+            binding.syncLocally.setText(viewModel.getBeforeLocally());
+
+        }
         binding.btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                binding.btnUpdate.setVisibility(View.GONE);
                 callDashboardApi();
+
+
+
 
             }
         });
@@ -130,6 +238,8 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
         super.onStop();
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
+
+
 
 
     private void callDashboardApi () {
@@ -321,7 +431,6 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
             binding.surveyPending.setText(shgMemberSurveyPending);
             binding.shgWhoseAllMembercompleted.setText(shgWhoseAllMemberSurveyCompleted);
             binding.shgWhoseOneMembercompleted.setText(shgAtleastOneMemberSurveyCompleted);
-            //  binding.syncedServer.setText(shgMemberSurveyCompleted);
             binding.date.setText(date);
             binding.SyncedServer.setText(shgMemberSurveyCompleted);
             binding.syncLocally.setText(viewModel.getBeforeLocally());
@@ -333,7 +442,12 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
 
         }
 
+
+
+
+
+    }
+
     }
 
 
-}

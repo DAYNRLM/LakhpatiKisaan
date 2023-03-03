@@ -2,9 +2,9 @@
 <network-security-config xmlns:android="http://schemas.android.com/apk/res/android">
     <domain-config cleartextTrafficPermitted="true">
 
-         <domain includeSubdomains="true">Your URL(ex: 127.0.0.1)</domain>
+        <!-- <domain includeSubdomains="true">Your URL(ex: 127.0.0.1)</domain>-->
 
-               <!--<domain includeSubdomains="true">10.197.183.105</domain>-->
+               <domain includeSubdomains="true">10.197.183.105</domain>
 
 
     </domain-config>

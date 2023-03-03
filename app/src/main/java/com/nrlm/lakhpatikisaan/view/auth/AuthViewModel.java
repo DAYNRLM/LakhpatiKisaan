@@ -473,7 +473,7 @@ public class AuthViewModel extends ViewModel {
                                 AppUtils.getInstance().showLog("makeSeccDataRequestExp:- " + e.getMessage(), AuthViewModel.class);
                             }
                         }
-                    }, 10000);
+                    }, 25000);
 
                 } else {
                     Object errorObject = ((Result.Error) result).exception;

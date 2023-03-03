@@ -85,8 +85,6 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         authViewModel.init(getContext());
         progressDialog=new ProgressDialog(getContext());
@@ -185,14 +183,14 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                     /*---------------LIVE------------------*/
                     loginRequestBean.setLogin_id(userId);
                     loginRequestBean.setPassword(AppUtils.getInstance().getSha256(password));
-                   loginRequestBean.setImei_no(imeiNo1);
-                    ///loginRequestBean.setImei_no("b1dd608b2fa6cd15");  //abdussId
+                    loginRequestBean.setImei_no(imeiNo1);
+                  //loginRequestBean.setImei_no("b1dd608b2fa6cd15");  //abdussId
 
 
                     loginRequestBean.setAndroid_api_version(AppUtils.getInstance().getAndroidApiVersion());
                     loginRequestBean.setAndroid_version("12");
-                  // String apploginTime=AppDateFactory.getInstance().getCurrentDateAndTime();
-                  // String apploginTime="2022-02-16 14:50:48";
+                     //String apploginTime=AppDateFactory.getInstance().getCurrentDateAndTime();
+                     // String apploginTime="2022-02-16 14:50:48";
 
                     loginRequestBean.setApp_login_time(AppDateFactory.getInstance().getCurrentDateAndTime());
                     loginRequestBean.setApp_versions(BuildConfig.VERSION_NAME);
@@ -219,6 +217,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                                 intentToMpin();
 
                             } else {
+
                                 try {
                                     AppUtils.getInstance().showLog("loginApiStatusdf" + loginApiStatus, AuthFragment.class);
                                     showServerError(loginApiStatus);
@@ -228,7 +227,7 @@ public class AuthFragment extends BaseFragment<AuthViewModel, FragmentAuthLoginB
                                 }
                             }
                         }
-                    }, 8000);
+                    }, 25000);
 
 
 

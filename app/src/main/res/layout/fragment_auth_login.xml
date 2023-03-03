@@ -20,7 +20,7 @@
             android:layout_marginTop="150dp"
             android:fontFamily="@font/manrope_extra_bold"
             android:gravity="center"
-            android:text="Welcome Back!"
+            android:text="Welcome Back"
             android:textColor="@color/black"
             android:textSize="@dimen/space_30dp" />
 
@@ -51,6 +51,7 @@
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
                     android:drawableStart="@drawable/ic_baseline_email_24"
                     android:fontFamily="@font/manrope_regular"
+                    android:textColor="@color/black"
                     android:inputType="textCapWords"
                     android:lines="1"
                     android:maxLength="24" />
@@ -75,6 +76,8 @@
                     android:drawableStart="@drawable/ic_baseline_lock_24"
                     android:fontFamily="@font/manrope_regular"
                     android:inputType="textPassword"
+                    android:textColor="@color/black"
+
                     android:lines="1"
                     android:longClickable="false"
                     android:maxLength="15" />
