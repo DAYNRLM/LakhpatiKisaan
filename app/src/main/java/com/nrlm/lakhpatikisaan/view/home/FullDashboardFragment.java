@@ -133,6 +133,14 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
 
 
                 }
+
+                if(date2 == null){
+
+                    date2="2022-06-12";
+                    d2 = sdformat.parse(date2);
+
+
+                }
                 else{
 
                     d2 = sdformat.parse(date2);
@@ -178,6 +186,18 @@ public class FullDashboardFragment extends BaseFragment<HomeViewModel, FragmentF
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            if(d2 == null){
+
+              String  date2="2022-06-12";
+                try {
+                    d2 = sdformat.parse(date2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
 
             assert d1 != null;
             if(d1.compareTo(d2) > 0) {

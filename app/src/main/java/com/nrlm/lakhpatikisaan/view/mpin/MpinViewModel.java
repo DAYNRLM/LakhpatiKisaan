@@ -63,7 +63,7 @@ public class MpinViewModel extends ViewModel {
 
                             deleteShgRequestBean.setShg_code(AppUtils.getInstance().removeComma(shgCodesForDelete));
 
-                            AppUtils.getInstance().showLog("" + ":-------" + deleteShgRequestBean, MpinViewModel.class);
+                            AppUtils.getInstance().showLog("deleteRequest" +  deleteShgRequestBean, MpinViewModel.class);
                             makeDeleteShgRequest(deleteShgRequestBean);
                         } catch (ExecutionException e) {
                             AppUtils.getInstance().showLog("getShgToDeleteExp:-------" + e.getMessage()

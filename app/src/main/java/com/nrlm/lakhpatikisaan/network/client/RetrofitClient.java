@@ -1,32 +1,21 @@
 package com.nrlm.lakhpatikisaan.network.client;
-
-
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.nrlm.lakhpatikisaan.utils.AppConstant;
 import com.nrlm.lakhpatikisaan.utils.AppUtils;
-import com.nrlm.lakhpatikisaan.utils.PreferenceFactory;
-import com.nrlm.lakhpatikisaan.utils.PreferenceKeyManager;
-
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 public class RetrofitClient {
 
-    //public static final String server = "local".trim();
+       //public static final String server = "local".trim();
       //  public static final String server =  "demo".trim();
-  public static final String server ="live".trim();
+    public static final String server ="live".trim();
     private static final int CONNECTION_TIMEOUT = 80000;
     private static final int READ_TIMEOUT = 80000;
 
@@ -47,7 +36,7 @@ public class RetrofitClient {
                 HTTP_TYPE = "https";
                 IP_ADDRESS = "nrlm.gov.in";
                 NRLM_STATUS = "lakhpatilive";
-              //  PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPREF_KEY_Demo(),server , context);
+                //  PreferenceFactory.getInstance().saveSharedPrefrecesData(PreferenceKeyManager.getPREF_KEY_Demo(),server , context);
                 baseURL = HTTP_TYPE + "://" + IP_ADDRESS + "/" + NRLM_STATUS + "/lakhpatishg/";
 
                 break;
